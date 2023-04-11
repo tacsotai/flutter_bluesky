@@ -1,15 +1,11 @@
 # flutter_bluesky
 
-A new Flutter plugin project.
+This plugin provides a client for [bluesky](https://bsky.app/) or other PDS of [atproto](https://github.com/bluesky-social/atproto).
+But UI is not provided, make it by yourself although the [example](#getting-started) is provided.
 
 ## Getting Started
-
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
-
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
+```
+cd flutter_bluesky/example
+flutter pub get
+flutter run 
+```
