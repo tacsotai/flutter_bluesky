@@ -1,107 +1,60 @@
-// lexicons % tree
-// .
-// ├── app
-// │   └── bsky
-// │       ├── actor
-// │       │   ├── defs.json
-// │       │   ├── getProfile.json
-// │       │   ├── getProfiles.json
-// │       │   ├── getSuggestions.json
-// │       │   ├── profile.json
-// │       │   ├── searchActors.json
-// │       │   └── searchActorsTypeahead.json
-// │       ├── embed
-// │       │   ├── external.json
-// │       │   ├── images.json
-// │       │   ├── record.json
-// │       │   └── recordWithMedia.json
-// │       ├── feed
-// │       │   ├── defs.json
-// │       │   ├── getAuthorFeed.json
-// │       │   ├── getLikes.json
-// │       │   ├── getPostThread.json
-// │       │   ├── getRepostedBy.json
-// │       │   ├── getTimeline.json
-// │       │   ├── like.json
-// │       │   ├── post.json
-// │       │   └── repost.json
-// │       ├── graph
-// │       │   ├── follow.json
-// │       │   ├── getFollowers.json
-// │       │   ├── getFollows.json
-// │       │   ├── getMutes.json
-// │       │   ├── muteActor.json
-// │       │   └── unmuteActor.json
-// │       ├── notification
-// │       │   ├── getUnreadCount.json
-// │       │   ├── listNotifications.json
-// │       │   └── updateSeen.json
-// │       ├── richtext
-// │       │   └── facet.json
-// │       └── unspecced
-// │           └── getPopular.json
-// └── com
-//     └── atproto
-//         ├── admin
-//         │   ├── defs.json
-//         │   ├── disableInviteCodes.json
-//         │   ├── getInviteCodes.json
-//         │   ├── getModerationAction.json
-//         │   ├── getModerationActions.json
-//         │   ├── getModerationReport.json
-//         │   ├── getModerationReports.json
-//         │   ├── getRecord.json
-//         │   ├── getRepo.json
-//         │   ├── resolveModerationReports.json
-//         │   ├── reverseModerationAction.json
-//         │   ├── searchRepos.json
-//         │   └── takeModerationAction.json
-//         ├── identity
-//         │   ├── resolveHandle.json
-//         │   └── updateHandle.json
-//         ├── moderation
-//         │   ├── createReport.json
-//         │   └── defs.json
-//         ├── repo
-//         │   ├── applyWrites.json
-//         │   ├── createRecord.json
-//         │   ├── deleteRecord.json
-//         │   ├── describeRepo.json
-//         │   ├── getRecord.json
-//         │   ├── listRecords.json
-//         │   ├── putRecord.json
-//         │   ├── strongRef.json
-//         │   └── uploadBlob.json
-//         ├── server
-//         │   ├── createAccount.json
-//         │   ├── createInviteCode.json
-//         │   ├── createSession.json
-//         │   ├── defs.json
-//         │   ├── deleteAccount.json
-//         │   ├── deleteSession.json
-//         │   ├── describeServer.json
-//         │   ├── getAccountInviteCodes.json
-//         │   ├── getSession.json
-//         │   ├── refreshSession.json
-//         │   ├── requestAccountDelete.json
-//         │   ├── requestPasswordReset.json
-//         │   └── resetPassword.json
-//         └── sync
-//             ├── getBlob.json
-//             ├── getBlocks.json
-//             ├── getCheckout.json
-//             ├── getCommitPath.json
-//             ├── getHead.json
-//             ├── getRecord.json
-//             ├── getRepo.json
-//             ├── listBlobs.json
-//             ├── notifyOfUpdate.json
-//             ├── requestCrawl.json
-//             └── subscribeRepos.json
+import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/session.dart';
+import 'package:flutter_bluesky/exception.dart';
 
-// These exports define minimum lexicons as API with model.
-import 'package:flutter_bluesky/api/atproto.dart';
-import 'package:flutter_bluesky/api/bluesky.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-var atproto = Atproto();
-var bluesky = Bluesky();
+const JsonEncoder encoder = JsonEncoder();
+
+// discard API when use another provider.
+class API {
+  final Session session;
+  API({
+    required this.session,
+  });
+
+  Future<http.Response> get(String uri, {Map<String, String>? headers}) async {
+    Uri url = _uri(uri);
+    debugPrint('url: ${url.toString()}');
+    debugPrint("headers: $headers");
+    http.Response res = await http
+        .get(url)
+        .timeout(const Duration(seconds: 5)); // TODO asset config
+    if (res.statusCode == 200 || res.statusCode == 304) {
+      return res;
+    } else {
+      throw APIGetException(url, headers, res);
+    }
+  }
+
+  Future<http.Response> post(String uri, Map<String, String>? headers,
+      Map<String, dynamic> body) async {
+    Uri url = _uri(uri);
+    debugPrint('body: $body');
+    debugPrint("headers: $headers");
+    debugPrint('url: ${uri.toString()}');
+    http.Response res = await http
+        .post(url, headers: headers, body: json.encode(body))
+        .timeout(const Duration(seconds: 5)); // TODO asset config
+    if (res.statusCode == 200 || res.statusCode == 201) {
+      return res;
+    } else {
+      throw APIPostException(url, headers, body, res);
+    }
+  }
+
+  Uri _uri(String uri) {
+    return Uri.parse("${session.provider}/$xrpc/$uri");
+  }
+
+  // Future<String> _post(Map<String, dynamic> body) async {
+  //   Tuple2 lambda = await cognito.lambda(POST, body);
+  //   Uri url = lambda.item1;
+  //   Map<String, String>? headers = lambda.item2;
+  //   http.Response res = await _httpPost(url, headers, body);
+  //   String decodedBody =
+  //       const Utf8Decoder(allowMalformed: true).convert(res.bodyBytes);
+  //   return decodedBody;
+  // }
+}
