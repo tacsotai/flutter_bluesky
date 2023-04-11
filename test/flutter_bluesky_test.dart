@@ -4,16 +4,20 @@ import 'package:flutter_bluesky/flutter_bluesky_platform_interface.dart';
 import 'package:flutter_bluesky/flutter_bluesky_method_channel.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
+const protocol = "https";
+const domain = "sotai.co/snst";
+const xrpc = "$protocol://$domain/xrpc/";
+
 class MockFlutterBlueskyPlatform
     with MockPlatformInterfaceMixin
     implements FlutterBlueskyPlatform {
-
   @override
   Future<String?> getPlatformVersion() => Future.value('42');
 }
 
 void main() {
-  final FlutterBlueskyPlatform initialPlatform = FlutterBlueskyPlatform.instance;
+  final FlutterBlueskyPlatform initialPlatform =
+      FlutterBlueskyPlatform.instance;
 
   test('$MethodChannelFlutterBluesky is the default instance', () {
     expect(initialPlatform, isInstanceOf<MethodChannelFlutterBluesky>());
@@ -25,5 +29,13 @@ void main() {
     FlutterBlueskyPlatform.instance = fakePlatform;
 
     expect(await flutterBlueskyPlugin.getPlatformVersion(), '42');
+  });
+
+  test('connect', ({String? s}) async {
+    FlutterBluesky flutterBlueskyPlugin = FlutterBluesky();
+    var provider =
+        "https://sotai.co/snst/xrpc/com.atproto.server.describeServer";
+    print(s);
+    expect(await flutterBlueskyPlugin.connect(provider), true);
   });
 }
