@@ -1,6 +1,7 @@
+import 'package:flutter_bluesky/data/model.dart';
 import 'package:flutter_bluesky/data/model/viewer.dart';
 
-class Actor {
+class Actor extends Model {
   final String did;
   final String handle;
   final Viewer viewer;
@@ -10,4 +11,13 @@ class Actor {
     required this.did,
     required this.viewer,
   });
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {
+      'did': did,
+      'handle': handle,
+      'viewer': viewer.toMap(),
+    };
+  }
 }

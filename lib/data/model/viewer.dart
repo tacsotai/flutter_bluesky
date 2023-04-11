@@ -3,4 +3,10 @@ class Viewer {
   Viewer({
     required this.muted,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'muted': muted,
+    };
+  }
 }
