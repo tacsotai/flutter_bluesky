@@ -7,13 +7,16 @@
 // app.bsky.notification.getUnreadCount
 // app.bsky.notification.listNotifications?limit=30
 
+import 'package:flutter_bluesky/api/atproto.dart';
 import 'package:flutter_bluesky/data/model/actor.dart';
 import 'package:flutter_bluesky/data/model/notification.dart';
 import 'package:flutter_bluesky/data/model/post.dart';
 import 'package:flutter_bluesky/data/model/profile.dart';
 import 'package:flutter_bluesky/data/model/viewer.dart';
 
-class Bluesky {
+abstract class Bluesky extends Atproto {
+  Bluesky({required super.api});
+
   Future<Profile> getProfile(String actor) async {
     return Profile(
         handle: "handle",
