@@ -1,15 +1,15 @@
 import 'package:flutter_bluesky/api.dart';
 import 'package:flutter_bluesky/api/bluesky.dart';
 import 'package:flutter_bluesky/api/session.dart';
-import 'flutter_bluesky_platform_interface.dart';
 
+// This is a service class for atproto pds.
 class FlutterBluesky extends Bluesky {
   FlutterBluesky({
     String? provider,
   }) : super(api: API(session: Session.create(provider: provider)));
 
-  Future<String?> getPlatformVersion() {
-    return FlutterBlueskyPlatform.instance.getPlatformVersion();
+  String getProvider() {
+    return api.session.provider;
   }
 
   Future<bool> connect() async {
@@ -50,10 +50,3 @@ class FlutterBluesky extends Bluesky {
     return [];
   }
 }
-
-// app.bsky.actor.getProfile?actor=did:plc:u5xrfsqb6d2xrph6t4uwwe2h
-// com.atproto.repo.listRecords?collection=app.bsky.graph.follow&repo=did:plc:qsanjuluxakgumuh6rjb25s3
-// app.bsky.feed.getTimeline?algorithm=reverse-chronological&limit=30
-// app.bsky.notification.listNotifications?limit=30
-// app.bsky.graph.getFollows?actor=did:plc:u5xrfsqb6d2xrph6t4uwwe2h
-// app.bsky.notification.getUnreadCount
