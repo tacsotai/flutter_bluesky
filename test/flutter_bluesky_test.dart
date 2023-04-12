@@ -31,11 +31,8 @@ void main() {
     expect(await flutterBlueskyPlugin.getPlatformVersion(), '42');
   });
 
-  test('connect', ({String? s}) async {
+  test('connect', () async {
     FlutterBluesky flutterBlueskyPlugin = FlutterBluesky();
-    var provider =
-        "https://sotai.co/snst/xrpc/com.atproto.server.describeServer";
-    print(s);
-    expect(await flutterBlueskyPlugin.connect(provider), true);
+    expect(await flutterBlueskyPlugin.connect(), true);
   });
 }

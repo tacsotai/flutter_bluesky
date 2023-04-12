@@ -8,51 +8,49 @@
 // app.bsky.notification.listNotifications?limit=30
 
 import 'package:flutter_bluesky/api/atproto.dart';
-import 'package:flutter_bluesky/data/model/actor.dart';
-import 'package:flutter_bluesky/data/model/notification.dart';
-import 'package:flutter_bluesky/data/model/post.dart';
-import 'package:flutter_bluesky/data/model/profile.dart';
-import 'package:flutter_bluesky/data/model/viewer.dart';
+import 'package:tuple/tuple.dart';
 
 abstract class Bluesky extends Atproto {
   Bluesky({required super.api});
 
-  Future<Profile> getProfile(String actor) async {
-    return Profile(
-        handle: "handle",
-        did: actor,
-        followsCount: 0,
-        followersCount: 0,
-        postsCount: 0,
-        viewer: Viewer(muted: false));
+  Future<Tuple2> getProfile(String actor) async {
+    // TODO implement
+    return Tuple2<int, Map>(0, {});
   }
 
-  Future<List<Actor>> getSuggestions(String limit, String actor) async {
-    return [];
+  Future<Tuple2> getSuggestions(String limit, String actor) async {
+    // TODO implement
+    return Tuple2<int, List>(0, []);
   }
 
-  Future<List<Post>> getAuthorFeed(
+  Future<Tuple2> getAuthorFeed(
       String limit, String actor, String cursor) async {
-    return [];
+    // TODO implement
+    return Tuple2<int, List>(0, []);
   }
 
-  Future<List<Post>> getTimeLine(String limit, String algorithm) async {
-    return [];
+  Future<Tuple2> getTimeLine(String limit, String algorithm) async {
+    // TODO implement
+    return Tuple2<int, List>(0, []);
   }
 
-  Future<List<Post>> getPostThread(String uri) async {
-    return [];
+  Future<Tuple2> getPostThread(String uri) async {
+    // TODO implement
+    return Tuple2<int, List>(0, []);
   }
 
-  Future<List<Actor>> getFollows(String actor) async {
-    return [];
+  Future<Tuple2> getFollows(String actor) async {
+    // TODO implement
+    return Tuple2<int, List>(0, []);
   }
 
-  Future<int> getUnreadCount() async {
-    return 0;
+  Future<Tuple2> getUnreadCount() async {
+    // TODO implement
+    return Tuple2<int, int>(0, 0);
   }
 
-  Future<List<Notification>> listNotifications(String limit) async {
-    return [];
+  Future<Tuple2> listNotifications(String limit) async {
+    // TODO implement
+    return Tuple2<int, List>(0, []);
   }
 }

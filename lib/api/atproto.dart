@@ -7,7 +7,6 @@
 // com.atproto.repo.listRecords?collection=app.bsky.graph.follow&repo=did:plc:u5xrfsqb6d2xrph6t4uwwe2h&reverse=true
 
 import 'package:flutter_bluesky/api.dart';
-import 'package:flutter_bluesky/data/model/post.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -47,7 +46,7 @@ abstract class Atproto {
 
   // Postで呼ばれる
   Future<Map<String, String>> createRecord(
-      String collection, String repo, Post post) async {
+      String collection, String repo, Map post) async {
     return {};
   }
 
