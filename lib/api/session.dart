@@ -17,4 +17,9 @@ class Session {
       return Session(provider: provider);
     }
   }
+
+  void setTokens(String accessJwt, String refreshJwt) {
+    this.accessJwt = accessJwt;
+    this.refreshJwt = refreshJwt;
+  }
 }
