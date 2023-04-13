@@ -1,4 +1,19 @@
+import 'package:isar/isar.dart';
+part 'repost.g.dart';
+
+@collection
 class Repost {
+  // isar ruled ID
+  Id id = Isar.autoIncrement;
+
+  // pds provider
+  @Index(type: IndexType.value)
+  late String provider;
+
+  // user id
+  @Index(type: IndexType.value)
+  late String did;
+
   String uri;
   String cid;
   String creator;
