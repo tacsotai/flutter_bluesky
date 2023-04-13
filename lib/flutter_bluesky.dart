@@ -26,7 +26,7 @@ class FlutterBluesky extends Bluesky {
       {String? inviteCode}) async {
     Tuple2 res =
         await createAccount(email, handle, password, inviteCode: inviteCode);
-    if (res.item1 == 200) {
+    if (res.item1 == 200 || res.item1 == 201) {
       api.session.set(res.item2);
       await db.saveAccount(api.session.provider, email, password, res.item2);
     }
@@ -40,7 +40,7 @@ class FlutterBluesky extends Bluesky {
       api.session.set(res.item2);
       await db.saveAccount(
           api.session.provider, res.item2["email"], password, res.item2);
-    } else {}
+    }
     return res.item1;
   }
 
