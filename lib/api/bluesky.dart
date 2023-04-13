@@ -13,7 +13,7 @@ abstract class Bluesky extends Atproto {
         res.statusCode, json.decode(res.body));
   }
 
-  Future<Tuple2> getSuggestions(String limit) async {
+  Future<Tuple2> getSuggestions(int limit) async {
     http.Response res = await api.get(
         "app.bsky.actor.getSuggestions?limit=$limit",
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
@@ -21,7 +21,7 @@ abstract class Bluesky extends Atproto {
         res.statusCode, json.decode(res.body));
   }
 
-  Future<Tuple2> getAuthorFeed(String limit, String actor,
+  Future<Tuple2> getAuthorFeed(int limit, String actor,
       {String? cursor}) async {
     String uri = "app.bsky.actor.getAuthorFeed?limit=$limit&actor=$actor";
     if (cursor != null) {
@@ -33,7 +33,7 @@ abstract class Bluesky extends Atproto {
         res.statusCode, json.decode(res.body));
   }
 
-  Future<Tuple2> getTimeLine(String limit, String algorithm) async {
+  Future<Tuple2> getTimeline(int limit, String algorithm) async {
     http.Response res = await api.get(
         "app.bsky.actor.getTimeLine?algorithm=$algorithm&limit=$limit",
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
@@ -62,7 +62,7 @@ abstract class Bluesky extends Atproto {
         res.statusCode, json.decode(res.body));
   }
 
-  Future<Tuple2> listNotifications(String limit) async {
+  Future<Tuple2> listNotifications(int limit) async {
     http.Response res = await api.get(
         "app.bsky.actor.listNotifications?limit=$limit",
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
