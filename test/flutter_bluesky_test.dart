@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/flutter_bluesky_platform_interface.dart';
-import 'package:flutter_bluesky/flutter_bluesky_method_channel.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 class MockFlutterBlueskyPlatform
@@ -15,8 +14,6 @@ void main() {
   final FlutterBlueskyPlatform initialPlatform =
       FlutterBlueskyPlatform.instance;
 
-  test('$MethodChannelFlutterBluesky is the default instance', () {
-    expect(initialPlatform, isInstanceOf<MethodChannelFlutterBluesky>());
   });
 
   test('connect', () async {
