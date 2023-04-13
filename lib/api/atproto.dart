@@ -10,10 +10,10 @@ abstract class Atproto {
     required this.api,
   });
 
-  Future<int> describeServer() async {
+  Future<Tuple2> describeServer() async {
     http.Response res = await api.get("com.atproto.server.describeServer");
-    // TODO availableUserDomains
-    return res.statusCode;
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
   }
 
   // Account Register and auto Login

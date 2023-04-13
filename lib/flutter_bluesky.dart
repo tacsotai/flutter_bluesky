@@ -6,6 +6,8 @@ import 'package:tuple/tuple.dart';
 
 // This is a service class for atproto pds.
 class FlutterBluesky extends Bluesky {
+  Map serverDescription = {};
+
   FlutterBluesky({
     String? provider,
   }) : super(api: API(session: Session.create(provider: provider)));
@@ -15,7 +17,9 @@ class FlutterBluesky extends Bluesky {
   }
 
   Future<int> connect() async {
-    return describeServer();
+    Tuple2 res = await describeServer();
+    serverDescription = res.item2;
+    return res.item1;
   }
 
   Future<int> register(String email, String handle, String password,
