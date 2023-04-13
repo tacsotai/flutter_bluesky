@@ -19,7 +19,8 @@ void main() {
 
   test('connect', () async {
     FlutterBluesky flutterBlueskyPlugin = FlutterBluesky();
-    expect(await flutterBlueskyPlugin.connect(), 200);
+    Tuple2 res = await flutterBlueskyPlugin.connect();
+    expect(res.item1, 200);
   });
 
   test('login email', () async {
