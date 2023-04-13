@@ -18,6 +18,10 @@ class Session {
     }
   }
 
+  void set(Map<String, dynamic> item) {
+    setTokens(item["accessJwt"], item["refreshJwt"]);
+  }
+
   void setTokens(String accessJwt, String refreshJwt) {
     this.accessJwt = accessJwt;
     this.refreshJwt = refreshJwt;
