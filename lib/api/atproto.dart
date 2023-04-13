@@ -1,11 +1,3 @@
-// com.atproto.server.describeServer
-// com.atproto.server.createAccount
-// com.atproto.server.createSession
-// com.atproto.server.getSession
-// com.atproto.server.refreshSession
-// com.atproto.repo.createRecord
-// com.atproto.repo.listRecords?collection=app.bsky.graph.follow&repo=did:plc:u5xrfsqb6d2xrph6t4uwwe2h&reverse=true
-
 import 'package:flutter_bluesky/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -27,34 +19,63 @@ abstract class Atproto {
   // Account Register and auto Login
   Future<Tuple2> createAccount(String email, String handle, String password,
       {String? inviteCode, String? recoveryKey}) async {
-    // format check for handle.
+    // TODO format check for handle.
     http.Response res = await api.post("com.atproto.server.createAccount",
-        {"email": email, "handle": handle, "password": password});
+        headers: {"Content-Type": "application/json"},
+        body: {"email": email, "handle": handle, "password": password});
+
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
 
   // Login: id = email or handle
   Future<Tuple2> createSession(String identifier, String password) async {
-    // format check for handle.
+    // TODO format check for handle.
     http.Response res = await api.post("com.atproto.server.createSession",
-        {"identifier": identifier, "password": password},
-        headers: {"Content-Type": "application/json"});
+        headers: {"Content-Type": "application/json"},
+        body: {"identifier": identifier, "password": password});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
 
   // Get User info
-  Future<void> getSession() async {}
-
-  // Postで呼ばれる
-  Future<Map<String, String>> createRecord(
-      String collection, String repo, Map post) async {
-    return {};
+  Future<Tuple2> getSession() async {
+    http.Response res = await api.get("com.atproto.server.getSession",
+        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
   }
 
-  // Record はTypeがUnknownなのでMapで持つことにする。
-  Future<List<Map>> listRecords(String collection, String repo) async {
-    return [];
+  Future<Tuple2> refreshSession() async {
+    http.Response res =
+        await api.post("com.atproto.server.refreshSession", headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${api.session.refreshJwt}"
+    }, body: {});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> createRecord(
+      String repo, String collection, Map<String, dynamic> record) async {
+    http.Response res =
+        await api.post("com.atproto.server.createRecord", headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${api.session.accessJwt}"
+    }, body: {
+      "repo": repo,
+      "collection": collection,
+      "record": record
+    });
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> listRecords(String collection, String repo) async {
+    http.Response res = await api.get(
+        "com.atproto.server.listRecords?collection=$collection&repo=$repo",
+        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
   }
 }
