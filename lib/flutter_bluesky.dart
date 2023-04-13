@@ -22,6 +22,20 @@ class FlutterBluesky extends Bluesky {
     return res;
   }
 
+  bool inviteCodeRequired() {
+    return serverDescription["inviteCodeRequired"];
+  }
+
+  bool availableUserDomain(String handle) {
+    for (var domain in serverDescription["availableUserDomains"]) {
+      if (handle.endsWith(domain)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // Invoked after availableUserDomain, otherwise this API retuen error.
   Future<Tuple2> register(String email, String handle, String password,
       {String? inviteCode}) async {
     Tuple2 res =

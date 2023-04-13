@@ -21,6 +21,18 @@ void main() {
     FlutterBluesky flutterBlueskyPlugin = FlutterBluesky();
     Tuple2 res = await flutterBlueskyPlugin.connect();
     expect(res.item1, 200);
+    Map expected = {
+      "availableUserDomains": [".bsky.social"],
+      "inviteCodeRequired": true,
+      "links": {
+        "privacyPolicy": "https://bsky.app/support/privacy",
+        "termsOfService": "https://bsky.app/support/tos"
+      }
+    };
+    expect(res.item2, expected);
+    expect(flutterBlueskyPlugin.inviteCodeRequired(), true);
+    expect(flutterBlueskyPlugin.availableUserDomain("hoge.bsky.social"), true);
+    expect(flutterBlueskyPlugin.availableUserDomain("hoge.test"), false);
   });
 
   test('login email', () async {
