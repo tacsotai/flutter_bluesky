@@ -14,7 +14,7 @@ class FlutterBluesky extends Bluesky {
     return api.session.provider;
   }
 
-  Future<bool> connect() async {
+  Future<int> connect() async {
     return describeServer();
   }
 

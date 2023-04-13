@@ -10,7 +10,6 @@ import 'package:flutter_bluesky/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:isar/isar.dart';
 import 'package:tuple/tuple.dart';
 
 abstract class Atproto {
@@ -19,10 +18,10 @@ abstract class Atproto {
     required this.api,
   });
 
-  Future<bool> describeServer() async {
+  Future<int> describeServer() async {
     http.Response res = await api.get("com.atproto.server.describeServer");
     // TODO availableUserDomains
-    return res.statusCode == 200;
+    return res.statusCode;
   }
 
   // Account Register and auto Login

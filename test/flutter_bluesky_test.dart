@@ -18,6 +18,6 @@ void main() {
 
   test('connect', () async {
     FlutterBluesky flutterBlueskyPlugin = FlutterBluesky();
-    expect(await flutterBlueskyPlugin.connect(), true);
+    expect(await flutterBlueskyPlugin.connect(), 200);
   });
 }

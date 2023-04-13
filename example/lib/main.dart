@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> {
   Future<void> initPlatformState() async {
     final flutterBlueskyPlugin = FlutterBluesky();
     final String provider = flutterBlueskyPlugin.getProvider();
-    bool result = await flutterBlueskyPlugin.connect();
+    bool result = await flutterBlueskyPlugin.connect() == 200;
 
     if (!mounted) return;
 
