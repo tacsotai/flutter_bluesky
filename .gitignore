@@ -31,3 +31,6 @@ build/
 
 # isar https://pub.dev/packages/isar
 *.g.dart
+libisar.so
+libisar.dylib
+isar.dll
