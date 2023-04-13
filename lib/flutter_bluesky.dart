@@ -58,27 +58,27 @@ class FlutterBluesky extends Bluesky {
     return res;
   }
 
-  Future<Map> profile() async {
-    return {};
-  }
+  // Future<Map> profile() async {
+  //   return {};
+  // }
 
-  Future<List> followees() async {
-    return [];
-  }
+  // Future<List> followees() async {
+  //   return [];
+  // }
 
-  Future<List> followers() async {
-    return [];
-  }
+  // Future<List> followers() async {
+  //   return [];
+  // }
 
   Future<List> timeline() async {
     return [];
   }
 
-  Future<int> noticeCount() async {
-    return 0;
-  }
+  // Future<int> noticeCount() async {
+  //   return 0;
+  // }
 
-  Future<List> notifications() async {
-    return [];
-  }
+  // Future<List> notifications() async {
+  //   return [];
+  // }
 }
