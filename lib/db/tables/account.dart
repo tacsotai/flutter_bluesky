@@ -8,11 +8,14 @@ class Account {
 
   // pds provider
   @Index(type: IndexType.value)
-  late String provider;
+  String provider;
 
   // user id
   @Index(type: IndexType.value)
-  late String did;
+  String did;
+
+  @Index(type: IndexType.value)
+  late String email;
 
   @Index(type: IndexType.value)
   late String handle;
@@ -22,4 +25,9 @@ class Account {
   late String accessJwt;
 
   late String refreshJwt;
+
+  Account({
+    required this.provider,
+    required this.did,
+  });
 }
