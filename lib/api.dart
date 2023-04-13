@@ -31,7 +31,7 @@ class API {
     Uri url = _uri(uri);
     debugPrint('body: $body');
     debugPrint("headers: $headers");
-    debugPrint('url: ${uri.toString()}');
+    debugPrint('url: ${url.toString()}');
     http.Response res = await http
         .post(url, headers: headers, body: json.encode(body))
         .timeout(const Duration(seconds: 5)); // TODO asset config
