@@ -2,16 +2,7 @@ import 'package:flutter_bluesky/db.dart';
 import 'package:flutter_bluesky/exception.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
-import 'package:flutter_bluesky/flutter_bluesky_platform_interface.dart';
 import 'package:isar/isar.dart';
-import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-
-class MockFlutterBlueskyPlatform
-    with MockPlatformInterfaceMixin
-    implements FlutterBlueskyPlatform {
-  @override
-  Future<String?> getPlatformVersion() => Future.value('42');
-}
 
 void main() {
   setUp(() async {
