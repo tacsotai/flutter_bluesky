@@ -16,13 +16,13 @@ class FlutterBluesky extends Bluesky {
     return api.session.provider;
   }
 
-  Future<int> connect() async {
+  Future<Tuple2> connect() async {
     Tuple2 res = await describeServer();
     serverDescription = res.item2;
-    return res.item1;
+    return res;
   }
 
-  Future<int> register(String email, String handle, String password,
+  Future<Tuple2> register(String email, String handle, String password,
       {String? inviteCode}) async {
     Tuple2 res =
         await createAccount(email, handle, password, inviteCode: inviteCode);
@@ -30,18 +30,18 @@ class FlutterBluesky extends Bluesky {
       api.session.set(res.item2);
       await db.saveAccount(api.session.provider, email, password, res.item2);
     }
-    return res.item1;
+    return res;
   }
 
   // id = email or handle
-  Future<int> login(String emailORhandle, String password) async {
+  Future<Tuple2> login(String emailORhandle, String password) async {
     Tuple2 res = await createSession(emailORhandle, password);
     if (res.item1 == 200) {
       api.session.set(res.item2);
       await db.saveAccount(
           api.session.provider, res.item2["email"], password, res.item2);
     }
-    return res.item1;
+    return res;
   }
 
   Future<Map> profile() async {

@@ -3,6 +3,7 @@ import 'package:flutter_bluesky/exception.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:isar/isar.dart';
+import 'package:tuple/tuple.dart';
 
 void main() {
   setUp(() async {
@@ -25,8 +26,8 @@ void main() {
     FlutterBluesky flutterBlueskyPlugin =
         FlutterBluesky(provider: "http://localhost:2583");
     try {
-      int status = await flutterBlueskyPlugin.login("foo@bar.com", "hoge");
-      expect(status, 200);
+      Tuple2 res = await flutterBlueskyPlugin.login("foo@bar.com", "hoge");
+      expect(res.item1, 200);
     } on APIPostException catch (e) {
       fail(e.message);
     }
