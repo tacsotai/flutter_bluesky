@@ -10,6 +10,9 @@ import 'package:flutter_bluesky/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:isar/isar.dart';
+import 'package:tuple/tuple.dart';
+
 abstract class Atproto {
   final API api;
   Atproto({
@@ -23,22 +26,23 @@ abstract class Atproto {
   }
 
   // Account Register and auto Login
-  Future<void> createAccount(String email, String handle, String password,
+  Future<Tuple2> createAccount(String email, String handle, String password,
       {String? inviteCode, String? recoveryKey}) async {
     // format check for handle.
     http.Response res = await api.post("com.atproto.server.createAccount",
         {"email": email, "handle": handle, "password": password});
-    Map<String, dynamic> account = json.decode(res.body);
-    json.decode(res.body);
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
   }
 
   // Login: id = email or handle
-  Future<void> createSession(String identifier, String password) async {
+  Future<Tuple2> createSession(String identifier, String password) async {
     // format check for handle.
     http.Response res = await api.post("com.atproto.server.createSession",
-        {"identifier": identifier, "password": password});
-    Map<String, dynamic> account = json.decode(res.body);
-    json.decode(res.body);
+        {"identifier": identifier, "password": password},
+        headers: {"Content-Type": "application/json"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
   }
 
   // Get User info
