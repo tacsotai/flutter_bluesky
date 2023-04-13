@@ -2,6 +2,8 @@ const defaultProvider = "https://bsky.social";
 const xrpc = "xrpc";
 
 class Session {
+  String? did;
+  String? handle;
   String? accessJwt;
   String? refreshJwt;
   String provider;
@@ -19,10 +21,14 @@ class Session {
   }
 
   void set(Map<String, dynamic> item) {
-    setTokens(item["accessJwt"], item["refreshJwt"]);
+    setTokens(
+        item["did"], item["handle"], item["accessJwt"], item["refreshJwt"]);
   }
 
-  void setTokens(String accessJwt, String refreshJwt) {
+  void setTokens(
+      String did, String handle, String accessJwt, String refreshJwt) {
+    this.did = did;
+    this.handle = handle;
     this.accessJwt = accessJwt;
     this.refreshJwt = refreshJwt;
   }
