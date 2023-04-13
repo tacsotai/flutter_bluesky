@@ -26,9 +26,11 @@ class API {
     }
   }
 
-  Future<http.Response> post(String uri, Map<String, dynamic> body,
-      {Map<String, String>? headers}) async {
+  Future<http.Response> post(String uri,
+      {required Map<String, String> headers,
+      required Map<String, dynamic> body}) async {
     Uri url = _uri(uri);
+    headers["Content-Type"] = "application/json";
     debugPrint('body: $body');
     debugPrint("headers: $headers");
     debugPrint('url: ${url.toString()}');
