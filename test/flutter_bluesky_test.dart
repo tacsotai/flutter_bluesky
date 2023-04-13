@@ -14,8 +14,6 @@ class MockFlutterBlueskyPlatform
 }
 
 void main() {
-  final FlutterBlueskyPlatform initialPlatform =
-      FlutterBlueskyPlatform.instance;
   setUp(() async {
     await Isar.initializeIsarCore(
       download: true,
