@@ -16,7 +16,7 @@ class API {
     debugPrint('url: ${url.toString()}');
     debugPrint("headers: $headers");
     http.Response res = await http
-        .get(url)
+        .get(url, headers: headers)
         .timeout(const Duration(seconds: 5)); // TODO asset config
     return res;
   }
