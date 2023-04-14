@@ -11,7 +11,6 @@ flutter run
 ```
 
 ## DB
-### [isar](https://pub.dev/packages/isar)
 Account Entity is not for atproto but flutter_bluesky to manage session with each provider and the user. 
 ```
 └── tables
@@ -20,24 +19,4 @@ Account Entity is not for atproto but flutter_bluesky to manage session with eac
     └── app_view
         ├── post.dart
         ├── post.g.dart
-```
-- example Entity: Post
-```
-import 'package:isar/isar.dart';
-part 'post.g.dart';
-
-@collection
-class Post {
-  // isar ruled ID
-  Id id = Isar.autoIncrement;
-
-  // pds provider
-  @Index(type: IndexType.value)
-  late String provider;
-
-  // user id
-  @Index(type: IndexType.value)
-  late String did;
-  :
-}
 ```
