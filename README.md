@@ -23,8 +23,7 @@ Account Entity is not for atproto but flutter_bluesky to manage session with eac
 ```
 └── tables
     ├── account.dart
-    ├── account.g.dart
     └── app_view
         ├── post.dart
-        ├── post.g.dart
+        :
 ```
