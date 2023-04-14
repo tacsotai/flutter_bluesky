@@ -1,17 +1,8 @@
-import 'package:isar/isar.dart';
-part 'post_embed.g.dart';
-
-@collection
 class PostEmbedImage {
-  // isar ruled ID
-  Id id = Isar.autoIncrement;
-
   // pds provider
-  @Index(type: IndexType.value)
   late String provider;
 
   // user id
-  @Index(type: IndexType.value)
   late String did;
 
   String postUri;
@@ -27,17 +18,11 @@ class PostEmbedImage {
   });
 }
 
-@collection
 class PostEmbedExternal {
-  // isar ruled ID
-  Id id = Isar.autoIncrement;
-
   // pds provider
-  @Index(type: IndexType.value)
   late String provider;
 
   // user id
-  @Index(type: IndexType.value)
   late String did;
 
   String postUri;
@@ -55,19 +40,12 @@ class PostEmbedExternal {
   });
 }
 
-@collection
 class PostEmbedRecord {
-  // isar ruled ID
-  Id id = Isar.autoIncrement;
-
   // pds provider
-  @Index(type: IndexType.value)
   late String provider;
 
   // user id
-  @Index(type: IndexType.value)
   late String did;
-
   String postUri;
   String embedUri;
   String embedCid;

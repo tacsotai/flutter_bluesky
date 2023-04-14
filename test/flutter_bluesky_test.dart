@@ -1,24 +1,11 @@
-import 'package:flutter_bluesky/db.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
-import 'package:isar/isar.dart';
 import 'package:tuple/tuple.dart';
 
 // Integrated test code for FlutterBluesky.
 // Run local server with https://zenn.dev/tac519/articles/727fca3783010c
 void main() {
   FlutterBluesky plugin = FlutterBluesky(provider: "http://localhost:2583");
-
-  setUp(() async {
-    await Isar.initializeIsarCore(
-      download: true,
-    );
-    db.open();
-  });
-
-  tearDown(() async {
-    db.close();
-  });
 
   test('connect to bsky.social', () async {
     FlutterBluesky defaultPlugin = FlutterBluesky();

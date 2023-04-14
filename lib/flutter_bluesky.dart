@@ -1,7 +1,6 @@
 import 'package:flutter_bluesky/api.dart';
 import 'package:flutter_bluesky/api/bluesky.dart';
 import 'package:flutter_bluesky/api/session.dart';
-import 'package:flutter_bluesky/db.dart';
 import 'package:tuple/tuple.dart';
 
 // This is a service class for atproto pds.
@@ -42,7 +41,6 @@ class FlutterBluesky extends Bluesky {
         await createAccount(email, handle, password, inviteCode: inviteCode);
     if (res.item1 == 200 || res.item1 == 201) {
       api.session.set(res.item2);
-      await db.saveAccount(api.session.provider, email, password, res.item2);
     }
     return res;
   }
@@ -52,8 +50,6 @@ class FlutterBluesky extends Bluesky {
     Tuple2 res = await createSession(emailORhandle, password);
     if (res.item1 == 200) {
       api.session.set(res.item2);
-      await db.saveAccount(
-          api.session.provider, res.item2["email"], password, res.item2);
     }
     return res;
   }
