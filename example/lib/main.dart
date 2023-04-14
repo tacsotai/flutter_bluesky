@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
+import 'package:tuple/tuple.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 
 void main() {
@@ -23,9 +23,10 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> initPlatformState() async {
-    final flutterBlueskyPlugin = FlutterBluesky();
-    final String provider = flutterBlueskyPlugin.getProvider();
-    bool result = await flutterBlueskyPlugin.connect() == 200;
+    final plugin = FlutterBluesky();
+    final String provider = plugin.getProvider();
+    Tuple2 res = await plugin.connect();
+    bool result = res.item1 == 200;
 
     if (!mounted) return;
 
