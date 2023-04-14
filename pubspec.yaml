@@ -1,7 +1,8 @@
 name: flutter_bluesky
 description: A new Flutter plugin project.
 version: 0.0.1
-homepage:
+homepage: https://sotai.co
+repository: https://github.com/tacsotai/flutter_bluesky
 
 environment:
   sdk: '>=2.19.6 <3.0.0'
