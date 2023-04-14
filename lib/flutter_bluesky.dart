@@ -16,8 +16,16 @@ class FlutterBluesky extends Bluesky {
   }
 
   Future<Tuple2> connect() async {
-    Tuple2 res = await describeServer();
-    serverDescription = res.item2;
+    Tuple2 res = const Tuple2(
+        400, {"error": "InvalidProvider", "message": "Check the url."});
+    try {
+      res = await describeServer();
+      serverDescription = res.item2;
+    } on Exception catch (e) {
+      // TODO use logger.
+      // ignore: avoid_print
+      print(e.toString());
+    }
     return res;
   }
 
