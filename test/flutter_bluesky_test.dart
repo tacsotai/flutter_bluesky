@@ -1,5 +1,4 @@
 import 'package:flutter_bluesky/db.dart';
-import 'package:flutter_bluesky/exception.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:isar/isar.dart';
@@ -41,8 +40,8 @@ void main() {
     try {
       Tuple2 res = await flutterBlueskyPlugin.login("foo@bar.com", "hoge");
       expect(res.item1, 200);
-    } on APIPostException catch (e) {
-      fail(e.message);
+    } on Exception catch (e) {
+      fail(e.toString());
     }
   });
 }
