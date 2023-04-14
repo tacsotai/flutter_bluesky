@@ -35,7 +35,7 @@ class FlutterBluesky extends Bluesky {
     return false;
   }
 
-  // Invoked after availableUserDomain, otherwise this API retuen error.
+  // Invoke after availableUserDomain, otherwise this API retuen error.
   Future<Tuple2> register(String email, String handle, String password,
       {String? inviteCode}) async {
     Tuple2 res =
