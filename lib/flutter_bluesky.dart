@@ -70,8 +70,8 @@ class FlutterBluesky extends Bluesky {
   //   return [];
   // }
 
-  Future<List> timeline() async {
-    return [];
+  Future<Tuple2> timeline() async {
+    return await getTimeline(30, "reverse-chronological");
   }
 
   // Future<int> noticeCount() async {
