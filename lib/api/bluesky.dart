@@ -35,28 +35,28 @@ abstract class Bluesky extends Atproto {
 
   Future<Tuple2> getTimeline(int limit, String algorithm) async {
     http.Response res = await api.get(
-        "app.bsky.actor.getTimeline?algorithm=$algorithm&limit=$limit",
+        "app.bsky.feed.getTimeline?algorithm=$algorithm&limit=$limit",
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
 
   Future<Tuple2> getPostThread(String uri) async {
-    http.Response res = await api.get("app.bsky.actor.getPostThread?uri=$uri",
+    http.Response res = await api.get("app.bsky.feed.getPostThread?uri=$uri",
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
 
   Future<Tuple2> getFollows(String actor) async {
-    http.Response res = await api.get("app.bsky.actor.getFollows?actor=$actor",
+    http.Response res = await api.get("app.bsky.graph.getFollows?actor=$actor",
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
 
   Future<Tuple2> getUnreadCount() async {
-    http.Response res = await api.get("app.bsky.actor.getUnreadCount",
+    http.Response res = await api.get("app.bsky.notification.getUnreadCount",
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
@@ -64,7 +64,7 @@ abstract class Bluesky extends Atproto {
 
   Future<Tuple2> listNotifications(int limit) async {
     http.Response res = await api.get(
-        "app.bsky.actor.listNotifications?limit=$limit",
+        "app.bsky.notification.listNotifications?limit=$limit",
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
