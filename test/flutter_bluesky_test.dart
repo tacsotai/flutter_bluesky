@@ -4,7 +4,11 @@ import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:isar/isar.dart';
 import 'package:tuple/tuple.dart';
 
+// Integrated test code for FlutterBluesky.
+// Run local server with https://zenn.dev/tac519/articles/727fca3783010c
 void main() {
+  FlutterBluesky plugin = FlutterBluesky(provider: "http://localhost:2583");
+
   setUp(() async {
     await Isar.initializeIsarCore(
       download: true,
@@ -16,9 +20,9 @@ void main() {
     db.close();
   });
 
-  test('connect', () async {
-    FlutterBluesky flutterBlueskyPlugin = FlutterBluesky();
-    Tuple2 res = await flutterBlueskyPlugin.connect();
+  test('connect to bsky.social', () async {
+    FlutterBluesky defaultPlugin = FlutterBluesky();
+    Tuple2 res = await defaultPlugin.connect();
     expect(res.item1, 200);
     Map expected = {
       "availableUserDomains": [".bsky.social"],
@@ -29,19 +33,11 @@ void main() {
       }
     };
     expect(res.item2, expected);
-    expect(flutterBlueskyPlugin.inviteCodeRequired(), true);
-    expect(flutterBlueskyPlugin.availableUserDomain("hoge.bsky.social"), true);
-    expect(flutterBlueskyPlugin.availableUserDomain("hoge.test"), false);
+    expect(defaultPlugin.inviteCodeRequired(), true);
+    expect(defaultPlugin.availableUserDomain("hoge.bsky.social"), true);
+    expect(defaultPlugin.availableUserDomain("hoge.test"), false);
   });
 
-  test('login email', () async {
-    FlutterBluesky flutterBlueskyPlugin =
-        FlutterBluesky(provider: "http://localhost:2583");
-    try {
-      Tuple2 res = await flutterBlueskyPlugin.login("foo@bar.com", "hoge");
-      expect(res.item1, 200);
-    } on Exception catch (e) {
-      fail(e.toString());
   test('connect', () async {
     Tuple2 res = await plugin.connect();
     expect(res.item1, 200);
