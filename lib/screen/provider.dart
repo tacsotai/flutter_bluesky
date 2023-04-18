@@ -1,10 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter_bluesky/api/session.dart';
+import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
-import 'package:flutter_bluesky/screen/home.dart';
 
 class Provider extends StatefulWidget {
   static Screen screen = Screen(Provider, const Icon(Icons.list));
@@ -65,7 +66,7 @@ class ProviderScreen extends State<Provider> with Base {
                 Tuple2 res = await plugin.connect();
                 // TOTO screen transfer
                 setState(() {
-                  push(context, Home.screen.route);
+                  push(context, LoginScreen.route);
                   set(res);
                 });
               },
