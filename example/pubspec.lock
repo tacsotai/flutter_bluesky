@@ -82,7 +82,7 @@ packages:
     source: hosted
     version: "1.0.5"
   easy_localization:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: easy_localization
       sha256: "6a2e99fa0bfe5765bf4c6ca9b137d5de2c75593007178c5e4cd2ae985f870080"
@@ -490,7 +490,7 @@ packages:
     source: hosted
     version: "0.4.16"
   tuple:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: tuple
       sha256: "0ea99cd2f9352b2586583ab2ce6489d1f95a5f6de6fb9492faaf97ae2060f0aa"
