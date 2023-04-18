@@ -7,21 +7,16 @@ import 'package:flutter_login/src/regex.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter_bluesky/screen.dart';
 
-const Duration loginTime = Duration(milliseconds: 2250);
-
 class LoginScreen extends StatelessWidget {
   static const route = '/auth';
   const LoginScreen({Key? key}) : super(key: key);
 
-  // result is null or error message with multi language.
-  response(Tuple2 result) {
-    return Future.delayed(loginTime).then((_) {
-      if (result.item1 == 200) {
-        return null;
-      }
-      // error message
-      return result.item2["message"]; // TODO multi lang.
-    });
+  String? response(Tuple2 res) {
+    if (res.item1 == 200) {
+      return null;
+    } else {
+      return res.item2["message"] as String;
+    }
   }
 
   Future<String?> signUp(SignupData data) async {
@@ -29,12 +24,12 @@ class LoginScreen extends StatelessWidget {
   }
 
   Future<String?> login(LoginData data) async {
-    return response(await plugin.login("emailOrHandle", "password"));
+    return response(await plugin.login(data.name, data.password));
   }
 
   Future<String?> recoverPassword(String name) async {
     // TOOD
-    return response(await plugin.login("emailOrHandle", "password"));
+    return null;
   }
 
   @override

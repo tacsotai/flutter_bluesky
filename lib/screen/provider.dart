@@ -64,10 +64,8 @@ class ProviderScreen extends State<Provider> with Base {
               onPressed: () async {
                 setPlugin(FlutterBluesky(provider: _controller.text));
                 Tuple2 res = await plugin.connect();
-                // TOTO screen transfer
                 setState(() {
-                  push(context, LoginScreen.route);
-                  set(res);
+                  _process(res);
                 });
               },
               child: Text(tr('connect')),
@@ -80,5 +78,14 @@ class ProviderScreen extends State<Provider> with Base {
 
   void set(Tuple2 res) async {
     message = json.encode(res.item2);
+  }
+
+  void _process(Tuple2 res) {
+    if (res.item1 != 200) {
+      message = res.item2["message"];
+    } else {
+      debugPrint("serverDescription: ${plugin.serverDescription}");
+      push(context, LoginScreen.route);
+    }
   }
 }
