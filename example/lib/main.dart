@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
+import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/screen/notfifications.dart';
 import 'package:flutter_bluesky/screen/post.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
@@ -34,6 +35,7 @@ class MainApp extends StatelessWidget {
       initialRoute: hasSession ? Home.screen.route : Provider.screen.route,
       routes: {
         Provider.screen.route: (context) => const Provider(),
+        LoginScreen.route: (context) => const LoginScreen(),
         Home.screen.route: (context) => const Home(),
         Search.screen.route: (context) => const Search(),
         Notifications.screen.route: (context) => const Notifications(),
