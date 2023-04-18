@@ -14,7 +14,11 @@ dependencies:
   http: ^0.13.5
   plugin_platform_interface: ^2.0.2
   tuple: ^2.0.1
-
+  flutter_login: ^4.1.1
+  easy_localization: ^3.0.1
+  flutter_typeahead: ^4.1.1
+  badges: ^3.1.1
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
