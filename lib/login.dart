@@ -48,18 +48,11 @@ class LoginScreen extends StatelessWidget {
       onSubmitAnimationCompleted: () {
         _view(context);
       },
-      theme: _theme(context),
       messages: _messages(),
       termsOfService: _terms(),
       userValidator: _userValidator,
       passwordValidator: _passwordValidator,
     );
-  }
-
-  static LoginTheme _theme(BuildContext context) {
-    return LoginTheme(
-        primaryColor: Theme.of(context).colorScheme.primary,
-        accentColor: Theme.of(context).colorScheme.secondary);
   }
 
   static String? _userValidator(value) {
