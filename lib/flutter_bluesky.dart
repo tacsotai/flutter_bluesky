@@ -13,6 +13,10 @@ void setPlugin(FlutterBluesky plugin) {
   _plugin = plugin;
 }
 
+bool get hasSession {
+  return _plugin != null;
+}
+
 // This is a service class for atproto pds.
 class FlutterBluesky extends Bluesky {
   Map serverDescription = {};
