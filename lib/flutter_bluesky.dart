@@ -3,6 +3,16 @@ import 'package:flutter_bluesky/api/bluesky.dart';
 import 'package:flutter_bluesky/api/session.dart';
 import 'package:tuple/tuple.dart';
 
+FlutterBluesky? _plugin;
+
+FlutterBluesky get plugin {
+  return _plugin!;
+}
+
+void setPlugin(FlutterBluesky plugin) {
+  _plugin = plugin;
+}
+
 // This is a service class for atproto pds.
 class FlutterBluesky extends Bluesky {
   Map serverDescription = {};
