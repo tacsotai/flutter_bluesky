@@ -56,7 +56,7 @@ class ProviderScreen extends State<Provider> with Base {
         children: [
           TextFormField(
             controller: _controller,
-            decoration: const InputDecoration(labelText: "Provider"),
+            decoration: InputDecoration(labelText: tr(Provider.screen.name)),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -70,7 +70,7 @@ class ProviderScreen extends State<Provider> with Base {
                   set(res);
                 });
               },
-              child: const Text('Connect'),
+              child: Text(tr('connect')),
             ),
           ),
         ],
