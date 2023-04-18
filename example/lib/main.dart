@@ -1,87 +1,83 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bluesky/api/session.dart';
-
-import 'package:tuple/tuple.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
+import 'package:flutter_bluesky/screen/notfifications.dart';
+import 'package:flutter_bluesky/screen/post.dart';
+import 'package:flutter_bluesky/screen/provider.dart';
+import 'package:flutter_bluesky/screen/search.dart';
+import 'package:flutter_bluesky/screen/home.dart';
+import 'package:flutter_bluesky/screen/profile.dart';
+import 'package:flutter_bluesky/transition_route_observer.dart';
+
+import 'package:easy_localization/easy_localization.dart';
+
+const _appName = "flutter_blusky";
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  initApp(_appName, const MainApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-    // defalt provider = 'https://bsky.social'
-    _controller.text = defaultProvider;
-  }
-
-  final _formKey = GlobalKey<FormState>();
-  final _controller = TextEditingController();
-
-  String message = "No connected to any provider yet.";
+class MainApp extends StatelessWidget {
+  const MainApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Flutter Bluesky example App'),
-        ),
-        body: Center(
-          child: serverInfo(),
-        ),
-      ),
+      // title: tr('title'),
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      theme: ThemeData(
+          primarySwatch: ThemeColors.primary,
+          canvasColor: ThemeColors.secondary),
+      navigatorObservers: [TransitionRouteObserver()],
+      initialRoute: hasSession ? Home.screen.route : Provider.screen.route,
+      routes: {
+        Provider.screen.route: (context) => const Provider(),
+        Home.screen.route: (context) => const Home(),
+        Search.screen.route: (context) => const Search(),
+        Notifications.screen.route: (context) => const Notifications(),
+        Profile.screen.route: (context) => const Profile(),
+        Post.screen.route: (context) => const Post(),
+
+        // Clinical on menu
+      },
     );
   }
+}
 
-  Widget serverInfo() {
-    return ListView(
-      padding: const EdgeInsets.all(10),
-      children: [
-        form(),
-        Center(child: Text(message)),
-      ],
-    );
-  }
+Future<void> init() async {
+  //TODO
+}
 
-  Widget form() {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          TextFormField(
-            controller: _controller,
-            decoration: const InputDecoration(labelText: "Provider"),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
-              onPressed: () async {
-                final plugin = FlutterBluesky(provider: _controller.text);
-                Tuple2 res = await plugin.connect();
-                setState(() {
-                  set(res);
-                });
-              },
-              child: const Text('Connect'),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+Future<void> initApp(String name, StatelessWidget appWidget) async {
+  await init();
+  await EasyLocalization.ensureInitialized();
+  runApp(
+    EasyLocalization(
+        supportedLocales: const [Locale('en', 'US'), Locale('ja', 'JP')],
+        path: 'assets/langs', // <-- change the path of the translation files
+        fallbackLocale: const Locale('ja', 'JP'),
+        child: appWidget),
+  );
+}
 
-  void set(Tuple2 res) async {
-    message = json.encode(res.item2);
-  }
+class ThemeColors {
+  static const MaterialColor primary = MaterialColor(
+    _primaryValue,
+    <int, Color>{
+      50: Color(0xFFE3F2FD),
+      100: Color(0xFFBBDEFB),
+      200: Color(0xFF90CAF9),
+      300: Color(0xFF64B5F6),
+      400: Color(0xFF42A5F5),
+      500: Color(_primaryValue),
+      600: Color(0xFF1E88E5),
+      700: Color(0xFF1976D2),
+      800: Color(0xFF1565C0),
+      900: Color(0xFF0D47A1),
+    },
+  );
+  static const int _primaryValue = 0xFF2196F3;
+  static Color secondary = Colors.white;
 }
