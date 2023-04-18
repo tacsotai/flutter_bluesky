@@ -20,7 +20,6 @@ class ProviderScreen extends State<Provider> with Base {
   @override
   void initState() {
     super.initState();
-    // defalt provider = 'https://bsky.social'
     _controller.text = defaultProvider;
   }
 
