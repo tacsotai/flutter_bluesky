@@ -29,7 +29,7 @@ class MainApp extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: ThemeData(
-          primarySwatch: ThemeColors.primary,
+          primarySwatch: ThemeColors.material,
           canvasColor: ThemeColors.secondary),
       navigatorObservers: [TransitionRouteObserver()],
       initialRoute: hasSession ? Home.screen.route : Provider.screen.route,
@@ -65,14 +65,14 @@ Future<void> initApp(String name, StatelessWidget appWidget) async {
 }
 
 class ThemeColors {
-  static const MaterialColor primary = MaterialColor(
+  static const MaterialColor material = MaterialColor(
     _primaryValue,
     <int, Color>{
       50: Color(0xFFE3F2FD),
       100: Color(0xFFBBDEFB),
       200: Color(0xFF90CAF9),
       300: Color(0xFF64B5F6),
-      400: Color(0xFF42A5F5),
+      400: Color(0xFF42A5F5), // login use it as background color.
       500: Color(_primaryValue),
       600: Color(0xFF1E88E5),
       700: Color(0xFF1976D2),
@@ -81,5 +81,7 @@ class ThemeColors {
     },
   );
   static const int _primaryValue = 0xFF2196F3;
+  static const Color primary = Color(_primaryValue);
+
   static Color secondary = Colors.white;
 }
