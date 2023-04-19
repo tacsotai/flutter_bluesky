@@ -1,10 +1,8 @@
 # flutter_bluesky
 
 This plugin provides a client for [bluesky](https://bsky.app/) or other PDS of [atproto](https://github.com/bluesky-social/atproto).
-This plugin use API client by [myConsciousness/atproto.dart](https://github.com/myConsciousness/atproto.dart).
-> [atproto](https://github.com/myConsciousness/atproto.dart/tree/main/packages/atproto) and [bluesky](https://github.com/myConsciousness/atproto.dart/tree/main/packages/bluesky) (Dart)
+But UI is not provided, make it by yourself although the [example](#getting-started) is provided.
 
-- Caution
 It is **not completed** to invoke all APIs.
 I will make it little by little.
 It may change by spec change of atproto.
