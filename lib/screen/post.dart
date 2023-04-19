@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
+import 'package:tuple/tuple.dart';
 
 class Post extends StatefulWidget {
   static Screen screen = Screen(Post, const Icon(Icons.edit));
@@ -22,7 +23,7 @@ class PostScreen extends State<Post> with Base {
   }
 
   @override
-  List<Widget> listview(BuildContext context) {
+  List<Widget> listview(BuildContext context, {Tuple2? res}) {
     return [submit(), sizeBox, form(), sizeBox, media()];
   }
 

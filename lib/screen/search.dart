@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
+import 'package:tuple/tuple.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
@@ -25,7 +26,7 @@ class SearcheScreen extends State<Search> with Base {
   }
 
   @override
-  List<Widget> listview(BuildContext context) {
+  List<Widget> listview(BuildContext context, {Tuple2? res}) {
     return [];
   }
 }

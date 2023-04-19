@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
+import 'package:tuple/tuple.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -26,7 +27,7 @@ class ProfileeScreen extends State<Profile> with Base {
   }
 
   @override
-  List<Widget> listview(BuildContext context) {
+  List<Widget> listview(BuildContext context, {Tuple2? res}) {
     return [];
   }
 }

@@ -42,7 +42,7 @@ class ProviderScreen extends State<Provider> with Base {
   }
 
   @override
-  List<Widget> listview(BuildContext context) {
+  List<Widget> listview(BuildContext context, {Tuple2? res}) {
     return [
       form(),
       Center(child: Text(message)),
