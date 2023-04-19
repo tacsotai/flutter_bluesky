@@ -13,7 +13,14 @@ class Timelines {
     tl.setLines();
     for (var feed in tl.lines) {
       Line line = Line(context, feed);
-      widgets.add(line.build());
+      widgets.add(
+        Card(
+            margin: const EdgeInsets.all(0),
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: line.build(),
+            )),
+      );
     }
     return widgets;
   }

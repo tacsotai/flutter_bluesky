@@ -30,11 +30,11 @@ class Line {
       children: [
         Text("test"),
         // Text(feed.post.author.displayName),
-        sizeBox,
+        const Spacer(),
         Expanded(
           child: Text(feed.post.author.handle),
         ),
-        sizeBox,
+        const Spacer(),
         Expanded(
           child: Text(datetime(context, feed.post.record.createdAt)),
         )
@@ -43,10 +43,13 @@ class Line {
   }
 
   Widget body(Feed feed) {
-    return Column(
-      // TODO reply
+    return Row(
       children: [
-        Text(feed.post.record.text),
+        Text(
+          feed.post.record.text,
+          style: const TextStyle(fontSize: 20.0),
+        ),
+        const Spacer(),
       ],
     );
   }
@@ -55,10 +58,11 @@ class Line {
     return Row(
       children: [
         Text(feed.post.replyCount.toString()),
-        sizeBox,
-        Expanded(child: Text(feed.post.repostCount.toString())),
-        sizeBox,
-        Expanded(child: Text(feed.post.likeCount.toString())),
+        const Spacer(),
+        Text(feed.post.repostCount.toString()),
+        const Spacer(),
+        Text(feed.post.likeCount.toString()),
+        const Spacer(),
       ],
     );
   }

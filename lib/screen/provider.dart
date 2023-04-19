@@ -44,7 +44,7 @@ class ProviderScreen extends State<Provider> with Base {
   @override
   List<Widget> listview(BuildContext context, {Tuple2? res}) {
     return [
-      form(),
+      Card(child: Padding(padding: const EdgeInsets.all(10), child: form())),
       Center(child: Text(message)),
     ];
   }

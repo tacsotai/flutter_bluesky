@@ -17,14 +17,11 @@ void push(BuildContext context, String screenName) {
 
 mixin Base {
   Widget lists(BuildContext context, {Tuple2? res}) {
-    return Card(
-        child: Padding(
-            padding: const EdgeInsets.all(5),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: listview(context, res: res),
-            )));
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: listview(context, res: res),
+    );
   }
 
   List<Widget> listview(BuildContext context, {Tuple2? res});

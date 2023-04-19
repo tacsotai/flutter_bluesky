@@ -18,7 +18,12 @@ class PostScreen extends State<Post> with Base {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: lists(context),
+      body: Card(
+          margin: const EdgeInsets.all(0),
+          child: Padding(
+            padding: const EdgeInsets.all(5),
+            child: lists(context),
+          )),
     );
   }
 
