@@ -29,13 +29,6 @@ mixin Base {
 
   List<Widget> listview(BuildContext context);
 
-  Widget get sizeBox {
-    return const SizedBox(
-      height: 10,
-      width: 5,
-    );
-  }
-
   Widget post(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
