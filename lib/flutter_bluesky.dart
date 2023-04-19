@@ -2,6 +2,7 @@ import 'package:flutter_bluesky/api.dart';
 import 'package:flutter_bluesky/api/bluesky.dart';
 import 'package:flutter_bluesky/api/session.dart';
 import 'package:tuple/tuple.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 FlutterBluesky? _plugin;
 
@@ -15,6 +16,11 @@ void setPlugin(FlutterBluesky plugin) {
 
 bool get hasSession {
   return _plugin != null;
+}
+
+Future<void> init() async {
+  // TODO add other languages.
+  timeago.setLocaleMessages('ja', timeago.JaMessages());
 }
 
 // This is a service class for atproto pds.

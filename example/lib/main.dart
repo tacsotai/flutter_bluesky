@@ -48,10 +48,6 @@ class MainApp extends StatelessWidget {
   }
 }
 
-Future<void> init() async {
-  //TODO
-}
-
 Future<void> initApp(String name, StatelessWidget appWidget) async {
   await init();
   await EasyLocalization.ensureInitialized();
