@@ -22,13 +22,8 @@ class NotificationsScreen extends State<Notifications> with Base {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: appBar(context),
-        body: lists(context),
+        body: Text('TODO Implement'),
         floatingActionButton: post(context),
         bottomNavigationBar: menu(context));
-  }
-
-  @override
-  List<Widget> listview(BuildContext context, {Tuple2? res}) {
-    return [];
   }
 }

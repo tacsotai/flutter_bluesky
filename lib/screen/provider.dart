@@ -37,16 +37,11 @@ class ProviderScreen extends State<Provider> with Base {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(context),
-      body: lists(context),
+      body: listsBody([
+        Card(child: Padding(padding: const EdgeInsets.all(10), child: form())),
+        Center(child: Text(message)),
+      ]),
     );
-  }
-
-  @override
-  List<Widget> listview(BuildContext context, {Tuple2? res}) {
-    return [
-      Card(child: Padding(padding: const EdgeInsets.all(10), child: form())),
-      Center(child: Text(message)),
-    ];
   }
 
   Widget form() {

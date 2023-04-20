@@ -22,14 +22,9 @@ class PostScreen extends State<Post> with Base {
           margin: const EdgeInsets.all(0),
           child: Padding(
             padding: const EdgeInsets.all(5),
-            child: lists(context),
+            child: listsBody([submit(), sizeBox, form(), sizeBox, media()]),
           )),
     );
-  }
-
-  @override
-  List<Widget> listview(BuildContext context, {Tuple2? res}) {
-    return [submit(), sizeBox, form(), sizeBox, media()];
   }
 
   Widget submit() {

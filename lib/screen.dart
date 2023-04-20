@@ -5,7 +5,6 @@ import 'package:flutter_bluesky/screen/search.dart';
 import 'package:flutter_bluesky/screen/home.dart';
 import 'package:flutter_bluesky/screen/post.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:tuple/tuple.dart';
 
 Widget homeScreen(BuildContext context) {
   return const Home();
@@ -16,15 +15,13 @@ void push(BuildContext context, String screenName) {
 }
 
 mixin Base {
-  Widget lists(BuildContext context, {Tuple2? res}) {
+  Widget listsBody(List<Widget> widgets) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: listview(context, res: res),
+      children: widgets,
     );
   }
-
-  List<Widget> listview(BuildContext context, {Tuple2? res});
 
   Widget post(BuildContext context) {
     return FloatingActionButton(
