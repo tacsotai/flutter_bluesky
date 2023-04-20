@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
-import 'package:tuple/tuple.dart';
 import 'package:flutter_bluesky/screen/parts/avator.dart';
 
 class Post extends StatefulWidget {
@@ -87,13 +86,6 @@ class PostScreen extends State<Post> with Base {
 
   void _submit() {
     _formKey.currentState?.save();
-    if (_text.isNotEmpty) {
-      // Map note = screen.model;
-      // screen.models[note['id']] = note;
-      // note['owner'] = diaryTarget['owner'];
-      // note['content'] = _text;
-      // screen.save(note['id']);
-      // home(context);
-    }
+    if (_text.isNotEmpty) {}
   }
 }
