@@ -1,45 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bluesky/screen/parts/line.dart';
 import 'package:flutter_bluesky/util/datetime_util.dart';
-
-class Timelines {
-  final BuildContext context;
-  final Map jsonMap;
-  Timelines(this.context, this.jsonMap);
-
-  List<Widget> listview() {
-    List<Widget> widgets = [];
-    Timeline tl = Timeline(jsonMap);
-    tl.setLines();
-    for (var feed in tl.lines) {
-      Line line = Line(context, feed);
-      widgets.add(
-        Card(
-            margin: const EdgeInsets.all(0),
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: line.build(),
-            )),
-      );
-    }
-    return widgets;
-  }
-}
-
-class Timeline {
-  late List<Feed> lines = [];
-  final List<dynamic> feed;
-  final String cursor;
-
-  Timeline(Map map)
-      : feed = map["feed"],
-        cursor = map["cursor"];
-  void setLines() {
-    for (var element in feed) {
-      lines.add(Feed(element));
-    }
-  }
-}
 
 class Feed {
   final Post post;
@@ -107,10 +66,10 @@ class Record {
   String text;
   String type;
   DateTime createdAt;
-  Reply? reply;
+  // Reply? reply;
   Record(Map map)
       : text = map["text"],
         type = map["\$type"],
-        reply = map["reply"],
+        // reply = Reply(map["reply"]),
         createdAt = fromIso8601(map["createdAt"]);
 }

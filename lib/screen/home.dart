@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/parts/connecting.dart';
+import 'package:flutter_bluesky/screen/parts/line.dart';
 import 'package:flutter_bluesky/screen/parts/timelines.dart';
 import 'package:tuple/tuple.dart';
 
@@ -29,10 +30,40 @@ class HomeScreen extends State<Home> with Base {
         bottomNavigationBar: menu(context));
   }
 
+  final _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        Future(() async {
+          await plugin.timeline(); // cursor指定
+        });
+      }
+    });
+  }
+
+  late String cursor;
+  late bool status;
+
+  Future<List<Feed>> getFeeds() async {
+    Tuple2 res = await plugin.timeline(); // TODO cursor
+    status = res.item1 == 200;
+    cursor = res.item2["cursor"];
+    List<Feed> feeds = [];
+    for (var element in res.item2["feed"]) {
+      feeds.add(Feed(element));
+    }
+    // TODO append するコード
+    return feeds;
+  }
+
   // https://zenn.dev/sqer/articles/db20a4d735fb7e5928ba
   Widget body(BuildContext context) {
     return FutureBuilder(
-      future: plugin.timeline(),
+      future: getFeeds(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return _body(snapshot);
@@ -50,13 +81,34 @@ class HomeScreen extends State<Home> with Base {
     if (!snapshot.hasData) {
       return const Text("Not found the data.");
     } else {
-      Tuple2? res = snapshot.data;
-      if (res!.item1 != 200) {
+      if (!status) {
         return listsBody(Connecting(context).listview());
       } else {
-        return scrollbar(context, res.item2); // normal case
+        return scroll(snapshot.data); // normal case
       }
     }
   }
+
+  Widget scroll(List<Feed> feeds) {
+    return Scrollbar(
+      controller: _scrollController,
+      child: ListView.separated(
+        controller: _scrollController,
+        separatorBuilder: (context, index) => const Divider(height: 0.5),
+        itemCount: feeds.length,
+        itemBuilder: (context, index) => _build(feeds[index]),
+      ),
+    );
+  }
+
+  Widget _build(Feed feed) {
+    Line line = Line(context, feed);
+    return Container(
+      margin: const EdgeInsets.all(10),
+      child: Padding(
+        padding: const EdgeInsets.all(5),
+        child: line.build(),
+      ),
+    );
   }
 }

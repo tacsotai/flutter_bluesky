@@ -20,9 +20,11 @@ class Line {
   }
 
   Widget content(Feed feed) {
-    return Column(
-      children: [header(feed), body(feed), footer(feed)],
-    );
+    return Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [header(feed), body(feed), footer(feed)],
+        ));
   }
 
   Widget header(Feed feed) {
@@ -45,11 +47,12 @@ class Line {
   Widget body(Feed feed) {
     return Row(
       children: [
-        Text(
+        Expanded(
+            child: Text(
           feed.post.record.text,
-          style: const TextStyle(fontSize: 20.0),
-        ),
-        const Spacer(),
+          style: const TextStyle(fontSize: 16.0),
+        )),
+        // const Spacer(),
       ],
     );
   }
