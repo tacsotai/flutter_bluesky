@@ -33,9 +33,13 @@ abstract class Bluesky extends Atproto {
         res.statusCode, json.decode(res.body));
   }
 
-  Future<Tuple2> getTimeline(int limit, String algorithm) async {
-    http.Response res = await api.get(
-        "app.bsky.feed.getTimeline?algorithm=$algorithm&limit=$limit",
+  Future<Tuple2> getTimeline(int limit, String algorithm,
+      {String? cursor}) async {
+    String uri = "app.bsky.feed.getTimeline?algorithm=$algorithm&limit=$limit";
+    if (cursor != null) {
+      uri = "$uri&cursor=$cursor";
+    }
+    http.Response res = await api.get(uri,
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
