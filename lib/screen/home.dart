@@ -24,13 +24,13 @@ class HomeScreen extends State<Home> with Base {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: appBar(context),
-        body: timeline(context),
+        body: body(context),
         floatingActionButton: post(context),
         bottomNavigationBar: menu(context));
   }
 
   // https://zenn.dev/sqer/articles/db20a4d735fb7e5928ba
-  Widget timeline(BuildContext context) {
+  Widget body(BuildContext context) {
     return FutureBuilder(
       future: plugin.timeline(),
       builder: (context, snapshot) {
