@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/parts/connecting.dart';
-import 'package:flutter_bluesky/screen/parts/line.dart';
-import 'package:flutter_bluesky/screen/parts/timelines.dart';
+import 'package:flutter_bluesky/screen/parts/tiimeline.dart';
+import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:tuple/tuple.dart';
 
 class Home extends StatefulWidget {
@@ -102,7 +102,7 @@ class HomeScreen extends State<Home> with Base {
   }
 
   Widget _build(Feed feed) {
-    Line line = Line(context, feed);
+    Timeline line = Timeline(context, feed);
     return Container(
       margin: const EdgeInsets.all(10),
       child: Padding(
