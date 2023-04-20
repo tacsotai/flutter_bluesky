@@ -35,14 +35,7 @@ class HomeScreen extends State<Home> with Base {
       future: plugin.timeline(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          // TODO consider below coding
-          if (snapshot.hasError) {
-            return Text("Error: ${snapshot.error}");
-          }
-          if (!snapshot.hasData) {
-            return const Text("Not found the data.");
-          }
-          return lists(context, res: snapshot.data);
+          return _body(snapshot);
         } else {
           return const CircularProgressIndicator();
         }
@@ -50,6 +43,21 @@ class HomeScreen extends State<Home> with Base {
     );
   }
 
+  Widget _body(snapshot) {
+    if (snapshot.hasError) {
+      return Text("Error: ${snapshot.error}");
+    }
+    if (!snapshot.hasData) {
+      return const Text("Not found the data.");
+    } else {
+      Tuple2? res = snapshot.data;
+      if (res!.item1 != 200) {
+        return listsBody(Connecting(context).listview());
+      } else {
+        return scrollbar(context, res.item2); // normal case
+      }
+    }
+  }
   @override
   List<Widget> listview(BuildContext context, {Tuple2? res}) {
     if (res!.item1 != 200) {
