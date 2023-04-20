@@ -12,7 +12,6 @@ class Timeline {
     return Row(
       children: [
         avatar(feed.post.author.avatar),
-        // avatar('https://hoo.bar/sample.png'),
         sizeBox,
         Expanded(child: content(feed)),
       ],
@@ -74,10 +73,12 @@ class Timeline {
 Widget avatar(String? url) {
   if (url == null) {
     return const CircleAvatar(
+      radius: 40,
       child: Icon(Icons.person_outline_rounded),
     );
   }
   return CircleAvatar(
+    radius: 40,
     backgroundImage: NetworkImage(url),
   );
 }
