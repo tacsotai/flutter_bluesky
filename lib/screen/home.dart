@@ -58,12 +58,5 @@ class HomeScreen extends State<Home> with Base {
       }
     }
   }
-  @override
-  List<Widget> listview(BuildContext context, {Tuple2? res}) {
-    if (res!.item1 != 200) {
-      return Connecting(context).listview();
-    } else {
-      return Timelines(context, res.item2).listview();
-    }
   }
 }
