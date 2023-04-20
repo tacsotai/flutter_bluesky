@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 import 'package:flutter_bluesky/screen/parts/avator.dart';
 
 class Timeline {
@@ -45,7 +46,7 @@ class Timeline {
         Expanded(
             child: Text(
           feed.post.record.text,
-          style: const TextStyle(fontSize: 16.0),
+          style: const TextStyle(fontSize: 18.0),
         )),
         // const Spacer(),
       ],
@@ -56,9 +57,9 @@ class Timeline {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(feed.post.replyCount.toString()),
-        Text(feed.post.repostCount.toString()),
-        Text(feed.post.likeCount.toString()),
+        reply(context, feed.post),
+        repost(context, feed.post),
+        like(context, feed.post),
       ],
     );
   }
