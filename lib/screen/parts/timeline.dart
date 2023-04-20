@@ -13,7 +13,7 @@ class Timeline {
   Widget build() {
     return Row(
       children: [
-        avatar(feed.post.author.avatar),
+        avator(feed.post.author.avatar),
         sizeBox,
         Expanded(child: content(feed)),
       ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget avatar(String? url) {
+Widget avator(String? url) {
   if (url == null) {
     return const CircleAvatar(
       radius: 35,

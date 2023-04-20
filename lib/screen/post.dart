@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:tuple/tuple.dart';
+import 'package:flutter_bluesky/screen/parts/avator.dart';
 
 class Post extends StatefulWidget {
   static Screen screen = Screen(Post, const Icon(Icons.edit));
@@ -45,7 +46,8 @@ class PostScreen extends State<Post> with Base {
 
   Widget form() {
     return Row(
-      children: [avatar(), sizeBox, Expanded(child: text())],
+      // TODO user own avator
+      children: [avator(null), sizeBox, Expanded(child: text())],
     );
   }
 
@@ -62,15 +64,6 @@ class PostScreen extends State<Post> with Base {
           // TODO camera
         ],
       ),
-    );
-  }
-
-  Widget avatar() {
-    // TODO network image
-    return const CircleAvatar(
-      // backgroundImage: NetworkImage(imgURL),
-      // backgroundColor: ThemeColors.primary,
-      child: Icon(Icons.person_outline_rounded),
     );
   }
 
