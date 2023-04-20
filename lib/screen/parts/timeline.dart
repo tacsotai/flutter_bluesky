@@ -34,8 +34,8 @@ class Timeline {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Flexible(flex: 4, child: name(context, feed.post.author)),
-            Flexible(flex: 1, child: when(context, feed.post.record)),
+            Flexible(flex: 5, child: name(context, feed.post.author)),
+            Flexible(flex: 2, child: when(context, feed.post.record)),
           ],
         ));
   }
@@ -46,9 +46,7 @@ class Timeline {
         Expanded(
             child: Text(
           feed.post.record.text,
-          style: const TextStyle(fontSize: 18.0),
         )),
-        // const Spacer(),
       ],
     );
   }

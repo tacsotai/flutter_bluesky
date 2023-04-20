@@ -31,7 +31,7 @@ mixin Base {
       backgroundColor: Theme.of(context).colorScheme.primary,
       child: const Icon(
         Icons.edit,
-        size: 35,
+        size: 30,
       ),
     );
   }
@@ -59,6 +59,7 @@ mixin Base {
 
   IconButton _link(BuildContext context, Screen screen) {
     return IconButton(
+      iconSize: 35,
       tooltip: tr(screen.name),
       icon: screen.icon,
       onPressed: () {
