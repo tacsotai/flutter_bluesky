@@ -58,6 +58,7 @@ class Timeline {
         reply(context, feed.post),
         repost(context, feed.post),
         like(context, feed.post),
+        more(context, feed.post),
       ],
     );
   }

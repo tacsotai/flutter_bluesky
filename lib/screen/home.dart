@@ -48,7 +48,7 @@ class HomeScreen extends State<Home> with Base {
       future: getFeeds(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
           return Text("Error: ${snapshot.error}");
@@ -125,8 +125,11 @@ class _InfinityListViewState extends State<InfinityListView> {
       itemBuilder: (BuildContext context, int index) {
         //11
         if (widget.feeds.length == index) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return const SizedBox(
+            height: 50,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
           );
         }
         return _build(widget.feeds[index]);

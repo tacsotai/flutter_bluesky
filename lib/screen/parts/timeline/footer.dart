@@ -14,6 +14,10 @@ Widget like(BuildContext context, Post post) {
   return interest(context, 'Like', Icons.favorite_outline, post.likeCount);
 }
 
+Widget more(BuildContext context, Post post) {
+  return iconTheme(context, 'Like', Icons.more_horiz);
+}
+
 Widget interest(
     BuildContext context, String tooltip, IconData data, int count) {
   return Row(
