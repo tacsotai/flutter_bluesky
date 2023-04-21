@@ -5,6 +5,7 @@ import 'package:flutter_bluesky/screen/parts/timeline.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:tuple/tuple.dart';
 
+// https://blog.flutteruniv.com/flutter-infinity-scroll/
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
   static Screen screen = Screen(Home, const Icon(Icons.home_outlined));
@@ -29,74 +30,107 @@ class HomeScreen extends State<Home> with Base {
         bottomNavigationBar: menu(context));
   }
 
-  final _scrollController = ScrollController();
+  String? cursor;
+  List<Feed> feeds = [];
 
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        Future(() async {
-          await plugin.timeline(); // cursor指定
-        });
-      }
-    });
-  }
-
-  late String cursor;
-  late bool status;
-
-  Future<List<Feed>> getFeeds() async {
-    Tuple2 res = await plugin.timeline(); // TODO cursor
-    status = res.item1 == 200;
+  Future<void> getFeeds() async {
+    Tuple2 res = await plugin.timeline(cursor: cursor);
     cursor = res.item2["cursor"];
-    List<Feed> feeds = [];
+    List<Feed> list = [];
     for (var element in res.item2["feed"]) {
-      feeds.add(Feed(element));
+      list.add(Feed(element));
     }
-    // TODO append するコード
-    return feeds;
+    feeds.addAll(list);
   }
 
-  // https://zenn.dev/sqer/articles/db20a4d735fb7e5928ba
   Widget body(BuildContext context) {
     return FutureBuilder(
       future: getFeeds(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return _body(snapshot);
-        } else {
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
+        }
+        if (snapshot.hasError) {
+          return Text("Error: ${snapshot.error}");
+        } else {
+          return InfinityListView(
+            feeds: feeds,
+            getFeeds: getFeeds,
+          );
         }
       },
     );
   }
+}
 
-  Widget _body(snapshot) {
-    if (snapshot.hasError) {
-      return Text("Error: ${snapshot.error}");
-    }
-    if (!snapshot.hasData) {
-      return const Text("Not found the data.");
-    } else {
-      if (!status) {
-        return listsBody(Connecting(context).listview());
-      } else {
-        return scroll(snapshot.data); // normal case
+class InfinityListView extends StatefulWidget {
+  final List<Feed> feeds;
+  final Future<void> Function() getFeeds;
+
+  const InfinityListView({
+    Key? key,
+    required this.feeds,
+    required this.getFeeds,
+  }) : super(key: key);
+
+  @override
+  State<InfinityListView> createState() => _InfinityListViewState();
+}
+
+class _InfinityListViewState extends State<InfinityListView> {
+  //5
+  late ScrollController _scrollController;
+  //6
+  bool _isLoading = false;
+
+  //7
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(() async {
+      if (_scrollController.position.pixels >=
+              _scrollController.position.maxScrollExtent * 0.95 &&
+          !_isLoading) {
+        _isLoading = true;
+
+        await widget.getFeeds();
+
+        setState(() {
+          _isLoading = false;
+        });
       }
-    }
+    });
+    super.initState();
   }
 
-  Widget scroll(List<Feed> feeds) {
-    return Scrollbar(
+  //8
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      //9
       controller: _scrollController,
-      child: ListView.separated(
-        controller: _scrollController,
-        separatorBuilder: (context, index) => const Divider(height: 0.5),
-        itemCount: feeds.length,
-        itemBuilder: (context, index) => _build(feeds[index]),
+      //10
+      itemCount: widget.feeds.length + 1,
+      separatorBuilder: (BuildContext context, int index) => Container(
+        width: double.infinity,
+        height: 0.5,
+        color: Colors.grey,
       ),
+      itemBuilder: (BuildContext context, int index) {
+        //11
+        if (widget.feeds.length == index) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return _build(widget.feeds[index]);
+      },
     );
   }
 
