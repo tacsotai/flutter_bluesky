@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bluesky/api/model/feed.dart';
 
 Widget reply(BuildContext context, Post post) {
@@ -17,22 +18,26 @@ Widget interest(
     BuildContext context, String tooltip, IconData data, int count) {
   return Row(
     children: [
-      IconTheme(
-        data: const IconThemeData(color: Colors.grey),
-        child: Row(
-          children: [
-            IconButton(
-              tooltip: tooltip,
-              icon: Icon(data),
-              onPressed: () {},
-            )
-          ],
-        ),
-      ),
+      iconTheme(context, tooltip, data),
       Text(
         count.toString(),
         style: const TextStyle(color: Colors.grey),
       )
     ],
+  );
+}
+
+Widget iconTheme(BuildContext context, String tooltip, IconData data) {
+  return IconTheme(
+    data: const IconThemeData(color: Colors.grey),
+    child: Row(
+      children: [
+        IconButton(
+          tooltip: tooltip,
+          icon: Icon(data),
+          onPressed: () {},
+        )
+      ],
+    ),
   );
 }
