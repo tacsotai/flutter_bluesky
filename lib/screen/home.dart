@@ -6,6 +6,7 @@ import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:tuple/tuple.dart';
 
 // https://blog.flutteruniv.com/flutter-infinity-scroll/
+// https://api.flutter.dev/flutter/material/SliverAppBar-class.html
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
   static Screen screen = Screen(Home, const Icon(Icons.home_outlined));
@@ -15,16 +16,9 @@ class Home extends StatefulWidget {
 }
 
 class HomeScreen extends State<Home> with Base {
-  AppBar? appBar(BuildContext context) {
-    return AppBar(
-      title: Text(Home.screen.name),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBar(context),
         body: body(context),
         floatingActionButton: post(context),
         bottomNavigationBar: menu(context));
@@ -110,41 +104,51 @@ class _InfinityListViewState extends State<InfinityListView> {
     super.dispose();
   }
 
+  Widget appBar(BuildContext context) {
+    return SliverAppBar(
+      floating: true,
+      flexibleSpace: FlexibleSpaceBar(
+        title: Text(Home.screen.name),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      //9
+    return CustomScrollView(
+      semanticChildCount: widget.feeds.length,
       controller: _scrollController,
-      //10
-      itemCount: widget.feeds.length + 1,
-      separatorBuilder: (BuildContext context, int index) => Container(
-        width: double.infinity,
-        height: 0.5,
-        color: Colors.grey,
-      ),
-      itemBuilder: (BuildContext context, int index) {
-        //11
-        if (widget.feeds.length == index) {
-          return const SizedBox(
-            height: 50,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-        return _build(widget.feeds[index]);
-      },
+      slivers: [
+        appBar(context),
+        SliverList(
+            delegate: SliverChildBuilderDelegate(
+          childCount: widget.feeds.length + 1,
+          (BuildContext context, int index) {
+            if (widget.feeds.length == index) {
+              widget.getFeeds();
+              return const SizedBox(
+                height: 50,
+                child: Center(child: CircularProgressIndicator()),
+              );
+            }
+            return _build(widget.feeds[index]);
+          },
+        ))
+      ],
     );
   }
 
   Widget _build(Feed feed) {
     Timeline line = Timeline(context, feed);
-    return Container(
-      margin: const EdgeInsets.all(10),
-      child: Padding(
-        padding: const EdgeInsets.all(5),
-        child: line.build(),
+    return Column(children: [
+      Container(
+        margin: const EdgeInsets.all(10),
+        child: Padding(
+          padding: const EdgeInsets.all(5),
+          child: line.build(),
+        ),
       ),
-    );
+      const Divider(height: 0.5)
+    ]);
   }
 }
