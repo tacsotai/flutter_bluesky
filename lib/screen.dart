@@ -68,6 +68,15 @@ mixin Base {
     );
   }
 
+  List<BottomNavigationBarItem> bottomNavigationBarItems() {
+    return [
+      bottomNavigationBarItem(Home.screen),
+      bottomNavigationBarItem(Search.screen),
+      bottomNavigationBarItem(Notifications.screen),
+      bottomNavigationBarItem(Profile.screen),
+    ];
+  }
+
   BottomNavigationBarItem bottomNavigationBarItem(Screen screen) {
     return BottomNavigationBarItem(
       icon: screen.icon,

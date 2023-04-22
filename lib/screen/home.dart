@@ -4,6 +4,7 @@ import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/parts/timeline.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:tuple/tuple.dart';
+import 'package:flutter/rendering.dart';
 
 // https://blog.flutteruniv.com/flutter-infinity-scroll/
 // https://api.flutter.dev/flutter/material/SliverAppBar-class.html
@@ -15,13 +16,45 @@ class Home extends StatefulWidget {
   HomeScreen createState() => HomeScreen();
 }
 
-class HomeScreen extends State<Home> with Base {
+class HomeScreen extends State<Home> with Base, SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _height;
+  int _selectedIndex = 0;
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    )..addListener(() {});
+
+    _height = Tween<double>(begin: 0, end: 100).animate(_animationController);
+  }
+
+  void hide(bool flg) {
+    if (flg) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: body(context),
-        floatingActionButton: post(context),
-        bottomNavigationBar: menu(context));
+      body: body(context),
+      floatingActionButton: Container(
+          // margin: const EdgeInsets.only(bottom: 70),
+          padding: const EdgeInsets.only(bottom: 70),
+          child: post(context)),
+    );
   }
 
   String? cursor;
@@ -47,24 +80,55 @@ class HomeScreen extends State<Home> with Base {
         if (snapshot.hasError) {
           return Text("Error: ${snapshot.error}");
         } else {
-          return InfinityListView(
-            feeds: feeds,
-            getFeeds: getFeeds,
-          );
+          return Stack(children: [
+            InfinityListView(
+              feeds: feeds,
+              getFeeds: getFeeds,
+              hide: hide,
+            ),
+            bottom(),
+          ]);
         }
       },
     );
+  }
+
+  Widget bottom() {
+    return Positioned(
+        bottom: 0,
+        left: 0,
+        right: 0,
+        child: AnimatedBuilder(
+          animation: _height,
+          builder: (BuildContext context, Widget? child) {
+            return Transform.translate(
+              offset: Offset(0, _height.value),
+              child: BottomNavigationBar(
+                currentIndex: _selectedIndex,
+                onTap: (index) {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                },
+                type: BottomNavigationBarType.fixed,
+                items: bottomNavigationBarItems(),
+              ),
+            );
+          },
+        ));
   }
 }
 
 class InfinityListView extends StatefulWidget {
   final List<Feed> feeds;
   final Future<void> Function() getFeeds;
+  final void Function(bool) hide;
 
   const InfinityListView({
     Key? key,
     required this.feeds,
     required this.getFeeds,
+    required this.hide,
   }) : super(key: key);
 
   @override
@@ -73,13 +137,25 @@ class InfinityListView extends StatefulWidget {
 
 class _InfinityListViewState extends State<InfinityListView> {
   late ScrollController _scrollController;
-
-  bool _isLoading = false;
+  bool isHidden = false;
 
   @override
   void initState() {
+    super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(() async {
+      if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
+        if (!isHidden) {
+          widget.hide(true);
+          isHidden = true;
+        }
+      } else {
+        if (isHidden) {
+          widget.hide(false);
+          isHidden = false;
+        }
+      }
       if (_scrollController.position.pixels >=
               _scrollController.position.maxScrollExtent * 0.95 &&
           !_isLoading) {
@@ -92,7 +168,6 @@ class _InfinityListViewState extends State<InfinityListView> {
         });
       }
     });
-    super.initState();
   }
 
   @override
@@ -100,6 +175,8 @@ class _InfinityListViewState extends State<InfinityListView> {
     _scrollController.dispose();
     super.dispose();
   }
+
+  bool _isLoading = false;
 
   Widget appBar(BuildContext context) {
     return SliverAppBar(
