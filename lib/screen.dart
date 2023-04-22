@@ -36,37 +36,6 @@ mixin Base {
     );
   }
 
-  Widget menu(BuildContext context) {
-    return BottomAppBar(
-      // shape: shape
-      color: Theme.of(context).colorScheme.onPrimary,
-      child: IconTheme(
-        data: IconThemeData(color: Theme.of(context).colorScheme.primary),
-        child: Row(
-          children: <Widget>[
-            _link(context, Home.screen),
-            const Spacer(),
-            _link(context, Search.screen),
-            const Spacer(),
-            _link(context, Notifications.screen),
-            const Spacer(),
-            _link(context, Profile.screen),
-          ],
-        ),
-      ),
-    );
-  }
-
-  IconButton _link(BuildContext context, Screen screen) {
-    return IconButton(
-      iconSize: 35,
-      tooltip: tr(screen.name),
-      icon: screen.icon,
-      onPressed: () {
-        push(context, screen.route);
-      },
-    );
-  }
 
   List<BottomNavigationBarItem> bottomNavigationBarItems() {
     return [
