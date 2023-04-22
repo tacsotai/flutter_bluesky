@@ -72,12 +72,10 @@ class InfinityListView extends StatefulWidget {
 }
 
 class _InfinityListViewState extends State<InfinityListView> {
-  //5
   late ScrollController _scrollController;
-  //6
+
   bool _isLoading = false;
 
-  //7
   @override
   void initState() {
     _scrollController = ScrollController();
@@ -97,7 +95,6 @@ class _InfinityListViewState extends State<InfinityListView> {
     super.initState();
   }
 
-  //8
   @override
   void dispose() {
     _scrollController.dispose();
