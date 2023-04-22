@@ -3,8 +3,7 @@ import 'package:flutter_bluesky/screen.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
-  static Screen screen =
-      Screen(Profile, const Icon(Icons.person_outline_rounded));
+  static Screen screen = Screen(Profile, const Icon(Icons.person));
   @override
   ProfileeScreen createState() => ProfileeScreen();
 }

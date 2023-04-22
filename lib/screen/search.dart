@@ -3,7 +3,7 @@ import 'package:flutter_bluesky/screen.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
-  static Screen screen = Screen(Search, const Icon(Icons.search_outlined));
+  static Screen screen = Screen(Search, const Icon(Icons.search));
   @override
   SearcheScreen createState() => SearcheScreen();
 }

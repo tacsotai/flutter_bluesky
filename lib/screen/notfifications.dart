@@ -3,8 +3,7 @@ import 'package:flutter_bluesky/screen.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);
-  static Screen screen =
-      Screen(Notifications, const Icon(Icons.notifications_outlined));
+  static Screen screen = Screen(Notifications, const Icon(Icons.notifications));
 
   @override
   NotificationsScreen createState() => NotificationsScreen();

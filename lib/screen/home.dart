@@ -9,7 +9,7 @@ import 'package:tuple/tuple.dart';
 // https://api.flutter.dev/flutter/material/SliverAppBar-class.html
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
-  static Screen screen = Screen(Home, const Icon(Icons.home_outlined));
+  static Screen screen = Screen(Home, const Icon(Icons.home));
 
   @override
   HomeScreen createState() => HomeScreen();
