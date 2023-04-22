@@ -36,6 +36,7 @@ mixin Base {
     );
   }
 
+  int selectedIndex = 0;
 
   List<BottomNavigationBarItem> bottomNavigationBarItems() {
     return [
