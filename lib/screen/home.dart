@@ -19,7 +19,7 @@ class Home extends StatefulWidget {
 class HomeScreen extends State<Home> with Base, SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _height;
-  int _selectedIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -104,10 +104,10 @@ class HomeScreen extends State<Home> with Base, SingleTickerProviderStateMixin {
             return Transform.translate(
               offset: Offset(0, _height.value),
               child: BottomNavigationBar(
-                currentIndex: _selectedIndex,
+                currentIndex: selectedIndex,
                 onTap: (index) {
                   setState(() {
-                    _selectedIndex = index;
+                    selectedIndex = index;
                   });
                 },
                 type: BottomNavigationBarType.fixed,
