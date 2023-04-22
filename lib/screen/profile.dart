@@ -21,6 +21,15 @@ class ProfileeScreen extends State<Profile> with Base {
         appBar: appBar(context),
         body: Text('TODO Implement'),
         floatingActionButton: post(context),
-        bottomNavigationBar: menu(context));
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: selectedIndex,
+          onTap: (index) {
+            setState(() {
+              selectedIndex = index;
+            });
+          },
+          type: BottomNavigationBarType.fixed,
+          items: bottomNavigationBarItems(),
+        ));
   }
 }
