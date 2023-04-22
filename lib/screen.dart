@@ -67,6 +67,14 @@ mixin Base {
       },
     );
   }
+
+  BottomNavigationBarItem bottomNavigationBarItem(Screen screen) {
+    return BottomNavigationBarItem(
+      icon: screen.icon,
+      label: tr(screen.name),
+      tooltip: tr(screen.name),
+    );
+  }
 }
 
 class Screen {
