@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
-import 'package:tuple/tuple.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);

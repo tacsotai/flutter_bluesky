@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
-import 'package:tuple/tuple.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
