@@ -26,7 +26,7 @@ class HomeScreen extends State<Home> with Base, SingleTickerProviderStateMixin {
 
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 100),
     )..addListener(() {});
 
     _height = Tween<double>(begin: 0, end: 100).animate(_animationController);
