@@ -52,7 +52,7 @@ class HomeScreen extends State<Home> with Base, SingleTickerProviderStateMixin {
       body: body(context),
       floatingActionButton: Container(
           // margin: const EdgeInsets.only(bottom: 70),
-          padding: const EdgeInsets.only(bottom: 70),
+          padding: const EdgeInsets.only(bottom: 50),
           child: post(context)),
     );
   }
