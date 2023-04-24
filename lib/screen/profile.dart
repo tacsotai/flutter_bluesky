@@ -3,10 +3,10 @@ import 'package:flutter_bluesky/screen.dart';
 
 class Profile extends StatefulWidget {
   static Screen screen = Screen(Profile, const Icon(Icons.person));
-  const Profile({Key? key, required this.bottom, required this.hide})
+  const Profile({Key? key, required this.bottom, required this.hideBottom})
       : super(key: key);
   final Widget bottom;
-  final void Function(bool) hide;
+  final void Function(bool) hideBottom;
 
   @override
   ProfileeScreen createState() => ProfileeScreen();

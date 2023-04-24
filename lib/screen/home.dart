@@ -11,10 +11,10 @@ import 'package:flutter/rendering.dart';
 // https://api.flutter.dev/flutter/material/SliverAppBar-class.html
 class Home extends StatefulWidget {
   static Screen screen = Screen(Home, const Icon(Icons.home));
-  const Home({Key? key, required this.bottom, required this.hide})
+  const Home({Key? key, required this.bottom, required this.hideBottom})
       : super(key: key);
   final Widget bottom;
-  final void Function(bool) hide;
+  final void Function(bool) hideBottom;
 
   @override
   HomeScreen createState() => HomeScreen();
@@ -47,7 +47,7 @@ class HomeScreen extends State<Home> with Frame {
             return InfinityListView(
               feeds: feeds,
               getFeeds: getFeeds,
-              hide: widget.hide,
+              hide: widget.hideBottom,
             );
           }
         });

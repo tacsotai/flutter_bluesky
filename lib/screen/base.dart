@@ -31,7 +31,7 @@ class BaseScreen extends State<Base>
     _height = Tween<double>(begin: 0, end: 100).animate(_animationController);
   }
 
-  void hide(bool flg) {
+  void hideBottom(bool flg) {
     if (flg) {
       _animationController.forward();
     } else {
@@ -51,15 +51,15 @@ class BaseScreen extends State<Base>
   Widget build(BuildContext context) {
     switch (_selectedIndex) {
       case 0:
-        return Home(bottom: bottom, hide: hide);
+        return Home(bottom: bottom, hideBottom: hideBottom);
       case 1:
-        return Search(bottom: bottom, hide: hide);
+        return Search(bottom: bottom, hideBottom: hideBottom);
       case 2:
-        return Notifications(bottom: bottom, hide: hide);
+        return Notifications(bottom: bottom, hideBottom: hideBottom);
       case 3:
-        return Profile(bottom: bottom, hide: hide);
+        return Profile(bottom: bottom, hideBottom: hideBottom);
       default:
-        return Home(bottom: bottom, hide: hide);
+        return Home(bottom: bottom, hideBottom: hideBottom);
     }
   }
 
