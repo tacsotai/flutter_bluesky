@@ -14,8 +14,7 @@ class Base extends StatefulWidget {
   BaseScreen createState() => BaseScreen();
 }
 
-class BaseScreen extends State<Base>
-    with Frame, SingleTickerProviderStateMixin {
+class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _height;
 

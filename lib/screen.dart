@@ -10,13 +10,15 @@ void push(BuildContext context, String screenName) {
   Navigator.pushNamed(context, screenName);
 }
 
+Widget listsBody(List<Widget> widgets) {
+  return Column(
+    mainAxisSize: MainAxisSize.max,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: widgets,
+  );
+}
+
 mixin Frame {
-  Widget listsBody(List<Widget> widgets) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: widgets,
-    );
   }
 
   Widget post(BuildContext context) {
