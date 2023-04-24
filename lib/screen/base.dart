@@ -47,14 +47,6 @@ class BaseScreen extends State<Base>
 
   int selectedIndex = 0;
 
-  BottomNavigationBarItem bottomNavigationBarItem(Screen screen) {
-    return BottomNavigationBarItem(
-      icon: screen.icon,
-      label: tr(screen.name),
-      tooltip: tr(screen.name),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     switch (selectedIndex) {
@@ -99,5 +91,13 @@ class BaseScreen extends State<Base>
             );
           },
         ));
+  }
+
+  BottomNavigationBarItem bottomNavigationBarItem(Screen screen) {
+    return BottomNavigationBarItem(
+      icon: screen.icon,
+      label: tr(screen.name),
+      tooltip: tr(screen.name),
+    );
   }
 }
