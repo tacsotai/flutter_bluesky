@@ -66,7 +66,6 @@ class BaseScreen extends State<Base>
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("selectedIndex: $selectedIndex");
     switch (selectedIndex) {
       case 0:
         return Home(bottom: bottom, hide: hide);
@@ -95,7 +94,6 @@ class BaseScreen extends State<Base>
                 currentIndex: selectedIndex,
                 onTap: (index) {
                   setState(() {
-                    debugPrint("selectedIndex2: $selectedIndex");
                     selectedIndex = index;
                   });
                 },
