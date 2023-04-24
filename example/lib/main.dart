@@ -35,8 +35,6 @@ class MainApp extends StatelessWidget {
         LoginScreen.route: (context) => const LoginScreen(),
         Home.screen.route: (context) => const Home(),
         Post.screen.route: (context) => const Post(),
-
-        // Clinical on menu
       },
     );
   }
