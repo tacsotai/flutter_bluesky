@@ -13,23 +13,16 @@ class Search extends StatefulWidget {
 }
 
 class SearcheScreen extends State<Search> with Frame {
-  AppBar? appBar(BuildContext context) {
-    return AppBar(
-      title: const Text('Search'),
+  @override
+  Widget build(BuildContext context) {
+    return scaffold(
+      context,
+      bottom: widget.bottom,
+      isPost: false,
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBar(context),
-      body: Stack(children: [
-        body(),
-        widget.bottom,
-      ]),
-    );
-  }
-
   Widget body() {
     return Center(child: Text("screen: ${Search.screen.name}"));
   }

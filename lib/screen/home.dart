@@ -23,17 +23,15 @@ class Home extends StatefulWidget {
 class HomeScreen extends State<Home> with Frame {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(children: [
-        body(),
-        widget.bottom,
-      ]),
-      floatingActionButton: Container(
-          padding: const EdgeInsets.only(bottom: 50), child: post(context)),
-      drawer: const Drawer(),
+    return scaffold(
+      context,
+      bottom: widget.bottom,
+      isPost: true,
+      drawer: const Drawer(), // TODO
     );
   }
 
+  @override
   Widget body() {
     return FutureBuilder(
         future: getFeeds(false),

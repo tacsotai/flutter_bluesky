@@ -13,25 +13,16 @@ class Profile extends StatefulWidget {
 }
 
 class ProfileeScreen extends State<Profile> with Frame {
-  AppBar? appBar(BuildContext context) {
-    return AppBar(
-      title: const Text('Profile'),
+  @override
+  Widget build(BuildContext context) {
+    return scaffold(
+      context,
+      bottom: widget.bottom,
+      isPost: true,
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBar(context),
-      body: Stack(children: [
-        body(),
-        widget.bottom,
-      ]),
-      floatingActionButton: Container(
-          padding: const EdgeInsets.only(bottom: 50), child: post(context)),
-    );
-  }
-
   Widget body() {
     return Center(child: Text("screen: ${Profile.screen.name}"));
   }

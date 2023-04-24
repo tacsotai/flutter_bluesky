@@ -14,23 +14,16 @@ class Notifications extends StatefulWidget {
 }
 
 class NotificationsScreen extends State<Notifications> with Frame {
-  AppBar? appBar(BuildContext context) {
-    return AppBar(
-      title: const Text('Notifications'),
+  @override
+  Widget build(BuildContext context) {
+    return scaffold(
+      context,
+      bottom: widget.bottom,
+      isPost: false,
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBar(context),
-      body: Stack(children: [
-        body(),
-        widget.bottom,
-      ]),
-    );
-  }
-
   Widget body() {
     return Center(child: Text("screen: ${Notifications.screen.name}"));
   }

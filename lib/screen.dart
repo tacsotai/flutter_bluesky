@@ -19,7 +19,32 @@ Widget listsBody(List<Widget> widgets) {
 }
 
 mixin Frame {
+  Widget scaffold(BuildContext context,
+      {required Widget? bottom, required bool isPost, drawer}) {
+    if (bottom == null) {
+      return body();
+    } else {
+      return Scaffold(
+        body: Stack(children: [
+          body(),
+          bottom,
+        ]),
+        floatingActionButton: floatingActionButton(context, isPost),
+        drawer: drawer,
+      );
+    }
   }
+
+  Widget? floatingActionButton(BuildContext context, bool isPost) {
+    if (isPost) {
+      return Container(
+          padding: const EdgeInsets.only(bottom: 50), child: post(context));
+    } else {
+      return null;
+    }
+  }
+
+  Widget body();
 
   Widget post(BuildContext context) {
     return FloatingActionButton(
