@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
   static Screen screen = Screen(Profile, const Icon(Icons.person));
+  const Profile({Key? key, required this.bottom, required this.hide})
+      : super(key: key);
+  final Widget bottom;
+  final void Function(bool) hide;
+
   @override
   ProfileeScreen createState() => ProfileeScreen();
 }
@@ -18,18 +22,17 @@ class ProfileeScreen extends State<Profile> with Frame {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBar(context),
-        body: Text('TODO Implement'),
-        floatingActionButton: post(context),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: selectedIndex,
-          onTap: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-          },
-          type: BottomNavigationBarType.fixed,
-          items: bottomNavigationBarItems(),
-        ));
+      appBar: appBar(context),
+      body: Stack(children: [
+        body(),
+        widget.bottom,
+      ]),
+      floatingActionButton: Container(
+          padding: const EdgeInsets.only(bottom: 50), child: post(context)),
+    );
+  }
+
+  Widget body() {
+    return Center(child: Text("screen: ${Profile.screen.name}"));
   }
 }

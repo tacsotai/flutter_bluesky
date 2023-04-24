@@ -42,6 +42,25 @@ class BaseScreen extends State<Base>
     super.dispose();
   }
 
+  int selectedIndex = 0;
+
+  List<BottomNavigationBarItem> bottomNavigationBarItems() {
+    return [
+      bottomNavigationBarItem(Home.screen),
+      bottomNavigationBarItem(Search.screen),
+      bottomNavigationBarItem(Notifications.screen),
+      bottomNavigationBarItem(Profile.screen),
+    ];
+  }
+
+  BottomNavigationBarItem bottomNavigationBarItem(Screen screen) {
+    return BottomNavigationBarItem(
+      icon: screen.icon,
+      label: tr(screen.name),
+      tooltip: tr(screen.name),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     switch (selectedIndex) {

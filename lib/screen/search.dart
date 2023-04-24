@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
 
 class Search extends StatefulWidget {
-  const Search({Key? key}) : super(key: key);
   static Screen screen = Screen(Search, const Icon(Icons.search));
+  const Search({Key? key, required this.bottom, required this.hide})
+      : super(key: key);
+  final Widget bottom;
+  final void Function(bool) hide;
+
   @override
   SearcheScreen createState() => SearcheScreen();
 }
@@ -18,18 +22,15 @@ class SearcheScreen extends State<Search> with Frame {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBar(context),
-        body: Text('TODO Implement'),
-        floatingActionButton: post(context),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: selectedIndex,
-          onTap: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-          },
-          type: BottomNavigationBarType.fixed,
-          items: bottomNavigationBarItems(),
-        ));
+      appBar: appBar(context),
+      body: Stack(children: [
+        body(),
+        widget.bottom,
+      ]),
+    );
+  }
+
+  Widget body() {
+    return Center(child: Text("screen: ${Search.screen.name}"));
   }
 }
