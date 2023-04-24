@@ -11,7 +11,7 @@ class Post extends StatefulWidget {
   PostScreen createState() => PostScreen();
 }
 
-class PostScreen extends State<Post> with Base {
+class PostScreen extends State<Post> with Frame {
   final GlobalKey<FormState> _formKey = GlobalKey();
   String _text = "";
 

@@ -15,7 +15,7 @@ class Provider extends StatefulWidget {
   ProviderScreen createState() => ProviderScreen();
 }
 
-class ProviderScreen extends State<Provider> with Base {
+class ProviderScreen extends State<Provider> with Frame {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   @override

@@ -8,7 +8,7 @@ class Search extends StatefulWidget {
   SearcheScreen createState() => SearcheScreen();
 }
 
-class SearcheScreen extends State<Search> with Base {
+class SearcheScreen extends State<Search> with Frame {
   AppBar? appBar(BuildContext context) {
     return AppBar(
       title: const Text('Search'),

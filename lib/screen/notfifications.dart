@@ -9,7 +9,7 @@ class Notifications extends StatefulWidget {
   NotificationsScreen createState() => NotificationsScreen();
 }
 
-class NotificationsScreen extends State<Notifications> with Base {
+class NotificationsScreen extends State<Notifications> with Frame {
   AppBar? appBar(BuildContext context) {
     return AppBar(
       title: const Text('Notifications'),

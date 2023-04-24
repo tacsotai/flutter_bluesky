@@ -17,7 +17,8 @@ class Home extends StatefulWidget {
   HomeScreen createState() => HomeScreen();
 }
 
-class HomeScreen extends State<Home> with Base, SingleTickerProviderStateMixin {
+class HomeScreen extends State<Home>
+    with Frame, SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _height;
 

@@ -8,7 +8,7 @@ class Profile extends StatefulWidget {
   ProfileeScreen createState() => ProfileeScreen();
 }
 
-class ProfileeScreen extends State<Profile> with Base {
+class ProfileeScreen extends State<Profile> with Frame {
   AppBar? appBar(BuildContext context) {
     return AppBar(
       title: const Text('Profile'),

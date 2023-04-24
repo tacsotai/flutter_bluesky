@@ -14,7 +14,7 @@ void push(BuildContext context, String screenName) {
   Navigator.pushNamed(context, screenName);
 }
 
-mixin Base {
+mixin Frame {
   Widget listsBody(List<Widget> widgets) {
     return Column(
       mainAxisSize: MainAxisSize.max,
