@@ -81,24 +81,28 @@ class HomeScreen extends State<Home> with Base, SingleTickerProviderStateMixin {
 
   Widget body(BuildContext context) {
     return Stack(children: [
-      FutureBuilder(
-          future: getFeeds(false),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (snapshot.hasError) {
-              return Text("Error: ${snapshot.error}");
-            } else {
-              return InfinityListView(
-                feeds: feeds,
-                getFeeds: getFeeds,
-                hide: hide,
-              );
-            }
-          }),
+      future(),
       bottom(),
     ]);
+  }
+
+  Widget future() {
+    return FutureBuilder(
+        future: getFeeds(false),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Text("Error: ${snapshot.error}");
+          } else {
+            return InfinityListView(
+              feeds: feeds,
+              getFeeds: getFeeds,
+              hide: hide,
+            );
+          }
+        });
   }
 
   Widget bottom() {
