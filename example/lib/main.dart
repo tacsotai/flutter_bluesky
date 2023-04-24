@@ -3,7 +3,6 @@ import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/screen/post.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
-import 'package:flutter_bluesky/screen/home.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/transition_route_observer.dart';
 
