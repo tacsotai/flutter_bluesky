@@ -10,54 +10,47 @@ import 'package:flutter/rendering.dart';
 // https://blog.flutteruniv.com/flutter-infinity-scroll/
 // https://api.flutter.dev/flutter/material/SliverAppBar-class.html
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
   static Screen screen = Screen(Home, const Icon(Icons.home));
+  const Home({Key? key, required this.bottom, required this.hide})
+      : super(key: key);
+  final Widget bottom;
+  final void Function(bool) hide;
 
   @override
   HomeScreen createState() => HomeScreen();
 }
 
-class HomeScreen extends State<Home>
-    with Frame, SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _height;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 100),
-    )..addListener(() {});
-
-    _height = Tween<double>(begin: 0, end: 100).animate(_animationController);
-  }
-
-  void hide(bool flg) {
-    if (flg) {
-      _animationController.forward();
-    } else {
-      _animationController.reverse();
-    }
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
-
+class HomeScreen extends State<Home> with Frame {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: body(context),
+      body: Stack(children: [
+        body(),
+        widget.bottom,
+      ]),
       floatingActionButton: Container(
-          // margin: const EdgeInsets.only(bottom: 70),
-          padding: const EdgeInsets.only(bottom: 50),
-          child: post(context)),
+          padding: const EdgeInsets.only(bottom: 50), child: post(context)),
       drawer: const Drawer(),
     );
+  }
+
+  Widget body() {
+    return FutureBuilder(
+        future: getFeeds(false),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Text("Error: ${snapshot.error}");
+          } else {
+            return InfinityListView(
+              feeds: feeds,
+              getFeeds: getFeeds,
+              hide: widget.hide,
+            );
+          }
+        });
   }
 
   String? cursor;
@@ -78,67 +71,6 @@ class HomeScreen extends State<Home>
     } else {
       feeds.addAll(list);
     }
-  }
-
-  Widget body(BuildContext context) {
-    Widget? part;
-    if (selectedIndex == 0) {
-      part = future();
-    } else {
-      part = center();
-    }
-    return Stack(children: [
-      part,
-      bottom(),
-    ]);
-  }
-
-  Widget center() {
-    return Center(child: Text("screen: $selectedIndex"));
-  }
-
-  Widget future() {
-    return FutureBuilder(
-        future: getFeeds(false),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Text("Error: ${snapshot.error}");
-          } else {
-            return InfinityListView(
-              feeds: feeds,
-              getFeeds: getFeeds,
-              hide: hide,
-            );
-          }
-        });
-  }
-
-  Widget bottom() {
-    return Positioned(
-        bottom: 0,
-        left: 0,
-        right: 0,
-        child: AnimatedBuilder(
-          animation: _height,
-          builder: (BuildContext context, Widget? child) {
-            return Transform.translate(
-              offset: Offset(0, _height.value),
-              child: BottomNavigationBar(
-                currentIndex: selectedIndex,
-                onTap: (index) {
-                  setState(() {
-                    selectedIndex = index;
-                  });
-                },
-                type: BottomNavigationBarType.fixed,
-                items: bottomNavigationBarItems(),
-              ),
-            );
-          },
-        ));
   }
 }
 
