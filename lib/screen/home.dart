@@ -54,7 +54,7 @@ class HomeScreen extends State<Home> with Frame {
   List<Feed> feeds = [];
 
   Future<void> getFeeds(bool insert) async {
-    Tuple2 res = await plugin.timeline(cursor: cursor);
+    Tuple2 res = await plugin.timeline(cursor: insert ? null : cursor);
     cursor = res.item2["cursor"];
     List<Feed> list = [];
     for (var element in res.item2["feed"]) {
