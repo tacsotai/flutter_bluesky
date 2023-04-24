@@ -4,7 +4,7 @@ import 'package:flutter_bluesky/screen/home.dart';
 import 'package:flutter_bluesky/screen/search.dart';
 
 class Base extends StatefulWidget {
-  static String route = "";
+  static String route = "/";
   const Base({Key? key}) : super(key: key);
 
   @override
