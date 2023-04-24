@@ -80,10 +80,20 @@ class HomeScreen extends State<Home> with Base, SingleTickerProviderStateMixin {
   }
 
   Widget body(BuildContext context) {
+    Widget? part;
+    if (selectedIndex == 0) {
+      part = future();
+    } else {
+      part = center();
+    }
     return Stack(children: [
-      future(),
+      part,
       bottom(),
     ]);
+  }
+
+  Widget center() {
+    return Center(child: Text("screen: $selectedIndex"));
   }
 
   Widget future() {
