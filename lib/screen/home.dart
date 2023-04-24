@@ -55,6 +55,7 @@ class HomeScreen extends State<Home> with Base, SingleTickerProviderStateMixin {
           // margin: const EdgeInsets.only(bottom: 70),
           padding: const EdgeInsets.only(bottom: 50),
           child: post(context)),
+      drawer: const Drawer(),
     );
   }
 
