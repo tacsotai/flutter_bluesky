@@ -1,6 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/home.dart';
+import 'package:flutter_bluesky/screen/notfifications.dart';
+import 'package:flutter_bluesky/screen/profile.dart';
 import 'package:flutter_bluesky/screen/search.dart';
 
 class Base extends StatefulWidget {
@@ -63,23 +66,19 @@ class BaseScreen extends State<Base>
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("selectedIndex: $selectedIndex");
     switch (selectedIndex) {
+      case 0:
+        return Home(bottom: bottom, hide: hide);
       case 1:
-        return search();
+        return Search(bottom: bottom, hide: hide);
+      case 2:
+        return Notifications(bottom: bottom, hide: hide);
+      case 3:
+        return Profile(bottom: bottom, hide: hide);
       default:
         return Home(bottom: bottom, hide: hide);
     }
-  }
-
-  Widget search() {
-    return Scaffold(
-      appBar: AppBar(), //TODO
-      body: const Search(),
-    );
-  }
-
-  Widget center() {
-    return Center(child: Text("screen: $selectedIndex"));
   }
 
   Widget get bottom {
@@ -96,6 +95,7 @@ class BaseScreen extends State<Base>
                 currentIndex: selectedIndex,
                 onTap: (index) {
                   setState(() {
+                    debugPrint("selectedIndex2: $selectedIndex");
                     selectedIndex = index;
                   });
                 },
