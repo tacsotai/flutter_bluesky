@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
+import 'package:flutter_bluesky/screen/parts/refresh/cupertino.dart';
 import 'package:flutter_bluesky/screen/parts/timeline.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:tuple/tuple.dart';
@@ -60,19 +61,26 @@ class HomeScreen extends State<Home> with Base, SingleTickerProviderStateMixin {
   String? cursor;
   List<Feed> feeds = [];
 
-  Future<void> getFeeds() async {
+  Future<void> getFeeds(bool insert) async {
     Tuple2 res = await plugin.timeline(cursor: cursor);
     cursor = res.item2["cursor"];
     List<Feed> list = [];
     for (var element in res.item2["feed"]) {
       list.add(Feed(element));
     }
-    feeds.addAll(list);
+    if (insert) {
+      feeds.insertAll(0, list);
+      // for (var feed in feeds) {
+      //   debugPrint("displayName: ${feed.post.author.displayName}");
+      // }
+    } else {
+      feeds.addAll(list);
+    }
   }
 
   Widget body(BuildContext context) {
     return FutureBuilder(
-      future: getFeeds(),
+      future: getFeeds(false),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -121,7 +129,7 @@ class HomeScreen extends State<Home> with Base, SingleTickerProviderStateMixin {
 
 class InfinityListView extends StatefulWidget {
   final List<Feed> feeds;
-  final Future<void> Function() getFeeds;
+  final Future<void> Function(bool) getFeeds;
   final void Function(bool) hide;
 
   const InfinityListView({
@@ -161,7 +169,7 @@ class _InfinityListViewState extends State<InfinityListView> {
           !_isLoading) {
         _isLoading = true;
 
-        await widget.getFeeds();
+        await widget.getFeeds(false);
 
         setState(() {
           _isLoading = false;
@@ -190,16 +198,25 @@ class _InfinityListViewState extends State<InfinityListView> {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      physics: const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
       semanticChildCount: widget.feeds.length,
       controller: _scrollController,
       slivers: [
         appBar(context),
+        SliverRefreshControl(
+          onRefresh: () async {
+            await widget.getFeeds(true);
+            setState(() {});
+          },
+        ),
         SliverList(
             delegate: SliverChildBuilderDelegate(
           childCount: widget.feeds.length + 1,
           (BuildContext context, int index) {
             if (widget.feeds.length == index) {
-              widget.getFeeds();
+              widget.getFeeds(false);
               return const SizedBox(
                 height: 50,
                 child: Center(child: CircularProgressIndicator()),
