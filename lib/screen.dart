@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/notfifications.dart';
 import 'package:flutter_bluesky/screen/profile.dart';
 import 'package:flutter_bluesky/screen/search.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_bluesky/screen/post.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 Widget homeScreen(BuildContext context) {
-  return const Home();
+  return const Base(); // TODO
 }
 
 void push(BuildContext context, String screenName) {
