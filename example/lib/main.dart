@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/login.dart';
-import 'package:flutter_bluesky/screen/notfifications.dart';
 import 'package:flutter_bluesky/screen/post.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
-import 'package:flutter_bluesky/screen/search.dart';
 import 'package:flutter_bluesky/screen/home.dart';
-import 'package:flutter_bluesky/screen/profile.dart';
 import 'package:flutter_bluesky/transition_route_observer.dart';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -37,9 +34,6 @@ class MainApp extends StatelessWidget {
         Provider.screen.route: (context) => const Provider(),
         LoginScreen.route: (context) => const LoginScreen(),
         Home.screen.route: (context) => const Home(),
-        Search.screen.route: (context) => const Search(),
-        Notifications.screen.route: (context) => const Notifications(),
-        Profile.screen.route: (context) => const Profile(),
         Post.screen.route: (context) => const Post(),
 
         // Clinical on menu
