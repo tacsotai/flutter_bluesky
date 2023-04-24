@@ -45,11 +45,11 @@ class BaseScreen extends State<Base>
     super.dispose();
   }
 
-  int selectedIndex = 0;
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    switch (selectedIndex) {
+    switch (_selectedIndex) {
       case 0:
         return Home(bottom: bottom, hide: hide);
       case 1:
@@ -74,18 +74,18 @@ class BaseScreen extends State<Base>
             return Transform.translate(
               offset: Offset(0, _height.value),
               child: BottomNavigationBar(
-                currentIndex: selectedIndex,
+                currentIndex: _selectedIndex,
                 onTap: (index) {
                   setState(() {
-                    selectedIndex = index;
+                    _selectedIndex = index;
                   });
                 },
                 type: BottomNavigationBarType.fixed,
                 items: [
-                  bottomNavigationBarItem(Home.screen),
-                  bottomNavigationBarItem(Search.screen),
-                  bottomNavigationBarItem(Notifications.screen),
-                  bottomNavigationBarItem(Profile.screen),
+                  _bottomNavigationBarItem(Home.screen),
+                  _bottomNavigationBarItem(Search.screen),
+                  _bottomNavigationBarItem(Notifications.screen),
+                  _bottomNavigationBarItem(Profile.screen),
                 ],
               ),
             );
@@ -93,7 +93,7 @@ class BaseScreen extends State<Base>
         ));
   }
 
-  BottomNavigationBarItem bottomNavigationBarItem(Screen screen) {
+  BottomNavigationBarItem _bottomNavigationBarItem(Screen screen) {
     return BottomNavigationBarItem(
       icon: screen.icon,
       label: tr(screen.name),
