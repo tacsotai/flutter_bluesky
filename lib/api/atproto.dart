@@ -59,7 +59,7 @@ abstract class Atproto {
   Future<Tuple2> createRecord(
       String repo, String collection, Map<String, dynamic> record) async {
     http.Response res =
-        await api.post("com.atproto.server.createRecord", headers: {
+        await api.post("com.atproto.repo.createRecord", headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer ${api.session.accessJwt}"
     }, body: {
