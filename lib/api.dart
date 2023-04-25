@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/session.dart';
 
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 // discard API when use another provider.
 class API {
@@ -22,15 +21,12 @@ class API {
   }
 
   Future<http.Response> post(String uri,
-      {required Map<String, String> headers,
-      Map<String, dynamic>? body}) async {
+      {required Map<String, String> headers, Object? body}) async {
     Uri url = _uri(uri);
-    headers["Content-Type"] = "application/json";
-    debugPrint('body: $body');
     debugPrint("headers: $headers");
     debugPrint('url: ${url.toString()}');
     http.Response res = await http
-        .post(url, headers: headers, body: json.encode(body))
+        .post(url, headers: headers, body: body)
         .timeout(const Duration(seconds: 5)); // TODO asset config
     return res;
   }

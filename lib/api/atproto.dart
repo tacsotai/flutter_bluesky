@@ -22,7 +22,8 @@ abstract class Atproto {
     // TODO format check for handle.
     http.Response res = await api.post("com.atproto.server.createAccount",
         headers: {"Content-Type": "application/json"},
-        body: {"email": email, "handle": handle, "password": password});
+        body: json
+            .encode({"email": email, "handle": handle, "password": password}));
 
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
@@ -33,7 +34,7 @@ abstract class Atproto {
     // TODO format check for handle.
     http.Response res = await api.post("com.atproto.server.createSession",
         headers: {"Content-Type": "application/json"},
-        body: {"identifier": identifier, "password": password});
+        body: json.encode({"identifier": identifier, "password": password}));
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
@@ -58,15 +59,13 @@ abstract class Atproto {
 
   Future<Tuple2> createRecord(
       String repo, String collection, Map<String, dynamic> record) async {
-    http.Response res =
-        await api.post("com.atproto.repo.createRecord", headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer ${api.session.accessJwt}"
-    }, body: {
-      "repo": repo,
-      "collection": collection,
-      "record": record
-    });
+    http.Response res = await api.post("com.atproto.repo.createRecord",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${api.session.accessJwt}"
+        },
+        body: json.encode(
+            {"repo": repo, "collection": collection, "record": record}));
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
