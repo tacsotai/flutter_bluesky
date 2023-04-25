@@ -1,3 +1,4 @@
+import 'package:http/http.dart' as http;
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
@@ -69,6 +70,12 @@ void main() {
     expect(res.item1, 200);
   });
 
+  // test('timeline cursor', () async {
+  //   await plugin.login("foo@bar.com", "password");
+  //   Tuple2 res = await plugin.timeline();
+  //   expect(res.item1, 200);
+  // });
+
   test('post', () async {
     String text = randomAlphaNumeric(10);
     Tuple2 res = await plugin.login("foo@bar.com", "password");
@@ -84,5 +91,19 @@ void main() {
       }
     }
     expect(exist, true);
+  });
+
+  test('post picture', () async {
+    await plugin.login("foo@bar.com", "password");
+    String filename = '2718714879_b56c626a17.jpg';
+    String url = 'https://farm4.static.flickr.com/3003/$filename';
+    final response = await http.get(Uri.parse(url));
+    final bytes = response.bodyBytes;
+    await plugin.login("foo@bar.com", "password");
+    Tuple2 res = await plugin.uploadBlob(bytes, "image/jpeg");
+    // it is important to access to S3. TODO
+    // NO double record is registered.
+    // {blob: {$type: blob, ref: {$link: bafkreiar57k65z2w3tg2opx3gfqwoncxjr7gll4ptvywtw5tmohbhks7ly}, mimeType: image/jpeg, size: 50140}}
+    expect(res.item2["blob"]["mimeType"], "image/jpeg");
   });
 }

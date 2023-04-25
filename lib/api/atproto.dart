@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter_bluesky/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -66,6 +68,17 @@ abstract class Atproto {
         },
         body: json.encode(
             {"repo": repo, "collection": collection, "record": record}));
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> uploadBlob(Uint8List bytes, String contentType) async {
+    http.Response res = await api.post("com.atproto.repo.uploadBlob",
+        headers: {
+          "Content-Type": contentType,
+          "Authorization": "Bearer ${api.session.accessJwt}"
+        },
+        body: bytes);
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
