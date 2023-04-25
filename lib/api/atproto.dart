@@ -51,7 +51,7 @@ abstract class Atproto {
         await api.post("com.atproto.server.refreshSession", headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer ${api.session.refreshJwt}"
-    }, body: {});
+    });
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }

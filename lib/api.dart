@@ -23,7 +23,7 @@ class API {
 
   Future<http.Response> post(String uri,
       {required Map<String, String> headers,
-      required Map<String, dynamic> body}) async {
+      Map<String, dynamic>? body}) async {
     Uri url = _uri(uri);
     headers["Content-Type"] = "application/json";
     debugPrint('body: $body');
