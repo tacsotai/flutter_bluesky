@@ -98,6 +98,18 @@ class FlutterBluesky extends Bluesky {
     return await getTimeline(30, "reverse-chronological", cursor: cursor);
   }
 
+  // user: "did:plc:u5xrfsqb6d2xrph6t4uwwe2h"
+  // blob: pic, mov, etc... TODO
+  Future<Tuple2> post(String user, String text, {Object? blob}) async {
+    String repo = user;
+    String collection = "app.bsky.feed.post";
+    return await createRecord(
+      repo,
+      collection,
+      {"text": text, "createdAt": DateTime.now().toIso8601String()},
+    );
+  }
+
   // Future<int> noticeCount() async {
   //   return 0;
   // }

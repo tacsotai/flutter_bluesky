@@ -1,6 +1,8 @@
+import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:tuple/tuple.dart';
+import 'package:random_string/random_string.dart';
 
 // Integrated test code for FlutterBluesky.
 // Run local server with https://zenn.dev/tac519/articles/727fca3783010c
@@ -65,5 +67,22 @@ void main() {
     await plugin.login("foo@bar.com", "password");
     Tuple2 res = await plugin.timeline();
     expect(res.item1, 200);
+  });
+
+  test('post', () async {
+    String text = randomAlphaNumeric(10);
+    Tuple2 res = await plugin.login("foo@bar.com", "password");
+    await plugin.post(res.item2["did"], text);
+    Tuple2 res2 = await plugin.timeline();
+    List feeds = res2.item2["feed"];
+    bool exist = false;
+    for (Map map in feeds) {
+      Feed feed = Feed(map);
+      String result = feed.post.record.text;
+      if (text == result) {
+        exist = true;
+      }
+    }
+    expect(exist, true);
   });
 }
