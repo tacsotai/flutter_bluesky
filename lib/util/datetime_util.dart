@@ -2,12 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-final iso8601Format = DateFormat("yyyy-MM-ddTHH:mm:ss.SSSZ");
-
-DateTime fromIso8601(String str) {
-  return iso8601Format.parse(str);
-}
-
 int now() {
   return DateTime.now().millisecondsSinceEpoch;
 }

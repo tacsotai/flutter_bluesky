@@ -26,7 +26,7 @@ class Post {
         replyCount = map["replyCount"],
         repostCount = map["repostCount"],
         likeCount = map["likeCount"],
-        indexedAt = fromIso8601(map["indexedAt"]),
+        indexedAt = DateTime.parse((map["indexedAt"])),
         viewer = Viewer(map["viewer"]),
         labels = map["labels"];
 }
@@ -71,5 +71,5 @@ class Record {
       : text = map["text"],
         type = map["\$type"],
         // reply = Reply(map["reply"]),
-        createdAt = fromIso8601(map["createdAt"]);
+        createdAt = DateTime.parse((map["createdAt"]));
 }
