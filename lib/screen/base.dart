@@ -80,23 +80,18 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
                   });
                 },
                 type: BottomNavigationBarType.fixed,
-                items: [
-                  _bottomNavigationBarItem(Home.screen),
-                  _bottomNavigationBarItem(Search.screen),
-                  _bottomNavigationBarItem(Notifications.screen),
-                  _bottomNavigationBarItem(Profile.screen),
-                ],
+                items: _bottomNavigationBarItems,
               ),
             );
           },
         ));
   }
 
-  BottomNavigationBarItem _bottomNavigationBarItem(Screen screen) {
-    return BottomNavigationBarItem(
-      icon: screen.icon,
-      label: tr(screen.name),
-      tooltip: tr(screen.name),
-    );
+  List<BottomNavigationBarItem> get _bottomNavigationBarItems {
+    List<BottomNavigationBarItem> list = [];
+    for (var pluggable in widget.pluggables) {
+      list.add(pluggable.bottomNavigationBarItem);
+    }
+    return list;
   }
 }

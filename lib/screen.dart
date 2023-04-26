@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/post.dart';
@@ -16,6 +17,20 @@ Widget listsBody(List<Widget> widgets) {
     crossAxisAlignment: CrossAxisAlignment.center,
     children: widgets,
   );
+}
+
+abstract class PluggableWidget extends StatefulWidget {
+  const PluggableWidget({super.key});
+
+  BottomNavigationBarItem get bottomNavigationBarItem;
+
+  BottomNavigationBarItem navi(Screen screen) {
+    return BottomNavigationBarItem(
+      icon: screen.icon,
+      label: tr(screen.name),
+      tooltip: tr(screen.name),
+    );
+  }
 }
 
 mixin Frame {

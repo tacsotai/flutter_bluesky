@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
 
-class Search extends StatefulWidget {
+class Search extends PluggableWidget {
   static Screen screen = Screen(Search, const Icon(Icons.search));
   const Search({Key? key, required this.bottom, required this.hideBottom})
       : super(key: key);
@@ -10,6 +10,9 @@ class Search extends StatefulWidget {
 
   @override
   SearcheScreen createState() => SearcheScreen();
+
+  @override
+  BottomNavigationBarItem get bottomNavigationBarItem => navi(screen);
 }
 
 class SearcheScreen extends State<Search> with Frame {

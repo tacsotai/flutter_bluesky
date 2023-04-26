@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
 
-class Notifications extends StatefulWidget {
+class Notifications extends PluggableWidget {
   static Screen screen = Screen(Notifications, const Icon(Icons.notifications));
   const Notifications(
       {Key? key, required this.bottom, required this.hideBottom})
@@ -11,6 +11,9 @@ class Notifications extends StatefulWidget {
 
   @override
   NotificationsScreen createState() => NotificationsScreen();
+
+  @override
+  BottomNavigationBarItem get bottomNavigationBarItem => navi(screen);
 }
 
 class NotificationsScreen extends State<Notifications> with Frame {

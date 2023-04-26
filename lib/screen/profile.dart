@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
 
-class Profile extends StatefulWidget {
+class Profile extends PluggableWidget {
   static Screen screen = Screen(Profile, const Icon(Icons.person));
   const Profile({Key? key, required this.bottom, required this.hideBottom})
       : super(key: key);
@@ -10,6 +10,9 @@ class Profile extends StatefulWidget {
 
   @override
   ProfileeScreen createState() => ProfileeScreen();
+
+  @override
+  BottomNavigationBarItem get bottomNavigationBarItem => navi(screen);
 }
 
 class ProfileeScreen extends State<Profile> with Frame {

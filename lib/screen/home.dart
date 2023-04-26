@@ -5,7 +5,7 @@ import 'package:flutter_bluesky/screen/home/timeline.dart';
 
 // https://blog.flutteruniv.com/flutter-infinity-scroll/
 // https://api.flutter.dev/flutter/material/SliverAppBar-class.html
-class Home extends StatefulWidget {
+class Home extends PluggableWidget {
   static Screen screen = Screen(Home, const Icon(Icons.home));
   const Home({Key? key, required this.bottom, required this.hideBottom})
       : super(key: key);
@@ -14,6 +14,9 @@ class Home extends StatefulWidget {
 
   @override
   HomeScreen createState() => HomeScreen();
+
+  @override
+  BottomNavigationBarItem get bottomNavigationBarItem => navi(screen);
 }
 
 class HomeScreen extends State<Home> with Frame {
