@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/login.dart';
+import 'package:flutter_bluesky/screen/home.dart';
+import 'package:flutter_bluesky/screen/notfifications.dart';
 import 'package:flutter_bluesky/screen/post.dart';
+import 'package:flutter_bluesky/screen/profile.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
 import 'package:flutter_bluesky/screen/base.dart';
+import 'package:flutter_bluesky/screen/search.dart';
 import 'package:flutter_bluesky/transition_route_observer.dart';
 // ignore: depend_on_referenced_packages
 import 'package:timeago/timeago.dart' as timeago;
@@ -34,7 +38,7 @@ class MainApp extends StatelessWidget {
       routes: {
         Provider.screen.route: (context) => const Provider(),
         LoginScreen.route: (context) => const LoginScreen(),
-        Base.route: (context) => const Base(),
+        Base.route: (context) => base,
         Post.screen.route: (context) => const Post(),
       },
     );
@@ -42,6 +46,11 @@ class MainApp extends StatelessWidget {
 }
 
 Future<void> init() async {
+  base.pluggables.add(Home(base: base));
+  base.pluggables.add(Search(base: base));
+  base.pluggables.add(Notifications(base: base));
+  base.pluggables.add(Profile(base: base));
+
   // TODO add other languages.
   timeago.setLocaleMessages('ja', timeago.JaMessages());
 }
