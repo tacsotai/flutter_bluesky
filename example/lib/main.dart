@@ -5,7 +5,8 @@ import 'package:flutter_bluesky/screen/post.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/transition_route_observer.dart';
-
+// ignore: depend_on_referenced_packages
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:easy_localization/easy_localization.dart';
 
 const _appName = "flutter_blusky";
@@ -38,6 +39,11 @@ class MainApp extends StatelessWidget {
       },
     );
   }
+}
+
+Future<void> init() async {
+  // TODO add other languages.
+  timeago.setLocaleMessages('ja', timeago.JaMessages());
 }
 
 Future<void> initApp(String name, StatelessWidget appWidget) async {
