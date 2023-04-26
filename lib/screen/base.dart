@@ -1,17 +1,19 @@
-import 'package:easy_localization/easy_localization.dart';
+// ignore_for_file: no_logic_in_create_state
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
-import 'package:flutter_bluesky/screen/home.dart';
-import 'package:flutter_bluesky/screen/notfifications.dart';
-import 'package:flutter_bluesky/screen/profile.dart';
-import 'package:flutter_bluesky/screen/search.dart';
+
+final Base base = Base();
 
 class Base extends StatefulWidget {
   static String route = "/";
-  const Base({Key? key}) : super(key: key);
+  final List<PluggableWidget> pluggables = [];
+
+  Base({Key? key}) : super(key: key);
+
+  final BaseScreen screen = BaseScreen();
 
   @override
-  BaseScreen createState() => BaseScreen();
+  BaseScreen createState() => screen;
 }
 
 class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
@@ -48,18 +50,7 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    switch (_selectedIndex) {
-      case 0:
-        return Home(bottom: bottom, hideBottom: hideBottom);
-      case 1:
-        return Search(bottom: bottom, hideBottom: hideBottom);
-      case 2:
-        return Notifications(bottom: bottom, hideBottom: hideBottom);
-      case 3:
-        return Profile(bottom: bottom, hideBottom: hideBottom);
-      default:
-        return Home(bottom: bottom, hideBottom: hideBottom);
-    }
+    return widget.pluggables[_selectedIndex];
   }
 
   Widget get bottom {

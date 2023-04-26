@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
+import 'package:flutter_bluesky/screen/base.dart';
 
 class Notifications extends PluggableWidget {
   static Screen screen = Screen(Notifications, const Icon(Icons.notifications));
-  const Notifications(
-      {Key? key, required this.bottom, required this.hideBottom})
-      : super(key: key);
-  final Widget bottom;
-  final void Function(bool) hideBottom;
+
+  const Notifications({Key? key, required this.base}) : super(key: key);
+  final Base base;
 
   @override
   NotificationsScreen createState() => NotificationsScreen();
@@ -21,7 +20,7 @@ class NotificationsScreen extends State<Notifications> with Frame {
   Widget build(BuildContext context) {
     return scaffold(
       context,
-      bottom: widget.bottom,
+      bottom: widget.base.screen.bottom,
       isPost: false,
     );
   }

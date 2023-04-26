@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
+import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/home/infinity_list_view.dart';
 import 'package:flutter_bluesky/screen/home/timeline.dart';
 
@@ -7,10 +8,8 @@ import 'package:flutter_bluesky/screen/home/timeline.dart';
 // https://api.flutter.dev/flutter/material/SliverAppBar-class.html
 class Home extends PluggableWidget {
   static Screen screen = Screen(Home, const Icon(Icons.home));
-  const Home({Key? key, required this.bottom, required this.hideBottom})
-      : super(key: key);
-  final Widget bottom;
-  final void Function(bool) hideBottom;
+  const Home({Key? key, required this.base}) : super(key: key);
+  final Base base;
 
   @override
   HomeScreen createState() => HomeScreen();
@@ -26,7 +25,7 @@ class HomeScreen extends State<Home> with Frame {
   Widget build(BuildContext context) {
     return scaffold(
       context,
-      bottom: widget.bottom,
+      bottom: widget.base.screen.bottom,
       isPost: true,
       drawer: const Drawer(), // TODO
     );
@@ -46,7 +45,7 @@ class HomeScreen extends State<Home> with Frame {
             return InfinityListView(
               feeds: _timeline.feeds,
               getFeeds: _timeline.getFeeds,
-              hide: widget.hideBottom,
+              baseScreen: widget.base.screen,
             );
           }
         });

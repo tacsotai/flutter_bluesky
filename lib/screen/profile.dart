@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
+import 'package:flutter_bluesky/screen/base.dart';
 
 class Profile extends PluggableWidget {
   static Screen screen = Screen(Profile, const Icon(Icons.person));
-  const Profile({Key? key, required this.bottom, required this.hideBottom})
-      : super(key: key);
-  final Widget bottom;
-  final void Function(bool) hideBottom;
+  const Profile({Key? key, required this.base}) : super(key: key);
+  final Base base;
 
   @override
   ProfileeScreen createState() => ProfileeScreen();
@@ -20,7 +19,7 @@ class ProfileeScreen extends State<Profile> with Frame {
   Widget build(BuildContext context) {
     return scaffold(
       context,
-      bottom: widget.bottom,
+      bottom: widget.base.screen.bottom,
       isPost: true,
     );
   }

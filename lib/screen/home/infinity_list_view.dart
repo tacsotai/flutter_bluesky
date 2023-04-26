@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/home.dart';
 import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/timeline.dart';
@@ -8,13 +9,13 @@ import 'package:flutter/rendering.dart';
 class InfinityListView extends StatefulWidget {
   final List<Feed> feeds;
   final Future<void> Function(bool) getFeeds;
-  final void Function(bool) hide;
+  final BaseScreen baseScreen;
 
   const InfinityListView({
     Key? key,
     required this.feeds,
     required this.getFeeds,
-    required this.hide,
+    required this.baseScreen,
   }) : super(key: key);
 
   @override
@@ -33,12 +34,12 @@ class _InfinityListViewState extends State<InfinityListView> {
       if (_scrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
         if (!isHidden) {
-          widget.hide(true);
+          widget.baseScreen.hideBottom(true);
           isHidden = true;
         }
       } else {
         if (isHidden) {
-          widget.hide(false);
+          widget.baseScreen.hideBottom(false);
           isHidden = false;
         }
       }

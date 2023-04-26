@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
+import 'package:flutter_bluesky/screen/base.dart';
 
 class Search extends PluggableWidget {
   static Screen screen = Screen(Search, const Icon(Icons.search));
-  const Search({Key? key, required this.bottom, required this.hideBottom})
-      : super(key: key);
-  final Widget bottom;
-  final void Function(bool) hideBottom;
+  const Search({Key? key, required this.base}) : super(key: key);
+  final Base base;
 
   @override
   SearcheScreen createState() => SearcheScreen();
@@ -20,7 +19,7 @@ class SearcheScreen extends State<Search> with Frame {
   Widget build(BuildContext context) {
     return scaffold(
       context,
-      bottom: widget.bottom,
+      bottom: widget.base.screen.bottom,
       isPost: false,
     );
   }
