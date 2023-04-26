@@ -1,11 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/post.dart';
-
-Widget homeScreen(BuildContext context) {
-  return const Base(); // TODO
-}
 
 void push(BuildContext context, String screenName) {
   Navigator.pushNamed(context, screenName);

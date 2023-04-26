@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
+import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_login/flutter_login.dart';
 // ignore: implementation_imports
 import 'package:flutter_login/src/regex.dart';
@@ -104,7 +105,7 @@ class LoginScreen extends StatelessWidget {
   static void _view(BuildContext context) {
     // below code store login state at restart.
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => homeScreen(context),
+      builder: (context) => base,
     ));
   }
 
