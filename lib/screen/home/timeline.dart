@@ -14,7 +14,6 @@ class Timeline {
     cursor = resCursor;
   }
 
-  // TODO unit test
   void makeFeeds(bool insert, String resCursor, List<Feed> list) {
     if (cursor == null) {
       feeds.addAll(list);
