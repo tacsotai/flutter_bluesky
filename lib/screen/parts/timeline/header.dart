@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
@@ -8,12 +9,12 @@ Widget when(BuildContext context, Record record) {
   return Text(datetime(context, record.createdAt));
 }
 
-Widget name(BuildContext context, Author author) {
+Widget name(BuildContext context, ProfileViewBasic author) {
   // debugPrint("context.size.width: ${context.size?.width}");
   return Wrap(children: [displayName(author), sizeBox, handle(author)]);
 }
 
-Widget displayName(Author author) {
+Widget displayName(ProfileViewBasic author) {
   String? name = author.displayName;
   name ??= withoutDomain(author.handle);
   return Text(
@@ -22,7 +23,7 @@ Widget displayName(Author author) {
   );
 }
 
-Widget handle(Author author) {
+Widget handle(ProfileViewBasic author) {
   return InkWell(
     child: Text('@${author.handle}'),
     onTap: () async {
