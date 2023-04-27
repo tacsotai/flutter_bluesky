@@ -21,8 +21,7 @@ class FeedMaker {
     debugPrint("insert: $insert, resCursor: $resCursor");
     // initial load.
     if (cursor == null) {
-      feedMap.addAll(map);
-      feeds.addAll(map.values);
+      _appendFeeds(map);
     }
     // insert or append.
     else {
@@ -30,13 +29,17 @@ class FeedMaker {
         _insertFeeds(map);
       } else {
         if (cursor != resCursor) {
-          feedMap.addAll(map);
-          feeds.addAll(map.values); // old case.
+          _appendFeeds(map);
         } else {
           // cursor == resCursor case, Do nothing. Noting change.
         }
       }
     }
+  }
+
+  void _appendFeeds(Map<String, Feed> map) {
+    feedMap.addAll(map);
+    feeds.addAll(map.values);
   }
 
   // insert if the list element not in feeds.
