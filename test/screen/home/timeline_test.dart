@@ -1,5 +1,5 @@
 import 'package:flutter_bluesky/api/model/feed.dart';
-import 'package:flutter_bluesky/screen/home/timeline.dart';
+import 'package:flutter_bluesky/screen/home/feed_maker.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 final Map fakeRes1 = {
@@ -60,10 +60,10 @@ const newCursor = '1680751088612::newCursor';
 const oldCursor = '1570751088612::oldCursor';
 void main() {
   group('Timeline', () {
-    late Timeline timeline;
+    late FeedMaker timeline;
 
     setUp(() {
-      timeline = Timeline();
+      timeline = FeedMaker();
     });
 
     test('makeFeeds initial case', () {

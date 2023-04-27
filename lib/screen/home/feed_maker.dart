@@ -2,7 +2,7 @@ import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:tuple/tuple.dart';
 
-class Timeline {
+class FeedMaker {
   String? cursor;
   // map[feed.post.uri] = feed;
   final Map<String, Feed> feedMap = {};
