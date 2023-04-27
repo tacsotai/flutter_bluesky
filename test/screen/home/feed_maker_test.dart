@@ -80,6 +80,7 @@ void main() {
       // setup
       timeline.feedMap.addAll({"ur2": oldFeed});
       timeline.feeds.add(oldFeed);
+      timeline.cursor = oldCursor;
       final resultFeedList = [newFeed, oldFeed];
       // action
       timeline.makeFeeds(true, newCursor, {"ur1": newFeed});
