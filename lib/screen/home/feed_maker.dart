@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:tuple/tuple.dart';
@@ -17,24 +18,35 @@ class FeedMaker {
   }
 
   void makeFeeds(bool insert, String resCursor, Map<String, Feed> map) {
+    debugPrint("insert: $insert, resCursor: $resCursor");
+    // initial load.
     if (cursor == null) {
+      feedMap.addAll(map);
+      feeds.addAll(map.values);
+    }
+    // insert or append.
+    else {
       if (insert) {
         _insertFeeds(map);
       } else {
-        feeds.addAll(map.values); // initial load.
+        if (cursor != resCursor) {
+          feedMap.addAll(map);
+          feeds.addAll(map.values); // old case.
+        } else {
+          // cursor == resCursor case, Do nothing. Noting change.
+        }
       }
-    } else if (cursor != resCursor) {
-      feeds.addAll(map.values); // old case.
-    } else {
-      // cursor == resCursor case, Do nothing. Noting change.
     }
   }
 
   // insert if the list element not in feeds.
   void _insertFeeds(Map<String, Feed> map) {
+    debugPrint("feedMap: $feedMap");
+    debugPrint("map: $map");
     List<Feed> inserts = [];
     for (MapEntry entry in map.entries) {
       if (feedMap[entry.key] == null) {
+        debugPrint("entry.key: ${entry.key}");
         inserts.add(entry.value);
       }
     }
@@ -47,7 +59,6 @@ class FeedMaker {
       Feed feed = Feed(element);
       map[feed.post.uri] = feed;
     }
-    feedMap.addAll(map);
     return map;
   }
 }
