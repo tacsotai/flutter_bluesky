@@ -11,15 +11,15 @@ Widget when(BuildContext context, Record record) {
 
 Widget name(BuildContext context, ProfileViewBasic author) {
   // debugPrint("context.size.width: ${context.size?.width}");
-  return Wrap(children: [displayName(author), sizeBox, handle(author)]);
+  return Wrap(children: [displayName(author, 18), sizeBox, handle(author)]);
 }
 
-Widget displayName(ProfileViewBasic author) {
+Widget displayName(ProfileViewBasic author, double? fontSize) {
   String? name = author.displayName;
   name ??= withoutDomain(author.handle);
   return Text(
     name,
-    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
   );
 }
 
