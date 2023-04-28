@@ -14,9 +14,17 @@ flutter run
 ```
 
 Enjoy!!
+- View the data only: NOT IMPLEMETNED Post, Like, Follow, and so on.
+  It mean you should create account with another account.
+- Android and iOS: Only I tested. Other, please try and let me know.
 
+---
+![1](docs/img/connect.png)|![2](docs/img/login.png)|![3](docs/img/home.png)|![4](docs/img/profile.png)|
+---
 ## DB 
 The ATProtocol designs that the client must store data in case a PDS the client connectted is crashed.
+Actually, I don't understand enough. Please tell me.
+
 ### Structure (under construction)
 Account Entity is not for atproto but flutter_bluesky to manage session with each provider and the user. 
 ```
