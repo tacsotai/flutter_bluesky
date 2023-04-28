@@ -23,7 +23,7 @@ abstract class Bluesky extends Atproto {
 
   Future<Tuple2> getAuthorFeed(int limit, String actor,
       {String? cursor}) async {
-    String uri = "app.bsky.actor.getAuthorFeed?limit=$limit&actor=$actor";
+    String uri = "app.bsky.feed.getAuthorFeed?limit=$limit&actor=$actor";
     if (cursor != null) {
       uri = "$uri&cursor=$cursor";
     }

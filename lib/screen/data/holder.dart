@@ -4,6 +4,7 @@ import 'package:flutter_bluesky/api/model/feed.dart';
 class HomeDataHolder extends FeedDataHolder {}
 
 class ProfileDataHolder extends FeedDataHolder {
+  late String user;
   late ProfileViewDetailed detail;
 
   void makeProfile(Map map) async {
