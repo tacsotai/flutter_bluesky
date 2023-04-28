@@ -2,8 +2,20 @@ import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/data/holder.dart';
 import 'package:tuple/tuple.dart';
 
-class HomeDataManager {
+abstract class DataManager {
+  Future<void> getData(bool insert);
+}
+
+abstract class FeedDataManager extends DataManager {
+  FeedDataHolder get feedHolder;
+}
+
+class HomeDataManager extends FeedDataManager {
   final HomeDataHolder holder = HomeDataHolder();
+  @override
+  FeedDataHolder get feedHolder => holder;
+
+  @override
   Future<void> getData(bool insert) async {
     try {
       String? cursor = insert ? null : holder.cursor;
@@ -15,8 +27,12 @@ class HomeDataManager {
   }
 }
 
-class ProfileDataManager {
+class ProfileDataManager extends FeedDataManager {
   final ProfileDataHolder holder = ProfileDataHolder();
+  @override
+  FeedDataHolder get feedHolder => holder;
+
+  @override
   Future<void> getData(bool insert) async {
     try {
       await makeProfile();
