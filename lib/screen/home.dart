@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
-import 'package:flutter_bluesky/screen/home/infinity_list_view.dart';
+import 'package:flutter_bluesky/screen/home/home_view.dart';
 
 // https://blog.flutteruniv.com/flutter-infinity-scroll/
 // https://api.flutter.dev/flutter/material/SliverAppBar-class.html
@@ -42,9 +42,8 @@ class HomeScreen extends State<Home> with Frame {
           if (snapshot.hasError) {
             return Text("Error: ${snapshot.error}");
           } else {
-            return InfinityListView(
-              feeds: _manager.holder.feeds,
-              getFeeds: _manager.getData,
+            return HomeView(
+              manager: _manager,
               baseScreen: widget.base.screen,
             );
           }
