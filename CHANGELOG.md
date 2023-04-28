@@ -8,3 +8,6 @@
 
 ## 0.2.0
 * Create a bluesky client which can only show data.
+
+## 0.2.1
+* Fix image path.
