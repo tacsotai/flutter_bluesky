@@ -1,5 +1,5 @@
 import 'package:flutter_bluesky/api/model/feed.dart';
-import 'package:flutter_bluesky/screen/home/feed_maker.dart';
+import 'package:flutter_bluesky/screen/data/holder.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 final Map fakeRes1 = {
@@ -54,51 +54,56 @@ final Map fakeRes2 = {
   ],
   "cursor": "1570751088612::oldCursor"
 };
-final newFeed = Feed(fakeRes1['feed'][0]);
-final oldFeed = Feed(fakeRes2['feed'][0]);
+final FeedResponse newRes = FeedResponse(fakeRes1);
+final FeedResponse oldRes = FeedResponse(fakeRes2);
 const newCursor = '1680751088612::newCursor';
 const oldCursor = '1570751088612::oldCursor';
 void main() {
   group('Timeline', () {
-    late FeedMaker timeline;
+    late FeedDataHolder holder;
 
     setUp(() {
-      timeline = FeedMaker();
+      holder = FeedDataHolder();
     });
 
     test('makeFeeds initial case', () {
       // setup
-      final resultFeedList = [oldFeed];
+      List<Feed> resultFeedList = [];
+      resultFeedList.addAll(oldRes.map.values);
       // action
-      timeline.makeFeeds(false, oldCursor, {"ur2": oldFeed});
+      holder.makeFeeds(false, oldRes);
 
       // assert
-      expect(timeline.feeds, equals(resultFeedList));
+      expect(holder.feeds, equals(resultFeedList));
     });
 
     test('makeFeeds insert case', () {
       // setup
-      timeline.feedMap.addAll({"ur2": oldFeed});
-      timeline.feeds.add(oldFeed);
-      timeline.cursor = oldCursor;
-      final resultFeedList = [newFeed, oldFeed];
+      List<Feed> resultFeedList = [];
+      resultFeedList.addAll(newRes.map.values);
+      resultFeedList.addAll(oldRes.map.values);
+      holder.cursor = oldCursor;
+      holder.feeds.addAll(oldRes.map.values);
       // action
-      timeline.makeFeeds(true, newCursor, {"ur1": newFeed});
+      holder.makeFeeds(true, newRes);
 
       // assert
-      expect(timeline.feeds, equals(resultFeedList));
+      expect(holder.feeds, equals(resultFeedList));
     });
 
-    test('insertFeeds insert = true', () {
+    test('makeFeeds append case', () {
       // setup
-      timeline.cursor = "hoge";
-      final resultFeedList = [newFeed, oldFeed];
+      List<Feed> resultFeedList = [];
+      resultFeedList.addAll(oldRes.map.values);
+      resultFeedList.addAll(newRes.map.values);
 
+      holder.cursor = "hoge";
+      holder.feeds.addAll(oldRes.map.values);
       // action
-      timeline.makeFeeds(true, newCursor, {"ur1": newFeed, "ur2": oldFeed});
+      holder.makeFeeds(false, newRes);
 
       // assert
-      expect(timeline.feeds, equals(resultFeedList));
+      expect(holder.feeds, equals(resultFeedList));
     });
   });
 }
