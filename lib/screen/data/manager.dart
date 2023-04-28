@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/data/holder.dart';
 import 'package:tuple/tuple.dart';
@@ -22,7 +23,7 @@ class HomeDataManager extends FeedDataManager {
       Tuple2 res = await plugin.timeline(cursor: insert ? null : cursor);
       holder.makeFeeds(insert, FeedResponse(res.item2));
     } catch (e) {
-      print(e); // TODO
+      debugPrint(e.toString()); // TODO
     }
   }
 }
@@ -38,7 +39,7 @@ class ProfileDataManager extends FeedDataManager {
       await makeProfile();
       await makeFeed(insert);
     } catch (e) {
-      print(e); // TODO
+      debugPrint(e.toString()); // TODO
     }
   }
 

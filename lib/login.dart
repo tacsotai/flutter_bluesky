@@ -6,7 +6,6 @@ import 'package:flutter_login/flutter_login.dart';
 // ignore: implementation_imports
 import 'package:flutter_login/src/regex.dart';
 import 'package:tuple/tuple.dart';
-import 'package:flutter_bluesky/screen.dart';
 
 class LoginScreen extends StatelessWidget {
   static const route = '/auth';
