@@ -52,9 +52,7 @@ class HyperLink {
 
     return RichText(
       selectionColor: Colors.black,
-      text: TextSpan(
-        children: textSpans,
-      ),
+      text: TextSpan(children: textSpans, style: const TextStyle(fontSize: 20)),
     );
   }
 
