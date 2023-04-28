@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
+import 'package:flutter_bluesky/screen/data/manager.dart';
+import 'package:flutter_bluesky/screen/profile/profile_view.dart';
 
 class Profile extends PluggableWidget {
   static Screen screen = Screen(Profile, const Icon(Icons.person));
@@ -15,6 +18,7 @@ class Profile extends PluggableWidget {
 }
 
 class ProfileeScreen extends State<Profile> with Frame {
+  final ProfileDataManager _manager = ProfileDataManager();
   @override
   Widget build(BuildContext context) {
     return scaffold(
@@ -26,6 +30,21 @@ class ProfileeScreen extends State<Profile> with Frame {
 
   @override
   Widget body() {
-    return Center(child: Text("screen: ${Profile.screen.name}"));
+    _manager.holder.user = plugin.api.session.handle ?? ""; // TODO other user
+    return FutureBuilder(
+        future: _manager.getData(false),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Text("Error: ${snapshot.error}");
+          } else {
+            return ProfileView(
+              manager: _manager,
+              baseScreen: widget.base.screen,
+            );
+          }
+        });
   }
 }
