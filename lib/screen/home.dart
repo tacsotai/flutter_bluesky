@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
+import 'package:flutter_bluesky/screen/data/manager.dart';
 import 'package:flutter_bluesky/screen/home/infinity_list_view.dart';
-import 'package:flutter_bluesky/screen/home/feed_maker.dart';
 
 // https://blog.flutteruniv.com/flutter-infinity-scroll/
 // https://api.flutter.dev/flutter/material/SliverAppBar-class.html
@@ -19,7 +19,7 @@ class Home extends PluggableWidget {
 }
 
 class HomeScreen extends State<Home> with Frame {
-  final FeedMaker _feedMaker = FeedMaker();
+  final HomeDataManager _manager = HomeDataManager();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class HomeScreen extends State<Home> with Frame {
   @override
   Widget body() {
     return FutureBuilder(
-        future: _feedMaker.getFeeds(false),
+        future: _manager.getData(false),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -43,8 +43,8 @@ class HomeScreen extends State<Home> with Frame {
             return Text("Error: ${snapshot.error}");
           } else {
             return InfinityListView(
-              feeds: _feedMaker.feeds,
-              getFeeds: _feedMaker.getFeeds,
+              feeds: _manager.holder.feeds,
+              getFeeds: _manager.getData,
               baseScreen: widget.base.screen,
             );
           }
