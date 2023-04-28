@@ -17,23 +17,23 @@ class HomeDataManager {
 
 class ProfileDataManager {
   final ProfileDataHolder holder = ProfileDataHolder();
-  Future<void> getData(String user, bool insert) async {
+  Future<void> getData(bool insert) async {
     try {
-      await makeProfile(user);
-      await makeFeed(user, insert);
+      await makeProfile();
+      await makeFeed(insert);
     } catch (e) {
       print(e); // TODO
     }
   }
 
-  Future<void> makeProfile(String user) async {
-    Tuple2 res = await plugin.getProfile(user);
+  Future<void> makeProfile() async {
+    Tuple2 res = await plugin.getProfile(holder.user);
     holder.makeProfile(res.item2);
   }
 
-  Future<void> makeFeed(String user, bool insert) async {
+  Future<void> makeFeed(bool insert) async {
     String? cursor = insert ? null : holder.cursor;
-    Tuple2 res = await plugin.getAuthorFeed(30, user, cursor: cursor);
+    Tuple2 res = await plugin.getAuthorFeed(30, holder.user, cursor: cursor);
     holder.makeFeeds(insert, FeedResponse(res.item2));
   }
 }
