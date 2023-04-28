@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
+import 'package:flutter_bluesky/screen/parts/hyper_link.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
@@ -88,13 +88,12 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
       sizeBox,
       counts,
       sizeBox,
-      Text(widget.manager.holder.detail.description),
+      HyperLink(widget.manager.holder.detail.description).withLink,
       sizeBox,
     ];
   }
 
   Widget get counts {
-    ProfileViewDetailed detail = widget.manager.holder.detail;
     return Row(
       children: [
         count(widget.manager.holder.detail.followersCount, 'followers'),
