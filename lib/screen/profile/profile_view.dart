@@ -82,13 +82,15 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
   }
 
   List<Widget> get prof {
+    String desc = widget.manager.holder.detail.description ?? "";
+    Widget descWidget = HyperLink(desc).withLink;
     return [
       displayName(widget.manager.holder.detail, 28),
       handle(widget.manager.holder.detail),
       sizeBox,
       counts,
       sizeBox,
-      HyperLink(widget.manager.holder.detail.description).withLink,
+      descWidget,
       sizeBox,
     ];
   }

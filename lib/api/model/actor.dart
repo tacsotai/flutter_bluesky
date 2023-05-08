@@ -19,11 +19,13 @@ class ProfileViewBasic {
 
 // profileView
 class ProfileView extends ProfileViewBasic {
-  String description;
-  DateTime indexedAt;
+  String? description;
+  DateTime? indexedAt;
   ProfileView(Map map)
       : description = map["description"],
-        indexedAt = DateTime.parse((map["indexedAt"])),
+        indexedAt = map["indexedAt"] == null
+            ? null
+            : DateTime.parse((map["indexedAt"])),
         super(map);
 }
 
