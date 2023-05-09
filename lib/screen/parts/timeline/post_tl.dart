@@ -22,13 +22,31 @@ class PostTimeline extends CommonTimeline {
   }
 
   Widget body(Post post) {
-    return Row(
+    List<Widget> widgets = [];
+    appendText(widgets, post.record);
+    appendEmbed(widgets, post.embed);
+    return Column(children: widgets);
+  }
+
+  void appendText(List<Widget> widgets, Record record) {
+    Widget text = Row(
       children: [
-        Expanded(
-            child: Text(
-          post.record.text,
-        )),
+        Expanded(child: Text(record.text)),
       ],
     );
+    widgets.add(text);
+  }
+
+  void appendEmbed(List<Widget> widgets, Embed? embed) {
+    if (embed == null) {
+      return;
+    }
+    debugPrint("embed.type: ${embed.type}");
+    if (embed.type == 'app.bsky.embed.images#view') {
+      for (Internal internal in embed.internals) {
+        widgets.add(Image.network(internal.thumb));
+      }
+    }
+    // External
   }
 }
