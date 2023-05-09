@@ -39,7 +39,9 @@ class Post {
 }
 
 class Embed {
-  String type; // other program use this for judge.
+  // other program use this for judge.
+  String type;
+  // Check null check, then access methods: internals, external, etc.
   final Object? images;
   Embed(Map map)
       : type = map["\$type"],
@@ -53,15 +55,15 @@ class Embed {
     return list;
   }
 
-  External external() {
+  External get external {
     return External(images as Map);
   }
 
-  Record record() {
+  Record get record {
     return Record(images as Map);
   }
 
-  RecordWithMedia recordWithMedia() {
+  RecordWithMedia get recordWithMedia {
     return RecordWithMedia(images as Map);
   }
 }
@@ -87,6 +89,9 @@ class External {
         title = map["title"],
         description = map["description"];
 }
+
+// app.bsky.embed.record#view
+// It is ref of Record. see #L60
 
 // "$type": "app.bsky.embed.recordWithMedia#view",
 class RecordWithMedia {
