@@ -6,6 +6,7 @@ import 'package:flutter_bluesky/screen/parts/timeline/reason_tl.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/reply_tl.dart';
 
 // There are 3 pieces at Feed : post, reply?, reason?
+Map<String, CommonTimeline> pluggableTimelines = {};
 
 class Timeline {
   final BuildContext context;
