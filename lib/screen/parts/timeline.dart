@@ -15,9 +15,10 @@ class Timeline {
 
   Widget build() {
     List<Widget> widgets = [];
+    append(widgets, ReasonTimeline(), 'reason');
     append(widgets, ReplyTimeline(), 'reply');
     append(widgets, PostTimeline(), 'post');
-    append(widgets, ReasonTimeline(), 'reason');
+
     return Column(
       children: widgets,
     );
