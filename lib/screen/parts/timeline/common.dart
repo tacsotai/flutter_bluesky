@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/common_embed.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 
 abstract class CommonTimeline {
+  CommonEmbed commonEmbed = CommonEmbed();
   Widget? build(BuildContext context, Feed feed);
 
   Widget headerFooter(Widget header, Widget body, Widget footer) {
