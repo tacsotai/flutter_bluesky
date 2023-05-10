@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
-import 'package:flutter_bluesky/screen/parts/timeline/common_base.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/common_embed.dart';
 
-abstract class CommonTimeline extends CommonBase {
+abstract class CommonTimeline extends CommonEmbed {
   Widget? build(BuildContext context, Feed feed);
 
   Widget contentFrame(BuildContext context, Feed feed) {
