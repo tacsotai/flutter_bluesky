@@ -18,7 +18,7 @@ class SamplePostTimeline extends CommonTimeline {
   }
 
   @override
-  Widget body(Post post) {
+  Widget body(BuildContext context, Post post) {
     return Row(
       children: [
         Expanded(

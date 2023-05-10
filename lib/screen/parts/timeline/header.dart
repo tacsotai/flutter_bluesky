@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
-import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/util/datetime_util.dart';
 
-Widget when(BuildContext context, Record record) {
-  return Text(datetime(context, record.createdAt));
+Widget when(BuildContext context, DateTime dt) {
+  return Text(datetime(context, dt), style: const TextStyle(fontSize: 12));
 }
 
 Widget name(BuildContext context, ProfileViewBasic author) {

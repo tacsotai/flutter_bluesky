@@ -39,9 +39,9 @@ class ReplyTimeline extends CommonTimeline {
   List<Widget> content(BuildContext context, Feed feed) {
     Post parent = feed.reply!.parent;
     return [
-      header(context, parent),
+      header(context, parent.author, parent.record.createdAt),
       replyHeader(feed.post),
-      body(parent),
+      body(context, parent),
       footer(context, parent),
     ];
   }

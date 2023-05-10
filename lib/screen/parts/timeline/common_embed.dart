@@ -1,25 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
+import 'package:flutter_bluesky/screen/parts/adjuser.dart';
+import 'package:flutter_bluesky/screen/parts/avator.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/common_base.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class CommonEmbed {
-  void append(List<Widget> widgets, Embed? embed) {
-    if (embed == null || embed.images == null) {
+class CommonEmbed extends CommonBase {
+  void internals(List<Widget> widgets, Embed embed) {
+    if (embed.imagesObj == null) {
       return;
     }
-    // debugPrint("embed.type: ${embed.type}");
-    if (embed.type == 'app.bsky.embed.images#view') {
-      internals(widgets, embed.internals);
-    } else if (embed.type == 'app.bsky.embed.external#view') {
-      external(widgets, embed.external);
-    } else if (embed.type == 'app.bsky.embed.record#view') {
-      record(widgets, embed.record);
-    } else if (embed.type == 'app.bsky.embed.recordWithMedia#view') {
-      recordWithMedia(widgets, embed.recordWithMedia);
-    }
-  }
-
-  void internals(List<Widget> widgets, List<Internal> internals) {
-    List<Widget> imgs = _images(internals);
+    List<Widget> imgs = _images(embed.internals);
     if (imgs.length == 1) {
       widgets.add(Row(children: [Expanded(child: imgs[0])]));
     } else if (imgs.length == 2) {
@@ -49,15 +40,56 @@ class CommonEmbed {
     return images;
   }
 
-  void external(List<Widget> widgets, External external) {
-    widgets.add(Expanded(child: Image.network(external.uri)));
+  void external(List<Widget> widgets, Embed embed) {
+    if (embed.externalObj == null) {
+      return;
+    }
+    // TODO https://sashimistudio.site/flutter-webview/
+    widgets.add(Row(children: [
+      Expanded(
+        child: InkWell(
+          child: Text(embed.external.title),
+          onTap: () => {launchUrl(Uri.parse(embed.external.uri))},
+        ),
+      )
+    ]));
   }
 
-  void record(List<Widget> widgets, Record record) {
-    debugPrint("embed.type record TODO implement");
+  void record(BuildContext context, List<Widget> widgets, Embed embed) {
+    if (embed.recordObj == null) {
+      return;
+    }
+    Widget container = Container(
+      margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Column(
+        children: [
+          recordHeader(context, embed.record),
+          Text(embed.record.value.text),
+        ],
+      ),
+    );
+    widgets.add(container);
   }
 
-  void recordWithMedia(List<Widget> widgets, RecordWithMedia recordWithMedia) {
+  Widget recordHeader(BuildContext context, RecordView record) {
+    return Row(
+      children: [
+        avator(record.author.avatar, radius: 10),
+        sizeBox,
+        Expanded(child: header(context, record.author, record.value.createdAt))
+      ],
+    );
+  }
+
+  void recordWithMedia(List<Widget> widgets, Embed embed) {
+    if (embed.recordObj == null && embed.mediaObj == null) {
+      return;
+    }
     debugPrint("embed.type recordWithMedia TODO implement");
   }
 }

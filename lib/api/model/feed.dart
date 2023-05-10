@@ -42,29 +42,35 @@ class Embed {
   // other program use this for judge.
   String type;
   // Check null check, then access methods: internals, external, etc.
-  final Object? images;
+  final Object? imagesObj;
+  final Object? externalObj;
+  final Object? recordObj;
+  final Object? mediaObj;
   Embed(Map map)
       : type = map["\$type"],
-        images = map["images"];
+        imagesObj = map["images"],
+        externalObj = map["external"],
+        recordObj = map["record"],
+        mediaObj = map["media"];
 
   List<Internal> get internals {
     List<Internal> list = [];
-    for (var map in images as List) {
+    for (var map in imagesObj as List) {
       list.add(Internal(map));
     }
     return list;
   }
 
   External get external {
-    return External(images as Map);
+    return External(externalObj as Map);
   }
 
-  Record get record {
-    return Record(images as Map);
+  RecordView get record {
+    return RecordView(recordObj as Map);
   }
 
-  RecordWithMedia get recordWithMedia {
-    return RecordWithMedia(images as Map);
+  Media get media {
+    return Media(mediaObj as Map);
   }
 }
 
@@ -91,17 +97,37 @@ class External {
 }
 
 // app.bsky.embed.record#view
-// It is ref of Record. see #L60
-
-// "$type": "app.bsky.embed.recordWithMedia#view",
-class RecordWithMedia {
-  Record record;
-  Media media;
-  RecordWithMedia(Map map)
-      : record = map["record"],
-        media = map["media"];
+class RecordView {
+  final String type;
+  final String uri;
+  final String cid;
+  final ProfileViewBasic author;
+  final Value value;
+  List? labels;
+  final DateTime indexedAt;
+  List? embeds;
+  RecordView(Map map)
+      : type = map["\$type"],
+        uri = map["uri"],
+        cid = map["cid"],
+        author = ProfileViewBasic(map["author"]),
+        value = Value(map["value"]),
+        labels = map["labels"],
+        indexedAt = DateTime.parse((map["indexedAt"])),
+        embeds = map["embeds"];
 }
 
+class Value {
+  String text;
+  String type;
+  DateTime createdAt;
+  Value(Map map)
+      : text = map["text"],
+        type = map["\$type"],
+        createdAt = DateTime.parse((map["createdAt"]));
+}
+
+// "$type": "app.bsky.embed.recordWithMedia#view",
 class Media {
   List<Internal>? images;
   External? external;
