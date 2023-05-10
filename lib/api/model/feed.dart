@@ -65,8 +65,8 @@ class Embed {
     return External(externalObj as Map);
   }
 
-  Record get record {
-    return Record(recordObj as Map);
+  RecordView get record {
+    return RecordView(recordObj as Map);
   }
 
   Media get media {
@@ -97,10 +97,37 @@ class External {
 }
 
 // app.bsky.embed.record#view
-// It is ref of Record. see #L60
+class RecordView {
+  final String type;
+  final String uri;
+  final String cid;
+  final ProfileViewBasic author;
+  final Value value;
+  List? labels;
+  final DateTime indexedAt;
+  List? embeds;
+  RecordView(Map map)
+      : type = map["\$type"],
+        uri = map["uri"],
+        cid = map["cid"],
+        author = ProfileViewBasic(map["author"]),
+        value = Value(map["value"]),
+        labels = map["labels"],
+        indexedAt = DateTime.parse((map["indexedAt"])),
+        embeds = map["embeds"];
+}
+
+class Value {
+  String text;
+  String type;
+  DateTime createdAt;
+  Value(Map map)
+      : text = map["text"],
+        type = map["\$type"],
+        createdAt = DateTime.parse((map["createdAt"]));
+}
 
 // "$type": "app.bsky.embed.recordWithMedia#view",
-
 class Media {
   List<Internal>? images;
   External? external;
