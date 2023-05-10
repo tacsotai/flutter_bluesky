@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 abstract class CommonBase {
@@ -12,7 +14,7 @@ abstract class CommonBase {
     widgets.add(text);
   }
 
-  void appendEmbed(List<Widget> widgets, Embed? embed) {
+  void appendEmbed(BuildContext context, List<Widget> widgets, Embed? embed) {
     if (embed == null) {
       return;
     }
@@ -22,7 +24,7 @@ abstract class CommonBase {
     } else if (embed.type == 'app.bsky.embed.external#view') {
       // external(widgets, embed);
     } else if (embed.type == 'app.bsky.embed.record#view') {
-      record(widgets, embed);
+      record(context, widgets, embed);
     } else if (embed.type == 'app.bsky.embed.recordWithMedia#view') {
       // recordWithMedia(widgets, embed);
     }
@@ -77,7 +79,7 @@ abstract class CommonBase {
     ]));
   }
 
-  void record(List<Widget> widgets, Embed embed) {
+  void record(BuildContext context, List<Widget> widgets, Embed embed) {
     if (embed.recordObj == null) {
       return;
     }
@@ -89,5 +91,18 @@ abstract class CommonBase {
       return;
     }
     debugPrint("embed.type recordWithMedia TODO implement");
+  }
+
+  Widget header(
+      BuildContext context, ProfileViewBasic author, DateTime datetime) {
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(flex: 5, child: name(context, author)),
+            Flexible(flex: 2, child: when(context, datetime)),
+          ],
+        ));
   }
 }
