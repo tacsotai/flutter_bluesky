@@ -83,7 +83,7 @@ abstract class CommonBase {
     if (embed.recordObj == null) {
       return;
     }
-    Widget c = Container(
+    Widget container = Container(
       margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
@@ -97,7 +97,7 @@ abstract class CommonBase {
         ],
       ),
     );
-    widgets.add(c);
+    widgets.add(container);
   }
 
   void recordWithMedia(List<Widget> widgets, Embed embed) {
