@@ -43,7 +43,7 @@ abstract class CommonTimeline extends CommonEmbed {
     if (embed == null) {
       return;
     }
-    debugPrint("embed.type: ${embed.type}");
+    // debugPrint("embed.type: ${embed.type}");
     if (embed.type == 'app.bsky.embed.images#view') {
       internals(widgets, embed);
     } else if (embed.type == 'app.bsky.embed.external#view') {
