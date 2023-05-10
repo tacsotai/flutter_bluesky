@@ -7,20 +7,17 @@ import 'package:flutter_bluesky/screen/parts/avator.dart';
 class SamplePostTimeline extends CommonTimeline {
   @override
   Widget build(BuildContext context, Feed feed) {
+    Post post = feed.post;
     return Row(
       children: [
-        avator(feed.post.author.avatar),
+        avator(post.author.avatar),
         sizeBox,
-        Expanded(
-            child: headerFooter(
-          header(context, feed.post),
-          body(feed.post),
-          footer(context, feed.post),
-        )),
+        contentFrame(context, feed)
       ],
     );
   }
 
+  @override
   Widget body(Post post) {
     return Row(
       children: [

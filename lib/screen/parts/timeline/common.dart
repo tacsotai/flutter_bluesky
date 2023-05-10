@@ -18,12 +18,22 @@ abstract class CommonTimeline {
     return Column(children: widgets);
   }
 
-  Widget headerFooter(Widget header, Widget body, Widget footer) {
-    return Padding(
-        padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-        child: Column(
-          children: [header, body, footer],
-        ));
+  Widget contentFrame(BuildContext context, Feed feed) {
+    return Expanded(
+        child: Padding(
+            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: content(context, feed),
+            )));
+  }
+
+  List<Widget> content(BuildContext context, Feed feed) {
+    return [
+      header(context, feed.post),
+      body(feed.post),
+      footer(context, feed.post),
+    ];
   }
 
   Widget footer(BuildContext context, Post post) {
