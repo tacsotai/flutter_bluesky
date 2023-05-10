@@ -11,6 +11,13 @@ abstract class CommonTimeline {
 
   Widget? build(BuildContext context, Feed feed);
 
+  Widget body(Post post) {
+    List<Widget> widgets = [];
+    commonRecord.append(widgets, post.record);
+    commonEmbed.append(widgets, post.embed);
+    return Column(children: widgets);
+  }
+
   Widget headerFooter(Widget header, Widget body, Widget footer) {
     return Padding(
         padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),

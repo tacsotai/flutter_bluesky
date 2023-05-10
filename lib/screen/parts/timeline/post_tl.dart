@@ -20,11 +20,4 @@ class PostTimeline extends CommonTimeline {
       ],
     );
   }
-
-  Widget body(Post post) {
-    List<Widget> widgets = [];
-    commonRecord.append(widgets, post.record);
-    commonEmbed.append(widgets, post.embed);
-    return Column(children: widgets);
-  }
 }
