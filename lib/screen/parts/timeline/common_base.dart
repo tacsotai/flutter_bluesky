@@ -4,7 +4,7 @@ import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-abstract class CommonBase {
+class CommonBase {
   void appendRecord(List<Widget> widgets, Record record) {
     Widget text = Row(
       children: [
