@@ -3,31 +3,32 @@ import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 
 class CommonBase {
-  void appendRecord(List<Widget> widgets, Record record) {
-    Widget text = Row(
-      children: [
-        Expanded(child: Text(record.text)),
-      ],
-    );
-    widgets.add(text);
+  Widget header(
+      BuildContext context, ProfileViewBasic author, DateTime datetime) {
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(flex: 5, child: name(context, author)),
+            Flexible(flex: 2, child: when(context, datetime)),
+          ],
+        ));
   }
 
-  void appendEmbed(BuildContext context, List<Widget> widgets, Embed? embed) {
-    if (embed == null) {
-      return;
-    }
-    debugPrint("embed.type: ${embed.type}");
-    if (embed.type == 'app.bsky.embed.images#view') {
-      internals(widgets, embed);
-    } else if (embed.type == 'app.bsky.embed.external#view') {
-      // external(widgets, embed);
-    } else if (embed.type == 'app.bsky.embed.record#view') {
-      record(context, widgets, embed);
-    } else if (embed.type == 'app.bsky.embed.recordWithMedia#view') {
-      // recordWithMedia(widgets, embed);
-    }
+  Widget footer(BuildContext context, Post post) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        reply(context, post),
+        repost(context, post),
+        like(context, post),
+        more(context, post),
+      ],
+    );
   }
 
   void internals(List<Widget> widgets, Embed embed) {
@@ -105,18 +106,5 @@ class CommonBase {
       return;
     }
     debugPrint("embed.type recordWithMedia TODO implement");
-  }
-
-  Widget header(
-      BuildContext context, ProfileViewBasic author, DateTime datetime) {
-    return Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(flex: 5, child: name(context, author)),
-            Flexible(flex: 2, child: when(context, datetime)),
-          ],
-        ));
   }
 }
