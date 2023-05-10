@@ -7,10 +7,10 @@ import 'package:flutter_bluesky/screen/parts/avator.dart';
 class PostTimeline extends CommonTimeline {
   @override
   Widget build(BuildContext context, Feed feed) {
-    Post post = feed.post;
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        avator(post.author.avatar),
+        avator(feed.post.author.avatar),
         sizeBox,
         contentFrame(context, feed)
       ],
