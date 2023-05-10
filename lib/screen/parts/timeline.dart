@@ -15,8 +15,8 @@ class Timeline {
 
   Widget build() {
     List<Widget> widgets = [];
-    append(widgets, PostTimeline(), 'post');
     append(widgets, ReplyTimeline(), 'reply');
+    append(widgets, PostTimeline(), 'post');
     // append(widgets, ReasonTimeline(), 'reason');
     return Column(
       children: widgets,
