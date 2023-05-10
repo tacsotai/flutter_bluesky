@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
+import 'package:flutter_bluesky/screen/parts/adjuser.dart';
+import 'package:flutter_bluesky/screen/parts/avator.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common_base.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -66,12 +68,22 @@ class CommonEmbed extends CommonBase {
       ),
       child: Column(
         children: [
-          header(context, embed.record.author, embed.record.value.createdAt),
+          recordHeader(context, embed.record),
           Text(embed.record.value.text),
         ],
       ),
     );
     widgets.add(container);
+  }
+
+  Widget recordHeader(BuildContext context, RecordView record) {
+    return Row(
+      children: [
+        avator(record.author.avatar, radius: 10),
+        sizeBox,
+        Expanded(child: header(context, record.author, record.value.createdAt))
+      ],
+    );
   }
 
   void recordWithMedia(List<Widget> widgets, Embed embed) {
