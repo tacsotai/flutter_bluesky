@@ -8,19 +8,16 @@ class SamplePostTimeline extends CommonTimeline {
   @override
   Widget build(BuildContext context, Feed feed) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         avator(feed.post.author.avatar),
         sizeBox,
-        Expanded(
-            child: headerFooter(
-          header(context, feed.post),
-          body(feed.post),
-          footer(context, feed.post),
-        )),
+        contentFrame(context, feed)
       ],
     );
   }
 
+  @override
   Widget body(Post post) {
     return Row(
       children: [

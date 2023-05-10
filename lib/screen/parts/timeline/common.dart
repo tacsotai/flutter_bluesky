@@ -1,17 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/common_embed.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/common_record.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 
 abstract class CommonTimeline {
+  final CommonRecord commonRecord = CommonRecord();
+  final CommonEmbed commonEmbed = CommonEmbed();
+
   Widget? build(BuildContext context, Feed feed);
 
-  Widget headerFooter(Widget header, Widget body, Widget footer) {
-    return Padding(
-        padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-        child: Column(
-          children: [header, body, footer],
-        ));
+  Widget body(Post post) {
+    List<Widget> widgets = [];
+    commonRecord.append(widgets, post.record);
+    commonEmbed.append(widgets, post.embed);
+    return Column(children: widgets);
+  }
+
+  Widget contentFrame(BuildContext context, Feed feed) {
+    return Expanded(
+        child: Padding(
+            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: content(context, feed),
+            )));
+  }
+
+  List<Widget> content(BuildContext context, Feed feed) {
+    return [
+      header(context, feed.post),
+      body(feed.post),
+      footer(context, feed.post),
+    ];
   }
 
   Widget footer(BuildContext context, Post post) {
