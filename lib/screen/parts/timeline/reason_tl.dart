@@ -3,6 +3,8 @@ import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 
+// This class is used as Repost header.
+// Ex. 'Reposted by someone'
 class ReasonTimeline extends CommonTimeline {
   @override
   Widget? build(BuildContext context, Feed feed) {
