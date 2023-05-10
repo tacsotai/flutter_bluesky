@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class CommonEmbed {
+class CommonBase {
   void append(List<Widget> widgets, Embed? embed) {
     if (embed == null) {
       return;
