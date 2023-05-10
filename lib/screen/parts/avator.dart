@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-Widget avator(String? url) {
+Widget avator(String? url, {double radius = 35}) {
   if (url == null) {
-    return const CircleAvatar(
-      radius: 35,
-      child: Icon(Icons.person_outline_rounded),
+    return CircleAvatar(
+      radius: radius,
+      child: const Icon(Icons.person_outline_rounded),
     );
   }
   return CircleAvatar(
-    radius: 35,
+    radius: radius,
     backgroundImage: NetworkImage(url),
   );
 }
