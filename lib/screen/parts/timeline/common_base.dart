@@ -83,7 +83,21 @@ abstract class CommonBase {
     if (embed.recordObj == null) {
       return;
     }
-    debugPrint("embed.type record TODO implement");
+    Widget c = Container(
+      margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Column(
+        children: [
+          header(context, embed.record.author, embed.record.value.createdAt),
+          Text(embed.record.value.text),
+        ],
+      ),
+    );
+    widgets.add(c);
   }
 
   void recordWithMedia(List<Widget> widgets, Embed embed) {
