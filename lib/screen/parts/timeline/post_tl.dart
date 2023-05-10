@@ -23,17 +23,8 @@ class PostTimeline extends CommonTimeline {
 
   Widget body(Post post) {
     List<Widget> widgets = [];
-    appendRecord(widgets, post.record);
+    commonRecord.append(widgets, post.record);
     commonEmbed.append(widgets, post.embed);
     return Column(children: widgets);
-  }
-
-  void appendRecord(List<Widget> widgets, Record record) {
-    Widget text = Row(
-      children: [
-        Expanded(child: Text(record.text)),
-      ],
-    );
-    widgets.add(text);
   }
 }
