@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common_base.dart';
-import 'package:flutter_bluesky/screen/parts/timeline/common_record.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 
-abstract class CommonTimeline {
-  final CommonRecord commonRecord = CommonRecord();
-  final CommonBase commonEmbed = CommonBase();
-
+abstract class CommonTimeline extends CommonBase {
   Widget? build(BuildContext context, Feed feed);
 
   Widget body(Post post) {
     List<Widget> widgets = [];
-    commonRecord.append(widgets, post.record);
-    commonEmbed.append(widgets, post.embed);
+    appendRecord(widgets, post.record);
+    appendEmbed(widgets, post.embed);
     return Column(children: widgets);
   }
 

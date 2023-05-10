@@ -2,8 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class CommonBase {
-  void append(List<Widget> widgets, Embed? embed) {
+abstract class CommonBase {
+  void appendRecord(List<Widget> widgets, Record record) {
+    Widget text = Row(
+      children: [
+        Expanded(child: Text(record.text)),
+      ],
+    );
+    widgets.add(text);
+  }
+
+  void appendEmbed(List<Widget> widgets, Embed? embed) {
     if (embed == null) {
       return;
     }
