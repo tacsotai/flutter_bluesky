@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common_embed.dart';
+import 'package:flutter_bluesky/screen/parts/transfer/detector.dart';
 
 abstract class CommonTimeline extends CommonEmbed {
   Widget? build(BuildContext context, Feed feed);
@@ -36,7 +37,8 @@ abstract class CommonTimeline extends CommonEmbed {
         Expanded(child: Text(post.record.text)),
       ],
     );
-    widgets.add(text);
+    widgets.add(
+        Detector.instance(context, text).thread(post.author.handle, post.uri));
   }
 
   void appendEmbed(BuildContext context, List<Widget> widgets, Embed? embed) {
