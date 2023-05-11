@@ -12,21 +12,6 @@ class ProfileDataHolder extends FeedDataHolder {
   }
 }
 
-class FeedResponse {
-  String cursor;
-  List feed = [];
-  final Map<String, Feed> map = {};
-
-  FeedResponse(Map body)
-      : cursor = body["cursor"],
-        feed = body["feed"] {
-    for (var element in feed) {
-      Feed feed = Feed(element);
-      map[feed.post.uri] = feed;
-    }
-  }
-}
-
 class FeedDataHolder {
   String? cursor;
   List<Feed> feeds = [];
@@ -34,37 +19,37 @@ class FeedDataHolder {
   final Map<String, Feed> feedMap = {};
 
   void makeFeeds(bool insert, FeedResponse res) {
+    List<Feed> list = retrived(res);
     // initial load.
     if (cursor == null) {
-      _appendFeeds(res.map);
+      feeds.addAll(list);
     }
     // insert or append.
     else {
       if (insert) {
-        _insertFeeds(res.map);
+        feeds.insertAll(0, list);
       } else {
         if (cursor != res.cursor) {
-          _appendFeeds(res.map);
+          feeds.addAll(list);
         } else {
           // cursor == resCursor case, Do nothing. Noting change.
         }
       }
     }
+    // Finally, set the cursor for next load.
+    cursor = res.cursor;
   }
 
-  void _appendFeeds(Map<String, Feed> map) {
-    feedMap.addAll(map);
-    feeds.addAll(map.values);
-  }
-
-  // insert if the list element not in feeds.
-  void _insertFeeds(Map<String, Feed> map) {
-    List<Feed> inserts = [];
-    for (MapEntry entry in map.entries) {
-      if (feedMap[entry.key] == null) {
-        inserts.add(entry.value);
+  // Add all data to map, then the list is only delta.
+  List<Feed> retrived(FeedResponse res) {
+    List<Feed> list = [];
+    for (var element in res.feed) {
+      Feed feed = Feed(element);
+      if (feedMap[feed.post.uri] == null) {
+        feedMap[feed.post.uri] = feed;
+        list.add(feed);
       }
     }
-    feeds.insertAll(0, inserts);
+    return list;
   }
 }

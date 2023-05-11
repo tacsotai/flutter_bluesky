@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/hyper_link.dart';
+import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
@@ -51,8 +52,23 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
         SliverToBoxAdapter(
           child: header,
         ),
+        MaterialSliverRefreshControl(
+          onRefresh: () async {
+            await manager.getData(true);
+            setState(() {});
+          },
+        ),
         sliverList
       ];
+
+  Widget get latestGetter {
+    return MaterialSliverRefreshControl(
+      onRefresh: () async {
+        await manager.getData(true);
+        setState(() {});
+      },
+    );
+  }
 
   Widget get header {
     return Column(

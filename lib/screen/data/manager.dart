@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/data/holder.dart';
 import 'package:tuple/tuple.dart';
@@ -19,7 +20,10 @@ class HomeDataManager extends FeedDataManager {
   @override
   Future<void> getData(bool insert) async {
     try {
+      // debugPrint("holder.cursor: ${holder.cursor}");
       String? cursor = insert ? null : holder.cursor;
+      // debugPrint("cursor: $cursor");
+      // debugPrint("insert: $insert");
       Tuple2 res = await plugin.timeline(cursor: insert ? null : cursor);
       holder.makeFeeds(insert, FeedResponse(res.item2));
     } catch (e) {

@@ -2,6 +2,16 @@ import 'package:flutter_bluesky/api/model/actor.dart';
 
 // lexicons/app/bsky/feed/defs.json
 // feedViewPost
+
+class FeedResponse {
+  String cursor;
+  List feed = [];
+
+  FeedResponse(Map body)
+      : cursor = body["cursor"],
+        feed = body["feed"];
+}
+
 class Feed {
   final Post post;
   final Reply? reply;
