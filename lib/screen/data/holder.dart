@@ -50,6 +50,8 @@ class FeedDataHolder {
         }
       }
     }
+    // Finally, set the cursor for next load.
+    cursor = res.cursor;
   }
 
   void _appendFeeds(Map<String, Feed> map) {
