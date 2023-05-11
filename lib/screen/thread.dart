@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/model/feed.dart';
+import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
+import 'package:tuple/tuple.dart';
 
 class Thread extends StatefulWidget {
   static Screen screen = Screen(Thread, const Icon(Icons.edit));
@@ -17,15 +20,44 @@ class ThreadScreen extends State<Thread> {
       appBar: AppBar(
         title: const Text('Thread'),
       ),
-      body: body(),
+      body: _build(),
     );
   }
 
-  Widget body() {
+  Widget body(ThreadResponse res) {
     return Column(children: [
       Text("screen: ${Thread.screen.name}"),
       Text("handle: ${widget.handle}"),
       Text("uri: ${widget.uri}"),
+      Text("uri: ${res.thread.post.indexedAt}"),
     ]);
+  }
+
+  Widget _build() {
+    return FutureBuilder(
+        future: getData(widget.handle!, widget.uri!),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Text("Error: ${snapshot.error}");
+          } else {
+            return body(snapshot.data);
+          }
+        });
+  }
+
+  Future<ThreadResponse> getData(String handle, String uri) async {
+    // TODO handle check
+    late ThreadResponse response;
+    try {
+      Tuple2 res = await plugin.getPostThread(uri);
+      response = ThreadResponse(res.item2);
+    } catch (e, stacktrace) {
+      debugPrint("Error: $e");
+      debugPrint("stacktrace: $stacktrace");
+    }
+    return response;
   }
 }
