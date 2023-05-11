@@ -58,6 +58,16 @@ final FeedResponse newRes = FeedResponse(fakeRes1);
 final FeedResponse oldRes = FeedResponse(fakeRes2);
 const newCursor = '1680751088612::newCursor';
 const oldCursor = '1570751088612::oldCursor';
+
+List<Feed> convert(FeedResponse res) {
+  List<Feed> list = [];
+  for (var element in res.feed) {
+    Feed feed = Feed(element);
+    list.add(feed);
+  }
+  return list;
+}
+
 void main() {
   group('Timeline', () {
     late FeedDataHolder holder;
@@ -69,41 +79,46 @@ void main() {
     test('makeFeeds initial case', () {
       // setup
       List<Feed> resultFeedList = [];
-      resultFeedList.addAll(oldRes.map.values);
+      resultFeedList.addAll(convert(oldRes));
       // action
       holder.makeFeeds(false, oldRes);
 
       // assert
-      expect(holder.feeds, equals(resultFeedList));
+      expect(holder.feeds.length, equals(1));
+      expect(holder.feeds[0].post.uri, equals(resultFeedList[0].post.uri));
     });
 
     test('makeFeeds insert case', () {
       // setup
       List<Feed> resultFeedList = [];
-      resultFeedList.addAll(newRes.map.values);
-      resultFeedList.addAll(oldRes.map.values);
+      resultFeedList.addAll(convert(newRes));
+      resultFeedList.addAll(convert(oldRes));
       holder.cursor = oldCursor;
-      holder.feeds.addAll(oldRes.map.values);
+      holder.feeds.addAll(convert(oldRes));
       // action
       holder.makeFeeds(true, newRes);
 
       // assert
-      expect(holder.feeds, equals(resultFeedList));
+      expect(holder.feeds.length, equals(2));
+      expect(holder.feeds[0].post.uri, equals(resultFeedList[0].post.uri));
+      expect(holder.feeds[1].post.uri, equals(resultFeedList[1].post.uri));
     });
 
     test('makeFeeds append case', () {
       // setup
       List<Feed> resultFeedList = [];
-      resultFeedList.addAll(oldRes.map.values);
-      resultFeedList.addAll(newRes.map.values);
+      resultFeedList.addAll(convert(oldRes));
+      resultFeedList.addAll(convert(newRes));
 
       holder.cursor = "hoge";
-      holder.feeds.addAll(oldRes.map.values);
+      holder.feeds.addAll(convert(oldRes));
       // action
       holder.makeFeeds(false, newRes);
 
       // assert
-      expect(holder.feeds, equals(resultFeedList));
+      expect(holder.feeds.length, equals(2));
+      expect(holder.feeds[0].post.uri, equals(resultFeedList[0].post.uri));
+      expect(holder.feeds[1].post.uri, equals(resultFeedList[1].post.uri));
     });
   });
 }
