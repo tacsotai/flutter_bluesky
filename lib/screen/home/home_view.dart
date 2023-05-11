@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/home.dart';
+import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
 
@@ -45,7 +46,16 @@ class _HomeViewState extends State<HomeView> with FeedScroll {
   }
 
   @override
-  List<Widget> get slivers => [appBar, sliverList];
+  List<Widget> get slivers => [
+        appBar,
+        MaterialSliverRefreshControl(
+          onRefresh: () async {
+            await manager.getData(true);
+            setState(() {});
+          },
+        ),
+        sliverList
+      ];
 
   Widget get appBar {
     return SliverAppBar(
