@@ -12,15 +12,6 @@ class ProfileDataHolder extends FeedDataHolder {
   }
 }
 
-class FeedResponse {
-  String cursor;
-  List feed = [];
-
-  FeedResponse(Map body)
-      : cursor = body["cursor"],
-        feed = body["feed"];
-}
-
 class FeedDataHolder {
   String? cursor;
   List<Feed> feeds = [];
