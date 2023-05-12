@@ -22,6 +22,4 @@ abstract class CommonTimeline {
       footer(context, feed.post),
     ];
   }
-
-  // ここから下をDelegate
 }
