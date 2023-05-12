@@ -8,6 +8,38 @@ import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 
+Widget postLineFrame(BuildContext context, Post post) {
+  return Column(children: [
+    Container(
+      margin: const EdgeInsets.all(10),
+      child: Padding(
+          padding: const EdgeInsets.all(5), child: postLine(context, post)),
+    ),
+    const Divider(height: 0.5)
+  ]);
+}
+
+Widget postLine(BuildContext context, Post post) {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      avator(post.author.avatar),
+      sizeBox,
+      postContentFrame(context, post)
+    ],
+  );
+}
+
+Widget postContentFrame(BuildContext context, Post post) {
+  return Expanded(
+      child: Padding(
+          padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: postContent(context, post),
+          )));
+}
+
 List<Widget> postContent(BuildContext context, Post post) {
   return [
     header(context, post.author, post.record.createdAt),
