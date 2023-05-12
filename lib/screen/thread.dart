@@ -33,7 +33,7 @@ class ThreadScreen extends State<Thread> {
     if (res.thread.parentMap != null) {
       widgets.add(postLineFrame(context, res.thread.parent.post));
     }
-    widgets.add(postLineFrame(context, res.thread.post));
+    widgets.add(postLineFrame(context, res.thread.post, fontSize: 18));
     if (res.thread.replyList != null) {
       for (var reply in res.thread.replies) {
         widgets.add(postLineFrame(context, reply.post));

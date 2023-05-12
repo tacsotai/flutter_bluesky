@@ -8,42 +8,43 @@ import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 
-Widget postLineFrame(BuildContext context, Post post) {
+Widget postLineFrame(BuildContext context, Post post, {double? fontSize}) {
   return Column(children: [
     Container(
       margin: const EdgeInsets.all(10),
       child: Padding(
-          padding: const EdgeInsets.all(5), child: postLine(context, post)),
+          padding: const EdgeInsets.all(5),
+          child: postLine(context, post, fontSize: fontSize)),
     ),
     const Divider(height: 0.5)
   ]);
 }
 
-Widget postLine(BuildContext context, Post post) {
+Widget postLine(BuildContext context, Post post, {double? fontSize}) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       avator(post.author.avatar),
       sizeBox,
-      postContentFrame(context, post)
+      postContentFrame(context, post, fontSize: fontSize)
     ],
   );
 }
 
-Widget postContentFrame(BuildContext context, Post post) {
+Widget postContentFrame(BuildContext context, Post post, {double? fontSize}) {
   return Expanded(
       child: Padding(
           padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: postContent(context, post),
+            children: postContent(context, post, fontSize: fontSize),
           )));
 }
 
-List<Widget> postContent(BuildContext context, Post post) {
+List<Widget> postContent(BuildContext context, Post post, {double? fontSize}) {
   return [
     header(context, post.author, post.record.createdAt),
-    contentBody(context, post),
+    contentBody(context, post, fontSize: fontSize),
     footer(context, post),
   ];
 }
@@ -73,17 +74,19 @@ Widget footer(BuildContext context, Post post) {
   );
 }
 
-Widget contentBody(BuildContext context, Post post) {
+Widget contentBody(BuildContext context, Post post, {double? fontSize}) {
   List<Widget> widgets = [];
-  appendRecord(context, widgets, post);
+  appendRecord(context, widgets, post, fontSize: fontSize);
   appendEmbed(context, widgets, post.embed);
   return Column(children: widgets);
 }
 
-void appendRecord(BuildContext context, List<Widget> widgets, Post post) {
+void appendRecord(BuildContext context, List<Widget> widgets, Post post,
+    {double? fontSize}) {
   Widget text = Row(
     children: [
-      Expanded(child: Text(post.record.text)),
+      Expanded(
+          child: Text(post.record.text, style: TextStyle(fontSize: fontSize))),
     ],
   );
   widgets.add(
