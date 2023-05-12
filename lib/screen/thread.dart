@@ -25,10 +25,10 @@ class ThreadScreen extends State<Thread> {
     );
   }
 
+  // parent?
+  // post
+  // replis?
   Widget body(ThreadResponse res) {
-    // parent?
-    // post
-    // replis?
     List<Widget> widgets = [];
     if (res.thread.parentMap != null) {
       widgets.add(postLineFrame(context, res.thread.parent.post));
