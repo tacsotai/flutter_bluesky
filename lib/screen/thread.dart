@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/common_post.dart';
 import 'package:tuple/tuple.dart';
 
 class Thread extends StatefulWidget {
@@ -25,12 +26,20 @@ class ThreadScreen extends State<Thread> {
   }
 
   Widget body(ThreadResponse res) {
-    return Column(children: [
-      Text("screen: ${Thread.screen.name}"),
-      Text("handle: ${widget.handle}"),
-      Text("uri: ${widget.uri}"),
-      Text("uri: ${res.thread.post.indexedAt}"),
-    ]);
+    // parent?
+    // post
+    // replis?
+    List<Widget> widgets = [];
+    if (res.thread.parentMap != null) {
+      widgets.add(postLineFrame(context, res.thread.parent.post));
+    }
+    widgets.add(postLineFrame(context, res.thread.post));
+    if (res.thread.replyList != null) {
+      for (var reply in res.thread.replies) {
+        widgets.add(postLineFrame(context, reply.post));
+      }
+    }
+    return Column(children: widgets);
   }
 
   Widget _build() {
