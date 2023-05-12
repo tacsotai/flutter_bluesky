@@ -49,9 +49,12 @@ class ThreadScreen extends State<Thread> {
   }
 
   Future<ThreadResponse> getData(String handle, String uri) async {
-    // TODO handle check
     late ThreadResponse response;
     try {
+      Tuple2 check = await plugin.resolveHandle(handle);
+      if (check.item1 != 200) {
+        throw Exception(check.item2);
+      }
       Tuple2 res = await plugin.getPostThread(uri);
       response = ThreadResponse(res.item2);
     } catch (e, stacktrace) {
