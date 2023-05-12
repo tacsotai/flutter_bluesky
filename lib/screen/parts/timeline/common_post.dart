@@ -8,6 +8,14 @@ import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 
+List<Widget> postContent(BuildContext context, Post post) {
+  return [
+    header(context, post.author, post.record.createdAt),
+    contentBody(context, post),
+    footer(context, post),
+  ];
+}
+
 Widget header(
     BuildContext context, ProfileViewBasic author, DateTime datetime) {
   return Padding(
