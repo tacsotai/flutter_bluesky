@@ -90,4 +90,12 @@ abstract class Atproto {
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
+
+  Future<Tuple2> resolveHandle(String handle) async {
+    http.Response res = await api.get(
+        "com.atproto.identity.resolveHandle?handle=$handle",
+        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
 }
