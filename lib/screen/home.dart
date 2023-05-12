@@ -6,16 +6,22 @@ import 'package:flutter_bluesky/screen/home/home_view.dart';
 
 // https://blog.flutteruniv.com/flutter-infinity-scroll/
 // https://api.flutter.dev/flutter/material/SliverAppBar-class.html
+// ignore: must_be_immutable
 class Home extends PluggableWidget {
   static Screen screen = Screen(Home, const Icon(Icons.home));
-  const Home({Key? key, required this.base}) : super(key: key);
-  final Base base;
+  Home({Key? key}) : super(key: key);
+  late Base base;
 
   @override
   HomeScreen createState() => HomeScreen();
 
   @override
   BottomNavigationBarItem get bottomNavigationBarItem => navi(screen);
+
+  @override
+  void setBase(Base base) {
+    this.base = base;
+  }
 }
 
 class HomeScreen extends State<Home> with Frame {

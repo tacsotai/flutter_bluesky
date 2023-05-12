@@ -2,12 +2,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
 
-final Base base = Base();
+List<PluggableWidget> pluggables = [];
+
+void initPluggables(Base base) {
+  for (var pluggable in pluggables) {
+    pluggable.setBase(base);
+  }
+}
 
 class Base extends StatefulWidget {
   static String route = "/";
-  final List<PluggableWidget> pluggables = [];
-
   Base({Key? key}) : super(key: key);
 
   final BaseScreen screen = BaseScreen();
@@ -23,6 +27,7 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    initPluggables(widget);
 
     _animationController = AnimationController(
       vsync: this,
@@ -80,7 +85,7 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
 
   List<BottomNavigationBarItem> get _bottomNavigationBarItems {
     List<BottomNavigationBarItem> list = [];
-    for (var pluggable in widget.pluggables) {
+    for (var pluggable in pluggables) {
       list.add(pluggable.bottomNavigationBarItem);
     }
     return list;

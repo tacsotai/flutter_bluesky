@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/post.dart';
 
 void push(BuildContext context, String screenName) {
@@ -26,6 +27,8 @@ abstract class PluggableWidget extends StatefulWidget {
       tooltip: tr(screen.name),
     );
   }
+
+  void setBase(Base base);
 }
 
 mixin Frame {
