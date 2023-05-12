@@ -26,8 +26,10 @@ class HomeDataManager extends FeedDataManager {
       // debugPrint("insert: $insert");
       Tuple2 res = await plugin.timeline(cursor: insert ? null : cursor);
       holder.makeFeeds(insert, FeedResponse(res.item2));
-    } catch (e) {
-      debugPrint(e.toString()); // TODO
+    } catch (e, stacktrace) {
+      // TODO
+      debugPrint("Error: $e");
+      debugPrint("stacktrace: $stacktrace");
     }
   }
 }
