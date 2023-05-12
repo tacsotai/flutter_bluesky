@@ -12,6 +12,36 @@ class FeedResponse {
         feed = body["feed"];
 }
 
+//app.bsky.feed.defs#threadViewPost
+class ThreadResponse {
+  final Thread thread;
+  ThreadResponse(Map map) : thread = Thread(map["thread"]);
+}
+
+class Thread {
+  final String type;
+  final Post post;
+  final Map? parentMap;
+  final List? replyList;
+  Thread(Map map)
+      : type = map["\$type"],
+        post = Post(map["post"]),
+        parentMap = map["parent"],
+        replyList = map["replies"];
+
+  Thread get parent {
+    return Thread(parentMap as Map);
+  }
+
+  List<Thread> get replies {
+    List<Thread> list = [];
+    for (var map in replyList!) {
+      list.add(Thread(map));
+    }
+    return list;
+  }
+}
+
 class Feed {
   final Post post;
   final Reply? reply;

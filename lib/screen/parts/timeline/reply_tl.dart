@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/common_post.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avator.dart';
 
@@ -41,7 +42,7 @@ class ReplyTimeline extends CommonTimeline {
     return [
       header(context, parent.author, parent.record.createdAt),
       replyHeader(feed.post),
-      body(context, parent),
+      contentBody(context, parent),
       footer(context, parent),
     ];
   }

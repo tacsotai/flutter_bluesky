@@ -9,6 +9,7 @@ import 'package:flutter_bluesky/screen/profile.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/search.dart';
+import 'package:flutter_bluesky/screen/thread.dart';
 import 'package:flutter_bluesky/transition_route_observer.dart';
 import 'package:flutter_bluesky_example/sample_timeline.dart';
 // ignore: depend_on_referenced_packages
@@ -42,6 +43,7 @@ class MainApp extends StatelessWidget {
         LoginScreen.route: (context) => const LoginScreen(),
         Base.route: (context) => base,
         Post.screen.route: (context) => const Post(),
+        Thread.screen.route: (context) => const Thread(),
       },
     );
   }
