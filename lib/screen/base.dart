@@ -1,5 +1,6 @@
 // ignore_for_file: no_logic_in_create_state
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 
 List<PluggableWidget> pluggables = [];
@@ -55,7 +56,11 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return widget.pluggables[_selectedIndex];
+    if (hasSession) {
+      return pluggables[_selectedIndex];
+    } else {
+      return const Text("Provider is not settled");
+    }
   }
 
   Widget get bottom {
