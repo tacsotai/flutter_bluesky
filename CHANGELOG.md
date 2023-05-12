@@ -15,3 +15,6 @@
 ## 0.2.2
 * HARIBOTE in Japanese.
   Look and feels with view.
+
+## 0.2.3
+* Some fix with upgrading flutter version.
