@@ -11,3 +11,7 @@
 
 ## 0.2.1
 * Fix image path.
+
+## 0.2.2
+* HARIBOTE in Japanese.
+  Look and feels with view.
