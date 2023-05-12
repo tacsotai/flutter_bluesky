@@ -39,7 +39,7 @@ class ThreadScreen extends State<Thread> {
         widgets.add(postLineFrame(context, reply.post));
       }
     }
-    return Column(children: widgets);
+    return SingleChildScrollView(child: Column(children: widgets));
   }
 
   Widget _build() {
