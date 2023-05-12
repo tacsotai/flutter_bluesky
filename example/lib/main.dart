@@ -41,7 +41,7 @@ class MainApp extends StatelessWidget {
       routes: {
         Provider.screen.route: (context) => const Provider(),
         LoginScreen.route: (context) => const LoginScreen(),
-        Base.route: (context) => base,
+        Base.route: (context) => Base(),
         Post.screen.route: (context) => const Post(),
         Thread.screen.route: (context) => const Thread(),
       },
@@ -50,12 +50,11 @@ class MainApp extends StatelessWidget {
 }
 
 Future<void> init() async {
+  pluggables.add(Home());
+  pluggables.add(Search());
+  pluggables.add(Notifications());
+  pluggables.add(Profile());
   pluggableTimelines['post'] = SamplePostTimeline();
-  base.pluggables.add(Home(base: base));
-  base.pluggables.add(Search(base: base));
-  base.pluggables.add(Notifications(base: base));
-  base.pluggables.add(Profile(base: base));
-
   // TODO add other languages.
   timeago.setLocaleMessages('ja', timeago.JaMessages());
 }

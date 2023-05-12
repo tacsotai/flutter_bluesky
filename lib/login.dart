@@ -104,7 +104,7 @@ class LoginScreen extends StatelessWidget {
   static void _view(BuildContext context) {
     // below code store login state at restart.
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => base,
+      builder: (context) => Base(),
     ));
   }
 
