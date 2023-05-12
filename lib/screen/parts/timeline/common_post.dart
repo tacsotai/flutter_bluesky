@@ -8,25 +8,83 @@ import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 
-Widget postLineFrame(BuildContext context, Post post, {double? fontSize}) {
+Widget postLineFrame(BuildContext context, Post post, {bool? isMain}) {
   return Column(children: [
     Container(
       margin: const EdgeInsets.all(10),
       child: Padding(
           padding: const EdgeInsets.all(5),
-          child: postLine(context, post, fontSize: fontSize)),
+          child: postLine(context, post, isMain: isMain)),
     ),
     const Divider(height: 0.5)
   ]);
 }
 
-Widget postLine(BuildContext context, Post post, {double? fontSize}) {
+Widget postLine(BuildContext context, Post post, {bool? isMain = false}) {
+  if (isMain != null && isMain) {
+    return mainPostLine(context, post);
+  }
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       avator(post.author.avatar),
       sizeBox,
-      postContentFrame(context, post, fontSize: fontSize)
+      postContentFrame(context, post)
+    ],
+  );
+}
+
+Widget mainPostLine(BuildContext context, Post post) {
+  return Column(
+    children: [
+      mainHeader(context, post),
+      mainContentBody(context, post),
+      const Divider(height: 0.5),
+      mainLike(context, post),
+      const Divider(height: 0.5),
+      mainFooter(context, post)
+    ],
+  );
+}
+
+Widget mainContentBody(BuildContext context, Post post) {
+  return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+      child: contentBody(context, post, fontSize: 18));
+}
+
+Widget mainHeader(BuildContext context, Post post) {
+  return Row(children: [
+    avator(post.author.avatar),
+    Expanded(
+        child: Padding(
+            padding: const EdgeInsets.fromLTRB(15, 5, 5, 5),
+            child: header(context, post.author, post.record.createdAt))),
+  ]);
+}
+
+Widget mainLike(BuildContext context, Post post) {
+  return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Row(
+        children: [
+          Text(
+            "${post.likeCount} ",
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const Expanded(
+              child: Text("like", style: TextStyle(color: Colors.grey))),
+        ],
+      ));
+}
+
+Widget mainFooter(BuildContext context, Post post) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+      iconTheme(context, 'Reply', Icons.chat_bubble_outline),
+      iconTheme(context, 'Repost', Icons.repeat),
+      iconTheme(context, 'Like', Icons.favorite_outline),
     ],
   );
 }
