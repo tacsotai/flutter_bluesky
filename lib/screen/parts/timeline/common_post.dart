@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
@@ -34,7 +33,7 @@ Widget footer(BuildContext context, Post post) {
   );
 }
 
-Widget body(BuildContext context, Post post) {
+Widget contentBody(BuildContext context, Post post) {
   List<Widget> widgets = [];
   appendRecord(context, widgets, post);
   appendEmbed(context, widgets, post.embed);

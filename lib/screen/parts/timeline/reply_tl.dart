@@ -42,7 +42,7 @@ class ReplyTimeline extends CommonTimeline {
     return [
       header(context, parent.author, parent.record.createdAt),
       replyHeader(feed.post),
-      body(context, parent),
+      contentBody(context, parent),
       footer(context, parent),
     ];
   }

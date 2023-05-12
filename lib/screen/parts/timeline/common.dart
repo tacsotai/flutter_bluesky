@@ -18,7 +18,7 @@ abstract class CommonTimeline {
   List<Widget> content(BuildContext context, Feed feed) {
     return [
       header(context, feed.post.author, feed.post.record.createdAt),
-      body(context, feed.post),
+      contentBody(context, feed.post),
       footer(context, feed.post),
     ];
   }
