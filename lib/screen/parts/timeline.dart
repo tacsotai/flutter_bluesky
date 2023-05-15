@@ -1,41 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
-import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/post_tl.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/reason_tl.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/reply_tl.dart';
 
 // There are 3 pieces at Feed : post, reply?, reason?
-Map<String, CommonTimeline> pluggableTimelines = {};
+ReasonTL? customReasonTL;
+ReplyTL? customReplyTL;
+PostTL? customPostTL;
 
-class Timeline {
-  final BuildContext context;
+class Timeline extends StatelessWidget {
   final Feed feed;
-  Timeline(this.context, this.feed);
+  const Timeline(this.feed, {super.key});
 
-  Widget build() {
+  @override
+  Widget build(BuildContext context) {
     List<Widget> widgets = [];
-    append(widgets, ReasonTimeline(), 'reason');
-    append(widgets, ReplyTimeline(), 'reply');
-    append(widgets, PostTimeline(), 'post');
-
+    if (feed.reason != null) {
+      appendReason(widgets, feed.reason!.by);
+    }
+    if (feed.reply != null) {
+      appendReply(widgets, feed.reply!.parent, feed.post);
+    }
+    appendPost(widgets, feed.post);
     return Column(
       children: widgets,
     );
   }
 
-  void append(List<Widget> widgets, CommonTimeline timeline, String piece) {
-    CommonTimeline? tl = pluggableTimelines[piece];
-    if (tl != null) {
-      Widget? pluggable = tl.build(context, feed);
-      if (pluggable != null) {
-        widgets.add(pluggable);
-      }
-    } else {
-      Widget? widget = timeline.build(context, feed);
-      if (widget != null) {
-        widgets.add(widget);
-      }
-    }
+  void appendReason(List<Widget> widgets, ProfileViewBasic actor) {
+    ReasonTL tl = customReasonTL ?? ReasonTimeline();
+    tl.setActor(actor);
+    widgets.add(tl.build()!);
+  }
+
+  void appendReply(List<Widget> widgets, Post parent, Post post) {
+    ReplyTL tl = customReplyTL ?? ReplyTimeline();
+    tl.setParent(parent);
+    tl.setPost(post);
+    widgets.add(tl.build()!);
+  }
+
+  void appendPost(List<Widget> widgets, Post post) {
+    PostTL tl = customPostTL ?? PostTimeline();
+    tl.setPost(post);
+    widgets.add(tl.build());
   }
 }
