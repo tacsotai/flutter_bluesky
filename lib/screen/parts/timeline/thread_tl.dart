@@ -31,6 +31,8 @@ class ThreadTimeline extends ThreadTL {
   List<Widget> build() {
     List<Widget> widgets = [];
     appendParent(widgets);
+    appendPost(widgets);
+    appendReplies(widgets);
     List<Widget> outlineWidgets = [];
     for (var widget in widgets) {
       outlineWidgets.add(outline(widget));
