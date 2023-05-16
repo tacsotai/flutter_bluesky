@@ -78,6 +78,15 @@ class Post {
         labels = map["labels"];
 }
 
+// app.bsky.feed.viewerState
+class Viewer {
+  String? repost;
+  String? like;
+  Viewer(Map map)
+      : repost = map["repost"],
+        like = map["like"];
+}
+
 class Embed {
   // other program use this for judge.
   String type;
