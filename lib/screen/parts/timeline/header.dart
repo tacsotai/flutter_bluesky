@@ -1,43 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
-import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/util/datetime_util.dart';
 
-Widget when(BuildContext context, DateTime dt) {
-  return Text(datetime(context, dt), style: const TextStyle(fontSize: 12));
-}
+class Header extends StatelessWidget {
+  final ProfileViewBasic author;
+  final DateTime createdAt;
+  const Header({super.key, required this.author, required this.createdAt});
 
-Widget name(BuildContext context, ProfileViewBasic author) {
-  // debugPrint("context.size.width: ${context.size?.width}");
-  return Wrap(children: [displayName(author, 18), sizeBox, handle(author)]);
-}
-
-Widget displayName(ProfileViewBasic author, double? fontSize) {
-  String? name = author.displayName;
-  name ??= withoutDomain(author.handle);
-  return Text(
-    name,
-    style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
-  );
-}
-
-Widget handle(ProfileViewBasic author) {
-  return InkWell(
-    child: Text('@${author.handle}'),
-    onTap: () async {
-      // if (await canLaunch("url")) {
-      //   await launch("url");
-      // }
-    },
-  );
-}
-
-String withoutDomain(String handle) {
-  for (var domain in plugin.serverDescription["availableUserDomains"]) {
-    if (handle.endsWith(domain)) {
-      handle.replaceAll(domain, '');
-    }
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(flex: 5, child: name()),
+            Flexible(flex: 2, child: when(context)),
+          ],
+        ));
   }
-  return handle;
+
+  Widget when(BuildContext context) {
+    return Text(datetime(context, createdAt),
+        style: const TextStyle(fontSize: 12));
+  }
+
+  Widget name() {
+    // debugPrint("context.size.width: ${context.size?.width}");
+    return Wrap(children: [displayName(author, 18), sizeBox, handle(author)]);
+  }
 }

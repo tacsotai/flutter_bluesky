@@ -54,7 +54,8 @@ Future<void> init() async {
   pluggables.add(Search());
   pluggables.add(Notifications());
   pluggables.add(Profile());
-  pluggableTimelines['post'] = SamplePostTimeline();
+  customPostTL = SamplePostTimeline();
+
   // TODO add other languages.
   timeago.setLocaleMessages('ja', timeago.JaMessages());
 }

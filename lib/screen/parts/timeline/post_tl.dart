@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
-import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
-import 'package:flutter_bluesky/screen/parts/avator.dart';
 
-class PostTimeline extends CommonTimeline {
+abstract class PostTL {
+  late Post post;
+  void setPost(Post post) {
+    this.post = post;
+  }
+
+  Widget build();
+}
+
+class PostTimeline extends PostTL {
   @override
-  Widget build(BuildContext context, Feed feed) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        avator(feed.post.author.avatar),
-        sizeBox,
-        contentFrame(context, feed)
-      ],
-    );
+  Widget build() {
+    return postTL(post);
   }
 }

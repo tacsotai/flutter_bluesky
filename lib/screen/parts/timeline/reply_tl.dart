@@ -1,32 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
-import 'package:flutter_bluesky/screen/parts/timeline/common_post.dart';
-import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avator.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 
-class ReplyTimeline extends CommonTimeline {
-  @override
-  Widget? build(BuildContext context, Feed feed) {
-    if (feed.reply == null) {
-      return null;
-    }
-    Post parent = feed.reply!.parent;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        replyAvator(parent),
-        sizeBox,
-        contentFrame(context, feed),
-      ],
-    );
+abstract class ReplyTL {
+  late Post post;
+  late Post parent;
+  void setPost(Post post) {
+    this.post = post;
   }
 
-  Widget replyAvator(Post post) {
+  void setParent(Post parent) {
+    this.parent = parent;
+  }
+
+  Widget? build();
+}
+
+class ReplyTimeline extends ReplyTL {
+  @override
+  Widget? build() {
+    return padding([replyAvator], content);
+  }
+
+  Widget get replyAvator {
     // TODO height is solid, so make it flexible.
     // debugPrint("post.record.text.length: ${post.record.text.length}");
     return Column(children: [
-      avator(post.author.avatar),
+      avator(parent.author.avatar),
       Container(
           width: 1,
           height: 70,
@@ -36,22 +40,20 @@ class ReplyTimeline extends CommonTimeline {
     ]);
   }
 
-  @override
-  List<Widget> content(BuildContext context, Feed feed) {
-    Post parent = feed.reply!.parent;
+  List<Widget> get content {
     return [
-      header(context, parent.author, parent.record.createdAt),
-      replyHeader(feed.post),
-      contentBody(context, parent),
-      footer(context, parent),
+      Header(author: parent.author, createdAt: parent.record.createdAt),
+      replyHeader,
+      Body(post: parent),
+      Footer(post: parent),
     ];
   }
 
-  Widget replyHeader(Post original) {
+  Widget get replyHeader {
     return Row(children: [
       const Icon(Icons.reply, color: Colors.grey),
       Expanded(
-          child: Text('Reply to ${original.author.displayName}',
+          child: Text('Reply to ${post.author.displayName}',
               style: const TextStyle(color: Colors.grey)))
     ]);
   }

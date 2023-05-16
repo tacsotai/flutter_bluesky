@@ -1,21 +1,85 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
-import 'package:flutter_bluesky/screen/parts/timeline/common_post.dart';
+import 'package:flutter_bluesky/flutter_bluesky.dart';
+import 'package:flutter_bluesky/screen/parts/avator.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 
-abstract class CommonTimeline {
-  Widget? build(BuildContext context, Feed feed);
+Widget displayName(ProfileViewBasic author, double? fontSize) {
+  String? name = author.displayName;
+  name ??= withoutDomain(author.handle);
+  return Text(
+    name,
+    style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
+  );
+}
 
-  Widget contentFrame(BuildContext context, Feed feed) {
-    return Expanded(
-        child: Padding(
-            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: content(context, feed),
-            )));
+Widget handle(ProfileViewBasic author) {
+  return InkWell(
+    child: Text('@${author.handle}'),
+    onTap: () async {
+      // if (await canLaunch("url")) {
+      //   await launch("url");
+      // }
+    },
+  );
+}
+
+String withoutDomain(String handle) {
+  for (var domain in plugin.serverDescription["availableUserDomains"]) {
+    if (handle.endsWith(domain)) {
+      handle.replaceAll(domain, '');
+    }
   }
+  return handle;
+}
 
-  List<Widget> content(BuildContext context, Feed feed) {
-    return postContent(context, feed.post);
-  }
+Widget outline(Widget widget) {
+  return Column(children: [
+    Container(
+      margin: const EdgeInsets.all(10),
+      child: Padding(padding: const EdgeInsets.all(5), child: widget),
+    ),
+    const Divider(height: 0.5)
+  ]);
+}
+
+Widget leftPadding(List<Widget> lefts) {
+  return Padding(
+      padding: const EdgeInsets.only(right: 5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: lefts,
+      ));
+}
+
+Widget rightPadding(List<Widget> rights) {
+  return Expanded(
+      child: Padding(
+          padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: rights,
+          )));
+}
+
+Widget padding(List<Widget> lefts, List<Widget> rights) {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [leftPadding(lefts), rightPadding(rights)],
+  );
+}
+
+List<Widget> content(Post post) {
+  return [
+    Header(author: post.author, createdAt: post.record.createdAt),
+    Body(post: post),
+    Footer(post: post),
+  ];
+}
+
+Widget postTL(Post post) {
+  return padding([avator(post.author.avatar)], content(post));
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 
 mixin FeedScroll {
   late ScrollController scrollController;
@@ -66,22 +67,13 @@ mixin FeedScroll {
             child: Center(child: CircularProgressIndicator()),
           );
         }
-        return line(context, index);
+        return line(index);
       },
     ));
   }
 
-  Widget line(BuildContext context, int index) {
-    Timeline line = Timeline(context, manager.feedHolder.feeds[index]);
-    return Column(children: [
-      Container(
-        margin: const EdgeInsets.all(10),
-        child: Padding(
-          padding: const EdgeInsets.all(5),
-          child: line.build(),
-        ),
-      ),
-      const Divider(height: 0.5)
-    ]);
+  Widget line(int index) {
+    Timeline line = Timeline(manager.feedHolder.feeds[index]);
+    return outline(line);
   }
 }
