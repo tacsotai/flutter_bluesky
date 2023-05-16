@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
+import 'package:flutter_bluesky/screen/parts/reaction.dart';
+import 'package:flutter_bluesky/screen/parts/reaction/like.dart';
+import 'package:provider/provider.dart';
 
 class Footer extends StatelessWidget {
   final Post post;
@@ -28,7 +31,16 @@ class Footer extends StatelessWidget {
   }
 
   Widget like(BuildContext context, Post post) {
-    return interest(context, 'Like', Icons.favorite_outline, post.likeCount);
+    Reaction reaction = Reaction(
+      body: Like(),
+      withCount: true,
+      count: post.likeCount,
+      own: post.viewer.like != null,
+    );
+    return ChangeNotifierProvider(
+      child: const LikeWidget(),
+      create: (context) => ReactionState(reaction),
+    );
   }
 
   Widget more(BuildContext context, Post post) {
