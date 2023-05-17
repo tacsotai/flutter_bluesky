@@ -6,14 +6,14 @@ class ProfileViewBasic {
   String handle;
   String? displayName;
   String? avatar;
-  Viewer viewer;
+  ProfileViewer viewer;
   List? labels;
   ProfileViewBasic(Map map)
       : did = map["did"],
         handle = map["handle"],
         displayName = map["displayName"],
         avatar = map["avatar"],
-        viewer = Viewer(map["viewer"]),
+        viewer = ProfileViewer(map["viewer"]),
         labels = map["labels"];
 }
 
@@ -43,13 +43,17 @@ class ProfileViewDetailed extends ProfileView {
         super(map);
 }
 
-// viewerState
-class Viewer {
+// app.bsky.actor.viewerState
+class ProfileViewer {
   bool? muted;
+  bool? blockedBy;
+  String? blocking;
   String? following;
   String? followedBy;
-  Viewer(Map map)
+  ProfileViewer(Map map)
       : muted = map["muted"],
+        blockedBy = map["blockedBy"],
+        blocking = map["blocking"],
         following = map["following"],
         followedBy = map["followedBy"];
 }
