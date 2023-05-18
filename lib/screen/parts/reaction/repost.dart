@@ -1,16 +1,32 @@
 import 'package:acceptable/acceptable.dart';
-import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/reaction.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 
-class Repost extends ReactionBody {
-  Repost()
-      : super(
-          color: Colors.green,
-          tooltip: tr("reaction.repost"),
-          on: const Icon(Icons.repeat),
-          off: const Icon(Icons.repeat),
-        );
+class Repost extends StatelessWidget {
+  final Post post;
+  const Repost(this.post, {super.key});
+
+  Reaction get reaction {
+    return Reaction(
+        color: Colors.green,
+        tooltip: tr("reaction.repost"),
+        on: const Icon(Icons.repeat),
+        off: const Icon(Icons.repeat),
+        count: post.likeCount,
+        own: post.viewer.like != null);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      child: const RepostWidget(),
+      create: (context) => ReactionState(reaction),
+    );
+  }
 }
 
 class RepostWidget extends AcceptableStatefulWidget {

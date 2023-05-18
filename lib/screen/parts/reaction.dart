@@ -1,33 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-abstract class ReactionBody {
+class Reaction {
   final Color color;
   final String tooltip;
   final Icon on;
   final Icon off;
-
-  ReactionBody(
-      {required this.color,
-      required this.tooltip,
-      required this.on,
-      required this.off});
-}
-
-class Reaction {
-  final ReactionBody body;
-  final bool withCount;
   int count;
   bool own;
 
   Reaction(
-      {required this.body,
-      required this.withCount,
+      {required this.color,
+      required this.tooltip,
+      required this.on,
+      required this.off,
       required this.count,
       required this.own});
 
   Reaction get renew {
-    return Reaction(body: body, withCount: withCount, count: count, own: own);
+    return Reaction(
+        color: color,
+        tooltip: tooltip,
+        on: on,
+        off: off,
+        count: count,
+        own: own);
   }
 }
 

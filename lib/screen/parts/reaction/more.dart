@@ -1,16 +1,32 @@
 import 'package:acceptable/acceptable.dart';
-import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/reaction.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 
-class More extends ReactionBody {
-  More()
-      : super(
-          color: Colors.grey,
-          tooltip: tr("reaction.more"),
-          on: const Icon(Icons.more_horiz),
-          off: const Icon(Icons.more_horiz),
-        );
+class More extends StatelessWidget {
+  final Post post;
+  const More(this.post, {super.key});
+
+  Reaction get reaction {
+    return Reaction(
+        color: Colors.grey,
+        tooltip: tr("reaction.more"),
+        on: const Icon(Icons.more_horiz),
+        off: const Icon(Icons.more_horiz),
+        count: post.likeCount,
+        own: post.viewer.like != null);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      child: const MoreWidget(),
+      create: (context) => ReactionState(reaction),
+    );
+  }
 }
 
 class MoreWidget extends AcceptableStatefulWidget {
