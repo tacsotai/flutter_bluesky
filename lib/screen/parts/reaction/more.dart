@@ -58,6 +58,6 @@ class MoreScreen extends AcceptableStatefulWidgetState<MoreWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return widget(context, reaction);
+    return withText(reaction, context.read<ReactionState>().action);
   }
 }

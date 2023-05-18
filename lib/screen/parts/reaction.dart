@@ -49,37 +49,3 @@ class ReactionState extends ValueNotifier<Reaction> {
     value = value.renew;
   }
 }
-
-Widget widget(BuildContext context, Reaction reaction) {
-  Color color = reaction.own ? reaction.body.color : Colors.grey;
-  Widget icon = iconTheme(context, reaction, color);
-  if (reaction.withCount) {
-    return Row(
-      children: [
-        icon,
-        Text(
-          reaction.count.toString(),
-          style: TextStyle(color: color),
-        )
-      ],
-    );
-  } else {
-    return icon;
-  }
-}
-
-Widget iconTheme(BuildContext context, Reaction reaction, Color color) {
-  Icon icon = reaction.own ? reaction.body.on : reaction.body.off;
-  return IconTheme(
-    data: IconThemeData(color: color),
-    child: Row(
-      children: [
-        IconButton(
-          tooltip: reaction.body.tooltip,
-          icon: icon,
-          onPressed: context.read<ReactionState>().action,
-        )
-      ],
-    ),
-  );
-}

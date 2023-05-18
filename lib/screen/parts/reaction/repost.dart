@@ -58,6 +58,6 @@ class RepostScreen extends AcceptableStatefulWidgetState<RepostWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return widget(context, reaction);
+    return withText(reaction, context.read<ReactionState>().action);
   }
 }

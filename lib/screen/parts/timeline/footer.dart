@@ -22,33 +22,31 @@ class Footer extends StatelessWidget {
       ],
     );
   }
+}
 
+Widget withText(Reaction reaction, Function() func) {
+  return Row(
+    children: [
+      button(reaction, func),
+      Text(
+        reaction.count.toString(),
+        style: TextStyle(color: reaction.own ? reaction.color : Colors.grey),
+      )
+    ],
+  );
+}
 
-  Widget interest(
-      BuildContext context, String tooltip, IconData data, int count) {
-    return Row(
+Widget button(Reaction reaction, Function() func) {
+  return IconTheme(
+    data: IconThemeData(color: reaction.own ? reaction.color : Colors.grey),
+    child: Row(
       children: [
-        iconTheme(context, tooltip, data),
-        Text(
-          count.toString(),
-          style: const TextStyle(color: Colors.grey),
+        IconButton(
+          tooltip: reaction.tooltip,
+          icon: reaction.own ? reaction.on : reaction.off,
+          onPressed: func,
         )
       ],
-    );
-  }
-
-  Widget iconTheme(BuildContext context, String tooltip, IconData data) {
-    return IconTheme(
-      data: const IconThemeData(color: Colors.grey),
-      child: Row(
-        children: [
-          IconButton(
-            tooltip: tooltip,
-            icon: Icon(data),
-            onPressed: () {},
-          )
-        ],
-      ),
-    );
-  }
+    ),
+  );
 }
