@@ -59,6 +59,19 @@ abstract class Atproto {
         res.statusCode, json.decode(res.body));
   }
 
+  Future<Tuple2> deleteRecord(
+      String repo, String collection, String uri) async {
+    http.Response res = await api.post("com.atproto.repo.deleteRecord",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${api.session.accessJwt}"
+        },
+        body:
+            json.encode({"repo": repo, "collection": collection, "rkey": uri}));
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
   Future<Tuple2> createRecord(
       String repo, String collection, Map<String, dynamic> record) async {
     http.Response res = await api.post("com.atproto.repo.createRecord",
