@@ -1,10 +1,16 @@
+import 'package:acceptable/acceptable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/avator.dart';
+import 'package:flutter_bluesky/screen/parts/reaction/like.dart';
+import 'package:flutter_bluesky/screen/parts/reaction/repost.dart';
+import 'package:flutter_bluesky/screen/parts/reaction/thread_reaction.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_bluesky/screen/parts/reaction/reply.dart' as act;
 
 abstract class ThreadTL {
   Post? parent;
@@ -47,7 +53,7 @@ class ThreadTimeline extends ThreadTL {
   }
 
   void appendPost(List<Widget> widgets) {
-    widgets.add(threadTL(post));
+    widgets.add(ThreadMain(post: post));
   }
 
   void appendReplies(List<Widget> widgets) {
@@ -56,27 +62,26 @@ class ThreadTimeline extends ThreadTL {
       widgets.add(postTL(reply.post));
     }
   }
+}
 
-  Widget threadTL(Post post) {
+class ThreadMain extends StatelessWidget {
+  final Post post;
+  const ThreadMain({super.key, required this.post});
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
-      children: [
-        mainHeader(post),
-        mainContentBody(post),
-        const Divider(height: 0.5),
-        mainLike(post),
-        const Divider(height: 0.5),
-        ThreadAction(post: post)
-      ],
+      children: [header, body, footer],
     );
   }
 
-  Widget mainContentBody(Post post) {
+  Widget get body {
     return Padding(
         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
         child: Body(post: post, fontSize: 18));
   }
 
-  Widget mainHeader(Post post) {
+  Widget get header {
     return Row(children: [
       avator(post.author.avatar),
       Expanded(
@@ -87,44 +92,74 @@ class ThreadTimeline extends ThreadTL {
     ]);
   }
 
-  Widget mainLike(Post post) {
-    return Padding(
-        padding: const EdgeInsets.all(10),
-        child: Row(
-          children: [
-            Text(
-              "${post.likeCount} ",
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const Expanded(
-                child: Text("like", style: TextStyle(color: Colors.grey))),
-          ],
-        ));
-  }
-
-  Widget threadFrame(Widget content) {
-    return Column(children: [
-      Container(
-        margin: const EdgeInsets.all(10),
-        child: Padding(padding: const EdgeInsets.all(5), child: content),
-      ),
-      const Divider(height: 0.5)
-    ]);
+  Widget get footer {
+    ThreadReaction reaction = ThreadReaction(
+      reply: act.Reply(post).reaction,
+      repost: Repost(post).reaction,
+      like: Like(post).reaction,
+    );
+    return ChangeNotifierProvider(
+      child: const ThreadFooter(),
+      create: (context) => ThreadReactionState(reaction),
+    );
   }
 }
 
-class ThreadAction extends Footer {
-  const ThreadAction({super.key, required super.post});
+class ThreadFooter extends AcceptableStatefulWidget {
+  const ThreadFooter({Key? key}) : super(key: key);
+
+  @override
+  ThreadFooterScreen createState() => ThreadFooterScreen();
+}
+
+class ThreadFooterScreen extends AcceptableStatefulWidgetState<ThreadFooter> {
+  late ThreadReaction reaction;
+  @override
+  void acceptProviders(Accept accept) {
+    accept<ThreadReactionState, ThreadReaction>(
+      watch: (state) => state.value,
+      apply: (value) => reaction = value,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+    return Column(
       children: [
-        iconTheme(context, 'Reply', Icons.chat_bubble_outline),
-        iconTheme(context, 'Repost', Icons.repeat),
-        iconTheme(context, 'Like', Icons.favorite_outline),
+        const Divider(height: 0.5),
+        counts,
+        const Divider(height: 0.5),
+        reactions,
       ],
     );
+  }
+
+  Widget get counts {
+    List<Widget> widgets = [];
+    if (reaction.like.count != 0) {
+      widgets.add(_text(reaction.like.count, "like"));
+    }
+    if (reaction.repost.count != 0) {
+      widgets.add(_text(reaction.repost.count, "repost"));
+    }
+    return Row(children: widgets);
+  }
+
+  Widget _text(int count, String st) {
+    List<Widget> widgets = [
+      Text("$count ", style: const TextStyle(fontWeight: FontWeight.bold)),
+      Text(st, style: const TextStyle(color: Colors.grey)),
+    ];
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
+        child: Row(children: widgets));
+  }
+
+  Widget get reactions {
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+      button(reaction.reply, context.read<ThreadReactionState>().reply),
+      button(reaction.repost, context.read<ThreadReactionState>().repost),
+      button(reaction.like, context.read<ThreadReactionState>().like),
+    ]);
   }
 }
