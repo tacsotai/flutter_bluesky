@@ -28,25 +28,26 @@ Widget withText(Reaction reaction, Function() func) {
   return Row(
     children: [
       button(reaction, func),
-      Text(
-        reaction.count.toString(),
-        style: TextStyle(color: reaction.own ? reaction.color : Colors.grey),
-      )
+      Text(reaction.count.toString(), style: TextStyle(color: color(reaction)))
     ],
   );
 }
 
 Widget button(Reaction reaction, Function() func) {
   return IconTheme(
-    data: IconThemeData(color: reaction.own ? reaction.color : Colors.grey),
+    data: IconThemeData(color: color(reaction)),
     child: Row(
       children: [
         IconButton(
           tooltip: reaction.tooltip,
-          icon: reaction.own ? reaction.on : reaction.off,
+          icon: reaction.uri != null ? reaction.on : reaction.off,
           onPressed: func,
         )
       ],
     ),
   );
+}
+
+Color color(Reaction reaction) {
+  return reaction.uri != null ? reaction.color : Colors.grey;
 }

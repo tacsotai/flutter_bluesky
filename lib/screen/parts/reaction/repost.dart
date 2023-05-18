@@ -17,7 +17,7 @@ class Repost extends StatelessWidget {
         on: const Icon(Icons.repeat),
         off: const Icon(Icons.repeat),
         count: post.likeCount,
-        own: post.viewer.like != null);
+        uri: post.viewer.repost);
   }
 
   @override

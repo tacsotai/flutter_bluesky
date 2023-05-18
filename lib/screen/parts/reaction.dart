@@ -6,7 +6,7 @@ class Reaction {
   final Icon on;
   final Icon off;
   int count;
-  bool own;
+  String? uri;
 
   Reaction(
       {required this.color,
@@ -14,7 +14,7 @@ class Reaction {
       required this.on,
       required this.off,
       required this.count,
-      required this.own});
+      required this.uri});
 
   Reaction get renew {
     return Reaction(
@@ -23,7 +23,7 @@ class Reaction {
         on: on,
         off: off,
         count: count,
-        own: own);
+        uri: uri);
   }
 }
 
@@ -39,12 +39,6 @@ class ReactionState extends ValueNotifier<Reaction> {
   ReactionState(Reaction value) : super(value);
 
   void action() {
-    if (value.own) {
-      value.count -= 1;
-    } else {
-      value.count += 1;
-    }
-    value.own = !value.own;
     // The notifyListeners notify at chnage the value object.
     value = value.renew;
   }

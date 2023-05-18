@@ -17,7 +17,7 @@ class Reply extends StatelessWidget {
         on: const Icon(Icons.chat_bubble_outline),
         off: const Icon(Icons.chat_bubble_outline),
         count: post.likeCount,
-        own: post.viewer.like != null);
+        uri: null);
   }
 
   @override

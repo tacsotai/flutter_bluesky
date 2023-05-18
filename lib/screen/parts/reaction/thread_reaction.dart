@@ -22,22 +22,12 @@ class ThreadReactionState extends ValueNotifier<ThreadReaction> {
   }
 
   void repost() {
-    if (value.repost.own) {
-      value.repost.count -= 1;
-    } else {
-      value.repost.count += 1;
-    }
-    value.repost.own = !value.repost.own;
+    // TODO
     value = value.renew;
   }
 
   void like() {
-    if (value.like.own) {
-      value.like.count -= 1;
-    } else {
-      value.like.count += 1;
-    }
-    value.like.own = !value.like.own;
+    // TODO
     value = value.renew;
   }
 }
