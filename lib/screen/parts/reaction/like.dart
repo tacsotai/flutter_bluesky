@@ -6,6 +6,7 @@ import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/parts/reaction.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
+import 'package:tuple/tuple.dart';
 
 class Like extends StatelessWidget {
   final Post post;
@@ -44,17 +45,18 @@ class LikeState extends ValueNotifier<Reaction> {
   LikeState(Reaction value, this.context, this.post) : super(value);
 
   void action() async {
+    // unlike
     if (value.uri != null) {
       value.count -= 1;
-      // unlike
-      plugin.unlike(post.viewer.like!);
-    } else {
-      value.count += 1;
-      // like
-      // plugin.createRecord(repo, collection, record);
-      // value.uri = !value.uri;
+      await plugin.unlike(value.uri!);
+      value.uri = null;
     }
-
+    // like
+    else {
+      value.count += 1;
+      Tuple2 res = await plugin.like(post.author.did, post.uri, post.cid);
+      value.uri = res.item2['uri'];
+    }
     // The notifyListeners notify at chnage the value object.
     value = value.renew;
   }
