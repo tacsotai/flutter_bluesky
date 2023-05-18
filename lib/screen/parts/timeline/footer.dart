@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bluesky/api/model/feed.dart';
+import 'package:flutter_bluesky/api/model/feed.dart' as feed;
 import 'package:flutter_bluesky/screen/parts/reaction.dart';
 import 'package:flutter_bluesky/screen/parts/reaction/like.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bluesky/screen/parts/reaction/more.dart';
+import 'package:flutter_bluesky/screen/parts/reaction/reply.dart';
+import 'package:flutter_bluesky/screen/parts/reaction/repost.dart';
 
 class Footer extends StatelessWidget {
-  final Post post;
+  final feed.Post post;
   const Footer({super.key, required this.post});
 
   @override
@@ -13,39 +15,14 @@ class Footer extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        reply(context, post),
-        repost(context, post),
-        like(context, post),
-        more(context, post),
+        Reply(post),
+        Repost(post),
+        Like(post),
+        More(post),
       ],
     );
   }
 
-  Widget reply(BuildContext context, Post post) {
-    return interest(
-        context, 'Reply', Icons.chat_bubble_outline, post.replyCount);
-  }
-
-  Widget repost(BuildContext context, Post post) {
-    return interest(context, 'Repost', Icons.repeat, post.repostCount);
-  }
-
-  Widget like(BuildContext context, Post post) {
-    Reaction reaction = Reaction(
-      body: Like(),
-      withCount: true,
-      count: post.likeCount,
-      own: post.viewer.like != null,
-    );
-    return ChangeNotifierProvider(
-      child: const LikeWidget(),
-      create: (context) => ReactionState(reaction),
-    );
-  }
-
-  Widget more(BuildContext context, Post post) {
-    return iconTheme(context, 'Like', Icons.more_horiz);
-  }
 
   Widget interest(
       BuildContext context, String tooltip, IconData data, int count) {
