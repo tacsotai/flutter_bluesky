@@ -24,7 +24,35 @@ class Repost extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       child: const RepostWidget(),
-      create: (context) => ReactionState(reaction),
+      create: (context) => RepostState(reaction, context),
+    );
+  }
+}
+
+class RepostState extends ValueNotifier<Reaction> {
+  final BuildContext context;
+  RepostState(Reaction value, this.context) : super(value);
+
+  void action() async {
+    await showModalBottomSheet<int>(
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+              leading: value.off,
+              title: Text(value.tooltip),
+              onTap: () => Navigator.of(context).pop(0),
+            ),
+            ListTile(
+              leading: const Icon(Icons.format_quote),
+              title: Text(tr('reaction.repost.quate')),
+              onTap: () => Navigator.of(context).pop(1),
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -40,24 +68,14 @@ class RepostScreen extends AcceptableStatefulWidgetState<RepostWidget> {
   late Reaction reaction;
   @override
   void acceptProviders(Accept accept) {
-    accept<ReactionState, Reaction>(
+    accept<RepostState, Reaction>(
       watch: (state) => state.value,
       apply: (value) => reaction = value,
-      // perform: (value) {
-      //   if (value == 10) {
-      //     showDialog(
-      //       context: context,
-      //       builder: (context) => AlertDialog(
-      //         content: Text('$value'),
-      //       ),
-      //     );
-      //   }
-      // },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return withText(reaction, context.read<ReactionState>().action);
+    return withText(reaction, context.read<RepostState>().action);
   }
 }
