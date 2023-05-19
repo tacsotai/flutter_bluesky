@@ -59,17 +59,17 @@ abstract class Atproto {
         res.statusCode, json.decode(res.body));
   }
 
+  // see 'record' table on DB.
   Future<Tuple2> deleteRecord(
-      String repo, String collection, String uri) async {
+      String repo, String collection, String rkey) async {
     http.Response res = await api.post("com.atproto.repo.deleteRecord",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer ${api.session.accessJwt}"
         },
-        body:
-            json.encode({"repo": repo, "collection": collection, "rkey": uri}));
-    return Tuple2<int, Map<String, dynamic>>(
-        res.statusCode, json.decode(res.body));
+        body: json
+            .encode({"repo": repo, "collection": collection, "rkey": rkey}));
+    return Tuple2<int, Map<String, dynamic>>(res.statusCode, {});
   }
 
   Future<Tuple2> createRecord(
