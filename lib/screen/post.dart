@@ -5,8 +5,10 @@ import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avator.dart';
 
 class Post extends StatefulWidget {
+  final int popNum;
+  final Map? record;
   static Screen screen = Screen(Post, const Icon(Icons.edit));
-  const Post({Key? key}) : super(key: key);
+  const Post({Key? key, this.record, this.popNum = 1}) : super(key: key);
   @override
   PostScreen createState() => PostScreen();
 }
@@ -32,7 +34,11 @@ class PostScreen extends State<Post> {
       children: [
         InkWell(
           child: Text(tr("submit.cancel")),
-          onTap: () => {Navigator.pop(context)},
+          onTap: () {
+            for (var i = 0; i < widget.popNum; i++) {
+              Navigator.pop(context);
+            }
+          },
         ),
         const Spacer(),
         ElevatedButton(
