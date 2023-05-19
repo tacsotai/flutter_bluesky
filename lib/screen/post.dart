@@ -3,12 +3,20 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avator.dart';
+import 'package:flutter_bluesky/api/model/feed.dart' as feed;
+
+enum PostType {
+  normal,
+  reply,
+  quate;
+}
 
 class Post extends StatefulWidget {
-  final int popNum;
-  final Map? record;
+  final PostType postType;
+  final feed.Post? post;
   static Screen screen = Screen(Post, const Icon(Icons.edit));
-  const Post({Key? key, this.record, this.popNum = 1}) : super(key: key);
+  const Post({Key? key, this.postType = PostType.normal, this.post})
+      : super(key: key);
   @override
   PostScreen createState() => PostScreen();
 }
@@ -35,9 +43,10 @@ class PostScreen extends State<Post> {
         InkWell(
           child: Text(tr("submit.cancel")),
           onTap: () {
-            for (var i = 0; i < widget.popNum; i++) {
+            if (widget.postType == PostType.quate) {
               Navigator.pop(context);
             }
+            Navigator.pop(context);
           },
         ),
         const Spacer(),
