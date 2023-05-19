@@ -3,10 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/post.dart';
 
-void push(BuildContext context, String screenName) {
-  Navigator.pushNamed(context, screenName);
-}
-
 Widget listsBody(List<Widget> widgets) {
   return Column(
     mainAxisSize: MainAxisSize.max,
@@ -62,7 +58,7 @@ mixin Frame {
   Widget post(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        push(context, Post.screen.route);
+        Navigator.pushNamed(context, Post.screen.route);
       },
       backgroundColor: Theme.of(context).colorScheme.primary,
       child: const Icon(

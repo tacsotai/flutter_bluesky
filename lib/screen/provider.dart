@@ -80,7 +80,7 @@ class ProviderScreen extends State<Provider> {
       message = res.item2["message"];
     } else {
       debugPrint("serverDescription: ${plugin.serverDescription}");
-      push(context, LoginScreen.route);
+      Navigator.pushNamed(context, LoginScreen.route);
     }
   }
 }
