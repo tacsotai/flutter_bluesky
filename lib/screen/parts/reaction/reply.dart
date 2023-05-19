@@ -1,13 +1,14 @@
 import 'package:acceptable/acceptable.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/reaction.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
+import 'package:flutter_bluesky/api/model/feed.dart' as feed;
+import 'package:flutter_bluesky/screen/post.dart';
 
 class Reply extends StatelessWidget {
-  final Post post;
+  final feed.Post post;
   const Reply(this.post, {super.key});
 
   Reaction get reaction {
@@ -24,7 +25,21 @@ class Reply extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       child: const ReplyWidget(),
-      create: (context) => ReactionState(reaction),
+      create: (context) => ReplyState(reaction, context, post),
+    );
+  }
+}
+
+class ReplyState extends ValueNotifier<Reaction> {
+  final BuildContext context;
+  final feed.Post post;
+  ReplyState(Reaction value, this.context, this.post) : super(value);
+
+  void action() async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => Post(postType: PostType.reply, post: post)),
     );
   }
 }
@@ -40,24 +55,14 @@ class ReplyScreen extends AcceptableStatefulWidgetState<ReplyWidget> {
   late Reaction reaction;
   @override
   void acceptProviders(Accept accept) {
-    accept<ReactionState, Reaction>(
+    accept<ReplyState, Reaction>(
       watch: (state) => state.value,
       apply: (value) => reaction = value,
-      // perform: (value) {
-      //   if (value == 10) {
-      //     showDialog(
-      //       context: context,
-      //       builder: (context) => AlertDialog(
-      //         content: Text('$value'),
-      //       ),
-      //     );
-      //   }
-      // },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return withText(reaction, context.read<ReactionState>().action);
+    return withText(reaction, context.read<ReplyState>().action);
   }
 }
