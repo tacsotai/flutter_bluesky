@@ -84,11 +84,6 @@ class RepostState extends ValueNotifier<Reaction> {
   }
 
   ListTile quate(BuildContext context) {
-    Map record = {
-      "embed": {
-        "record": {"uri": post.uri, "cid": post.cid}
-      }
-    };
     return ListTile(
         leading: const Icon(Icons.format_quote),
         title: Text(tr('reaction.repost.quate')),
@@ -96,7 +91,8 @@ class RepostState extends ValueNotifier<Reaction> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => Post(record: record, popNum: 2)),
+                builder: (context) =>
+                    Post(postType: PostType.quate, post: post)),
           );
         });
   }
