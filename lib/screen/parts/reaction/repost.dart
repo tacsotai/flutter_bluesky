@@ -39,10 +39,6 @@ class RepostState extends ValueNotifier<Reaction> {
   final feed.Post post;
   RepostState(Reaction value, this.context, this.post) : super(value);
 
-// reply はreplyに値を設定
-// repost はlikeと同じ
-// quate post は app.bsky.embed.recordを使う。
-
   void action() async {
     List<Widget> list = [];
     value.uri != null ? list.add(undo(context)) : list.add(repost(context));
