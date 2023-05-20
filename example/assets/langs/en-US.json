@@ -11,6 +11,8 @@
     "post.placeholder": "What's up?",
     "reaction.reply": "Replay",
     "reaction.repost": "Repost",
+    "reaction.repost.quate": "Quate",
+    "reaction.repost.undo": "Undo Repost",
     "reaction.like": "Like",
     "reaction.more": "More",
     "title": "Flutter Blusky",

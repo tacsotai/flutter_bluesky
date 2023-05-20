@@ -1,89 +1,82 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bluesky/api/model/feed.dart' as feed;
+import 'package:flutter_bluesky/screen/parts/reaction/like.dart';
+import 'package:flutter_bluesky/screen/parts/reaction/more.dart';
+import 'package:flutter_bluesky/screen/parts/reaction/reply.dart';
+import 'package:flutter_bluesky/screen/parts/reaction/repost.dart';
 
-abstract class ReactionBody {
+class Reaction {
   final Color color;
   final String tooltip;
   final Icon on;
   final Icon off;
+  int count;
+  String? uri;
 
-  ReactionBody(
+  Reaction(
       {required this.color,
       required this.tooltip,
       required this.on,
-      required this.off});
-}
-
-class Reaction {
-  final ReactionBody body;
-  final bool withCount;
-  int count;
-  bool own;
-
-  Reaction(
-      {required this.body,
-      required this.withCount,
+      required this.off,
       required this.count,
-      required this.own});
+      required this.uri});
 
   Reaction get renew {
-    return Reaction(body: body, withCount: withCount, count: count, own: own);
+    return Reaction(
+        color: color,
+        tooltip: tooltip,
+        on: on,
+        off: off,
+        count: count,
+        uri: uri);
   }
 }
 
 /// [ValueNotifier]
-/// set value(T newValue) {
-///   if (_value == newValue) {
+/// set reaction(T newValue) {
+///   if (_reaction == newValue) {
 ///     return;
 ///   }
-///   _value = newValue;
+///   _reaction = newValue;
 ///   notifyListeners();
 /// }
 class ReactionState extends ValueNotifier<Reaction> {
-  ReactionState(Reaction value) : super(value);
+  final BuildContext context;
+  final feed.Post post;
+  ReactionState(Reaction reaction, this.context, this.post) : super(reaction);
 
-  void action() {
-    if (value.own) {
-      value.count -= 1;
-    } else {
-      value.count += 1;
-    }
-    value.own = !value.own;
-    // The notifyListeners notify at chnage the value object.
-    value = value.renew;
+  void reply() async {
+    await _action(ReplyReaction(value, context, post));
+  }
+
+  void repost() async {
+    await _action(RepostReaction(value, context, post));
+  }
+
+  void like() async {
+    await _action(LikeReaction(value, context, post));
+  }
+
+  void more() async {
+    await _action(MoreReaction(value, context, post));
+  }
+
+  Future<void> _action(AbstractReaction reaction) async {
+    await reaction.exec();
+    value = reaction.renew;
   }
 }
 
-Widget widget(BuildContext context, Reaction reaction) {
-  Color color = reaction.own ? reaction.body.color : Colors.grey;
-  Widget icon = iconTheme(context, reaction, color);
-  if (reaction.withCount) {
-    return Row(
-      children: [
-        icon,
-        Text(
-          reaction.count.toString(),
-          style: TextStyle(color: color),
-        )
-      ],
-    );
-  } else {
-    return icon;
-  }
-}
+abstract class AbstractReaction {
+  final Reaction reaction;
+  final BuildContext context;
+  final feed.Post post;
 
-Widget iconTheme(BuildContext context, Reaction reaction, Color color) {
-  Icon icon = reaction.own ? reaction.body.on : reaction.body.off;
-  return IconTheme(
-    data: IconThemeData(color: color),
-    child: Row(
-      children: [
-        IconButton(
-          tooltip: reaction.body.tooltip,
-          icon: icon,
-          onPressed: context.read<ReactionState>().action,
-        )
-      ],
-    ),
-  );
+  AbstractReaction(this.reaction, this.context, this.post);
+
+  Future<void> exec();
+
+  Reaction get renew {
+    return reaction.renew;
+  }
 }

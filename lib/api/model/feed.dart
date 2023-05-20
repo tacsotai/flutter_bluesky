@@ -4,7 +4,7 @@ import 'package:flutter_bluesky/api/model/actor.dart';
 // feedViewPost
 
 class FeedResponse {
-  String cursor;
+  String? cursor;
   List feed = [];
 
   FeedResponse(Map body)

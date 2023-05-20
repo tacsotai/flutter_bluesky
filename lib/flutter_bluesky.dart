@@ -104,6 +104,40 @@ class FlutterBluesky extends Bluesky {
     );
   }
 
+  Future<Tuple2> repost(String user, String uri, String cid) async {
+    return _likeRepost(user, "app.bsky.feed.repost", uri, cid);
+  }
+
+  Future<Tuple2> like(String user, String uri, String cid) async {
+    return _likeRepost(user, "app.bsky.feed.like", uri, cid);
+  }
+
+  Future<Tuple2> _likeRepost(
+      String repo, String collection, String uri, String cid) async {
+    return await createRecord(
+      repo,
+      collection,
+      {
+        "subject": {"uri": uri, "cid": cid},
+        "createdAt": DateTime.now().toIso8601String()
+      },
+    );
+  }
+
+  Future<Tuple2> unlike(String uri) async {
+    return await _unlikeUndo("app.bsky.feed.like", uri);
+  }
+
+  Future<Tuple2> undo(String uri) async {
+    return await _unlikeUndo("app.bsky.feed.repost", uri);
+  }
+
+  // 'at://did:plc:72i5sqnrlvphcxjllqzzslft/app.bsky.feed.repost/3jw2xxfd7fs24'
+  Future<Tuple2> _unlikeUndo(String collection, String uri) async {
+    List<String> splits = uri.split("/");
+    return await deleteRecord(splits[2], splits[3], splits[4]);
+  }
+
   // Future<int> noticeCount() async {
   //   return 0;
   // }

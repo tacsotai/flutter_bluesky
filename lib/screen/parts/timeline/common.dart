@@ -39,8 +39,8 @@ String withoutDomain(String handle) {
 Widget outline(Widget widget) {
   return Column(children: [
     Container(
-      margin: const EdgeInsets.all(10),
-      child: Padding(padding: const EdgeInsets.all(5), child: widget),
+      margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+      child: widget,
     ),
     const Divider(height: 0.5)
   ]);
