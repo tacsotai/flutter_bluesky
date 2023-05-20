@@ -132,7 +132,7 @@ class FlutterBluesky extends Bluesky {
     return await _unlikeUndo("app.bsky.feed.repost", uri);
   }
 
-  // 'at://did:plc:72i5sqnrlvphcxjllqzzslft/app.bsky.feed.post/3jw2xxfd7fs24'
+  // 'at://did:plc:72i5sqnrlvphcxjllqzzslft/app.bsky.feed.repost/3jw2xxfd7fs24'
   Future<Tuple2> _unlikeUndo(String collection, String uri) async {
     List<String> splits = uri.split("/");
     return await deleteRecord(splits[2], splits[3], splits[4]);
