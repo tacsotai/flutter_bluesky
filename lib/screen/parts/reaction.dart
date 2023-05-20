@@ -45,11 +45,6 @@ class ReactionState extends ValueNotifier<Reaction> {
   final feed.Post post;
   ReactionState(Reaction reaction, this.context, this.post) : super(reaction);
 
-  void action() {
-    // The notifyListeners notify at chnage the reaction object.
-    value = value.renew;
-  }
-
   void reply() async {
     await _action(ReplyReaction(value, context, post));
   }
