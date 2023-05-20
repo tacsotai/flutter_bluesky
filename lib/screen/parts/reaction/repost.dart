@@ -29,23 +29,43 @@ class Repost extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       child: const RepostWidget(),
-      create: (context) => RepostState(reaction, context, post),
+      create: (context) => ReactionState(reaction, context, post),
     );
   }
 }
 
-class RepostState extends ValueNotifier<Reaction> {
-  final BuildContext context;
-  final feed.Post post;
-  RepostState(Reaction value, this.context, this.post) : super(value);
+class RepostWidget extends AcceptableStatefulWidget {
+  const RepostWidget({Key? key}) : super(key: key);
 
-  void action() async {
+  @override
+  RepostScreen createState() => RepostScreen();
+}
+
+class RepostScreen extends AcceptableStatefulWidgetState<RepostWidget> {
+  late Reaction reaction;
+  @override
+  void acceptProviders(Accept accept) {
+    accept<ReactionState, Reaction>(
+      watch: (state) => state.value,
+      apply: (value) => reaction = value,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return withText(reaction, context.read<ReactionState>().repost);
+  }
+}
+
+class RepostReaction extends AbstractReaction {
+  RepostReaction(super.reaction, super.context, super.post);
+
+  @override
+  Future<void> exec() async {
     List<Widget> list = [];
-    value.uri != null ? list.add(undo(context)) : list.add(repost(context));
+    reaction.uri != null ? list.add(undo(context)) : list.add(repost(context));
     list.add(quate(context));
     await showModal(list);
-    // The notifyListeners notify at chnage the value object.
-    value = value.renew;
   }
 
   Future<void> showModal(List<Widget> widgets) async {
@@ -62,9 +82,9 @@ class RepostState extends ValueNotifier<Reaction> {
       leading: const Icon(Icons.repeat),
       title: Text(tr('reaction.repost.undo')),
       onTap: () async {
-        await plugin.undo(post.uri);
-        value.count -= 1;
-        value.uri = null;
+        await plugin.undo(reaction.uri!);
+        reaction.count -= 1;
+        reaction.uri = null;
         Navigator.pop(context);
       },
     );
@@ -76,8 +96,8 @@ class RepostState extends ValueNotifier<Reaction> {
       title: Text(tr('reaction.repost')),
       onTap: () async {
         Tuple2 res = await plugin.repost(post.author.did, post.uri, post.cid);
-        value.count += 1;
-        value.uri = res.item2['uri'];
+        reaction.count += 1;
+        reaction.uri = res.item2['uri'];
         Navigator.pop(context);
       },
     );
@@ -95,28 +115,5 @@ class RepostState extends ValueNotifier<Reaction> {
                     Post(postType: PostType.quate, post: post)),
           );
         });
-  }
-}
-
-class RepostWidget extends AcceptableStatefulWidget {
-  const RepostWidget({Key? key}) : super(key: key);
-
-  @override
-  RepostScreen createState() => RepostScreen();
-}
-
-class RepostScreen extends AcceptableStatefulWidgetState<RepostWidget> {
-  late Reaction reaction;
-  @override
-  void acceptProviders(Accept accept) {
-    accept<RepostState, Reaction>(
-      watch: (state) => state.value,
-      apply: (value) => reaction = value,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return withText(reaction, context.read<RepostState>().action);
   }
 }

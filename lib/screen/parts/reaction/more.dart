@@ -24,7 +24,7 @@ class More extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       child: const MoreWidget(),
-      create: (context) => ReactionState(reaction),
+      create: (context) => ReactionState(reaction, context, post),
     );
   }
 }
@@ -43,21 +43,20 @@ class MoreScreen extends AcceptableStatefulWidgetState<MoreWidget> {
     accept<ReactionState, Reaction>(
       watch: (state) => state.value,
       apply: (value) => reaction = value,
-      // perform: (value) {
-      //   if (value == 10) {
-      //     showDialog(
-      //       context: context,
-      //       builder: (context) => AlertDialog(
-      //         content: Text('$value'),
-      //       ),
-      //     );
-      //   }
-      // },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return withText(reaction, context.read<ReactionState>().action);
+    return withText(reaction, context.read<ReactionState>().more);
+  }
+}
+
+class MoreReaction extends AbstractReaction {
+  MoreReaction(super.reaction, super.context, super.post);
+
+  @override
+  Future<void> exec() async {
+    // TODO: implement exec
   }
 }

@@ -26,39 +26,8 @@ class Like extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       child: const LikeWidget(),
-      create: (context) => LikeState(reaction, context, post),
+      create: (context) => ReactionState(reaction, context, post),
     );
-  }
-}
-
-/// [ValueNotifier]
-/// set value(T newValue) {
-///   if (_value == newValue) {
-///     return;
-///   }
-///   _value = newValue;
-///   notifyListeners();
-/// }
-class LikeState extends ValueNotifier<Reaction> {
-  final BuildContext context;
-  final Post post;
-  LikeState(Reaction value, this.context, this.post) : super(value);
-
-  void action() async {
-    // unlike
-    if (value.uri != null) {
-      value.count -= 1;
-      await plugin.unlike(value.uri!);
-      value.uri = null;
-    }
-    // like
-    else {
-      value.count += 1;
-      Tuple2 res = await plugin.like(post.author.did, post.uri, post.cid);
-      value.uri = res.item2['uri'];
-    }
-    // The notifyListeners notify at chnage the value object.
-    value = value.renew;
   }
 }
 
@@ -74,7 +43,7 @@ class LikeScreen extends AcceptableStatefulWidgetState<LikeWidget> {
 
   @override
   void acceptProviders(Accept accept) {
-    accept<LikeState, Reaction>(
+    accept<ReactionState, Reaction>(
       watch: (state) => state.value,
       apply: (value) => reaction = value,
     );
@@ -82,6 +51,26 @@ class LikeScreen extends AcceptableStatefulWidgetState<LikeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return withText(reaction, context.read<LikeState>().action);
+    return withText(reaction, context.read<ReactionState>().like);
+  }
+}
+
+class LikeReaction extends AbstractReaction {
+  LikeReaction(super.reaction, super.context, super.post);
+
+  @override
+  Future<void> exec() async {
+    // unlike
+    if (reaction.uri != null) {
+      reaction.count -= 1;
+      await plugin.unlike(reaction.uri!);
+      reaction.uri = null;
+    }
+    // like
+    else {
+      reaction.count += 1;
+      Tuple2 res = await plugin.like(post.author.did, post.uri, post.cid);
+      reaction.uri = res.item2['uri'];
+    }
   }
 }

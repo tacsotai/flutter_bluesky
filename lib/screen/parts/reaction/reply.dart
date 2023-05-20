@@ -25,21 +25,7 @@ class Reply extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       child: const ReplyWidget(),
-      create: (context) => ReplyState(reaction, context, post),
-    );
-  }
-}
-
-class ReplyState extends ValueNotifier<Reaction> {
-  final BuildContext context;
-  final feed.Post post;
-  ReplyState(Reaction value, this.context, this.post) : super(value);
-
-  void action() async {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => Post(postType: PostType.reply, post: post)),
+      create: (context) => ReactionState(reaction, context, post),
     );
   }
 }
@@ -55,7 +41,7 @@ class ReplyScreen extends AcceptableStatefulWidgetState<ReplyWidget> {
   late Reaction reaction;
   @override
   void acceptProviders(Accept accept) {
-    accept<ReplyState, Reaction>(
+    accept<ReactionState, Reaction>(
       watch: (state) => state.value,
       apply: (value) => reaction = value,
     );
@@ -63,6 +49,19 @@ class ReplyScreen extends AcceptableStatefulWidgetState<ReplyWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return withText(reaction, context.read<ReplyState>().action);
+    return withText(reaction, context.read<ReactionState>().reply);
+  }
+}
+
+class ReplyReaction extends AbstractReaction {
+  ReplyReaction(super.reaction, super.context, super.post);
+
+  @override
+  Future<void> exec() async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => Post(postType: PostType.reply, post: post)),
+    );
   }
 }

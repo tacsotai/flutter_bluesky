@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/model/feed.dart' as feed;
+import 'package:flutter_bluesky/screen/parts/reaction/like.dart';
+import 'package:flutter_bluesky/screen/parts/reaction/more.dart';
+import 'package:flutter_bluesky/screen/parts/reaction/reply.dart';
+import 'package:flutter_bluesky/screen/parts/reaction/repost.dart';
 
 class Reaction {
   final Color color;
@@ -28,18 +33,55 @@ class Reaction {
 }
 
 /// [ValueNotifier]
-/// set value(T newValue) {
-///   if (_value == newValue) {
+/// set reaction(T newValue) {
+///   if (_reaction == newValue) {
 ///     return;
 ///   }
-///   _value = newValue;
+///   _reaction = newValue;
 ///   notifyListeners();
 /// }
 class ReactionState extends ValueNotifier<Reaction> {
-  ReactionState(Reaction value) : super(value);
+  final BuildContext context;
+  final feed.Post post;
+  ReactionState(Reaction reaction, this.context, this.post) : super(reaction);
 
   void action() {
-    // The notifyListeners notify at chnage the value object.
+    // The notifyListeners notify at chnage the reaction object.
     value = value.renew;
+  }
+
+  void reply() async {
+    await _action(ReplyReaction(value, context, post));
+  }
+
+  void repost() async {
+    await _action(RepostReaction(value, context, post));
+  }
+
+  void like() async {
+    await _action(LikeReaction(value, context, post));
+  }
+
+  void more() async {
+    await _action(MoreReaction(value, context, post));
+  }
+
+  Future<void> _action(AbstractReaction reaction) async {
+    await reaction.exec();
+    value = reaction.renew;
+  }
+}
+
+abstract class AbstractReaction {
+  final Reaction reaction;
+  final BuildContext context;
+  final feed.Post post;
+
+  AbstractReaction(this.reaction, this.context, this.post);
+
+  Future<void> exec();
+
+  Reaction get renew {
+    return reaction.renew;
   }
 }
