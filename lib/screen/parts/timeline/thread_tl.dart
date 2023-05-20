@@ -100,7 +100,7 @@ class ThreadMain extends StatelessWidget {
     );
     return ChangeNotifierProvider(
       child: const ThreadFooter(),
-      create: (context) => ThreadReactionState(reaction),
+      create: (context) => ThreadReactionState(reaction, context, post),
     );
   }
 }

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen/parts/reaction.dart';
+import 'package:flutter_bluesky/screen/parts/reaction/like.dart';
+import 'package:flutter_bluesky/screen/parts/reaction/reply.dart';
+import 'package:flutter_bluesky/screen/parts/reaction/repost.dart';
+import 'package:flutter_bluesky/api/model/feed.dart' as feed;
 
 class ThreadReaction {
   final Reaction reply;
@@ -15,19 +19,25 @@ class ThreadReaction {
 }
 
 class ThreadReactionState extends ValueNotifier<ThreadReaction> {
-  ThreadReactionState(ThreadReaction value) : super(value);
+  final BuildContext context;
+  final feed.Post post;
+  ThreadReactionState(ThreadReaction value, this.context, this.post)
+      : super(value);
 
-  void reply() {
-    value = value.renew;
+  void reply() async {
+    await _action(ReplyReaction(value.reply, context, post));
   }
 
-  void repost() {
-    // TODO
-    value = value.renew;
+  void repost() async {
+    await _action(RepostReaction(value.repost, context, post));
   }
 
-  void like() {
-    // TODO
+  void like() async {
+    await _action(LikeReaction(value.like, context, post));
+  }
+
+  Future<void> _action(AbstractReaction reaction) async {
+    await reaction.exec();
     value = value.renew;
   }
 }
