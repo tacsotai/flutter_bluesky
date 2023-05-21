@@ -1,7 +1,10 @@
+import 'package:flutter_bluesky/api/model/actor.dart';
+
 const defaultProvider = "https://bsky.social";
 const xrpc = "xrpc";
 
 class Session {
+  ProfileViewDetailed? actor;
   String? did;
   String? handle;
   String? accessJwt;
@@ -31,5 +34,9 @@ class Session {
     this.handle = handle;
     this.accessJwt = accessJwt;
     this.refreshJwt = refreshJwt;
+  }
+
+  void setActor(ProfileViewDetailed actor) {
+    this.actor = actor;
   }
 }

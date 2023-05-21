@@ -1,5 +1,6 @@
 import 'package:flutter_bluesky/api.dart';
 import 'package:flutter_bluesky/api/bluesky.dart';
+import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/session.dart';
 import 'package:tuple/tuple.dart';
 
@@ -72,13 +73,18 @@ class FlutterBluesky extends Bluesky {
     Tuple2 res = await createSession(emailORhandle, password);
     if (res.item1 == 200) {
       api.session.set(res.item2);
+      await _profile();
     }
     return res;
   }
 
-  // Future<Map> profile() async {
-  //   return {};
-  // }
+  // actor = null after login
+  Future<void> _profile() async {
+    Tuple2 res = await getProfile(api.session.did!);
+    if (res.item1 == 200) {
+      api.session.actor = ProfileViewDetailed(res.item2);
+    }
+  }
 
   // Future<List> followees() async {
   //   return [];
