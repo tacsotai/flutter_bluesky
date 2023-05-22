@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avator.dart';
@@ -31,9 +32,16 @@ class PostScreen extends State<Post> {
       body: Card(
           margin: const EdgeInsets.all(0),
           child: Padding(
-            padding: const EdgeInsets.all(5),
-            child: listsBody([submit(), sizeBox, form(), sizeBox, media()]),
-          )),
+              padding: const EdgeInsets.all(5),
+              child: Form(
+                  key: _formKey,
+                  child: listsBody([
+                    submit(),
+                    sizeBox,
+                    form(),
+                    sizeBox,
+                    media(),
+                  ])))),
     );
   }
 
@@ -61,7 +69,11 @@ class PostScreen extends State<Post> {
   Widget form() {
     return Row(
       // TODO user own avator
-      children: [avator(null), sizeBox, Expanded(child: text())],
+      children: [
+        avator(plugin.api.session.actor!.avatar),
+        sizeBox,
+        Expanded(child: text())
+      ],
     );
   }
 
@@ -99,8 +111,13 @@ class PostScreen extends State<Post> {
     );
   }
 
-  void _submit() {
+  void _submit() async {
     _formKey.currentState?.save();
-    if (_text.isNotEmpty) {}
+    debugPrint("_text: $_text");
+    if (_text.isNotEmpty) {
+      await plugin.post(_text);
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
+    }
   }
 }
