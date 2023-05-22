@@ -98,13 +98,76 @@ class FlutterBluesky extends Bluesky {
     return await getTimeline(30, "reverse-chronological", cursor: cursor);
   }
 
-  // user: "did:plc:u5xrfsqb6d2xrph6t4uwwe2h"
-  // blob: pic, mov, etc... TODO
-  Future<Tuple2> post(String user, String text, {Object? blob}) async {
-    String repo = user;
+  // blobs: a list the results of several times uploadBlob
+  // {
+  //   "blob": {
+  //     "$type": "blob",
+  //     "ref": {
+  //       "$link": "bafkreiar57k65z2w3tg2opx3gfqwoncxjr7gll4ptvywtw5tmohbhks7ly"
+  //     },
+  //     "mimeType": "image/jpeg",
+  //     "size": 50140
+  //   }
+  // }
+  // Then set the return value to record as embed like this.
+  // {
+  //   "repo": "did:plc:djwdt5zwcdppta5akpdyenxu",
+  //   "collection": "app.bsky.feed.post",
+  //   "record": {
+  //     "text": "pepe",
+  //     "createdAt": "2023-04-05T08:16:04.692Z",
+  //     "embed": {
+  //       "$type": "app.bsky.embed.images",
+  //       "images": [
+  //         {
+  //           "image": {
+  //             "$type": "blob",
+  //             "ref": {
+  //               "$link": "bafkreiar57k65z2w3tg2opx3gfqwoncxjr7gll4ptvywtw5tmohbhks7ly"
+  //             },
+  //             "mimeType": "image/jpeg",
+  //             "size": 50140
+  //           },
+  //           "alt": ""
+  //         }
+  //       ]
+  //     }
+  //   }
+  // }
+  Future<Tuple2> post(String? text, {List<Map>? images}) async {
+    if (text == null && images == null) {
+      throw Exception("Did you want to say anything?"); // TODO
+    }
+    Map<String, dynamic> record = {
+      "text": text,
+      "createdAt": DateTime.now().toIso8601String()
+    };
+    if (images != null) {
+      record["embed"] = {"\$type": "app.bsky.embed.images", "images": images};
+    }
+    return await _post(record);
+  }
+
+  Future<Tuple2> _post(Map<String, dynamic> record) async {
+    return await createRecord(api.session.did!, "app.bsky.feed.post", record);
+  }
+
+  // TODO
+  Future<Tuple2> reply(String user, Map reply, String text,
+      {Object? blob}) async {
     String collection = "app.bsky.feed.post";
     return await createRecord(
-      repo,
+      api.session.did!,
+      collection,
+      {"text": text, "createdAt": DateTime.now().toIso8601String()},
+    );
+  }
+
+  // TODO
+  Future<Tuple2> quate(Map quate, String text, {Object? blob}) async {
+    String collection = "app.bsky.feed.post";
+    return await createRecord(
+      api.session.did!,
       collection,
       {"text": text, "createdAt": DateTime.now().toIso8601String()},
     );
