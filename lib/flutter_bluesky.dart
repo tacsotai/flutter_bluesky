@@ -134,43 +134,52 @@ class FlutterBluesky extends Bluesky {
   //     }
   //   }
   // }
-  Future<Tuple2> post(String? text, {List<Map>? images}) async {
+  Future<Tuple2> post(String? text,
+      {List<Map>? images, Map<String, dynamic>? record}) async {
     if (text == null && images == null) {
       throw Exception("Did you want to say anything?"); // TODO
     }
-    Map<String, dynamic> record = {
-      "text": text,
-      "createdAt": DateTime.now().toIso8601String()
-    };
+    record ??= {};
     if (images != null) {
       record["embed"] = {"\$type": "app.bsky.embed.images", "images": images};
     }
-    return await _post(record);
+    return await _post(text, record);
   }
 
-  Future<Tuple2> _post(Map<String, dynamic> record) async {
+  Future<Tuple2> _post(String? text, Map<String, dynamic> record) async {
+    record["text"] = text;
+    record["createdAt"] = DateTime.now().toIso8601String();
     return await createRecord(api.session.did!, "app.bsky.feed.post", record);
   }
 
-  // TODO
-  Future<Tuple2> reply(String user, Map reply, String text,
-      {Object? blob}) async {
-    String collection = "app.bsky.feed.post";
-    return await createRecord(
-      api.session.did!,
-      collection,
-      {"text": text, "createdAt": DateTime.now().toIso8601String()},
-    );
+  // "root": {
+  //   "uri": "at://did:plc:djwdt5zwcdppta5akpdyenxu/app.bsky.feed.post/3jw4yi3ghlk2b",
+  //   "cid": "bafyreie2lbgyjdtfoi4zeplzdgwkll3ze2fkk3332e2mdver32zoerjjau"
+  // },
+  // "parent": {
+  //   "uri": "at://did:plc:djwdt5zwcdppta5akpdyenxu/app.bsky.feed.post/3jw4yi3ghlk2b",
+  //   "cid": "bafyreie2lbgyjdtfoi4zeplzdgwkll3ze2fkk3332e2mdver32zoerjjau"
+  // }
+  Future<Tuple2> reply(String? text, Map root, Map parent,
+      {List<Map>? images}) async {
+    Map<String, dynamic>? record = {
+      "reply": {"root": root, "parent": parent}
+    };
+    return await post(text, images: images, record: record);
   }
 
-  // TODO
-  Future<Tuple2> quate(Map quate, String text, {Object? blob}) async {
-    String collection = "app.bsky.feed.post";
-    return await createRecord(
-      api.session.did!,
-      collection,
-      {"text": text, "createdAt": DateTime.now().toIso8601String()},
-    );
+  // "embed": {
+  //   "$type": "app.bsky.embed.record",
+  //   "record": {
+  //     "uri": "at://did:plc:djwdt5zwcdppta5akpdyenxu/app.bsky.feed.post/3jw4yi3ghlk2b",
+  //     "cid": "bafyreie2lbgyjdtfoi4zeplzdgwkll3ze2fkk3332e2mdver32zoerjjau"
+  //   }
+  // }
+  Future<Tuple2> quote(String? text, Map quate, {List<Map>? images}) async {
+    Map<String, dynamic>? record = {
+      "embed": {"\$type": "app.bsky.embed.record", "record": quate}
+    };
+    return await post(text, images: images, record: record);
   }
 
   Future<Tuple2> repost(String user, String uri, String cid) async {
