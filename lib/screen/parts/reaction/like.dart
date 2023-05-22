@@ -69,7 +69,7 @@ class LikeReaction extends AbstractReaction {
     // like
     else {
       reaction.count += 1;
-      Tuple2 res = await plugin.like(post.author.did, post.uri, post.cid);
+      Tuple2 res = await plugin.like(post.uri, post.cid);
       reaction.uri = res.item2['uri'];
     }
   }

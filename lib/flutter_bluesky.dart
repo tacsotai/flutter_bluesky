@@ -182,18 +182,17 @@ class FlutterBluesky extends Bluesky {
     return await post(text, images: images, record: record);
   }
 
-  Future<Tuple2> repost(String user, String uri, String cid) async {
-    return _likeRepost(user, "app.bsky.feed.repost", uri, cid);
+  Future<Tuple2> repost(String uri, String cid) async {
+    return _likeRepost("app.bsky.feed.repost", uri, cid);
   }
 
-  Future<Tuple2> like(String user, String uri, String cid) async {
-    return _likeRepost(user, "app.bsky.feed.like", uri, cid);
+  Future<Tuple2> like(String uri, String cid) async {
+    return _likeRepost("app.bsky.feed.like", uri, cid);
   }
 
-  Future<Tuple2> _likeRepost(
-      String repo, String collection, String uri, String cid) async {
+  Future<Tuple2> _likeRepost(String collection, String uri, String cid) async {
     return await createRecord(
-      repo,
+      api.session.did!,
       collection,
       {
         "subject": {"uri": uri, "cid": cid},

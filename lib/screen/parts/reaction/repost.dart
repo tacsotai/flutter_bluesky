@@ -95,7 +95,7 @@ class RepostReaction extends AbstractReaction {
       leading: const Icon(Icons.repeat),
       title: Text(tr('reaction.repost')),
       onTap: () async {
-        Tuple2 res = await plugin.repost(post.author.did, post.uri, post.cid);
+        Tuple2 res = await plugin.repost(post.uri, post.cid);
         reaction.count += 1;
         reaction.uri = res.item2['uri'];
         Navigator.pop(context);
