@@ -7,6 +7,17 @@ Widget get sizeBox {
   );
 }
 
+Widget padding(
+  Widget widget, {
+  double left = 10,
+  double top = 10,
+  double right = 10,
+  double bottom = 10,
+}) {
+  return Padding(
+      padding: EdgeInsets.fromLTRB(left, top, right, bottom), child: widget);
+}
+
 Widget listsBody(List<Widget> widgets) {
   return Column(
     mainAxisSize: MainAxisSize.max,
