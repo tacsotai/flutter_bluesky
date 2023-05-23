@@ -6,3 +6,11 @@ Widget get sizeBox {
     width: 5,
   );
 }
+
+Widget listsBody(List<Widget> widgets) {
+  return Column(
+    mainAxisSize: MainAxisSize.max,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: widgets,
+  );
+}
