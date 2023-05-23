@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 
+late int profIndex;
+
+/// avator widget
+/// avarot link is profile page. see select index of [Base]
 Widget avator(BuildContext context, String? url, {double radius = 35}) {
   return padding(
-      CircleAvatar(
-        radius: radius,
-        foregroundColor: Theme.of(context).colorScheme.primary,
-        backgroundImage: url == null ? null : NetworkImage(url),
-        child: url == null ? const Icon(Icons.person, size: 50) : null,
+      InkWell(
+        child: CircleAvatar(
+          radius: radius,
+          foregroundColor: Theme.of(context).colorScheme.primary,
+          backgroundImage: url == null ? null : NetworkImage(url),
+          child: url == null ? const Icon(Icons.person, size: 50) : null,
+        ),
+        onTap: () async {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => Base(selectedIndex: profIndex),
+          ));
+        },
       ),
       left: 0,
       top: 0,
