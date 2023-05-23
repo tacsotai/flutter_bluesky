@@ -39,7 +39,7 @@ class ThreadScreen extends State<Thread> {
     if (res.thread.replyList != null) {
       tl.setReplies(res.thread.replies);
     }
-    return SingleChildScrollView(child: Column(children: tl.build()));
+    return SingleChildScrollView(child: Column(children: tl.build(context)));
   }
 
   Widget _build() {

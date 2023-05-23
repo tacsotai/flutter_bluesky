@@ -80,6 +80,6 @@ List<Widget> content(Post post) {
   ];
 }
 
-Widget postTL(Post post) {
-  return padding([avator(post.author.avatar)], content(post));
+Widget postTL(BuildContext context, Post post) {
+  return padding([avator(context, post.author.avatar)], content(post));
 }

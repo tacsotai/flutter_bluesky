@@ -29,16 +29,16 @@ abstract class ThreadTL {
     this.replies.addAll(replies);
   }
 
-  List<Widget> build();
+  List<Widget> build(BuildContext context);
 }
 
 class ThreadTimeline extends ThreadTL {
   @override
-  List<Widget> build() {
+  List<Widget> build(BuildContext context) {
     List<Widget> widgets = [];
-    appendParent(widgets);
+    appendParent(context, widgets);
     appendPost(widgets);
-    appendReplies(widgets);
+    appendReplies(context, widgets);
     List<Widget> outlineWidgets = [];
     for (var widget in widgets) {
       outlineWidgets.add(outline(widget));
@@ -46,9 +46,9 @@ class ThreadTimeline extends ThreadTL {
     return outlineWidgets;
   }
 
-  void appendParent(List<Widget> widgets) {
+  void appendParent(BuildContext context, List<Widget> widgets) {
     if (parent != null) {
-      widgets.add(postTL(parent!));
+      widgets.add(postTL(context, parent!));
     }
   }
 
@@ -56,10 +56,10 @@ class ThreadTimeline extends ThreadTL {
     widgets.add(ThreadMain(post: post));
   }
 
-  void appendReplies(List<Widget> widgets) {
+  void appendReplies(BuildContext context, List<Widget> widgets) {
     for (var reply in replies) {
       // TODO reply.parent or reply.reply
-      widgets.add(postTL(reply.post));
+      widgets.add(postTL(context, reply.post));
     }
   }
 }
@@ -71,7 +71,7 @@ class ThreadMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [header, body, footer],
+      children: [header(context), body, footer],
     );
   }
 
@@ -81,9 +81,9 @@ class ThreadMain extends StatelessWidget {
         child: Body(post: post, fontSize: 18));
   }
 
-  Widget get header {
+  Widget header(BuildContext context) {
     return Row(children: [
-      avator(post.author.avatar),
+      avator(context, post.author.avatar),
       Expanded(
           child: Padding(
               padding: const EdgeInsets.fromLTRB(15, 5, 5, 5),

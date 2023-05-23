@@ -10,12 +10,12 @@ abstract class ReasonTL {
     this.actor = actor;
   }
 
-  Widget? build();
+  Widget? build(BuildContext context);
 }
 
 class ReasonTimeline extends ReasonTL {
   @override
-  Widget? build() {
+  Widget? build(BuildContext context) {
     return Row(
       children: [
         const SizedBox(width: 60),

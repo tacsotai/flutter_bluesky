@@ -17,20 +17,20 @@ abstract class ReplyTL {
     this.parent = parent;
   }
 
-  Widget? build();
+  Widget? build(BuildContext context);
 }
 
 class ReplyTimeline extends ReplyTL {
   @override
-  Widget? build() {
-    return padding([replyAvator], content);
+  Widget? build(BuildContext context) {
+    return padding([replyAvator(context)], content);
   }
 
-  Widget get replyAvator {
+  Widget replyAvator(BuildContext context) {
     // TODO height is solid, so make it flexible.
     // debugPrint("post.record.text.length: ${post.record.text.length}");
     return Column(children: [
-      avator(parent.author.avatar),
+      avator(context, parent.author.avatar),
       Container(
           width: 1,
           height: 70,

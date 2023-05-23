@@ -8,12 +8,12 @@ abstract class PostTL {
     this.post = post;
   }
 
-  Widget build();
+  Widget build(BuildContext context);
 }
 
 class PostTimeline extends PostTL {
   @override
-  Widget build() {
-    return postTL(post);
+  Widget build(BuildContext context) {
+    return postTL(context, post);
   }
 }

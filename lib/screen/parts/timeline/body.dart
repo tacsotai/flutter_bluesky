@@ -120,7 +120,7 @@ class Body extends StatelessWidget {
   Widget recordHeader(BuildContext context, RecordView record) {
     return Row(
       children: [
-        avator(record.author.avatar, radius: 10),
+        avator(context, record.author.avatar, radius: 10),
         Expanded(
             child: Header(
                 author: record.author, createdAt: record.value.createdAt))

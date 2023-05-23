@@ -35,7 +35,7 @@ class PostScreen extends State<Post> {
           child: listsBody([
             operation(),
             const Divider(height: 0.5),
-            form(),
+            form(context),
             const Divider(height: 0.5),
             media(),
           ])),
@@ -63,13 +63,13 @@ class PostScreen extends State<Post> {
     ));
   }
 
-  Widget form() {
+  Widget form(BuildContext context) {
     return padding(
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           // TODO user own avator
           children: [
-            avator(plugin.api.session.actor!.avatar),
+            avator(context, plugin.api.session.actor!.avatar),
             Expanded(child: text())
           ],
         ),
