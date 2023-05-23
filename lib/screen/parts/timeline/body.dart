@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
-import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avator.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 import 'package:flutter_bluesky/screen/parts/transfer/detector.dart';
@@ -122,7 +121,6 @@ class Body extends StatelessWidget {
     return Row(
       children: [
         avator(record.author.avatar, radius: 10),
-        sizeBox,
         Expanded(
             child: Header(
                 author: record.author, createdAt: record.value.createdAt))

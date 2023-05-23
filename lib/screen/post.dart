@@ -29,24 +29,21 @@ class PostScreen extends State<Post> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Card(
-          margin: const EdgeInsets.all(0),
-          child: Padding(
-              padding: const EdgeInsets.all(5),
-              child: Form(
-                  key: _formKey,
-                  child: listsBody([
-                    submit(),
-                    sizeBox,
-                    form(),
-                    sizeBox,
-                    media(),
-                  ])))),
-    );
+        body: padding(
+      Form(
+          key: _formKey,
+          child: listsBody([
+            operation(),
+            const Divider(height: 0.5),
+            form(),
+            const Divider(height: 0.5),
+            media(),
+          ])),
+    ));
   }
 
-  Widget submit() {
-    return Row(
+  Widget operation() {
+    return padding(Row(
       children: [
         InkWell(
           child: Text(tr("submit.cancel")),
@@ -63,18 +60,23 @@ class PostScreen extends State<Post> {
           child: Text(tr("submit.post")),
         )
       ],
-    );
+    ));
   }
 
   Widget form() {
-    return Row(
-      // TODO user own avator
-      children: [
-        avator(plugin.api.session.actor!.avatar),
-        sizeBox,
-        Expanded(child: text())
-      ],
-    );
+    return padding(
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          // TODO user own avator
+          children: [
+            avator(plugin.api.session.actor!.avatar),
+            Expanded(child: text())
+          ],
+        ),
+        left: 0,
+        top: 10,
+        right: 0,
+        bottom: 10);
   }
 
   Widget media() {
