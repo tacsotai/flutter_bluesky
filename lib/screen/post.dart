@@ -85,7 +85,7 @@ class PostScreen extends State<Post> {
       child: Row(
         children: [
           IconButton(
-            tooltip: 'Photo',
+            tooltip: tr('media.photo'),
             icon: const Icon(Icons.photo_outlined),
             onPressed: () {},
           )
