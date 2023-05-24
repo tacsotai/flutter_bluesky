@@ -29,17 +29,17 @@ class PostScreen extends State<Post> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: padding(
-      Form(
-          key: _formKey,
-          child: listsBody([
-            operation(),
-            const Divider(height: 0.5),
-            form(context),
-            const Divider(height: 0.5),
-            media(),
-          ])),
-    ));
+      body: padding(
+        Form(
+            key: _formKey,
+            child: listsBody([
+              operation(),
+              const Divider(height: 0.5),
+              form(context),
+            ])),
+      ),
+      bottomNavigationBar: BottomAppBar(child: media()),
+    );
   }
 
   Widget operation() {
