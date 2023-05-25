@@ -107,7 +107,7 @@ class PostScreen extends State<Post> {
         });
       },
       validator: validator,
-      minLines: 10,
+      minLines: 1,
       maxLines: 20,
       maxLength: 300,
     );
