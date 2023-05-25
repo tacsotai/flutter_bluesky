@@ -65,7 +65,7 @@ Widget rightPadding(List<Widget> rights) {
           )));
 }
 
-Widget padding(List<Widget> lefts, List<Widget> rights) {
+Widget paddingLR(List<Widget> lefts, List<Widget> rights) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [leftPadding(lefts), rightPadding(rights)],
@@ -81,5 +81,5 @@ List<Widget> content(Post post) {
 }
 
 Widget postTL(BuildContext context, Post post) {
-  return padding([avator(context, post.author.avatar)], content(post));
+  return paddingLR([avator(context, post.author.avatar)], content(post));
 }

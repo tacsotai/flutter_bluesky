@@ -23,7 +23,7 @@ abstract class ReplyTL {
 class ReplyTimeline extends ReplyTL {
   @override
   Widget? build(BuildContext context) {
-    return padding([replyAvator(context)], content);
+    return paddingLR([replyAvator(context)], content);
   }
 
   Widget replyAvator(BuildContext context) {
