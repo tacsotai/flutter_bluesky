@@ -39,12 +39,13 @@ class PostScreen extends State<Post> {
       body: padding(
         Form(
             key: _formKey,
-            child: listsBody([
+            child: SingleChildScrollView(
+                child: listsBody([
               operation(),
               const Divider(height: 0.5),
               form(context),
               SizedBox(height: 350, child: Row(children: selects))
-            ])),
+            ]))),
       ),
       bottomNavigationBar: BottomAppBar(child: media()),
     );
@@ -90,13 +91,14 @@ class PostScreen extends State<Post> {
     return IconTheme(
       data: IconThemeData(color: Theme.of(context).colorScheme.primary),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           IconButton(
             tooltip: tr('media.photo'),
             icon: const Icon(Icons.photo_outlined),
             onPressed: _pickFile,
           )
-          // TODO camera
+          // TODO camera with BottomNavigationBarItem
         ],
       ),
     );
@@ -156,7 +158,7 @@ class PostScreen extends State<Post> {
       },
       validator: validator,
       minLines: 1,
-      maxLines: 20,
+      maxLines: 10,
       maxLength: 300,
     );
   }
