@@ -1,3 +1,4 @@
+// ignore_for_file: use_build_context_synchronously
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -7,6 +8,8 @@ import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avator.dart';
 import 'package:flutter_bluesky/api/model/feed.dart' as feed;
 import 'package:flutter_bluesky/util/image_util.dart';
+import 'package:path/path.dart' as path;
+import 'package:tuple/tuple.dart';
 
 enum PostType {
   normal,
@@ -158,12 +161,23 @@ class PostScreen extends State<Post> {
     );
   }
 
-  void _submit() {
+  void _submit() async {
     _formKey.currentState?.save();
-    debugPrint("_text: $_text");
-    if (_text.isNotEmpty) {
-      plugin.post(_text);
-      Navigator.pop(context);
+    List<Map>? images = [];
+    for (var file in files) {
+      Tuple2 res = await plugin.uploadBlob(file.bytes!, _contentType(file)!);
+      images.add({"image": res.item2["blob"], "alt": ""});
     }
+    if (images.isEmpty) {
+      images = null;
+    }
+    await plugin.post(_text, images: images);
+    Navigator.pop(context);
+  }
+
+  String? _contentType(PlatformFile file) {
+    String fileName = path.basename(file.name);
+    String extension = path.extension(fileName);
+    return ImageUtil.exts[extension.substring(1)];
   }
 }
