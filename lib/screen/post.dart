@@ -74,7 +74,7 @@ class PostScreen extends State<Post> {
                 RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18.0),
         ))),
-        child: Text(tr("submit.post")));
+        child: Text(tr("submit.post.${widget.postType.name}")));
   }
 
   Widget form(BuildContext context) {
