@@ -39,37 +39,42 @@ class PostScreen extends State<Post> {
       body: padding(
         Form(
             key: _formKey,
-            child: SingleChildScrollView(
-                child: listsBody([
-              operation(),
-              const Divider(height: 0.5),
-              form(context),
-              SizedBox(height: 350, child: Row(children: selects))
-            ]))),
+            child: SingleChildScrollView(child: listsBody(widgets))),
       ),
       bottomNavigationBar: BottomAppBar(child: media()),
     );
   }
 
-  Widget operation() {
-    return padding(Row(
-      children: [
-        InkWell(
-          child: Text(tr("submit.cancel")),
-          onTap: () {
-            if (widget.postType == PostType.quate) {
-              Navigator.pop(context);
-            }
-            Navigator.pop(context);
-          },
-        ),
-        const Spacer(),
-        ElevatedButton(
-          onPressed: _submit,
-          child: Text(tr("submit.post")),
-        )
-      ],
-    ));
+  List<Widget> get widgets {
+    return [
+      padding(Row(children: [cancel, const Spacer(), submit])),
+      const Divider(height: 0.5),
+      form(context),
+      SizedBox(height: 350, child: Row(children: selects))
+    ];
+  }
+
+  Widget get cancel {
+    return InkWell(
+      child: Text(tr("submit.cancel")),
+      onTap: () {
+        if (widget.postType == PostType.quate) {
+          Navigator.pop(context);
+        }
+        Navigator.pop(context);
+      },
+    );
+  }
+
+  Widget get submit {
+    return ElevatedButton(
+        onPressed: _submit,
+        style: ButtonStyle(
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ))),
+        child: Text(tr("submit.post")));
   }
 
   Widget form(BuildContext context) {
