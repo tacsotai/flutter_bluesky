@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avator.dart';
 import 'package:flutter_bluesky/api/model/feed.dart' as feed;
+import 'package:flutter_bluesky/util/image_util.dart';
 
 enum PostType {
   normal,
@@ -25,6 +27,8 @@ class Post extends StatefulWidget {
 class PostScreen extends State<Post> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   String _text = "";
+  List<PlatformFile> files = [];
+  List<Widget> selects = [];
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +40,7 @@ class PostScreen extends State<Post> {
               operation(),
               const Divider(height: 0.5),
               form(context),
+              SizedBox(height: 350, child: Row(children: selects))
             ])),
       ),
       bottomNavigationBar: BottomAppBar(child: media()),
@@ -86,10 +91,51 @@ class PostScreen extends State<Post> {
           IconButton(
             tooltip: tr('media.photo'),
             icon: const Icon(Icons.photo_outlined),
-            onPressed: () {},
+            onPressed: _pickFile,
           )
           // TODO camera
         ],
+      ),
+    );
+  }
+
+  // up to 4 files to select
+  Future<void> _pickFile() async {
+    final result = await FilePicker.platform.pickFiles(
+        allowMultiple: true,
+        type: FileType.custom,
+        allowedExtensions: ImageUtil.exts.keys.toList());
+    if (result != null) {
+      if (result.files.length > 4) {
+        files = result.files.sublist(0, 4);
+      } else {
+        files = result.files;
+      }
+      _selects();
+    }
+  }
+
+  void _selects() {
+    selects.clear();
+    for (PlatformFile file in files) {
+      selects.add(Expanded(
+          child: Stack(children: [Image.memory(file.bytes!), _close(file)])));
+    }
+    setState(() {});
+  }
+
+  Widget _close(PlatformFile file) {
+    return RawMaterialButton(
+      constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
+      fillColor: Colors.white10,
+      shape: const CircleBorder(),
+      onPressed: () {
+        files.remove(file);
+        _selects();
+      },
+      child: const Icon(
+        Icons.close,
+        color: Colors.white,
       ),
     );
   }
@@ -112,12 +158,11 @@ class PostScreen extends State<Post> {
     );
   }
 
-  void _submit() async {
+  void _submit() {
     _formKey.currentState?.save();
     debugPrint("_text: $_text");
     if (_text.isNotEmpty) {
-      await plugin.post(_text);
-      // ignore: use_build_context_synchronously
+      plugin.post(_text);
       Navigator.pop(context);
     }
   }
