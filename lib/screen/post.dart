@@ -67,7 +67,6 @@ class PostScreen extends State<Post> {
     return padding(
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          // TODO user own avator
           children: [
             avator(context, plugin.api.session.actor!.avatar),
             Expanded(child: text())
