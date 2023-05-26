@@ -35,6 +35,7 @@ class Post extends StatefulWidget {
 class PostScreen extends State<Post> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
+  Map<String, dynamic>? record;
   double _height = 0;
   String _text = "";
   List<PlatformFile> files = [];
@@ -60,9 +61,11 @@ class PostScreen extends State<Post> {
       SizedBox(height: _height, child: Row(children: selects))
     ];
     if (widget.postType == PostType.reply) {
+      record = reply;
       list.insertAll(2, replyPost(context, widget.post!));
     }
     if (widget.postType == PostType.quote) {
+      record = quote;
       list.addAll(quotePost(context, widget.post!));
     }
     return list;
@@ -193,7 +196,7 @@ class PostScreen extends State<Post> {
     if (images.isEmpty) {
       images = null;
     }
-    await plugin.post(_text, images: images);
+    await plugin.post(_text, images: images, record: record);
     Navigator.pop(context);
   }
 
@@ -201,6 +204,44 @@ class PostScreen extends State<Post> {
     String fileName = path.basename(file.name);
     String extension = path.extension(fileName);
     return ImageUtil.exts[extension.substring(1)];
+  }
+
+  // "root": {
+  //   "uri": "at://did:plc:djwdt5zwcdppta5akpdyenxu/app.bsky.feed.post/3jw4yi3ghlk2b",
+  //   "cid": "bafyreie2lbgyjdtfoi4zeplzdgwkll3ze2fkk3332e2mdver32zoerjjau"
+  // },
+  // "parent": {
+  //   "uri": "at://did:plc:djwdt5zwcdppta5akpdyenxu/app.bsky.feed.post/3jw4yi3ghlk2b",
+  //   "cid": "bafyreie2lbgyjdtfoi4zeplzdgwkll3ze2fkk3332e2mdver32zoerjjau"
+  // }
+  Map<String, dynamic>? get reply {
+    String uri = widget.post!.uri;
+    String cid = widget.post!.cid;
+    Map<String, dynamic>? root = {"uri": uri, "cid": cid};
+    Map<String, dynamic>? parent = {"uri": uri, "cid": cid};
+    feed.RecordReply? recordReply = widget.post!.record.reply;
+    if (recordReply != null) {
+      root = recordReply.root;
+    }
+    return {
+      "reply": {"root": root, "parent": parent}
+    };
+  }
+
+  // "embed": {
+  //   "$type": "app.bsky.embed.record",
+  //   "record": {
+  //     "uri": "at://did:plc:djwdt5zwcdppta5akpdyenxu/app.bsky.feed.post/3jw4yi3ghlk2b",
+  //     "cid": "bafyreie2lbgyjdtfoi4zeplzdgwkll3ze2fkk3332e2mdver32zoerjjau"
+  //   }
+  // }
+  Map<String, dynamic>? get quote {
+    return {
+      "embed": {
+        "\$type": "app.bsky.embed.record",
+        "record": {"uri": widget.post!.uri, "cid": widget.post!.cid}
+      }
+    };
   }
 }
 
