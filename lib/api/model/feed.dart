@@ -220,19 +220,11 @@ class Record {
 }
 
 class RecordReply {
-  CidUri root;
-  CidUri parent;
+  Map<String, dynamic>? root;
+  Map<String, dynamic>? parent;
   RecordReply(Map map)
-      : root = CidUri(map["root"]),
-        parent = CidUri(map["parent"]);
-}
-
-class CidUri {
-  String cid;
-  String uri;
-  CidUri(Map map)
-      : cid = map["cid"],
-        uri = map["uri"];
+      : root = map["root"],
+        parent = map["parent"];
 }
 
 class RecordEmbed {

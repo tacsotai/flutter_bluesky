@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter_bluesky/api/session.dart';
 import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/screen.dart';
+import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 

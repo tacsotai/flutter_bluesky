@@ -65,7 +65,7 @@ Widget rightPadding(List<Widget> rights) {
           )));
 }
 
-Widget padding(List<Widget> lefts, List<Widget> rights) {
+Widget paddingLR(List<Widget> lefts, List<Widget> rights) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [leftPadding(lefts), rightPadding(rights)],
@@ -80,6 +80,17 @@ List<Widget> content(Post post) {
   ];
 }
 
-Widget postTL(Post post) {
-  return padding([avator(post.author.avatar)], content(post));
+Widget postTL(BuildContext context, Post post) {
+  return paddingLR([avator(context, post.author.avatar)], content(post));
+}
+
+Widget embedBox(Widget widget) {
+  return Container(
+      margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: widget);
 }

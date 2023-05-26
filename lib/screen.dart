@@ -3,14 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/post.dart';
 
-Widget listsBody(List<Widget> widgets) {
-  return Column(
-    mainAxisSize: MainAxisSize.max,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: widgets,
-  );
-}
-
 abstract class PluggableWidget extends StatefulWidget {
   const PluggableWidget({super.key});
 

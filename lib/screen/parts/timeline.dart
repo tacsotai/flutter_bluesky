@@ -18,33 +18,35 @@ class Timeline extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> widgets = [];
     if (feed.reason != null) {
-      appendReason(widgets, feed.reason!.by);
+      appendReason(context, widgets, feed.reason!.by);
     }
     if (feed.reply != null) {
-      appendReply(widgets, feed.reply!.parent, feed.post);
+      appendReply(context, widgets, feed.reply!.parent, feed.post);
     }
-    appendPost(widgets, feed.post);
+    appendPost(context, widgets, feed.post);
     return Column(
       children: widgets,
     );
   }
 
-  void appendReason(List<Widget> widgets, ProfileViewBasic actor) {
+  void appendReason(
+      BuildContext context, List<Widget> widgets, ProfileViewBasic actor) {
     ReasonTL tl = customReasonTL ?? ReasonTimeline();
     tl.setActor(actor);
-    widgets.add(tl.build()!);
+    widgets.add(tl.build(context)!);
   }
 
-  void appendReply(List<Widget> widgets, Post parent, Post post) {
+  void appendReply(
+      BuildContext context, List<Widget> widgets, Post parent, Post post) {
     ReplyTL tl = customReplyTL ?? ReplyTimeline();
     tl.setParent(parent);
     tl.setPost(post);
-    widgets.add(tl.build()!);
+    widgets.add(tl.build(context)!);
   }
 
-  void appendPost(List<Widget> widgets, Post post) {
+  void appendPost(BuildContext context, List<Widget> widgets, Post post) {
     PostTL tl = customPostTL ?? PostTimeline();
     tl.setPost(post);
-    widgets.add(tl.build());
+    widgets.add(tl.build(context));
   }
 }

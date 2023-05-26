@@ -13,7 +13,8 @@ void initPluggables(Base base) {
 
 class Base extends StatefulWidget {
   static String route = "/";
-  Base({Key? key}) : super(key: key);
+  final int selectedIndex;
+  Base({Key? key, this.selectedIndex = 0}) : super(key: key);
 
   final BaseScreen screen = BaseScreen();
 
@@ -25,11 +26,13 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _height;
 
+  int _selectedIndex = 0;
+
   @override
   void initState() {
     super.initState();
     initPluggables(widget);
-
+    _selectedIndex = widget.selectedIndex;
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 100),
@@ -51,8 +54,6 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
     _animationController.dispose();
     super.dispose();
   }
-
-  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {

@@ -4,8 +4,8 @@ import 'package:flutter_bluesky/screen/parts/timeline/post_tl.dart';
 
 class SamplePostTimeline extends PostTL {
   @override
-  Widget build() {
+  Widget build(BuildContext context) {
     post.record.text = 'pluggable ${post.record.text}';
-    return postTL(post);
+    return postTL(context, post);
   }
 }

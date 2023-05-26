@@ -1,5 +1,6 @@
 import 'package:flutter_bluesky/api.dart';
 import 'package:flutter_bluesky/api/bluesky.dart';
+import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/session.dart';
 import 'package:tuple/tuple.dart';
 
@@ -72,13 +73,18 @@ class FlutterBluesky extends Bluesky {
     Tuple2 res = await createSession(emailORhandle, password);
     if (res.item1 == 200) {
       api.session.set(res.item2);
+      await _profile();
     }
     return res;
   }
 
-  // Future<Map> profile() async {
-  //   return {};
-  // }
+  // actor = null after login
+  Future<void> _profile() async {
+    Tuple2 res = await getProfile(api.session.did!);
+    if (res.item1 == 200) {
+      api.session.actor = ProfileViewDetailed(res.item2);
+    }
+  }
 
   // Future<List> followees() async {
   //   return [];
@@ -92,30 +98,71 @@ class FlutterBluesky extends Bluesky {
     return await getTimeline(30, "reverse-chronological", cursor: cursor);
   }
 
-  // user: "did:plc:u5xrfsqb6d2xrph6t4uwwe2h"
-  // blob: pic, mov, etc... TODO
-  Future<Tuple2> post(String user, String text, {Object? blob}) async {
-    String repo = user;
-    String collection = "app.bsky.feed.post";
+  // blobs: a list the results of several times uploadBlob
+  // {
+  //   "blob": {
+  //     "$type": "blob",
+  //     "ref": {
+  //       "$link": "bafkreiar57k65z2w3tg2opx3gfqwoncxjr7gll4ptvywtw5tmohbhks7ly"
+  //     },
+  //     "mimeType": "image/jpeg",
+  //     "size": 50140
+  //   }
+  // }
+  // Then set the return value to record as embed like this.
+  // {
+  //   "repo": "did:plc:djwdt5zwcdppta5akpdyenxu",
+  //   "collection": "app.bsky.feed.post",
+  //   "record": {
+  //     "text": "pepe",
+  //     "createdAt": "2023-04-05T08:16:04.692Z",
+  //     "embed": {
+  //       "$type": "app.bsky.embed.images",
+  //       "images": [
+  //         {
+  //           "image": {
+  //             "$type": "blob",
+  //             "ref": {
+  //               "$link": "bafkreiar57k65z2w3tg2opx3gfqwoncxjr7gll4ptvywtw5tmohbhks7ly"
+  //             },
+  //             "mimeType": "image/jpeg",
+  //             "size": 50140
+  //           },
+  //           "alt": ""
+  //         }
+  //       ]
+  //     }
+  //   }
+  // }
+  Future<Tuple2> post(String? text,
+      {List<Map>? images, Map<String, dynamic>? record}) async {
+    if (text == null && images == null) {
+      throw Exception("Did you want to say anything?"); // TODO
+    }
+    record ??= {};
+    if (images != null) {
+      record["embed"] = {"\$type": "app.bsky.embed.images", "images": images};
+    }
+    return await _post(text, record);
+  }
+
+  Future<Tuple2> _post(String? text, Map<String, dynamic> record) async {
+    record["text"] = text;
+    record["createdAt"] = DateTime.now().toIso8601String();
+    return await createRecord(api.session.did!, "app.bsky.feed.post", record);
+  }
+
+  Future<Tuple2> repost(String uri, String cid) async {
+    return _likeRepost("app.bsky.feed.repost", uri, cid);
+  }
+
+  Future<Tuple2> like(String uri, String cid) async {
+    return _likeRepost("app.bsky.feed.like", uri, cid);
+  }
+
+  Future<Tuple2> _likeRepost(String collection, String uri, String cid) async {
     return await createRecord(
-      repo,
-      collection,
-      {"text": text, "createdAt": DateTime.now().toIso8601String()},
-    );
-  }
-
-  Future<Tuple2> repost(String user, String uri, String cid) async {
-    return _likeRepost(user, "app.bsky.feed.repost", uri, cid);
-  }
-
-  Future<Tuple2> like(String user, String uri, String cid) async {
-    return _likeRepost(user, "app.bsky.feed.like", uri, cid);
-  }
-
-  Future<Tuple2> _likeRepost(
-      String repo, String collection, String uri, String cid) async {
-    return await createRecord(
-      repo,
+      api.session.did!,
       collection,
       {
         "subject": {"uri": uri, "cid": cid},
