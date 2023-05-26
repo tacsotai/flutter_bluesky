@@ -152,36 +152,6 @@ class FlutterBluesky extends Bluesky {
     return await createRecord(api.session.did!, "app.bsky.feed.post", record);
   }
 
-  // "root": {
-  //   "uri": "at://did:plc:djwdt5zwcdppta5akpdyenxu/app.bsky.feed.post/3jw4yi3ghlk2b",
-  //   "cid": "bafyreie2lbgyjdtfoi4zeplzdgwkll3ze2fkk3332e2mdver32zoerjjau"
-  // },
-  // "parent": {
-  //   "uri": "at://did:plc:djwdt5zwcdppta5akpdyenxu/app.bsky.feed.post/3jw4yi3ghlk2b",
-  //   "cid": "bafyreie2lbgyjdtfoi4zeplzdgwkll3ze2fkk3332e2mdver32zoerjjau"
-  // }
-  Future<Tuple2> reply(String? text, Map root, Map parent,
-      {List<Map>? images}) async {
-    Map<String, dynamic>? record = {
-      "reply": {"root": root, "parent": parent}
-    };
-    return await post(text, images: images, record: record);
-  }
-
-  // "embed": {
-  //   "$type": "app.bsky.embed.record",
-  //   "record": {
-  //     "uri": "at://did:plc:djwdt5zwcdppta5akpdyenxu/app.bsky.feed.post/3jw4yi3ghlk2b",
-  //     "cid": "bafyreie2lbgyjdtfoi4zeplzdgwkll3ze2fkk3332e2mdver32zoerjjau"
-  //   }
-  // }
-  Future<Tuple2> quote(String? text, Map quote, {List<Map>? images}) async {
-    Map<String, dynamic>? record = {
-      "embed": {"\$type": "app.bsky.embed.record", "record": quote}
-    };
-    return await post(text, images: images, record: record);
-  }
-
   Future<Tuple2> repost(String uri, String cid) async {
     return _likeRepost("app.bsky.feed.repost", uri, cid);
   }
