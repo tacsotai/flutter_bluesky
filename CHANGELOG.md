@@ -18,3 +18,6 @@
 
 ## 0.2.3
 * Some fix with upgrading flutter version.
+
+## 0.3.0
+* Implement Post, Reply, Like, Repost.
