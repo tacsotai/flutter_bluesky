@@ -169,7 +169,7 @@ class PostScreen extends State<Post> {
     return TextFormField(
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
-        labelText: tr('post.placeholder'),
+        labelText: tr('post.placeholder.${widget.postType.name}'),
       ),
       onSaved: (text) {
         setState(() {
