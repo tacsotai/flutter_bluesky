@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/avator.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 import 'package:flutter_bluesky/screen/parts/transfer/detector.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -100,14 +101,8 @@ class Body extends StatelessWidget {
     if (embed.recordObj == null) {
       return;
     }
-    Widget container = Container(
-      margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: Column(
+    Widget container = embedBox(
+      Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           recordHeader(context, embed.record),

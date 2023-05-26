@@ -216,18 +216,11 @@ List<Widget> replyPost(BuildContext context, feed.Post post) {
 
 List<Widget> quotePost(BuildContext context, feed.Post post) {
   return [
-    Container(
-        margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-        padding: const EdgeInsets.all(5),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: paddingLR([
-          avator(context, post.author.avatar)
-        ], [
-          Header(author: post.author, createdAt: post.record.createdAt),
-          Body(post: post),
-        ]))
+    embedBox(paddingLR([
+      avator(context, post.author.avatar)
+    ], [
+      Header(author: post.author, createdAt: post.record.createdAt),
+      Body(post: post),
+    ]))
   ];
 }

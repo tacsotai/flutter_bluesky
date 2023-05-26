@@ -83,3 +83,14 @@ List<Widget> content(Post post) {
 Widget postTL(BuildContext context, Post post) {
   return paddingLR([avator(context, post.author.avatar)], content(post));
 }
+
+Widget embedBox(Widget widget) {
+  return Container(
+      margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: widget);
+}
