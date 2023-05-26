@@ -7,9 +7,12 @@ import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avator.dart';
 import 'package:flutter_bluesky/api/model/feed.dart' as feed;
+import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
 import 'package:path/path.dart' as path;
 import 'package:tuple/tuple.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 
 enum PostType {
   normal,
@@ -46,12 +49,19 @@ class PostScreen extends State<Post> {
   }
 
   List<Widget> get widgets {
-    return [
+    List<Widget> list = [
       padding(Row(children: [cancel, const Spacer(), submit])),
       const Divider(height: 0.5),
       form(context),
       SizedBox(height: 350, child: Row(children: selects))
     ];
+    if (widget.postType == PostType.reply) {
+      list.insertAll(2, replyPost(context, widget.post!));
+    }
+    if (widget.postType == PostType.quate) {
+      list.addAll(quatePost(context, widget.post!));
+    }
+    return list;
   }
 
   Widget get cancel {
@@ -187,4 +197,37 @@ class PostScreen extends State<Post> {
     String extension = path.extension(fileName);
     return ImageUtil.exts[extension.substring(1)];
   }
+}
+
+List<Widget> replyPost(BuildContext context, feed.Post post) {
+  return [
+    padding(
+        paddingLR([
+          avator(context, post.author.avatar)
+        ], [
+          Header(author: post.author, createdAt: post.record.createdAt),
+          Body(post: post),
+        ]),
+        left: 0,
+        right: 0),
+    const Divider(height: 0.5),
+  ];
+}
+
+List<Widget> quatePost(BuildContext context, feed.Post post) {
+  return [
+    Container(
+        margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+        padding: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: paddingLR([
+          avator(context, post.author.avatar)
+        ], [
+          Header(author: post.author, createdAt: post.record.createdAt),
+          Body(post: post),
+        ]))
+  ];
 }
