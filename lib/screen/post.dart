@@ -17,7 +17,7 @@ import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 enum PostType {
   normal,
   reply,
-  quate;
+  quote;
 }
 
 class Post extends StatefulWidget {
@@ -58,8 +58,8 @@ class PostScreen extends State<Post> {
     if (widget.postType == PostType.reply) {
       list.insertAll(2, replyPost(context, widget.post!));
     }
-    if (widget.postType == PostType.quate) {
-      list.addAll(quatePost(context, widget.post!));
+    if (widget.postType == PostType.quote) {
+      list.addAll(quotePost(context, widget.post!));
     }
     return list;
   }
@@ -68,7 +68,7 @@ class PostScreen extends State<Post> {
     return InkWell(
       child: Text(tr("submit.cancel")),
       onTap: () {
-        if (widget.postType == PostType.quate) {
+        if (widget.postType == PostType.quote) {
           Navigator.pop(context);
         }
         Navigator.pop(context);
@@ -214,7 +214,7 @@ List<Widget> replyPost(BuildContext context, feed.Post post) {
   ];
 }
 
-List<Widget> quatePost(BuildContext context, feed.Post post) {
+List<Widget> quotePost(BuildContext context, feed.Post post) {
   return [
     Container(
         margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),

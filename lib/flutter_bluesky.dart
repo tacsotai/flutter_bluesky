@@ -175,9 +175,9 @@ class FlutterBluesky extends Bluesky {
   //     "cid": "bafyreie2lbgyjdtfoi4zeplzdgwkll3ze2fkk3332e2mdver32zoerjjau"
   //   }
   // }
-  Future<Tuple2> quote(String? text, Map quate, {List<Map>? images}) async {
+  Future<Tuple2> quote(String? text, Map quote, {List<Map>? images}) async {
     Map<String, dynamic>? record = {
-      "embed": {"\$type": "app.bsky.embed.record", "record": quate}
+      "embed": {"\$type": "app.bsky.embed.record", "record": quote}
     };
     return await post(text, images: images, record: record);
   }

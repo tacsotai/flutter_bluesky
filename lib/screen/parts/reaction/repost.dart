@@ -64,7 +64,7 @@ class RepostReaction extends AbstractReaction {
   Future<void> exec() async {
     List<Widget> list = [];
     reaction.uri != null ? list.add(undo(context)) : list.add(repost(context));
-    list.add(quate(context));
+    list.add(quote(context));
     await showModal(list);
   }
 
@@ -103,16 +103,16 @@ class RepostReaction extends AbstractReaction {
     );
   }
 
-  ListTile quate(BuildContext context) {
+  ListTile quote(BuildContext context) {
     return ListTile(
         leading: const Icon(Icons.format_quote),
-        title: Text(tr('reaction.repost.quate')),
+        title: Text(tr('reaction.repost.quote')),
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    Post(postType: PostType.quate, post: post)),
+                    Post(postType: PostType.quote, post: post)),
           );
         });
   }
