@@ -108,6 +108,7 @@ class Body extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           recordHeader(context, embed.record),
           Text(embed.record.value.text),
