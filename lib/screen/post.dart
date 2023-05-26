@@ -14,6 +14,8 @@ import 'package:tuple/tuple.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 
+const double mediaHeight = 350;
+
 enum PostType {
   normal,
   reply,
@@ -32,6 +34,8 @@ class Post extends StatefulWidget {
 
 class PostScreen extends State<Post> {
   final GlobalKey<FormState> _formKey = GlobalKey();
+
+  double _height = 0;
   String _text = "";
   List<PlatformFile> files = [];
   List<Widget> selects = [];
@@ -53,7 +57,7 @@ class PostScreen extends State<Post> {
       padding(Row(children: [cancel, const Spacer(), submit])),
       const Divider(height: 0.5),
       form(context),
-      SizedBox(height: 350, child: Row(children: selects))
+      SizedBox(height: _height, child: Row(children: selects))
     ];
     if (widget.postType == PostType.reply) {
       list.insertAll(2, replyPost(context, widget.post!));
@@ -141,6 +145,7 @@ class PostScreen extends State<Post> {
       selects.add(Expanded(
           child: Stack(children: [Image.memory(file.bytes!), _close(file)])));
     }
+    files.isEmpty ? _height = 0 : _height = mediaHeight;
     setState(() {});
   }
 
