@@ -16,7 +16,7 @@ class More extends StatelessWidget {
         tooltip: tr("reaction.more"),
         on: const Icon(Icons.more_horiz),
         off: const Icon(Icons.more_horiz),
-        count: post.likeCount,
+        count: 0,
         uri: post.viewer.like);
   }
 
@@ -48,7 +48,13 @@ class MoreScreen extends AcceptableStatefulWidgetState<MoreWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return withText(reaction, context.read<ReactionState>().more);
+    return dialog(reaction, context.read<ReactionState>().more);
+  }
+
+  Widget dialog(Reaction reaction, Function() func) {
+    return Row(
+      children: [button(reaction, func)],
+    );
   }
 }
 

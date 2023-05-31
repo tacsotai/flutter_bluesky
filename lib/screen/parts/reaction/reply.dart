@@ -17,7 +17,7 @@ class Reply extends StatelessWidget {
         tooltip: tr("reaction.reply"),
         on: const Icon(Icons.chat_bubble_outline),
         off: const Icon(Icons.chat_bubble_outline),
-        count: post.likeCount,
+        count: post.replyCount,
         uri: null);
   }
 
