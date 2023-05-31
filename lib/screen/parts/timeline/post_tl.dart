@@ -11,7 +11,7 @@ abstract class PostTL {
   Widget build(BuildContext context);
 }
 
-class PostTimeline extends PostTL {
+class PostTimeline extends PostTL with Common {
   @override
   Widget build(BuildContext context) {
     return postTL(context, post);
