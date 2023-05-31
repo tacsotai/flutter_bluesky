@@ -32,7 +32,7 @@ abstract class ThreadTL {
   List<Widget> build(BuildContext context);
 }
 
-class ThreadTimeline extends ThreadTL {
+class ThreadTimeline extends ThreadTL with Common {
   @override
   List<Widget> build(BuildContext context) {
     List<Widget> widgets = [];

@@ -20,10 +20,10 @@ abstract class ReplyTL {
   Widget? build(BuildContext context);
 }
 
-class ReplyTimeline extends ReplyTL {
+class ReplyTimeline extends ReplyTL with Common {
   @override
   Widget? build(BuildContext context) {
-    return paddingLR([replyAvator(context)], content);
+    return paddingLR([replyAvator(context)], content(parent));
   }
 
   Widget replyAvator(BuildContext context) {
@@ -40,12 +40,13 @@ class ReplyTimeline extends ReplyTL {
     ]);
   }
 
-  List<Widget> get content {
+  @override
+  List<Widget> content(Post post) {
     return [
-      Header(author: parent.author, createdAt: parent.record.createdAt),
+      Header(author: post.author, createdAt: post.record.createdAt),
       replyHeader,
-      Body(post: parent),
-      Footer(post: parent),
+      Body(post: post),
+      Footer(post: post),
     ];
   }
 

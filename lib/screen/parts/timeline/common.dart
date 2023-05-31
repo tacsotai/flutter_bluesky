@@ -72,18 +72,6 @@ Widget paddingLR(List<Widget> lefts, List<Widget> rights) {
   );
 }
 
-List<Widget> content(Post post) {
-  return [
-    Header(author: post.author, createdAt: post.record.createdAt),
-    Body(post: post),
-    Footer(post: post),
-  ];
-}
-
-Widget postTL(BuildContext context, Post post) {
-  return paddingLR([avator(context, post.author.avatar)], content(post));
-}
-
 Widget embedBox(Widget widget) {
   return Container(
       margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
@@ -93,4 +81,18 @@ Widget embedBox(Widget widget) {
         borderRadius: BorderRadius.circular(5),
       ),
       child: widget);
+}
+
+mixin Common {
+  List<Widget> content(Post post) {
+    return [
+      Header(author: post.author, createdAt: post.record.createdAt),
+      Body(post: post),
+      Footer(post: post),
+    ];
+  }
+
+  Widget postTL(BuildContext context, Post post) {
+    return paddingLR([avator(context, post.author.avatar)], content(post));
+  }
 }
