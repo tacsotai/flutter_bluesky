@@ -78,6 +78,7 @@ class FlutterBluesky extends Bluesky {
     if (res.item1 == 200) {
       api.session.set(res.item2);
       await _profile();
+      // TODO keep session
     }
     return res;
   }
