@@ -15,6 +15,10 @@ void setPlugin(FlutterBluesky plugin) {
 }
 
 bool get hasSession {
+  return isAlive && _plugin!.api.session.accessJwt != null;
+}
+
+bool get isAlive {
   return _plugin != null;
 }
 
@@ -74,6 +78,7 @@ class FlutterBluesky extends Bluesky {
     if (res.item1 == 200) {
       api.session.set(res.item2);
       await _profile();
+      // TODO keep session
     }
     return res;
   }

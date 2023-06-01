@@ -26,3 +26,6 @@
 * Fix Readme.
 * Fix Reaction bug.
 * Fix PostTL structure.
+
+## 0.3.2
+* Fix initialRoute.

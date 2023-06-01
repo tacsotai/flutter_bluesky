@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/home.dart';
@@ -39,7 +38,7 @@ class MainApp extends StatelessWidget {
           primarySwatch: ThemeColors.material,
           canvasColor: ThemeColors.secondary),
       navigatorObservers: [TransitionRouteObserver()],
-      initialRoute: hasSession ? Base.route : Provider.screen.route,
+      initialRoute: initialRoute,
       routes: {
         Provider.screen.route: (context) => const Provider(),
         LoginScreen.route: (context) => const LoginScreen(),
