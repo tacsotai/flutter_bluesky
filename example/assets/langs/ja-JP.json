@@ -20,6 +20,8 @@
     "reaction.repost.undo": "取消し",
     "reaction.like": "いいね",
     "reaction.more": "もっと",
+    "reply.to": "{}へ返信",
+    "reposted.by": "{}が再投稿",
     "title": "翔け 青空へ",
     "invalid.email": "メールアドレスが不正です。",
     "password.too.short": "パスワードが短すぎます。",

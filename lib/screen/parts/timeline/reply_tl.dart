@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
@@ -54,7 +55,9 @@ class ReplyTimeline extends ReplyTL with Common {
     return Row(children: [
       const Icon(Icons.reply, color: Colors.grey),
       Expanded(
-          child: Text('Reply to ${post.author.displayName}',
+          child: Text(
+              tr('reply.to',
+                  args: [post.author.displayName ?? post.author.handle]),
               style: const TextStyle(color: Colors.grey)))
     ]);
   }

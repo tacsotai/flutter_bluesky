@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
@@ -21,7 +22,7 @@ class ReasonTimeline extends ReasonTL {
         const SizedBox(width: 60),
         const Icon(Icons.repeat, color: Colors.grey, size: 14),
         sizeBox,
-        Text('Reposted by ${actor.displayName}',
+        Text(tr('reposted.by', args: [actor.displayName ?? actor.handle]),
             style: const TextStyle(
                 color: Colors.grey, fontWeight: FontWeight.bold))
       ],
