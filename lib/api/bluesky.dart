@@ -3,72 +3,74 @@ import 'package:tuple/tuple.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+// https://github.com/bluesky-social/atproto/tree/main/lexicons
 abstract class Bluesky extends Atproto {
   Bluesky({required super.api});
 
   Future<Tuple2> getProfile(String actor) async {
-    http.Response res = await api.get("app.bsky.actor.getProfile?actor=$actor",
+    http.Response res = await api.get("app.bsky.actor.getProfile",
+        params: {"actor": actor},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
 
-  Future<Tuple2> getSuggestions(int limit) async {
-    http.Response res = await api.get(
-        "app.bsky.actor.getSuggestions?limit=$limit",
+  Future<Tuple2> getSuggestions({int? limit, String? cursor}) async {
+    http.Response res = await api.get("app.bsky.actor.getSuggestions",
+        params: {"limit": limit, "cursor": cursor},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
 
-  Future<Tuple2> getAuthorFeed(int limit, String actor,
-      {String? cursor}) async {
-    String uri = "app.bsky.feed.getAuthorFeed?limit=$limit&actor=$actor";
-    if (cursor != null) {
-      uri = "$uri&cursor=$cursor";
-    }
-    http.Response res = await api.get(uri,
+  Future<Tuple2> getAuthorFeed(String actor,
+      {int? limit, String? cursor}) async {
+    http.Response res = await api.get("app.bsky.feed.getAuthorFeed",
+        params: {"actor": actor, "limit": limit, "cursor": cursor},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
 
-  Future<Tuple2> getTimeline(int limit, String algorithm,
-      {String? cursor}) async {
-    String uri = "app.bsky.feed.getTimeline?algorithm=$algorithm&limit=$limit";
-    if (cursor != null) {
-      uri = "$uri&cursor=$cursor";
-    }
-    http.Response res = await api.get(uri,
+  Future<Tuple2> getTimeline(
+      {String? algorithm, int? limit, String? cursor}) async {
+    http.Response res = await api.get("app.bsky.feed.getTimeline",
+        params: {"algorithm": algorithm, "limit": limit, "cursor": cursor},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
 
-  Future<Tuple2> getPostThread(String uri) async {
-    http.Response res = await api.get("app.bsky.feed.getPostThread?uri=$uri",
+  Future<Tuple2> getPostThread(String uri,
+      {int? depth, int? parentHeight}) async {
+    http.Response res = await api.get("app.bsky.feed.getPostThread",
+        params: {"uri": uri, "depth": depth, "parentHeight": parentHeight},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
 
-  Future<Tuple2> getFollows(String actor) async {
-    http.Response res = await api.get("app.bsky.graph.getFollows?actor=$actor",
+  // lexicons/app/bsky/graph/getFollowers.json
+  Future<Tuple2> getFollows(String actor, {int? limit, String? cursor}) async {
+    http.Response res = await api.get("app.bsky.graph.getFollows",
+        params: {"actor": actor, "limit": limit, "cursor": cursor},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
 
-  Future<Tuple2> getUnreadCount() async {
+  Future<Tuple2> getUnreadCount({String? seenAt}) async {
     http.Response res = await api.get("app.bsky.notification.getUnreadCount",
+        params: {"seenAt": seenAt},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
 
-  Future<Tuple2> listNotifications(int limit) async {
-    http.Response res = await api.get(
-        "app.bsky.notification.listNotifications?limit=$limit",
+  Future<Tuple2> listNotifications(
+      {int? limit, String? cursor, String? seenAt}) async {
+    http.Response res = await api.get("app.bsky.notification.listNotifications",
+        params: {"limit": limit, "cursor": cursor, "seenAt": seenAt},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));

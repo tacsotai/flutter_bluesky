@@ -26,7 +26,6 @@ abstract class Atproto {
         headers: {"Content-Type": "application/json"},
         body: json
             .encode({"email": email, "handle": handle, "password": password}));
-
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
@@ -97,16 +96,16 @@ abstract class Atproto {
   }
 
   Future<Tuple2> listRecords(String collection, String repo) async {
-    http.Response res = await api.get(
-        "com.atproto.server.listRecords?collection=$collection&repo=$repo",
+    http.Response res = await api.get("com.atproto.server.listRecords",
+        params: {"collection": collection, "repo": repo},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
 
   Future<Tuple2> resolveHandle(String handle) async {
-    http.Response res = await api.get(
-        "com.atproto.identity.resolveHandle?handle=$handle",
+    http.Response res = await api.get("com.atproto.identity.resolveHandle",
+        params: {"handle": handle},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));

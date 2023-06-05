@@ -100,7 +100,7 @@ class FlutterBluesky extends Bluesky {
   // }
 
   Future<Tuple2> timeline({String? cursor}) async {
-    return await getTimeline(30, "reverse-chronological", cursor: cursor);
+    return await getTimeline(cursor: cursor);
   }
 
   // blobs: a list the results of several times uploadBlob
