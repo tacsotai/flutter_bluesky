@@ -23,6 +23,14 @@ abstract class Bluesky extends Atproto {
         res.statusCode, json.decode(res.body));
   }
 
+  Future<Tuple2> searchActorsTypeahead({String? term, int? limit}) async {
+    http.Response res = await api.get("app.bsky.actor.searchActorsTypeahead",
+        params: {"term": term, "limit": limit},
+        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
   Future<Tuple2> getAuthorFeed(String actor,
       {int? limit, String? cursor}) async {
     http.Response res = await api.get("app.bsky.feed.getAuthorFeed",
@@ -72,6 +80,17 @@ abstract class Bluesky extends Atproto {
     http.Response res = await api.get("app.bsky.notification.listNotifications",
         params: {"limit": limit, "cursor": cursor, "seenAt": seenAt},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> updateSeen({String? seenAt}) async {
+    http.Response res = await api.post("app.bsky.notification.updateSeen",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${api.session.accessJwt}"
+        },
+        body: json.encode({"seenAt": seenAt}));
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
