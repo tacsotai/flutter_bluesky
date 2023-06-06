@@ -84,13 +84,16 @@ abstract class Bluesky extends Atproto {
         res.statusCode, json.decode(res.body));
   }
 
-  Future<Tuple2> updateSeen({String? seenAt}) async {
+  Future<Tuple2> updateSeen(String seenAt) async {
+    Map<String, dynamic> params = {
+      "seenAt": seenAt,
+    };
     http.Response res = await api.post("app.bsky.notification.updateSeen",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer ${api.session.accessJwt}"
         },
-        body: json.encode({"seenAt": seenAt}));
+        body: json.encode(params));
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
