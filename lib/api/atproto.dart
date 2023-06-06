@@ -61,6 +61,16 @@ abstract class Atproto {
         res.statusCode, json.decode(res.body));
   }
 
+  // TODO test
+  Future<Tuple2> deleteSession() async {
+    http.Response res = await api.post(
+      "com.atproto.server.deleteSession",
+      headers: {"Content-Type": "application/json"},
+    );
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
   // Get User info
   Future<Tuple2> getSession() async {
     http.Response res = await api.get("com.atproto.server.getSession",
@@ -84,6 +94,18 @@ abstract class Atproto {
         },
         body: json.encode(params));
 
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> resetPassword(String token, String password) async {
+    Map<String, dynamic> params = {"token": token, "password": password};
+    http.Response res = await api.post("com.atproto.server.resetPassword",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${api.session.refreshJwt}"
+        },
+        body: json.encode(params));
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
@@ -132,6 +154,30 @@ abstract class Atproto {
         res.statusCode, json.decode(res.body));
   }
 
+  Future<Tuple2> putRecord(
+      String repo, String collection, String rkey, Map<String, dynamic> record,
+      {bool? validate, String? swapRecord, String? swapCommit}) async {
+    Map<String, dynamic> params = {
+      "repo": repo,
+      "collection": collection,
+      "rkey": rkey,
+      "record": record
+    };
+    API.add(params, {
+      "validate": validate,
+      "swapRecord": swapRecord,
+      "swapCommit": swapCommit,
+    });
+    http.Response res = await api.post("com.atproto.repo.putRecord",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${api.session.accessJwt}"
+        },
+        body: json.encode(params));
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
   Future<Tuple2> uploadBlob(Uint8List bytes, String contentType) async {
     http.Response res = await api.post("com.atproto.repo.uploadBlob",
         headers: {
@@ -163,6 +209,20 @@ abstract class Atproto {
     http.Response res = await api.get("com.atproto.identity.resolveHandle",
         params: {"handle": handle},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> updateHandle(String handle) async {
+    Map<String, dynamic> params = {
+      "handle": handle,
+    };
+    http.Response res = await api.post("com.atproto.identity.updateHandle",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${api.session.accessJwt}"
+        },
+        body: json.encode(params));
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
