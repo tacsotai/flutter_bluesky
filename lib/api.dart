@@ -40,4 +40,12 @@ class API {
     });
     return "$uri${sb.toString().substring(0, sb.toString().length - 1)}";
   }
+
+  static void add(Map<String, dynamic> params, Map<String, dynamic> option) {
+    option.forEach((key, value) {
+      if (value != null) {
+        params[key] = value;
+      }
+    });
+  }
 }
