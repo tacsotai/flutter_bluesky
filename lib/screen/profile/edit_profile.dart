@@ -5,7 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
-import 'package:flutter_bluesky/screen/parts/avator.dart';
+import 'package:flutter_bluesky/screen/parts/avatar.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
 import 'package:path/path.dart' as path;
 
@@ -69,7 +69,7 @@ class EditProfileScreen extends State<EditProfile> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        bannerAvator,
+        bannerAvatar,
         sizeBox,
         textFormField(
           prop: "profile.placeholder.displayName",
@@ -84,21 +84,21 @@ class EditProfileScreen extends State<EditProfile> {
     );
   }
 
-  Widget get bannerAvator {
+  Widget get bannerAvatar {
     return Stack(alignment: AlignmentDirectional.bottomStart, children: [
       Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [banner, blank]),
-      profAvator
+      profAvatar
     ]);
   }
 
-  Widget get profAvator {
-    return avator(context, plugin.api.session.actor!.avatar,
-        radius: 45, func: showAvatorPicture);
+  Widget get profAvatar {
+    return avatar(context, plugin.api.session.actor!.avatar,
+        radius: 45, func: showAvatarPicture);
   }
 
-  void showAvatorPicture() {
+  void showAvatarPicture() {
     // TODO show picture
   }
 
@@ -178,11 +178,11 @@ class EditProfileScreen extends State<EditProfile> {
   void _submit() async {
     _formKey.currentState?.save();
     // List<Map>? images = [];
-    String avatorCid = "the result of uploadBolb";
+    String avatarCid = "the result of uploadBolb";
     await plugin.updateProfile(
         displayName: displayName,
         description: description,
-        avatorCid: avatorCid);
+        avatarCid: avatarCid);
     Navigator.pop(context);
   }
 

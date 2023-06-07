@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
-import 'package:flutter_bluesky/screen/parts/avator.dart';
+import 'package:flutter_bluesky/screen/parts/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
@@ -93,6 +93,6 @@ mixin Common {
   }
 
   Widget postTL(BuildContext context, Post post) {
-    return paddingLR([avator(context, post.author.avatar)], content(post));
+    return paddingLR([avatar(context, post.author.avatar)], content(post));
   }
 }

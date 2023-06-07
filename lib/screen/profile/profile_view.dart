@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
-import 'package:flutter_bluesky/screen/parts/avator.dart';
+import 'package:flutter_bluesky/screen/parts/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/hyper_link.dart';
 import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
@@ -77,28 +77,28 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
   Widget get header {
     return Column(
       children: [
-        bannerAvator,
+        bannerAvatar,
         displayNameDescription,
         const Divider(height: 0.5)
       ],
     );
   }
 
-  Widget get bannerAvator {
+  Widget get bannerAvatar {
     return Stack(alignment: AlignmentDirectional.bottomStart, children: [
       Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [banner, padding(profEditButton, top: 5, bottom: 5)]),
-      padding(profAvator)
+      padding(profAvatar)
     ]);
   }
 
-  Widget get profAvator {
-    return avator(context, plugin.api.session.actor!.avatar,
-        radius: 45, func: showAvatorPicture);
+  Widget get profAvatar {
+    return avatar(context, plugin.api.session.actor!.avatar,
+        radius: 45, func: showAvatarPicture);
   }
 
-  void showAvatorPicture() {
+  void showAvatarPicture() {
     // TODO show picture
   }
 

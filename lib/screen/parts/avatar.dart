@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen/base.dart';
-import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 
 late int profIndex;
 
-/// avator widget
+/// avatar widget
 /// avarot link is profile page. see select index of [Base]
-Widget avator(BuildContext context, String? url,
+Widget avatar(BuildContext context, String? url,
     {double radius = 35, Function? func}) {
   return InkWell(
     child: CircleAvatar(

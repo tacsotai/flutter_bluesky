@@ -92,13 +92,13 @@ class FlutterBluesky extends Bluesky {
   }
 
   Future<Tuple2> updateProfile(
-      {String? displayName, String? description, String? avatorCid}) async {
+      {String? displayName, String? description, String? avatarCid}) async {
     return await plugin
         .putRecord(api.session.did!, "app.bsky.actor.profile", "self", {
       "\$type": "app.bsky.actor.profile",
       "displayName": displayName,
       "description": description,
-      "avatorCid": avatorCid
+      "avatarCid": avatarCid
     });
   }
 
