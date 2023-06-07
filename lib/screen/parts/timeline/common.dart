@@ -48,7 +48,7 @@ Widget outline(Widget widget) {
 
 Widget leftPadding(List<Widget> lefts) {
   return Padding(
-      padding: const EdgeInsets.only(right: 5),
+      padding: const EdgeInsets.only(right: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: lefts,

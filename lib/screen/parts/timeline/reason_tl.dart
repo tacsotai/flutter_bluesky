@@ -19,7 +19,7 @@ class ReasonTimeline extends ReasonTL {
   Widget? build(BuildContext context) {
     return Row(
       children: [
-        const SizedBox(width: 60),
+        const SizedBox(width: 70),
         const Icon(Icons.repeat, color: Colors.grey, size: 14),
         sizeBox,
         Text(tr('reposted.by', args: [actor.displayName ?? actor.handle]),
