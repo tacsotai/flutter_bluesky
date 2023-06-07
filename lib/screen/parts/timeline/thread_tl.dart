@@ -83,7 +83,7 @@ class ThreadMain extends StatelessWidget {
 
   Widget header(BuildContext context) {
     return Row(children: [
-      avatar(context, post.author.avatar),
+      Avatar(context, post.author.avatar).profile,
       Expanded(
           child: Padding(
               padding: const EdgeInsets.fromLTRB(15, 5, 5, 5),

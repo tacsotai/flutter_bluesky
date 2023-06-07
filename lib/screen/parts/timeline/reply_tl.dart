@@ -31,7 +31,7 @@ class ReplyTimeline extends ReplyTL with Common {
     // TODO height is solid, so make it flexible.
     // debugPrint("post.record.text.length: ${post.record.text.length}");
     return Column(children: [
-      avatar(context, parent.author.avatar),
+      Avatar(context, parent.author.avatar).profile,
       Container(
           width: 1,
           height: 70,

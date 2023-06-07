@@ -94,12 +94,9 @@ class EditProfileScreen extends State<EditProfile> {
   }
 
   Widget get profAvatar {
-    return avatar(context, plugin.api.session.actor!.avatar,
-        radius: 45, func: showAvatarPicture);
-  }
-
-  void showAvatarPicture() {
-    // TODO show picture
+    String? url = plugin.api.session.actor!.avatar;
+    Avatar avatar = Avatar(context, url, radius: 45);
+    return avatar.pick;
   }
 
   Widget get banner {
