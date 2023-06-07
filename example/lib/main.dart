@@ -7,6 +7,7 @@ import 'package:flutter_bluesky/screen/parts/avator.dart';
 import 'package:flutter_bluesky/screen/parts/timeline.dart';
 import 'package:flutter_bluesky/screen/post.dart';
 import 'package:flutter_bluesky/screen/profile.dart';
+import 'package:flutter_bluesky/screen/profile/edit_profile.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/search.dart';
@@ -45,6 +46,7 @@ class MainApp extends StatelessWidget {
         Base.route: (context) => Base(),
         Post.screen.route: (context) => const Post(),
         Thread.screen.route: (context) => const Thread(),
+        EditProfile.screen.route: (context) => const EditProfile(),
       },
     );
   }
