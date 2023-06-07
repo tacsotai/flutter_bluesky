@@ -1,11 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
+import 'package:flutter_bluesky/screen/parts/avator.dart';
 import 'package:flutter_bluesky/screen/parts/hyper_link.dart';
 import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
+import 'package:flutter_bluesky/screen/profile/edit_profile.dart';
 
 class ProfileView extends StatefulWidget {
   final ProfileDataManager manager;
@@ -72,43 +76,70 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
 
   Widget get header {
     return Column(
-      children: [colorBox, info, const Divider(height: 0.5)],
+      children: [
+        bannerAvator,
+        displayNameDescription,
+        const Divider(height: 0.5)
+      ],
     );
   }
 
-  Widget get colorBox {
+  Widget get bannerAvator {
+    return Stack(alignment: AlignmentDirectional.bottomStart, children: [
+      Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [banner, padding(profEditButton, top: 5, bottom: 5)]),
+      padding(profAvator)
+    ]);
+  }
+
+  Widget get profAvator {
+    return avator(context, plugin.api.session.actor!.avatar,
+        radius: 45, func: showAvatorPicture);
+  }
+
+  void showAvatorPicture() {
+    // TODO show picture
+  }
+
+  // TODO show picture
+  Widget get banner {
     return ColoredBox(
       color: Theme.of(context).colorScheme.primary,
       child: const SizedBox(
-        height: 100,
+        height: 150,
         width: double.infinity,
       ),
     );
   }
 
-  Widget get info {
+  Widget get displayNameDescription {
+    String desc = widget.manager.holder.detail.description ?? "";
+    Widget description = HyperLink(desc).withLink;
     return Padding(
         padding: const EdgeInsets.all(10),
         child: SizedBox(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: prof,
+            children: [
+              displayName(widget.manager.holder.detail, 28),
+              handle(widget.manager.holder.detail),
+              counts,
+              description,
+            ],
           ),
         ));
   }
 
-  List<Widget> get prof {
-    String desc = widget.manager.holder.detail.description ?? "";
-    Widget descWidget = HyperLink(desc).withLink;
-    return [
-      displayName(widget.manager.holder.detail, 28),
-      handle(widget.manager.holder.detail),
-      sizeBox,
-      counts,
-      sizeBox,
-      descWidget,
-      sizeBox,
-    ];
+  Widget get profEditButton {
+    return ElevatedButton(
+        onPressed: () => Navigator.pushNamed(context, EditProfile.screen.route),
+        style: ButtonStyle(
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ))),
+        child: Text(tr("profile.edit")));
   }
 
   Widget get counts {
