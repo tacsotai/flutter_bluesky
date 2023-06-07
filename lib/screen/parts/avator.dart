@@ -6,7 +6,8 @@ late int profIndex;
 
 /// avator widget
 /// avarot link is profile page. see select index of [Base]
-Widget avator(BuildContext context, String? url, {double radius = 35}) {
+Widget avator(BuildContext context, String? url,
+    {double radius = 35, Function? func}) {
   return padding(
       InkWell(
         child: CircleAvatar(
@@ -16,9 +17,13 @@ Widget avator(BuildContext context, String? url, {double radius = 35}) {
           child: url == null ? const Icon(Icons.person, size: 50) : null,
         ),
         onTap: () async {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => Base(selectedIndex: profIndex),
-          ));
+          if (func == null) {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => Base(selectedIndex: profIndex),
+            ));
+          } else {
+            func;
+          }
         },
       ),
       left: 0,
