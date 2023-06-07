@@ -12,21 +12,37 @@ abstract class Atproto {
     required this.api,
   });
 
-  Future<Tuple2> describeServer() async {
-    http.Response res = await api.get("com.atproto.server.describeServer");
+  Future<Tuple2> describeServer(
+      {bool? inviteCodeRequired,
+      List<String>? availableUserDomains,
+      Map<String, dynamic>? links}) async {
+    http.Response res =
+        await api.get("com.atproto.server.describeServer", params: {
+      "inviteCodeRequired": inviteCodeRequired,
+      "availableUserDomains": availableUserDomains,
+      "links": links
+    });
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
 
   // Account Register and auto Login
   Future<Tuple2> createAccount(String email, String handle, String password,
-      {String? inviteCode, String? recoveryKey}) async {
+      {String? did, String? inviteCode, String? recoveryKey}) async {
     // TODO format check for handle.
+    Map<String, dynamic> params = {
+      "email": email,
+      "handle": handle,
+      "password": password
+    };
+    API.add(params, {
+      "did": did,
+      "inviteCode": inviteCode,
+      "recoveryKey": recoveryKey,
+    });
     http.Response res = await api.post("com.atproto.server.createAccount",
         headers: {"Content-Type": "application/json"},
-        body: json
-            .encode({"email": email, "handle": handle, "password": password}));
-
+        body: json.encode(params));
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
@@ -34,9 +50,23 @@ abstract class Atproto {
   // Login: id = email or handle
   Future<Tuple2> createSession(String identifier, String password) async {
     // TODO format check for handle.
+    Map<String, dynamic> params = {
+      "identifier": identifier,
+      "password": password
+    };
     http.Response res = await api.post("com.atproto.server.createSession",
         headers: {"Content-Type": "application/json"},
-        body: json.encode({"identifier": identifier, "password": password}));
+        body: json.encode(params));
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  // TODO test
+  Future<Tuple2> deleteSession() async {
+    http.Response res = await api.post(
+      "com.atproto.server.deleteSession",
+      headers: {"Content-Type": "application/json"},
+    );
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
@@ -49,38 +79,101 @@ abstract class Atproto {
         res.statusCode, json.decode(res.body));
   }
 
-  Future<Tuple2> refreshSession() async {
-    http.Response res =
-        await api.post("com.atproto.server.refreshSession", headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer ${api.session.refreshJwt}"
-    });
+  Future<Tuple2> refreshSession(
+      String accessJwt, String refreshJwt, String handle, String did) async {
+    Map<String, dynamic> params = {
+      "accessJwt": accessJwt,
+      "refreshJwt": refreshJwt,
+      "handle": handle,
+      "did": did
+    };
+    http.Response res = await api.post("com.atproto.server.refreshSession",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${api.session.refreshJwt}"
+        },
+        body: json.encode(params));
+
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> resetPassword(String token, String password) async {
+    Map<String, dynamic> params = {"token": token, "password": password};
+    http.Response res = await api.post("com.atproto.server.resetPassword",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${api.session.refreshJwt}"
+        },
+        body: json.encode(params));
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
 
   // see 'record' table on DB.
-  Future<Tuple2> deleteRecord(
-      String repo, String collection, String rkey) async {
+  Future<Tuple2> deleteRecord(String repo, String collection, String rkey,
+      {String? swapRecord, String? swapCommit}) async {
+    Map<String, dynamic> params = {
+      "repo": repo,
+      "collection": collection,
+      "rkey": rkey,
+    };
+    API.add(params, {
+      "swapRecord": swapRecord,
+      "swapCommit": swapCommit,
+    });
     http.Response res = await api.post("com.atproto.repo.deleteRecord",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer ${api.session.accessJwt}"
         },
-        body: json
-            .encode({"repo": repo, "collection": collection, "rkey": rkey}));
+        body: json.encode(params));
     return Tuple2<int, Map<String, dynamic>>(res.statusCode, {});
   }
 
   Future<Tuple2> createRecord(
-      String repo, String collection, Map<String, dynamic> record) async {
+      String repo, String collection, Map<String, dynamic> record,
+      {bool? validate, String? rkey, String? swapCommit}) async {
+    Map<String, dynamic> params = {
+      "repo": repo,
+      "collection": collection,
+      "record": record
+    };
+    API.add(params, {
+      "validate": validate,
+      "rkey": rkey,
+      "swapCommit": swapCommit,
+    });
     http.Response res = await api.post("com.atproto.repo.createRecord",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer ${api.session.accessJwt}"
         },
-        body: json.encode(
-            {"repo": repo, "collection": collection, "record": record}));
+        body: json.encode(params));
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> putRecord(
+      String repo, String collection, String rkey, Map<String, dynamic> record,
+      {bool? validate, String? swapRecord, String? swapCommit}) async {
+    Map<String, dynamic> params = {
+      "repo": repo,
+      "collection": collection,
+      "rkey": rkey,
+      "record": record
+    };
+    API.add(params, {
+      "validate": validate,
+      "swapRecord": swapRecord,
+      "swapCommit": swapCommit,
+    });
+    http.Response res = await api.post("com.atproto.repo.putRecord",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${api.session.accessJwt}"
+        },
+        body: json.encode(params));
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
@@ -96,18 +189,40 @@ abstract class Atproto {
         res.statusCode, json.decode(res.body));
   }
 
-  Future<Tuple2> listRecords(String collection, String repo) async {
-    http.Response res = await api.get(
-        "com.atproto.server.listRecords?collection=$collection&repo=$repo",
-        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+  Future<Tuple2> listRecords(String collection, String repo,
+      {int? limit, String? cursor, bool? reverse}) async {
+    http.Response res =
+        await api.get("com.atproto.server.listRecords", params: {
+      "collection": collection,
+      "repo": repo,
+      "limit": limit,
+      "cursor": cursor,
+      "reverse": reverse
+    }, headers: {
+      "Authorization": "Bearer ${api.session.accessJwt}"
+    });
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
 
   Future<Tuple2> resolveHandle(String handle) async {
-    http.Response res = await api.get(
-        "com.atproto.identity.resolveHandle?handle=$handle",
+    http.Response res = await api.get("com.atproto.identity.resolveHandle",
+        params: {"handle": handle},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> updateHandle(String handle) async {
+    Map<String, dynamic> params = {
+      "handle": handle,
+    };
+    http.Response res = await api.post("com.atproto.identity.updateHandle",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${api.session.accessJwt}"
+        },
+        body: json.encode(params));
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }

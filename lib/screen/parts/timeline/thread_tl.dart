@@ -1,7 +1,7 @@
 import 'package:acceptable/acceptable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
-import 'package:flutter_bluesky/screen/parts/avator.dart';
+import 'package:flutter_bluesky/screen/parts/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/reaction/like.dart';
 import 'package:flutter_bluesky/screen/parts/reaction/repost.dart';
 import 'package:flutter_bluesky/screen/parts/reaction/thread_reaction.dart';
@@ -83,7 +83,7 @@ class ThreadMain extends StatelessWidget {
 
   Widget header(BuildContext context) {
     return Row(children: [
-      avator(context, post.author.avatar),
+      Avatar(context, post.author.avatar).profile,
       Expanded(
           child: Padding(
               padding: const EdgeInsets.fromLTRB(15, 5, 5, 5),

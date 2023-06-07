@@ -1,7 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
-import 'package:flutter_bluesky/screen/parts/avator.dart';
+import 'package:flutter_bluesky/screen/parts/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
@@ -23,14 +24,14 @@ abstract class ReplyTL {
 class ReplyTimeline extends ReplyTL with Common {
   @override
   Widget? build(BuildContext context) {
-    return paddingLR([replyAvator(context)], content(parent));
+    return paddingLR([replyAvatar(context)], content(parent));
   }
 
-  Widget replyAvator(BuildContext context) {
+  Widget replyAvatar(BuildContext context) {
     // TODO height is solid, so make it flexible.
     // debugPrint("post.record.text.length: ${post.record.text.length}");
     return Column(children: [
-      avator(context, parent.author.avatar),
+      Avatar(context, parent.author.avatar).profile,
       Container(
           width: 1,
           height: 70,
@@ -54,7 +55,9 @@ class ReplyTimeline extends ReplyTL with Common {
     return Row(children: [
       const Icon(Icons.reply, color: Colors.grey),
       Expanded(
-          child: Text('Reply to ${post.author.displayName}',
+          child: Text(
+              tr('reply.to',
+                  args: [post.author.displayName ?? post.author.handle]),
               style: const TextStyle(color: Colors.grey)))
     ]);
   }

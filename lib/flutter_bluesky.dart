@@ -91,6 +91,17 @@ class FlutterBluesky extends Bluesky {
     }
   }
 
+  Future<Tuple2> updateProfile(
+      {String? displayName, String? description, String? avatarCid}) async {
+    return await plugin
+        .putRecord(api.session.did!, "app.bsky.actor.profile", "self", {
+      "\$type": "app.bsky.actor.profile",
+      "displayName": displayName,
+      "description": description,
+      "avatarCid": avatarCid
+    });
+  }
+
   // Future<List> followees() async {
   //   return [];
   // }
@@ -100,7 +111,7 @@ class FlutterBluesky extends Bluesky {
   // }
 
   Future<Tuple2> timeline({String? cursor}) async {
-    return await getTimeline(30, "reverse-chronological", cursor: cursor);
+    return await getTimeline(cursor: cursor);
   }
 
   // blobs: a list the results of several times uploadBlob

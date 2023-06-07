@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
-import 'package:flutter_bluesky/screen/parts/avator.dart';
+import 'package:flutter_bluesky/screen/parts/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 import 'package:flutter_bluesky/screen/parts/transfer/detector.dart';
@@ -116,7 +116,7 @@ class Body extends StatelessWidget {
   Widget recordHeader(BuildContext context, RecordView record) {
     return Row(
       children: [
-        avator(context, record.author.avatar, radius: 10),
+        Avatar(context, record.author.avatar, radius: 10).profile,
         Expanded(
             child: Header(
                 author: record.author, createdAt: record.value.createdAt))

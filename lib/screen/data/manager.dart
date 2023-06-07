@@ -56,7 +56,8 @@ class ProfileDataManager extends FeedDataManager {
 
   Future<void> makeFeed(bool insert) async {
     String? cursor = insert ? null : holder.cursor;
-    Tuple2 res = await plugin.getAuthorFeed(30, holder.user, cursor: cursor);
+    Tuple2 res =
+        await plugin.getAuthorFeed(holder.user, limit: 30, cursor: cursor);
     holder.makeFeeds(insert, FeedResponse(res.item2));
   }
 }

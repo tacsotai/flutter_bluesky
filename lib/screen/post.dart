@@ -5,7 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
-import 'package:flutter_bluesky/screen/parts/avator.dart';
+import 'package:flutter_bluesky/screen/parts/avatar.dart';
 import 'package:flutter_bluesky/api/model/feed.dart' as feed;
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
@@ -99,7 +99,7 @@ class PostScreen extends State<Post> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            avator(context, plugin.api.session.actor!.avatar),
+            Avatar(context, plugin.api.session.actor!.avatar).profile,
             Expanded(child: text())
           ],
         ),
@@ -249,7 +249,7 @@ List<Widget> replyPost(BuildContext context, feed.Post post) {
   return [
     padding(
         paddingLR([
-          avator(context, post.author.avatar)
+          Avatar(context, post.author.avatar).profile,
         ], [
           Header(author: post.author, createdAt: post.record.createdAt),
           Body(post: post),
@@ -263,7 +263,7 @@ List<Widget> replyPost(BuildContext context, feed.Post post) {
 List<Widget> quotePost(BuildContext context, feed.Post post) {
   return [
     embedBox(paddingLR([
-      avator(context, post.author.avatar)
+      Avatar(context, post.author.avatar).profile,
     ], [
       Header(author: post.author, createdAt: post.record.createdAt),
       Body(post: post),
