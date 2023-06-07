@@ -8,11 +8,9 @@ import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avator.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
 import 'package:path/path.dart' as path;
-import 'package:tuple/tuple.dart';
 
 const double mediaHeight = 350;
 
-// プロフとボットの両方　。。。　タイトルのみでどうにかする。
 class EditProfile extends StatefulWidget {
   static Screen screen = Screen(EditProfile, const Icon(Icons.edit));
   const EditProfile({Key? key}) : super(key: key);
@@ -39,7 +37,11 @@ class EditProfileScreen extends State<EditProfile> {
   }
 
   List<Widget> get widgets {
-    List<Widget> list = [form(context), submit, cancel];
+    List<Widget> list = [
+      padding(Row(children: [cancel, const Spacer(), submit])),
+      const Divider(height: 0.5),
+      padding(form, left: 0, top: 10, right: 0, bottom: 10)
+    ];
     return list;
   }
 
@@ -63,18 +65,58 @@ class EditProfileScreen extends State<EditProfile> {
         child: Text(tr("submit.save")));
   }
 
-  Widget form(BuildContext context) {
-    return padding(
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            avator(context, plugin.api.session.actor!.avatar),
-          ],
+  Widget get form {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        bannerAvator,
+        sizeBox,
+        textFormField(
+          prop: "profile.placeholder.displayName",
+          maxLength: 640,
         ),
-        left: 0,
-        top: 10,
-        right: 0,
-        bottom: 10);
+        sizeBox,
+        textFormField(
+            prop: "profile.placeholder.discription",
+            minLines: 5,
+            maxLength: 2560),
+      ],
+    );
+  }
+
+  Widget get bannerAvator {
+    return Stack(alignment: AlignmentDirectional.bottomStart, children: [
+      Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [banner, blank]),
+      profAvator
+    ]);
+  }
+
+  Widget get profAvator {
+    return avator(context, plugin.api.session.actor!.avatar,
+        radius: 45, func: showAvatorPicture);
+  }
+
+  void showAvatorPicture() {
+    // TODO show picture
+  }
+
+  Widget get banner {
+    return ColoredBox(
+      color: Theme.of(context).colorScheme.primary,
+      child: const SizedBox(
+        height: 150,
+        width: double.infinity,
+      ),
+    );
+  }
+
+  Widget get blank {
+    return const SizedBox(
+      height: 30,
+      width: double.infinity,
+    );
   }
 
   Widget textFormField(
@@ -135,9 +177,12 @@ class EditProfileScreen extends State<EditProfile> {
 
   void _submit() async {
     _formKey.currentState?.save();
-    List<Map>? images = [];
-
-    await plugin.put(displayName, images: images, record: record);
+    // List<Map>? images = [];
+    String avatorCid = "the result of uploadBolb";
+    await plugin.updateProfile(
+        displayName: displayName,
+        description: description,
+        avatorCid: avatorCid);
     Navigator.pop(context);
   }
 
