@@ -10,6 +10,7 @@ import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/screen/profile/edit_profile.dart';
+import 'package:flutter_bluesky/screen/parts/banner.dart' as prof;
 
 class ProfileView extends StatefulWidget {
   final ProfileDataManager manager;
@@ -86,9 +87,11 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
 
   Widget get bannerAvatar {
     return Stack(alignment: AlignmentDirectional.bottomStart, children: [
-      Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [banner, padding(profEditButton, top: 5, bottom: 5)]),
+      Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+        banner,
+        const Divider(height: 0.5),
+        padding(profEditButton, top: 5, bottom: 5)
+      ]),
       padding(profAvatar)
     ]);
   }
@@ -98,15 +101,9 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
     return Avatar(context, radius: 45).net(url).profile;
   }
 
-  // TODO show picture
   Widget get banner {
-    return ColoredBox(
-      color: Theme.of(context).colorScheme.primary,
-      child: const SizedBox(
-        height: 150,
-        width: double.infinity,
-      ),
-    );
+    String? url = plugin.api.session.actor!.banner;
+    return prof.Banner(context).net(url).banner;
   }
 
   Widget get displayNameDescription {
