@@ -99,7 +99,7 @@ class PostScreen extends State<Post> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Avatar(context, plugin.api.session.actor!.avatar).profile,
+            Avatar(context).net(plugin.api.session.actor!.avatar).profile,
             Expanded(child: text())
           ],
         ),
@@ -249,7 +249,7 @@ List<Widget> replyPost(BuildContext context, feed.Post post) {
   return [
     padding(
         paddingLR([
-          Avatar(context, post.author.avatar).profile,
+          Avatar(context).net(post.author.avatar).profile
         ], [
           Header(author: post.author, createdAt: post.record.createdAt),
           Body(post: post),
@@ -263,7 +263,7 @@ List<Widget> replyPost(BuildContext context, feed.Post post) {
 List<Widget> quotePost(BuildContext context, feed.Post post) {
   return [
     embedBox(paddingLR([
-      Avatar(context, post.author.avatar).profile,
+      Avatar(context).net(post.author.avatar).profile
     ], [
       Header(author: post.author, createdAt: post.record.createdAt),
       Body(post: post),

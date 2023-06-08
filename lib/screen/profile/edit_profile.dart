@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
+import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avatar.dart';
+import 'package:flutter_bluesky/screen/parts/banner.dart' as prof;
 import 'package:flutter_bluesky/util/image_util.dart';
 import 'package:path/path.dart' as path;
-
-const double mediaHeight = 350;
+import 'package:tuple/tuple.dart';
 
 class EditProfile extends StatefulWidget {
   static Screen screen = Screen(EditProfile, const Icon(Icons.edit));
@@ -21,12 +22,62 @@ class EditProfile extends StatefulWidget {
 class EditProfileScreen extends State<EditProfile> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
-  String displayName = "";
-  String description = "";
-  late PlatformFile file;
+  String? displayName;
+  String? description;
+  // avatar
+  PlatformFile? avatarFile;
+  late Widget avatarWidget;
+  // banner
+  PlatformFile? bannerFile;
+  late Widget bannerWidget;
+
+  void init() {
+    displayName = plugin.api.session.actor!.displayName;
+    description = plugin.api.session.actor!.description;
+    if (avatarFile == null) {
+      String? url = plugin.api.session.actor!.avatar;
+      avatarWidget = avatarLink(Avatar(context).net(url));
+    } else {
+      avatarWidget = avatarLink(Avatar(context).file(avatarFile!.bytes));
+    }
+    if (bannerFile == null) {
+      String? url = plugin.api.session.actor!.banner;
+      bannerWidget = bannerLink(prof.Banner(context).net(url));
+    } else {
+      bannerWidget = bannerLink(prof.Banner(context).file(bannerFile!.bytes));
+    }
+  }
+
+  // get by file only for login account
+  Widget avatarLink(Avatar holder) {
+    return InkWell(
+      child: holder.circleAvatar,
+      onTap: () async {
+        final result = await FilePicker.platform.pickFiles();
+        if (result != null) {
+          avatarFile = result.files[0];
+          setState(() {});
+        }
+      },
+    );
+  }
+
+  Widget bannerLink(prof.Banner holder) {
+    return InkWell(
+      child: holder.banner,
+      onTap: () async {
+        final result = await FilePicker.platform.pickFiles();
+        if (result != null) {
+          bannerFile = result.files[0];
+          setState(() {});
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    init();
     return Scaffold(
       body: padding(
         Form(
@@ -71,15 +122,9 @@ class EditProfileScreen extends State<EditProfile> {
       children: [
         bannerAvatar,
         sizeBox,
-        textFormField(
-          prop: "profile.placeholder.displayName",
-          maxLength: 640,
-        ),
+        displayNameForm(),
         sizeBox,
-        textFormField(
-            prop: "profile.placeholder.discription",
-            minLines: 5,
-            maxLength: 2560),
+        descriptionForm(),
       ],
     );
   }
@@ -88,99 +133,75 @@ class EditProfileScreen extends State<EditProfile> {
     return Stack(alignment: AlignmentDirectional.bottomStart, children: [
       Column(
           crossAxisAlignment: CrossAxisAlignment.end,
-          children: [banner, blank]),
-      profAvatar
+          children: [bannerWidget, prof.Banner.blank]),
+      avatarWidget
     ]);
   }
 
-  Widget get profAvatar {
-    String? url = plugin.api.session.actor!.avatar;
-    Avatar avatar = Avatar(context, url, radius: 45);
-    return avatar.pick;
-  }
-
-  Widget get banner {
-    return ColoredBox(
-      color: Theme.of(context).colorScheme.primary,
-      child: const SizedBox(
-        height: 150,
-        width: double.infinity,
-      ),
-    );
-  }
-
-  Widget get blank {
-    return const SizedBox(
-      height: 30,
-      width: double.infinity,
-    );
-  }
-
-  Widget textFormField(
-      {required String prop,
-      int? minLines,
-      int? maxLines,
-      int? maxLength,
-      FormFieldValidator<String>? validator}) {
+  Widget displayNameForm({FormFieldValidator<String>? validator}) {
     return TextFormField(
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        labelText: tr(prop),
-      ),
-      onSaved: (value) {
-        setText(prop, value);
-      },
+      decoration: decoration("profile.placeholder.displayName"),
       validator: validator,
-      minLines: minLines ?? 1,
-      maxLines: maxLines ?? 10,
-      maxLength: maxLength ?? 300,
+      minLines: 1,
+      maxLines: 2,
+      maxLength: 640,
+      initialValue: displayName,
+      onSaved: (value) {
+        setState(() {
+          displayName = value!;
+        });
+      },
     );
   }
 
-  void setText(String prop, String? value) {
-    setState(() {
-      if (prop == "profile.placeholder.displayName") {
-        displayName = value!;
-      }
-      if (prop == "profile.placeholder.description") {
-        description = value!;
-      }
-    });
-  }
-
-  Widget media() {
-    return IconTheme(
-      data: IconThemeData(color: Theme.of(context).colorScheme.primary),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          IconButton(
-            tooltip: tr('media.photo'),
-            icon: const Icon(Icons.photo_outlined),
-            onPressed: _pickFile,
-          )
-          // TODO camera with BottomNavigationBarItem
-        ],
-      ),
+  Widget descriptionForm({FormFieldValidator<String>? validator}) {
+    return TextFormField(
+      decoration: decoration("profile.placeholder.description"),
+      validator: validator,
+      minLines: 10,
+      maxLines: 20,
+      maxLength: 2560,
+      initialValue: description,
+      onSaved: (value) {
+        setState(() {
+          description = value!;
+        });
+      },
     );
   }
 
-  Future<void> _pickFile() async {
-    final result = await FilePicker.platform.pickFiles();
-    if (result != null) {
-      file = result.files[0];
-    }
+  InputDecoration decoration(String prop) {
+    return InputDecoration(
+      border: const OutlineInputBorder(),
+      labelText: tr(prop),
+    );
   }
 
   void _submit() async {
     _formKey.currentState?.save();
-    // List<Map>? images = [];
-    String avatarCid = "the result of uploadBolb";
+    Map? avatar = avatarFile != null ? await _upload(avatarFile!) : null;
+    Map? banner = bannerFile != null ? await _upload(bannerFile!) : null;
     await plugin.updateProfile(
         displayName: displayName,
         description: description,
-        avatarCid: avatarCid);
-    Navigator.pop(context);
+        avatar: avatar,
+        banner: banner);
+    reset();
+    // reload profile page
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) => Base(selectedIndex: profIndex),
+    ));
+  }
+
+  void reset() async {
+    avatarFile = null;
+    bannerFile = null;
+    setState(() {});
+  }
+
+  Future<Map> _upload(PlatformFile file) async {
+    Tuple2 res = await plugin.uploadBlob(file.bytes!, _contentType(file)!);
+    return res.item2["blob"];
   }
 
   String? _contentType(PlatformFile file) {

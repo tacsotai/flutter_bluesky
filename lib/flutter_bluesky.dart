@@ -91,15 +91,21 @@ class FlutterBluesky extends Bluesky {
     }
   }
 
-  Future<Tuple2> updateProfile(
-      {String? displayName, String? description, String? avatarCid}) async {
-    return await plugin
-        .putRecord(api.session.did!, "app.bsky.actor.profile", "self", {
+  Future<void> updateProfile(
+      {String? displayName,
+      String? description,
+      Map? avatar,
+      Map? banner}) async {
+    Map<String, dynamic> record = {};
+    API.add(record, {
       "\$type": "app.bsky.actor.profile",
       "displayName": displayName,
       "description": description,
-      "avatarCid": avatarCid
+      "avatar": avatar,
+      "banner": banner,
     });
+    await putRecord(api.session.did!, "app.bsky.actor.profile", "self", record);
+    await _profile();
   }
 
   // Future<List> followees() async {
