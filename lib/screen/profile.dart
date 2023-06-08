@@ -5,6 +5,8 @@ import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
 import 'package:flutter_bluesky/screen/profile/profile_view.dart';
 
+late int profIndex;
+
 // ignore: must_be_immutable
 class Profile extends PluggableWidget {
   static Screen screen = Screen(Profile, const Icon(Icons.person));

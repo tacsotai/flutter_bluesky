@@ -1,8 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen/base.dart';
-
-late int profIndex;
+import 'package:flutter_bluesky/screen/profile.dart';
 
 class Avatar {
   final BuildContext context;

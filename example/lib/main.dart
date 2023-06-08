@@ -3,7 +3,6 @@ import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/home.dart';
 import 'package:flutter_bluesky/screen/notfifications.dart';
-import 'package:flutter_bluesky/screen/parts/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/timeline.dart';
 import 'package:flutter_bluesky/screen/post.dart';
 import 'package:flutter_bluesky/screen/profile.dart';
