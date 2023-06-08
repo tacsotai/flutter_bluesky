@@ -114,4 +114,20 @@ void main() {
     Tuple2 res2 = await plugin.post('post picture and text2', images: images);
     debugPrint("code: ${res2.item1}");
   });
+
+  test('profile picture', () async {
+    await plugin.login("foo@bar.com", "password");
+    String filename = '2718714879_b56c626a17.jpg';
+    String url = 'https://farm4.static.flickr.com/3003/$filename';
+    final response = await http.get(Uri.parse(url));
+    final bytes = response.bodyBytes;
+    // Caution; ContentType is very important. Server can't know it.
+    // This is client responsivility.
+    Tuple2 res = await plugin.uploadBlob(bytes, "image/jpeg");
+    expect(res.item2["blob"]["mimeType"], "image/jpeg");
+    await plugin.updateProfile(
+        displayName: "test displayName",
+        description: "test description",
+        avatar: res.item2["blob"]);
+  });
 }
