@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 
@@ -5,11 +6,12 @@ late int profIndex;
 
 class Avatar {
   final BuildContext context;
-  final String? url;
-  double radius = 35;
+  final double radius;
+  ImageProvider? provider;
 
-  Avatar(this.context, this.url, {double radius = 35});
+  Avatar(this.context, {this.radius = 35});
 
+  // get by url for user profile
   Widget get profile {
     return InkWell(
       child: circleAvatar,
@@ -21,35 +23,22 @@ class Avatar {
     );
   }
 
-  Widget get picture {
-    if (url == null) {
-      return circleAvatar;
-    } else {
-      return InkWell(
-        child: circleAvatar,
-        onTap: () async {
-          // TODO show original picture page.
-        },
-      );
-    }
+  Avatar net(String? url) {
+    provider = url == null ? null : NetworkImage(url);
+    return this;
   }
 
-  Widget get pick {
-    return InkWell(
-      child: circleAvatar,
-      onTap: () async {
-        // TODO pick file or take picture.
-      },
-    );
+  Avatar file(Uint8List? bytes) {
+    provider = bytes == null ? null : MemoryImage(bytes);
+    return this;
   }
 
   CircleAvatar get circleAvatar {
-    debugPrint("url: $url");
     return CircleAvatar(
       radius: radius,
       foregroundColor: Theme.of(context).colorScheme.primary,
-      backgroundImage: url == null ? null : NetworkImage(url!),
-      child: url == null ? const Icon(Icons.person, size: 50) : null,
+      backgroundImage: provider,
+      child: provider == null ? const Icon(Icons.person, size: 50) : null,
     );
   }
 }

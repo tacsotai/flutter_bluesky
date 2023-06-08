@@ -95,8 +95,7 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
 
   Widget get profAvatar {
     String? url = plugin.api.session.actor!.avatar;
-    Avatar avatar = Avatar(context, url, radius: 45);
-    return avatar.picture;
+    return Avatar(context, radius: 45).net(url).profile;
   }
 
   // TODO show picture
