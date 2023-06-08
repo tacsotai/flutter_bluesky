@@ -29,3 +29,6 @@
 
 ## 0.3.2
 * Fix initialRoute.
+
+## 0.3.3
+* Edit profile.
