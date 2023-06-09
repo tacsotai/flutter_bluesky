@@ -15,22 +15,20 @@ class Avatar {
   Avatar(this.context, {this.radius = 35});
 
   Widget get profile {
-    return InkWell(
-      child: circleAvatar,
-      onTap: () async {
-        if (actor.did == plugin.api.session.actor!.did) {
-          transfer(Base(selectedIndex: meIndex));
-        } else {
-          transfer(Profile(user: actor.did));
-        }
-      },
-    );
+    return InkWell(child: circleAvatar, onTap: () => _transfer());
   }
 
-  void transfer(Widget widget) {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => widget,
-    ));
+  void _transfer() {
+    if (actor.did == plugin.api.session.actor!.did) {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => Base(selectedIndex: meIndex),
+      ));
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Profile(user: actor.did)),
+      );
+    }
   }
 
   Avatar net(ProfileViewBasic actor) {
