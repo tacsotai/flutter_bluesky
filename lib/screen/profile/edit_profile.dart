@@ -43,8 +43,7 @@ class EditProfileScreen extends State<EditProfile> {
       avatarWidget = avatarLink(Avatar(context).file(avatarFile!.bytes));
     }
     if (bannerFile == null) {
-      String? url = plugin.api.session.actor!.banner;
-      bannerWidget = bannerLink(prof.Banner(context).net(url));
+      bannerWidget = bannerLink(prof.Banner(context).net(actor));
     } else {
       bannerWidget = bannerLink(prof.Banner(context).file(bannerFile!.bytes));
     }
