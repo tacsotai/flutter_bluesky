@@ -1,9 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
-import 'package:flutter_bluesky/flutter_bluesky.dart';
-import 'package:flutter_bluesky/screen/base.dart';
-import 'package:flutter_bluesky/screen/me.dart';
 import 'package:flutter_bluesky/screen/profile.dart';
 
 class Avatar {
@@ -15,20 +12,15 @@ class Avatar {
   Avatar(this.context, {this.radius = 35});
 
   Widget get profile {
-    return InkWell(child: circleAvatar, onTap: () => _transfer());
-  }
-
-  void _transfer() {
-    if (actor.did == plugin.api.session.actor!.did) {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => Base(selectedIndex: meIndex),
-      ));
-    } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Profile(user: actor.did)),
-      );
-    }
+    return InkWell(
+      child: circleAvatar,
+      onTap: () async {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Profile(user: actor.did)),
+        );
+      },
+    );
   }
 
   Avatar net(ProfileViewBasic actor) {
