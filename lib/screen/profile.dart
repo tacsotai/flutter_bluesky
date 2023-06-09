@@ -18,9 +18,6 @@ class ProfileScreen extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Thread'),
-      ),
       body: _build(),
     );
   }
