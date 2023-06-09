@@ -8,7 +8,7 @@ import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/banner.dart' as prof;
-import 'package:flutter_bluesky/screen/profile.dart';
+import 'package:flutter_bluesky/screen/me.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
 import 'package:path/path.dart' as path;
 import 'package:tuple/tuple.dart';
@@ -190,7 +190,7 @@ class EditProfileScreen extends State<EditProfile> {
     reset();
     // reload profile page
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => Base(selectedIndex: profIndex),
+      builder: (context) => Base(selectedIndex: meIndex),
     ));
   }
 

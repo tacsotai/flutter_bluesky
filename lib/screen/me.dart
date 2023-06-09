@@ -5,16 +5,16 @@ import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
 import 'package:flutter_bluesky/screen/profile/profile_view.dart';
 
-late int profIndex;
+late int meIndex;
 
 // ignore: must_be_immutable
-class Profile extends PluggableWidget {
-  static Screen screen = Screen(Profile, const Icon(Icons.person));
-  Profile({Key? key}) : super(key: key);
+class Me extends PluggableWidget {
+  static Screen screen = Screen(Me, const Icon(Icons.person));
+  Me({Key? key}) : super(key: key);
   late Base base;
 
   @override
-  ProfileeScreen createState() => ProfileeScreen();
+  MyScreen createState() => MyScreen();
 
   @override
   BottomNavigationBarItem get bottomNavigationBarItem => navi(screen);
@@ -25,7 +25,7 @@ class Profile extends PluggableWidget {
   }
 }
 
-class ProfileeScreen extends State<Profile> with Frame {
+class MyScreen extends State<Me> with Frame {
   final ProfileDataManager _manager = ProfileDataManager();
   @override
   Widget build(BuildContext context) {

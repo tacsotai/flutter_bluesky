@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen/base.dart';
-import 'package:flutter_bluesky/screen/profile.dart';
+import 'package:flutter_bluesky/screen/me.dart';
 
 class Avatar {
   final BuildContext context;
@@ -16,7 +16,7 @@ class Avatar {
       child: circleAvatar,
       onTap: () async {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => Base(selectedIndex: profIndex),
+          builder: (context) => Base(selectedIndex: meIndex),
         ));
       },
     );

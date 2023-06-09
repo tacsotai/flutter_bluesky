@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/home.dart';
+import 'package:flutter_bluesky/screen/me.dart';
 import 'package:flutter_bluesky/screen/notfifications.dart';
 import 'package:flutter_bluesky/screen/parts/timeline.dart';
 import 'package:flutter_bluesky/screen/post.dart';
-import 'package:flutter_bluesky/screen/profile.dart';
 import 'package:flutter_bluesky/screen/profile/edit_profile.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
 import 'package:flutter_bluesky/screen/base.dart';
@@ -52,12 +52,12 @@ class MainApp extends StatelessWidget {
 }
 
 Future<void> init() async {
-  PluggableWidget prof = Profile();
+  PluggableWidget me = Me();
   pluggables.add(Home());
   pluggables.add(Search());
   pluggables.add(Notifications());
-  pluggables.add(prof);
-  profIndex = pluggables.indexOf(prof);
+  pluggables.add(me);
+  meIndex = pluggables.indexOf(me);
   customPostTL = SamplePostTimeline();
 
   // TODO add other languages.
