@@ -116,7 +116,7 @@ class Body extends StatelessWidget {
   Widget recordHeader(BuildContext context, RecordView record) {
     return Row(
       children: [
-        Avatar(context, radius: 10).net(record.author.avatar).profile,
+        Avatar(context, radius: 10).net(record.author).profile,
         Expanded(
             child: Header(
                 author: record.author, createdAt: record.value.createdAt))

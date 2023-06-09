@@ -1,29 +1,41 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/model/actor.dart';
+import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/me.dart';
+import 'package:flutter_bluesky/screen/profile.dart';
 
 class Avatar {
   final BuildContext context;
   final double radius;
+  late ProfileViewBasic actor;
   ImageProvider? provider;
 
   Avatar(this.context, {this.radius = 35});
 
-  // get by url for user profile
   Widget get profile {
     return InkWell(
       child: circleAvatar,
       onTap: () async {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => Base(selectedIndex: meIndex),
-        ));
+        if (actor.did == plugin.api.session.actor!.did) {
+          transfer(Base(selectedIndex: meIndex));
+        } else {
+          transfer(Profile(user: actor.did));
+        }
       },
     );
   }
 
-  Avatar net(String? url) {
-    provider = url == null ? null : NetworkImage(url);
+  void transfer(Widget widget) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) => widget,
+    ));
+  }
+
+  Avatar net(ProfileViewBasic actor) {
+    this.actor = actor;
+    provider = actor.avatar == null ? null : NetworkImage(actor.avatar!);
     return this;
   }
 

@@ -2,6 +2,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
@@ -22,6 +23,7 @@ class EditProfile extends StatefulWidget {
 
 class EditProfileScreen extends State<EditProfile> {
   final GlobalKey<FormState> _formKey = GlobalKey();
+  late ProfileViewDetailed actor;
 
   String? displayName;
   String? description;
@@ -36,8 +38,7 @@ class EditProfileScreen extends State<EditProfile> {
     displayName = plugin.api.session.actor!.displayName;
     description = plugin.api.session.actor!.description;
     if (avatarFile == null) {
-      String? url = plugin.api.session.actor!.avatar;
-      avatarWidget = avatarLink(Avatar(context).net(url));
+      avatarWidget = avatarLink(Avatar(context).net(actor));
     } else {
       avatarWidget = avatarLink(Avatar(context).file(avatarFile!.bytes));
     }

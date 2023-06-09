@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bluesky/flutter_bluesky.dart';
+import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avatar.dart';
@@ -27,8 +27,10 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> with FeedScroll {
+  late ProfileViewDetailed actor;
   @override
   void initState() {
+    actor = widget.manager.holder.detail;
     super.manager = widget.manager;
     super.baseScreen = widget.baseScreen;
     super.initState();
@@ -97,8 +99,7 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
   }
 
   Widget get profAvatar {
-    String? url = plugin.api.session.actor!.avatar;
-    return Avatar(context, radius: 45).net(url).profile;
+    return Avatar(context, radius: 45).net(actor).profile;
   }
 
   Widget get banner {
