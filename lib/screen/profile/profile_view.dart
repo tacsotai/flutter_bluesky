@@ -103,12 +103,11 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
   }
 
   Widget get banner {
-    String? url = plugin.api.session.actor!.banner;
-    return prof.Banner(context).net(url).banner;
+    return prof.Banner(context).net(actor).banner;
   }
 
   Widget get displayNameDescription {
-    String desc = widget.manager.holder.detail.description ?? "";
+    String desc = actor.description ?? "";
     Widget description = HyperLink(desc).withLink;
     return Padding(
         padding: const EdgeInsets.all(10),
@@ -116,8 +115,8 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              displayName(widget.manager.holder.detail, 28),
-              handle(widget.manager.holder.detail),
+              displayName(actor, 28),
+              handle(actor),
               counts,
               description,
             ],
@@ -139,11 +138,11 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
   Widget get counts {
     return Row(
       children: [
-        count(widget.manager.holder.detail.followersCount, 'followers'),
+        count(actor.followersCount, 'followers'),
         sizeBox,
-        count(widget.manager.holder.detail.followsCount, 'following'),
+        count(actor.followsCount, 'following'),
         sizeBox,
-        count(widget.manager.holder.detail.postsCount, 'posts'),
+        count(actor.postsCount, 'posts'),
       ],
     );
   }

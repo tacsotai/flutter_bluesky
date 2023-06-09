@@ -35,8 +35,9 @@ class EditProfileScreen extends State<EditProfile> {
   late Widget bannerWidget;
 
   void init() {
-    displayName = plugin.api.session.actor!.displayName;
-    description = plugin.api.session.actor!.description;
+    actor = plugin.api.session.actor!;
+    displayName = actor.displayName;
+    description = actor.description;
     if (avatarFile == null) {
       avatarWidget = avatarLink(Avatar(context).net(actor));
     } else {
