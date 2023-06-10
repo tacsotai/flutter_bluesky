@@ -7,6 +7,8 @@
     "Profile": "Profile",
     "Provider": "Provider",
     "connect": "Connect",
+    "follow": "Follow",
+    "following": "Following",
     "submit.post.normal": "Post",
     "submit.post.reply": "Reply",
     "submit.post.quote": "Quote",
