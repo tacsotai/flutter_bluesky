@@ -185,6 +185,14 @@ class FlutterBluesky extends Bluesky {
     return _likeRepost("app.bsky.feed.like", uri, cid);
   }
 
+  Future<Tuple2> follow(String subject) async {
+    return await createRecord(
+      api.session.did!,
+      "app.bsky.graph.follow",
+      {"subject": subject, "createdAt": DateTime.now().toIso8601String()},
+    );
+  }
+
   Future<Tuple2> _likeRepost(String collection, String uri, String cid) async {
     return await createRecord(
       api.session.did!,
@@ -194,6 +202,10 @@ class FlutterBluesky extends Bluesky {
         "createdAt": DateTime.now().toIso8601String()
       },
     );
+  }
+
+  Future<Tuple2> unfollow(String uri) async {
+    return await _unlink(uri);
   }
 
   Future<Tuple2> unlike(String uri) async {
