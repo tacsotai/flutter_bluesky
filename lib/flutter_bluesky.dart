@@ -1,6 +1,7 @@
 import 'package:flutter_bluesky/api.dart';
 import 'package:flutter_bluesky/api/bluesky.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
+import 'package:flutter_bluesky/api/model/graph.dart';
 import 'package:flutter_bluesky/api/session.dart';
 import 'package:tuple/tuple.dart';
 
@@ -108,13 +109,15 @@ class FlutterBluesky extends Bluesky {
     await _profile();
   }
 
-  // Future<List> followees() async {
-  //   return [];
-  // }
-
-  // Future<List> followers() async {
-  //   return [];
-  // }
+  Future<List<ProfileViewBasic>> followers(String actor) async {
+    List<ProfileViewBasic> follwers = [];
+    Tuple2 res = await plugin.getFollows(actor);
+    FollowResponse response = FollowResponse(res.item2);
+    for (Map follwer in response.follows) {
+      follwers.add(ProfileViewBasic(follwer));
+    }
+    return follwers;
+  }
 
   Future<Tuple2> timeline({String? cursor}) async {
     return await getTimeline(cursor: cursor);
