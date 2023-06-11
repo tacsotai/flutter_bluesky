@@ -4,6 +4,7 @@ import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/home.dart';
 import 'package:flutter_bluesky/screen/me.dart';
 import 'package:flutter_bluesky/screen/notfifications.dart';
+import 'package:flutter_bluesky/screen/parts/button/button_manager.dart';
 import 'package:flutter_bluesky/screen/parts/timeline.dart';
 import 'package:flutter_bluesky/screen/post.dart';
 import 'package:flutter_bluesky/screen/profile/edit_profile.dart';
@@ -61,6 +62,7 @@ Future<void> init() async {
   pluggables.add(me);
   meIndex = pluggables.indexOf(me);
   customPostTL = SamplePostTimeline();
+  buttonManager = DefaultButtonManager();
 
   // TODO add other languages.
   timeago.setLocaleMessages('ja', timeago.JaMessages());

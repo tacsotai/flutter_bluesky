@@ -1,15 +1,14 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avatar.dart';
+import 'package:flutter_bluesky/screen/parts/button/button_manager.dart';
 import 'package:flutter_bluesky/screen/parts/hyper_link.dart';
 import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
-import 'package:flutter_bluesky/screen/profile/edit_profile.dart';
 import 'package:flutter_bluesky/screen/parts/banner.dart' as prof;
 
 class ProfileView extends StatefulWidget {
@@ -68,15 +67,6 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
         sliverList
       ];
 
-  Widget get latestGetter {
-    return MaterialSliverRefreshControl(
-      onRefresh: () async {
-        await manager.getData(true);
-        setState(() {});
-      },
-    );
-  }
-
   Widget get header {
     return Column(
       children: [
@@ -88,11 +78,12 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
   }
 
   Widget get bannerAvatar {
+    Widget button = buttonManager!.profileViewButton(this, actor).widget;
     return Stack(alignment: AlignmentDirectional.bottomStart, children: [
       Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
         banner,
         const Divider(height: 0.5),
-        padding(profEditButton, top: 5, bottom: 5)
+        padding(button, top: 5, bottom: 5)
       ]),
       padding(profAvatar)
     ]);
@@ -122,17 +113,6 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
             ],
           ),
         ));
-  }
-
-  Widget get profEditButton {
-    return ElevatedButton(
-        onPressed: () => Navigator.pushNamed(context, EditProfile.screen.route),
-        style: ButtonStyle(
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18.0),
-        ))),
-        child: Text(tr("profile.edit")));
   }
 
   Widget get counts {
