@@ -1,4 +1,20 @@
 // see lexicons.app.bsky.actor.def
+class ProfileViews {
+  String? cursor;
+  final List actorList;
+
+  ProfileViews(Map body)
+      : cursor = body["cursor"],
+        actorList = body["actors"];
+
+  List<ProfileView> get actors {
+    List<ProfileView> list = [];
+    for (var map in actorList) {
+      list.add(ProfileView(map));
+    }
+    return list;
+  }
+}
 
 // ProfileViewBasic
 class ProfileViewBasic {
