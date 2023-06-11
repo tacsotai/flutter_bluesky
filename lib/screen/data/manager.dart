@@ -91,3 +91,24 @@ class SearchDataManager extends DataManager {
   @override
   int get length => holder.actors.length;
 }
+
+class NotificationsDataManager extends DataManager {
+  final NotificationsDataHolder holder = NotificationsDataHolder();
+
+  @override
+  Future<void> getData(bool insert, {String? term}) async {
+    try {
+      await plugin.getUnreadCount(seenAt: holder.seenAt);
+      Tuple2 res = await plugin.listNotifications(
+          cursor: holder.cursor, limit: holder.unreadCount);
+      holder.makeNotifications(ListNotifications(res.item2));
+    } catch (e, stacktrace) {
+      // TODO
+      debugPrint("Error: $e");
+      debugPrint("stacktrace: $stacktrace");
+    }
+  }
+
+  @override
+  int get length => holder.notifications.length;
+}

@@ -1,5 +1,6 @@
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
+import 'package:flutter_bluesky/api/model/notification.dart';
 
 class HomeDataHolder extends FeedDataHolder {}
 
@@ -64,5 +65,24 @@ class SearchDataHolder {
   void make(ProfileViews res) async {
     actors = res.actors;
     cursor = res.cursor;
+  }
+}
+
+class NotificationsDataHolder {
+  // unreadCount
+  String? seenAt;
+  int unreadCount = 100;
+  // listNotifications
+  String? cursor;
+  List<Notification> notifications = [];
+
+  void makeNotifications(ListNotifications res) async {
+    notifications = res.notifications;
+    cursor = res.cursor;
+  }
+
+  void makeCount(int count) async {
+    seenAt = DateTime.now().toIso8601String();
+    unreadCount = count;
   }
 }
