@@ -94,7 +94,7 @@ mixin Common {
 
   Widget postTL(BuildContext context, Post post) {
     return paddingLR([
-      Avatar(context).net(post.author.avatar).profile,
+      Avatar(context).net(post.author).profile,
     ], content(post));
   }
 }

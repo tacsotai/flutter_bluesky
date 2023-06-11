@@ -1,15 +1,18 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/model/actor.dart';
 
 class Banner {
   final BuildContext context;
   final double height;
+  late ProfileViewDetailed actor;
   ImageProvider? provider;
 
   Banner(this.context, {this.height = 150});
 
-  Banner net(String? url) {
-    provider = url == null ? null : NetworkImage(url);
+  Banner net(ProfileViewDetailed actor) {
+    this.actor = actor;
+    provider = actor.banner == null ? null : NetworkImage(actor.banner!);
     return this;
   }
 

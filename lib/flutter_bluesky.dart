@@ -1,6 +1,7 @@
 import 'package:flutter_bluesky/api.dart';
 import 'package:flutter_bluesky/api/bluesky.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
+import 'package:flutter_bluesky/api/model/graph.dart';
 import 'package:flutter_bluesky/api/session.dart';
 import 'package:tuple/tuple.dart';
 
@@ -108,13 +109,15 @@ class FlutterBluesky extends Bluesky {
     await _profile();
   }
 
-  // Future<List> followees() async {
-  //   return [];
-  // }
-
-  // Future<List> followers() async {
-  //   return [];
-  // }
+  Future<List<ProfileViewBasic>> followers(String actor) async {
+    List<ProfileViewBasic> follwers = [];
+    Tuple2 res = await plugin.getFollows(actor);
+    FollowResponse response = FollowResponse(res.item2);
+    for (Map follwer in response.follows) {
+      follwers.add(ProfileViewBasic(follwer));
+    }
+    return follwers;
+  }
 
   Future<Tuple2> timeline({String? cursor}) async {
     return await getTimeline(cursor: cursor);
@@ -182,6 +185,14 @@ class FlutterBluesky extends Bluesky {
     return _likeRepost("app.bsky.feed.like", uri, cid);
   }
 
+  Future<Tuple2> follow(String subject) async {
+    return await createRecord(
+      api.session.did!,
+      "app.bsky.graph.follow",
+      {"subject": subject, "createdAt": DateTime.now().toIso8601String()},
+    );
+  }
+
   Future<Tuple2> _likeRepost(String collection, String uri, String cid) async {
     return await createRecord(
       api.session.did!,
@@ -193,16 +204,20 @@ class FlutterBluesky extends Bluesky {
     );
   }
 
+  Future<Tuple2> unfollow(String uri) async {
+    return await _unlink(uri);
+  }
+
   Future<Tuple2> unlike(String uri) async {
-    return await _unlikeUndo("app.bsky.feed.like", uri);
+    return await _unlink(uri);
   }
 
   Future<Tuple2> undo(String uri) async {
-    return await _unlikeUndo("app.bsky.feed.repost", uri);
+    return await _unlink(uri);
   }
 
   // 'at://did:plc:72i5sqnrlvphcxjllqzzslft/app.bsky.feed.repost/3jw2xxfd7fs24'
-  Future<Tuple2> _unlikeUndo(String collection, String uri) async {
+  Future<Tuple2> _unlink(String uri) async {
     List<String> splits = uri.split("/");
     return await deleteRecord(splits[2], splits[3], splits[4]);
   }

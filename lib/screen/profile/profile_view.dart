@@ -1,15 +1,14 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bluesky/flutter_bluesky.dart';
+import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avatar.dart';
+import 'package:flutter_bluesky/screen/parts/button/button_manager.dart';
 import 'package:flutter_bluesky/screen/parts/hyper_link.dart';
 import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
-import 'package:flutter_bluesky/screen/profile/edit_profile.dart';
 import 'package:flutter_bluesky/screen/parts/banner.dart' as prof;
 
 class ProfileView extends StatefulWidget {
@@ -27,8 +26,10 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> with FeedScroll {
+  late ProfileViewDetailed actor;
   @override
   void initState() {
+    actor = widget.manager.holder.detail;
     super.manager = widget.manager;
     super.baseScreen = widget.baseScreen;
     super.initState();
@@ -66,15 +67,6 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
         sliverList
       ];
 
-  Widget get latestGetter {
-    return MaterialSliverRefreshControl(
-      onRefresh: () async {
-        await manager.getData(true);
-        setState(() {});
-      },
-    );
-  }
-
   Widget get header {
     return Column(
       children: [
@@ -86,28 +78,27 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
   }
 
   Widget get bannerAvatar {
+    Widget button = buttonManager!.profileViewButton(this, actor).widget;
     return Stack(alignment: AlignmentDirectional.bottomStart, children: [
       Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
         banner,
         const Divider(height: 0.5),
-        padding(profEditButton, top: 5, bottom: 5)
+        padding(button, top: 5, bottom: 5)
       ]),
       padding(profAvatar)
     ]);
   }
 
   Widget get profAvatar {
-    String? url = plugin.api.session.actor!.avatar;
-    return Avatar(context, radius: 45).net(url).profile;
+    return Avatar(context, radius: 45).net(actor).profile;
   }
 
   Widget get banner {
-    String? url = plugin.api.session.actor!.banner;
-    return prof.Banner(context).net(url).banner;
+    return prof.Banner(context).net(actor).banner;
   }
 
   Widget get displayNameDescription {
-    String desc = widget.manager.holder.detail.description ?? "";
+    String desc = actor.description ?? "";
     Widget description = HyperLink(desc).withLink;
     return Padding(
         padding: const EdgeInsets.all(10),
@@ -115,8 +106,8 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              displayName(widget.manager.holder.detail, 28),
-              handle(widget.manager.holder.detail),
+              displayName(actor, 28),
+              handle(actor),
               counts,
               description,
             ],
@@ -124,25 +115,14 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
         ));
   }
 
-  Widget get profEditButton {
-    return ElevatedButton(
-        onPressed: () => Navigator.pushNamed(context, EditProfile.screen.route),
-        style: ButtonStyle(
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18.0),
-        ))),
-        child: Text(tr("profile.edit")));
-  }
-
   Widget get counts {
     return Row(
       children: [
-        count(widget.manager.holder.detail.followersCount, 'followers'),
+        count(actor.followersCount, 'followers'),
         sizeBox,
-        count(widget.manager.holder.detail.followsCount, 'following'),
+        count(actor.followsCount, 'following'),
         sizeBox,
-        count(widget.manager.holder.detail.postsCount, 'posts'),
+        count(actor.postsCount, 'posts'),
       ],
     );
   }

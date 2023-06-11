@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/home.dart';
+import 'package:flutter_bluesky/screen/me.dart';
 import 'package:flutter_bluesky/screen/notfifications.dart';
-import 'package:flutter_bluesky/screen/parts/avatar.dart';
+import 'package:flutter_bluesky/screen/parts/button/button_manager.dart';
 import 'package:flutter_bluesky/screen/parts/timeline.dart';
 import 'package:flutter_bluesky/screen/post.dart';
-import 'package:flutter_bluesky/screen/profile.dart';
 import 'package:flutter_bluesky/screen/profile/edit_profile.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/search.dart';
+import 'package:flutter_bluesky/screen/profile.dart';
 import 'package:flutter_bluesky/screen/thread.dart';
 import 'package:flutter_bluesky/transition_route_observer.dart';
 import 'package:flutter_bluesky_example/sample_timeline.dart';
@@ -46,6 +47,7 @@ class MainApp extends StatelessWidget {
         Base.route: (context) => Base(),
         Post.screen.route: (context) => const Post(),
         Thread.screen.route: (context) => const Thread(),
+        Profile.screen.route: (context) => const Profile(),
         EditProfile.screen.route: (context) => const EditProfile(),
       },
     );
@@ -53,13 +55,14 @@ class MainApp extends StatelessWidget {
 }
 
 Future<void> init() async {
-  PluggableWidget prof = Profile();
+  PluggableWidget me = Me();
   pluggables.add(Home());
   pluggables.add(Search());
   pluggables.add(Notifications());
-  pluggables.add(prof);
-  profIndex = pluggables.indexOf(prof);
+  pluggables.add(me);
+  meIndex = pluggables.indexOf(me);
   customPostTL = SamplePostTimeline();
+  buttonManager = DefaultButtonManager();
 
   // TODO add other languages.
   timeago.setLocaleMessages('ja', timeago.JaMessages());

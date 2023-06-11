@@ -2,12 +2,14 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/banner.dart' as prof;
+import 'package:flutter_bluesky/screen/me.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
 import 'package:path/path.dart' as path;
 import 'package:tuple/tuple.dart';
@@ -21,6 +23,7 @@ class EditProfile extends StatefulWidget {
 
 class EditProfileScreen extends State<EditProfile> {
   final GlobalKey<FormState> _formKey = GlobalKey();
+  late ProfileViewDetailed actor;
 
   String? displayName;
   String? description;
@@ -32,17 +35,16 @@ class EditProfileScreen extends State<EditProfile> {
   late Widget bannerWidget;
 
   void init() {
-    displayName = plugin.api.session.actor!.displayName;
-    description = plugin.api.session.actor!.description;
+    actor = plugin.api.session.actor!;
+    displayName = actor.displayName;
+    description = actor.description;
     if (avatarFile == null) {
-      String? url = plugin.api.session.actor!.avatar;
-      avatarWidget = avatarLink(Avatar(context).net(url));
+      avatarWidget = avatarLink(Avatar(context).net(actor));
     } else {
       avatarWidget = avatarLink(Avatar(context).file(avatarFile!.bytes));
     }
     if (bannerFile == null) {
-      String? url = plugin.api.session.actor!.banner;
-      bannerWidget = bannerLink(prof.Banner(context).net(url));
+      bannerWidget = bannerLink(prof.Banner(context).net(actor));
     } else {
       bannerWidget = bannerLink(prof.Banner(context).file(bannerFile!.bytes));
     }
@@ -189,7 +191,7 @@ class EditProfileScreen extends State<EditProfile> {
     reset();
     // reload profile page
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => Base(selectedIndex: profIndex),
+      builder: (context) => Base(selectedIndex: meIndex),
     ));
   }
 

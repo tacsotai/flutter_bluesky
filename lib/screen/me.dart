@@ -1,29 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
 import 'package:flutter_bluesky/screen/profile/profile_view.dart';
 
-class Profile extends StatefulWidget {
-  static Screen screen = Screen(Profile, const Icon(Icons.person));
-  const Profile({Key? key, this.user}) : super(key: key);
-  final String? user;
+late int meIndex;
+
+// ignore: must_be_immutable
+class Me extends PluggableWidget {
+  static Screen screen = Screen(Me, const Icon(Icons.person));
+  Me({Key? key}) : super(key: key);
+  late Base base;
 
   @override
-  ProfileScreen createState() => ProfileScreen();
+  MyScreen createState() => MyScreen();
+
+  @override
+  BottomNavigationBarItem get bottomNavigationBarItem => navi(screen);
+
+  @override
+  void setBase(Base base) {
+    this.base = base;
+  }
 }
 
-class ProfileScreen extends State<Profile> {
+class MyScreen extends State<Me> with Frame {
   final ProfileDataManager _manager = ProfileDataManager();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _build(),
+    return scaffold(
+      context,
+      bottom: widget.base.screen.bottom,
+      isPost: true,
     );
   }
 
-  Widget _build() {
-    _manager.holder.user = widget.user!;
+  @override
+  Widget body() {
+    _manager.holder.user = plugin.api.session.handle!;
     return FutureBuilder(
         future: _manager.getData(false),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -35,7 +50,7 @@ class ProfileScreen extends State<Profile> {
           } else {
             return ProfileView(
               manager: _manager,
-              baseScreen: Base().screen,
+              baseScreen: widget.base.screen,
             );
           }
         });
