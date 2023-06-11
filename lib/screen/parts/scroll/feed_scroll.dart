@@ -10,7 +10,7 @@ mixin FeedScroll {
   bool isHidden = false;
   bool isLoading = false;
 
-  late FeedDataManager manager;
+  late DataManager manager;
   late BaseScreen baseScreen;
 
   void initState() {
@@ -47,7 +47,7 @@ mixin FeedScroll {
       physics: const BouncingScrollPhysics(
         parent: AlwaysScrollableScrollPhysics(),
       ),
-      semanticChildCount: manager.feedHolder.feeds.length,
+      semanticChildCount: manager.length,
       controller: scrollController,
       slivers: slivers,
     );
@@ -58,9 +58,9 @@ mixin FeedScroll {
   SliverList get sliverList {
     return SliverList(
         delegate: SliverChildBuilderDelegate(
-      childCount: manager.feedHolder.feeds.length + 1,
+      childCount: manager.length + 1,
       (BuildContext context, int index) {
-        if (manager.feedHolder.feeds.length == index) {
+        if (manager.length == index) {
           manager.getData(false);
           return const SizedBox(
             height: 50,
@@ -72,8 +72,12 @@ mixin FeedScroll {
     ));
   }
 
-  Widget line(int index) {
-    Timeline line = Timeline(manager.feedHolder.feeds[index]);
+  Widget line(int index);
+
+  // for home and profile
+  Widget timeline(int index) {
+    Timeline line =
+        Timeline((manager as FeedDataManager).feedHolder.feeds[index]);
     return outline(line);
   }
 }

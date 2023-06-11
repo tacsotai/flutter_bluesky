@@ -138,4 +138,9 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
     return Text(count.toString(),
         style: const TextStyle(fontWeight: FontWeight.bold));
   }
+
+  @override
+  Widget line(int index) {
+    return timeline(index);
+  }
 }

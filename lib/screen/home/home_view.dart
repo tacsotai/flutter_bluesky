@@ -65,4 +65,9 @@ class _HomeViewState extends State<HomeView> with FeedScroll {
       ),
     );
   }
+
+  @override
+  Widget line(int index) {
+    return timeline(index);
+  }
 }

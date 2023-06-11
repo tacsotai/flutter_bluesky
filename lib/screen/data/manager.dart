@@ -1,15 +1,23 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
+import 'package:flutter_bluesky/api/model/notification.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/data/holder.dart';
 import 'package:tuple/tuple.dart';
 
 abstract class DataManager {
-  Future<void> getData(bool insert);
+  Future<void> getData(bool insert, {String? term});
+  int get length;
 }
 
 abstract class FeedDataManager extends DataManager {
   FeedDataHolder get feedHolder;
+
+  @override
+  int get length {
+    return feedHolder.feeds.length;
+  }
 }
 
 class HomeDataManager extends FeedDataManager {
@@ -18,7 +26,7 @@ class HomeDataManager extends FeedDataManager {
   FeedDataHolder get feedHolder => holder;
 
   @override
-  Future<void> getData(bool insert) async {
+  Future<void> getData(bool insert, {String? term}) async {
     try {
       // debugPrint("holder.cursor: ${holder.cursor}");
       String? cursor = insert ? null : holder.cursor;
@@ -40,7 +48,7 @@ class ProfileDataManager extends FeedDataManager {
   FeedDataHolder get feedHolder => holder;
 
   @override
-  Future<void> getData(bool insert) async {
+  Future<void> getData(bool insert, {String? term}) async {
     try {
       await makeProfile();
       await makeFeed(insert);
