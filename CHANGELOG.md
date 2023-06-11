@@ -32,3 +32,6 @@
 
 ## 0.3.3
 * Edit profile.
+
+## 0.3.4
+* Follow button on profile.
