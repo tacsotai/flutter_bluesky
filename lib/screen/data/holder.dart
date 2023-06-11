@@ -53,3 +53,16 @@ class FeedDataHolder {
     return list;
   }
 }
+
+// ProfileViewDetailed List
+// app.bsky.actor.searchActors
+// app.bsky.actor.getSuggestions
+class SearchDataHolder {
+  String? cursor;
+  List<ProfileView> actors = [];
+
+  void make(ProfileViews res) async {
+    actors = res.actors;
+    cursor = res.cursor;
+  }
+}

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
+import 'package:flutter_bluesky/screen/data/manager.dart';
+import 'package:flutter_bluesky/screen/search/search_view.dart';
 
 // ignore: must_be_immutable
 class Search extends PluggableWidget {
@@ -21,6 +23,7 @@ class Search extends PluggableWidget {
 }
 
 class SearcheScreen extends State<Search> with Frame {
+  final SearchDataManager _manager = SearchDataManager();
   @override
   Widget build(BuildContext context) {
     return scaffold(
@@ -32,6 +35,20 @@ class SearcheScreen extends State<Search> with Frame {
 
   @override
   Widget body() {
-    return Center(child: Text("screen: ${Search.screen.name}"));
+    return FutureBuilder(
+        future: _manager.getData(false),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Text("Error: ${snapshot.error}");
+          } else {
+            return SearchView(
+              manager: _manager,
+              baseScreen: widget.base.screen,
+            );
+          }
+        });
   }
 }

@@ -69,3 +69,25 @@ class ProfileDataManager extends FeedDataManager {
     holder.makeFeeds(insert, FeedResponse(res.item2));
   }
 }
+
+class SearchDataManager extends DataManager {
+  final SearchDataHolder holder = SearchDataHolder();
+
+  @override
+  Future<void> getData(bool insert, {String? term}) async {
+    try {
+      String? cursor = holder.cursor;
+      Tuple2 res = term == null
+          ? await plugin.getSuggestions()
+          : await plugin.searchActors(term: term, cursor: cursor);
+      holder.make(ProfileViews(res.item2));
+    } catch (e, stacktrace) {
+      // TODO
+      debugPrint("Error: $e");
+      debugPrint("stacktrace: $stacktrace");
+    }
+  }
+
+  @override
+  int get length => holder.actors.length;
+}
