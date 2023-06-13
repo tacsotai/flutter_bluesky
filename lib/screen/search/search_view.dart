@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/screen/base.dart';
+import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
@@ -22,6 +23,8 @@ class SearchView extends StatefulWidget {
 }
 
 class _SearchViewState extends State<SearchView> with FeedScroll {
+  final TextEditingController controller = TextEditingController();
+
   @override
   void initState() {
     super.manager = widget.manager;
@@ -52,7 +55,8 @@ class _SearchViewState extends State<SearchView> with FeedScroll {
         appBar,
         MaterialSliverRefreshControl(
           onRefresh: () async {
-            await manager.getData(true);
+            // domain, text, and so on
+            await manager.getData(true, term: controller.text);
             setState(() {});
           },
         ),
@@ -62,9 +66,8 @@ class _SearchViewState extends State<SearchView> with FeedScroll {
   Widget get appBar {
     return SliverAppBar(
       floating: true,
-      flexibleSpace: FlexibleSpaceBar(
-        title: Text(tr("Search")), // TODO "Search$" is runtime type
-      ),
+      backgroundColor: Colors.white,
+      flexibleSpace: FlexibleSpaceBar(background: searchBox()),
     );
   }
 
@@ -72,5 +75,22 @@ class _SearchViewState extends State<SearchView> with FeedScroll {
   Widget line(int index) {
     ProfileView actor = widget.manager.holder.actors[index];
     return SearchLine(actor: actor);
+  }
+
+  Widget searchBox({FormFieldValidator<String>? validator}) {
+    return padding(TextFormField(
+      scrollPadding: const EdgeInsets.all(0),
+      decoration: InputDecoration(
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(18.0)),
+          labelText: tr('Search'),
+          prefixIcon: const Icon(Icons.search)),
+      onChanged: (text) async {
+        await manager.getData(false, term: controller.text);
+        setState(() {
+          controller.text = text;
+        });
+      },
+      validator: validator,
+    ));
   }
 }
