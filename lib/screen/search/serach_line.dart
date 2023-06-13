@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
+import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 
@@ -15,11 +16,11 @@ class SearchLine extends StatefulWidget {
 class SearchLineScreen extends State<SearchLine> {
   @override
   Widget build(BuildContext context) {
-    return paddingLR([
+    return padding(paddingLR([
       Avatar(context).net(widget.actor).profile
     ], [
       contet,
-    ]);
+    ]));
   }
 
   Widget get contet {

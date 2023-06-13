@@ -74,7 +74,8 @@ class _SearchViewState extends State<SearchView> with FeedScroll {
   @override
   Widget line(int index) {
     ProfileView actor = widget.manager.holder.actors[index];
-    return SearchLine(actor: actor);
+    return Column(
+        children: [SearchLine(actor: actor), const Divider(height: 0.5)]);
   }
 
   Widget searchBox({FormFieldValidator<String>? validator}) {
