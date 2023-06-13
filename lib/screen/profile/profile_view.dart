@@ -4,7 +4,6 @@ import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/button/button_manager.dart';
-import 'package:flutter_bluesky/screen/parts/hyper_link.dart';
 import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
@@ -98,8 +97,6 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
   }
 
   Widget get displayNameDescription {
-    String desc = actor.description ?? "";
-    Widget description = HyperLink(desc).withLink;
     return Padding(
         padding: const EdgeInsets.all(10),
         child: SizedBox(
@@ -109,7 +106,7 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
               displayName(actor, 28),
               handle(actor),
               counts,
-              description,
+              description(actor),
             ],
           ),
         ));
