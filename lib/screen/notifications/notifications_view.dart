@@ -2,9 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/notfifications.dart';
+import 'package:flutter_bluesky/screen/notifications/notification_line.dart';
 import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
+import 'package:flutter_bluesky/api/model/notification.dart' as notice;
 
 class NotificationsView extends StatefulWidget {
   final NotificationsDataManager manager;
@@ -69,6 +71,8 @@ class _NotificationsViewState extends State<NotificationsView> with FeedScroll {
 
   @override
   Widget line(int index) {
-    return Text("notifications");
+    notice.Notification notification =
+        widget.manager.holder.notifications[index];
+    return NotificationsLine(notification: notification);
   }
 }
