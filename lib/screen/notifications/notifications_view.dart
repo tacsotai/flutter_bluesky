@@ -73,6 +73,9 @@ class _NotificationsViewState extends State<NotificationsView> with FeedScroll {
   Widget line(int index) {
     notice.Notification notification =
         widget.manager.holder.notifications[index];
-    return NotificationsLine(notification: notification);
+    return Column(children: [
+      NotificationsLine(notification: notification),
+      const Divider(height: 0.5)
+    ]);
   }
 }
