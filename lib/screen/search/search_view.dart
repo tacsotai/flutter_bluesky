@@ -1,10 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/screen/base.dart';
-import 'package:flutter_bluesky/screen/Search.dart';
 import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
+import 'package:flutter_bluesky/screen/search/serach_line.dart';
 
 class SearchView extends StatefulWidget {
   final SearchDataManager manager;
@@ -62,13 +63,14 @@ class _SearchViewState extends State<SearchView> with FeedScroll {
     return SliverAppBar(
       floating: true,
       flexibleSpace: FlexibleSpaceBar(
-        title: Text(tr("Search")), // TODO なぜかTypeがSearch$となる。
+        title: Text(tr("Search")), // TODO "Search$" is runtime type
       ),
     );
   }
 
   @override
   Widget line(int index) {
-    return Text("hogehoge");
+    ProfileView actor = widget.manager.holder.actors[index];
+    return SearchLine(actor: actor);
   }
 }
