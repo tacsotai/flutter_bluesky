@@ -63,6 +63,7 @@ class SearchDataHolder {
   List<ProfileView> actors = [];
 
   void make(ProfileViews res) async {
+    actors.clear();
     actors = res.actors;
     cursor = res.cursor;
   }
