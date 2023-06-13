@@ -27,6 +27,11 @@ bool get isAlive {
 class FlutterBluesky extends Bluesky {
   Map serverDescription = {};
 
+  // TODO multiple case.
+  String get domain {
+    return serverDescription["availableUserDomains"][0];
+  }
+
   FlutterBluesky({
     String? provider,
   }) : super(api: API(session: Session.create(provider: provider)));

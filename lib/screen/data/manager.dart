@@ -77,9 +77,8 @@ class SearchDataManager extends DataManager {
   Future<void> getData(bool insert, {String? term}) async {
     try {
       String? cursor = holder.cursor;
-      Tuple2 res = term == null
-          ? await plugin.getSuggestions()
-          : await plugin.searchActors(term: term, cursor: cursor);
+      Tuple2 res = await plugin.searchActors(
+          term: term ?? plugin.domain, cursor: cursor);
       holder.make(ProfileViews(res.item2));
     } catch (e, stacktrace) {
       // TODO
