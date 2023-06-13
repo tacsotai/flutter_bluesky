@@ -7,18 +7,18 @@ import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 
-Widget displayName(ProfileViewBasic author, double? fontSize) {
-  String? name = author.displayName;
-  name ??= withoutDomain(author.handle);
+Widget displayName(ProfileViewBasic actor, double? fontSize) {
+  String? name = actor.displayName;
+  name ??= withoutDomain(actor.handle);
   return Text(
     name,
     style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
   );
 }
 
-Widget handle(ProfileViewBasic author) {
+Widget handle(ProfileViewBasic actor) {
   return InkWell(
-    child: Text('@${author.handle}'),
+    child: Text('@${actor.handle}'),
     onTap: () async {
       // if (await canLaunch("url")) {
       //   await launch("url");
