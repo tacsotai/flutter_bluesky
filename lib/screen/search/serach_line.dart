@@ -30,6 +30,6 @@ class SearchLineScreen extends State<SearchLine> {
 
 class SearchContent {
   Widget build(State state, ProfileView actor) {
-    return Text(actor.displayName!);
+    return Text(actor.displayName ?? actor.handle);
   }
 }
