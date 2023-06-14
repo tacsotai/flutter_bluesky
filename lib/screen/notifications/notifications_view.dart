@@ -62,7 +62,7 @@ class _NotificationsViewState extends State<NotificationsView> with FeedScroll {
 
   Widget get appBar {
     return SliverAppBar(
-      floating: true,
+      pinned: true,
       flexibleSpace: FlexibleSpaceBar(
         title: Text(tr(Notifications.screen.name)),
       ),
