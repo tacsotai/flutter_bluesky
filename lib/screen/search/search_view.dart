@@ -6,7 +6,7 @@ import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
-import 'package:flutter_bluesky/screen/search/serach_line.dart';
+import 'package:flutter_bluesky/screen/search/search_line.dart';
 
 class SearchView extends StatefulWidget {
   final SearchDataManager manager;
