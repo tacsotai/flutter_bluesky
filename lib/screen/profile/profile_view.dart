@@ -68,11 +68,7 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
 
   Widget get header {
     return Column(
-      children: [
-        bannerAvatar,
-        displayNameDescription,
-        const Divider(height: 0.5)
-      ],
+      children: [bannerAvatar, actorInfo, const Divider(height: 0.5)],
     );
   }
 
@@ -96,14 +92,14 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
     return prof.Banner(context).net(actor).banner;
   }
 
-  Widget get displayNameDescription {
+  Widget get actorInfo {
     return Padding(
         padding: const EdgeInsets.all(10),
         child: SizedBox(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              displayName(actor, 28),
+              displayName(actor, fontSize: 28),
               handle(actor),
               counts,
               description(actor),

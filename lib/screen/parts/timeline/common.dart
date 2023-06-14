@@ -2,13 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
+import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/hyper_link.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
+import 'package:tuple/tuple.dart';
 
-Widget displayName(ProfileViewBasic actor, double? fontSize) {
+Widget lr(Widget left, Widget right, Tuple2<int, int> ratio) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Flexible(flex: ratio.item1, child: left),
+      Flexible(flex: ratio.item2, child: right),
+    ],
+  );
+}
+
+Widget displayNameHandle(ProfileViewBasic actor) {
+  return Wrap(children: [displayName(actor), sizeBox, handle(actor)]);
+}
+
+Widget displayName(ProfileViewBasic actor, {double? fontSize = 16}) {
   String? name = actor.displayName;
   name ??= withoutDomain(actor.handle);
   return Text(
@@ -18,13 +34,9 @@ Widget displayName(ProfileViewBasic actor, double? fontSize) {
 }
 
 Widget handle(ProfileViewBasic actor) {
-  return InkWell(
-    child: Text('@${actor.handle}'),
-    onTap: () async {
-      // if (await canLaunch("url")) {
-      //   await launch("url");
-      // }
-    },
+  return Text(
+    '@${actor.handle}',
+    style: const TextStyle(color: Colors.grey),
   );
 }
 
