@@ -7,6 +7,9 @@ import 'package:flutter_bluesky/screen/data/holder.dart';
 import 'package:tuple/tuple.dart';
 
 abstract class DataManager {
+  // insert
+  // true: load latest data for showing data below app bar
+  // false: load old data for showing data above bottom bar
   Future<void> getData(bool insert, {String? term});
   int get length;
 }
