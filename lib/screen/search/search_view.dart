@@ -65,7 +65,7 @@ class _SearchViewState extends State<SearchView> with FeedScroll {
 
   Widget get appBar {
     return SliverAppBar(
-      floating: true,
+      pinned: true,
       backgroundColor: Colors.white,
       flexibleSpace: FlexibleSpaceBar(background: searchBox()),
     );
