@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avatar.dart';
+import 'package:flutter_bluesky/screen/parts/button.dart';
+import 'package:flutter_bluesky/screen/parts/button/button_manager.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
+import 'package:tuple/tuple.dart';
 
 SearchContent? customSearchContent;
 
@@ -31,6 +34,16 @@ class SearchLineScreen extends State<SearchLine> {
 
 class SearchContent {
   Widget build(State state, ProfileView actor) {
-    return Text(actor.displayName ?? actor.handle);
+    Widget left = displayNameHandle(actor);
+    FollowButton button =
+        buttonManager!.followButton(state, actor) as FollowButton;
+    Widget right = button.isFollowing ? Container() : button.widget;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        lr(left, right, const Tuple2(5, 4)),
+        description(actor),
+      ],
+    );
   }
 }
