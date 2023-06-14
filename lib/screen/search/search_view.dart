@@ -86,7 +86,7 @@ class _SearchViewState extends State<SearchView> with FeedScroll {
           labelText: tr('Search'),
           prefixIcon: const Icon(Icons.search)),
       onChanged: (text) async {
-        await manager.getData(false, term: controller.text);
+        await manager.getData(true, term: controller.text);
         setState(() {
           controller.text = text;
         });
