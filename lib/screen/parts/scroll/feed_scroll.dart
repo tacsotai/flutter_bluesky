@@ -61,11 +61,13 @@ mixin FeedScroll {
       childCount: manager.length + 1,
       (BuildContext context, int index) {
         if (manager.length == index) {
-          manager.getData(false);
-          return const SizedBox(
-            height: 50,
-            child: Center(child: CircularProgressIndicator()),
-          );
+          if (isLoading) {
+            return const SizedBox(
+              height: 50,
+              child: Center(child: CircularProgressIndicator()),
+            );
+          }
+          return Container();
         }
         return line(index);
       },
