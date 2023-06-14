@@ -5,6 +5,7 @@ import 'package:flutter_bluesky/screen/parts/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/button.dart';
 import 'package:flutter_bluesky/screen/parts/button/button_manager.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
+import 'package:flutter_bluesky/screen/profile.dart';
 import 'package:tuple/tuple.dart';
 
 SearchContent? customSearchContent;
@@ -38,12 +39,20 @@ class SearchContent {
     FollowButton button =
         buttonManager!.followButton(state, actor) as FollowButton;
     Widget right = button.isFollowing ? Container() : button.widget;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        lr(left, right, const Tuple2(5, 4)),
-        description(actor),
-      ],
+    return InkWell(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          lr(left, right, const Tuple2(5, 4)),
+          description(actor),
+        ],
+      ),
+      onTap: () async {
+        Navigator.push(
+          state.context,
+          MaterialPageRoute(builder: (context) => Profile(user: actor.did)),
+        );
+      },
     );
   }
 }
