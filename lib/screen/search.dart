@@ -30,6 +30,7 @@ class SearcheScreen extends State<Search> with Frame {
       context,
       bottom: widget.base.screen.bottom,
       isPost: false,
+      drawer: const Drawer(), // TODO
     );
   }
 
