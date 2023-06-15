@@ -31,6 +31,7 @@ class NotificationsScreen extends State<Notifications> with Frame {
       context,
       bottom: widget.base.screen.bottom,
       isPost: false,
+      drawer: const Drawer(), // TODO
     );
   }
 
