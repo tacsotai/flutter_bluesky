@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/base.dart';
+import 'package:flutter_bluesky/screen/data/holder.dart';
 import 'package:flutter_bluesky/screen/notfifications.dart';
 import 'package:flutter_bluesky/screen/notifications/notification_line.dart';
 import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
@@ -70,10 +72,14 @@ class _NotificationsViewState extends State<NotificationsView> with FeedScroll {
 
   @override
   Widget line(int index) {
-    notice.Notification notification =
-        widget.manager.holder.notifications[index];
+    NotificationsDataHolder holder = widget.manager.holder;
+    notice.Notification notification = holder.notifications[index];
+    Post? post = holder.reasonPosts[notification.reasonSubject];
     return Column(children: [
-      NotificationsLine(notification: notification),
+      NotificationsLine(
+        notification: notification,
+        reasonPost: post,
+      ),
       const Divider(height: 0.5)
     ]);
   }

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/api/model/notification.dart' as notice;
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avatar.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 
 Notice? customNotice;
 
 class NotificationsLine extends StatefulWidget {
   final notice.Notification notification;
-  const NotificationsLine({Key? key, required this.notification})
+  final Post? reasonPost;
+  const NotificationsLine(
+      {Key? key, required this.notification, required this.reasonPost})
       : super(key: key);
   @override
   NotificationsLineScreen createState() => NotificationsLineScreen();
@@ -18,56 +22,89 @@ class NotificationsLineScreen extends State<NotificationsLine> {
   @override
   Widget build(BuildContext context) {
     Notice notice = customNotice ?? Notice();
-    return padding(notice.build(this, widget.notification));
+    return padding(notice.build(this, widget.notification, widget.reasonPost));
   }
 }
 
 class Notice {
-  Widget build(State state, notice.Notification notification) {
+  late State state;
+  late notice.Notification notification;
+  late Post? reasonPost;
+
+  Widget build(
+    State state,
+    notice.Notification notification,
+    Post? reasonPost,
+  ) {
+    this.state = state;
+    this.notification = notification;
+    this.reasonPost = reasonPost;
     switch (notification.reason) {
       case "follow":
-        return follow(state, notification);
-      case "reply":
-        return reply(state, notification);
+        return follow;
       case "like":
-        return like(state, notification);
+        return like;
+      case "reply":
+        return reply;
       case "repost":
-        return repost(state, notification);
+        return repost;
+      case "quote":
+        return quote;
       default:
-        return error(state, notification);
+        return error;
     }
   }
 
-  Widget follow(State state, notice.Notification notification) {
+  Widget iconContent(IconData data, Color iconColor) {
+    List<Widget> widgets = [
+      Avatar(state.context, radius: 20).net(notification.author).profile,
+      displayName(notification.author),
+    ];
+    if (reasonPost != null) {
+      widgets.add(Body(post: reasonPost!));
+    }
     return paddingLR([
-      const Icon(Icons.favorite_sharp, color: Colors.pink)
+      SizedBox(width: 70, child: Icon(data, color: iconColor, size: 30))
     ], [
-      Column(
-        children: [
-          Avatar(state.context).net(notification.author).profile,
-          displayName(notification.author),
-        ],
-      )
+      Column(crossAxisAlignment: CrossAxisAlignment.start, children: widgets)
     ]);
   }
 
-  Widget reply(State state, notice.Notification notification) {
+  Widget get follow {
+    return iconContent(
+      Icons.person_add,
+      Colors.blue,
+    );
+  }
+
+  Widget get like {
+    return iconContent(
+      Icons.favorite_sharp,
+      Colors.pink,
+    );
+  }
+
+  Widget get avatorContent {
     return paddingLR([
       Avatar(state.context).net(notification.author).profile
     ], [
-      Text(notification.record["text"]),
+      Body(post: reasonPost!),
     ]);
   }
 
-  Widget like(State state, notice.Notification notification) {
-    return Text("notification.reason ${notification.reason}");
+  Widget get reply {
+    return avatorContent;
   }
 
-  Widget repost(State state, notice.Notification notification) {
-    return Text("notification.reason ${notification.reason}");
+  Widget get repost {
+    return avatorContent;
   }
 
-  Widget error(State state, notice.Notification notification) {
+  Widget get quote {
+    return avatorContent;
+  }
+
+  Widget get error {
     return Text("Error: Not implementd for '${notification.reason}'");
   }
 }
