@@ -38,6 +38,7 @@ class MainApp extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: ThemeData(
+          useMaterial3: true,
           primarySwatch: ThemeColors.material,
           canvasColor: ThemeColors.secondary),
       navigatorObservers: [TransitionRouteObserver()],
