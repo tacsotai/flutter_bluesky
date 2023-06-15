@@ -5,6 +5,7 @@ import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 
 Notice? customNotice;
 
@@ -58,7 +59,8 @@ class Notice {
   Widget iconContent(IconData data, Color iconColor) {
     List<Widget> widgets = [
       Avatar(state.context, radius: 20).net(notification.author).profile,
-      displayName(notification.author),
+      Header(author: notification.author, createdAt: notification.indexedAt)
+          .build(state.context)
     ];
     if (reasonPost != null) {
       widgets.add(Body(post: reasonPost!));
@@ -88,6 +90,8 @@ class Notice {
     return paddingLR([
       Avatar(state.context).net(notification.author).profile
     ], [
+      Header(author: notification.author, createdAt: notification.indexedAt)
+          .build(state.context),
       Body(post: reasonPost!),
     ]);
   }
