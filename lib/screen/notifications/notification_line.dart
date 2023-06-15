@@ -105,6 +105,6 @@ class Notice {
   }
 
   Widget get error {
-    return Text("Error: Not implementd for '${notification.reason}'");
+    return Text("Error: Not implemented for '${notification.reason}'");
   }
 }
