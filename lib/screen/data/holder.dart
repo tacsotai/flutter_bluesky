@@ -72,14 +72,34 @@ class SearchDataHolder {
 class NotificationsDataHolder {
   // unreadCount
   String? seenAt;
-  int unreadCount = 100;
+  int unreadCount = 25; // must under 25
   // listNotifications
   String? cursor;
   List<Notification> notifications = [];
+  late String uris;
+  Map<String, Post> reasonPosts = {};
 
   void makeNotifications(ListNotifications res) async {
     notifications = res.notifications;
     cursor = res.cursor;
+    _makeUris();
+  }
+
+  void _makeUris() {
+    StringBuffer sb = StringBuffer();
+    for (Notification notification in notifications) {
+      if (notification.reasonSubject != null) {
+        sb.write("uris[]=${notification.reasonSubject}&");
+      }
+    }
+    uris = sb.toString().substring(0, sb.toString().length - 1);
+  }
+
+  void makePosts(List postList) async {
+    for (Map map in postList) {
+      Post post = Post(map);
+      reasonPosts[post.uri] = post;
+    }
   }
 
   void makeCount(int count) async {
