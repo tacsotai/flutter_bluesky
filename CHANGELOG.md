@@ -38,3 +38,7 @@
 
 ## 0.3.5
 * Search and Notifications Screen.
+
+## 0.4.0
+* Changed type miss and so on.
+
