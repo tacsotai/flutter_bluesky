@@ -4,7 +4,6 @@ import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/button/button_manager.dart';
-import 'package:flutter_bluesky/screen/parts/hyper_link.dart';
 import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
@@ -69,11 +68,7 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
 
   Widget get header {
     return Column(
-      children: [
-        bannerAvatar,
-        displayNameDescription,
-        const Divider(height: 0.5)
-      ],
+      children: [bannerAvatar, actorInfo, const Divider(height: 0.5)],
     );
   }
 
@@ -97,19 +92,17 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
     return prof.Banner(context).net(actor).banner;
   }
 
-  Widget get displayNameDescription {
-    String desc = actor.description ?? "";
-    Widget description = HyperLink(desc).withLink;
+  Widget get actorInfo {
     return Padding(
         padding: const EdgeInsets.all(10),
         child: SizedBox(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              displayName(actor, 28),
+              displayName(actor, fontSize: 28),
               handle(actor),
               counts,
-              description,
+              description(actor),
             ],
           ),
         ));
@@ -137,5 +130,10 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
   Widget bold(int count) {
     return Text(count.toString(),
         style: const TextStyle(fontWeight: FontWeight.bold));
+  }
+
+  @override
+  Widget line(int index) {
+    return timeline(index);
   }
 }

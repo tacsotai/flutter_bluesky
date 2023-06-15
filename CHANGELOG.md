@@ -35,3 +35,6 @@
 
 ## 0.3.4
 * Follow button on profile.
+
+## 0.3.5
+* Search and Notifications Screen.

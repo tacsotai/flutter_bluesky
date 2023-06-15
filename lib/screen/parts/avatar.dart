@@ -39,7 +39,9 @@ class Avatar {
       radius: radius,
       foregroundColor: Theme.of(context).colorScheme.primary,
       backgroundImage: provider,
-      child: provider == null ? const Icon(Icons.person, size: 50) : null,
+      child: provider == null
+          ? Icon(Icons.person, size: 50 * (radius / 35))
+          : null,
     );
   }
 }

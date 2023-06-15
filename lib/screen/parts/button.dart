@@ -58,9 +58,9 @@ class FollowButton extends Button {
   void add(int count) {
     if (actor.runtimeType == ProfileViewDetailed) {
       (actor as ProfileViewDetailed).followersCount += count;
-      // ignore: invalid_use_of_protected_member
-      state.setState(() {});
     }
+    // ignore: invalid_use_of_protected_member
+    state.setState(() {});
   }
 
   @override

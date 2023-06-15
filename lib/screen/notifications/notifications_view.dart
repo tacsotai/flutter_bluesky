@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/base.dart';
+import 'package:flutter_bluesky/screen/data/holder.dart';
+import 'package:flutter_bluesky/screen/notfifications.dart';
+import 'package:flutter_bluesky/screen/notifications/notification_line.dart';
 import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
+import 'package:flutter_bluesky/api/model/notification.dart' as notice;
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 
-class HomeView extends StatefulWidget {
-  final HomeDataManager manager;
+class NotificationsView extends StatefulWidget {
+  final NotificationsDataManager manager;
   final BaseScreen baseScreen;
 
-  const HomeView({
+  const NotificationsView({
     Key? key,
     required this.manager,
     required this.baseScreen,
   }) : super(key: key);
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  State<NotificationsView> createState() => _NotificationsViewState();
 }
 
-class _HomeViewState extends State<HomeView> with FeedScroll {
+class _NotificationsViewState extends State<NotificationsView> with FeedScroll {
   @override
   void initState() {
     super.manager = widget.manager;
@@ -60,13 +65,22 @@ class _HomeViewState extends State<HomeView> with FeedScroll {
   Widget get appBar {
     return SliverAppBar(
       floating: true,
-      flexibleSpace:
-          FlexibleSpaceBar(title: text('title', context), centerTitle: true),
+      flexibleSpace: FlexibleSpaceBar(
+          title: text(Notifications.screen.name, context), centerTitle: true),
     );
   }
 
   @override
   Widget line(int index) {
-    return timeline(index);
+    NotificationsDataHolder holder = widget.manager.holder;
+    notice.Notification notification = holder.notifications[index];
+    Post? post = holder.reasonPosts[notification.reasonSubject];
+    return Column(children: [
+      NotificationsLine(
+        notification: notification,
+        reasonPost: post,
+      ),
+      const Divider(height: 0.5)
+    ]);
   }
 }

@@ -23,6 +23,15 @@ abstract class Bluesky extends Atproto {
         res.statusCode, json.decode(res.body));
   }
 
+  Future<Tuple2> searchActors(
+      {String? term, int? limit, String? cursor}) async {
+    http.Response res = await api.get("app.bsky.actor.searchActors",
+        params: {"term": term, "limit": limit, "cursor": cursor},
+        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
   Future<Tuple2> searchActorsTypeahead({String? term, int? limit}) async {
     http.Response res = await api.get("app.bsky.actor.searchActorsTypeahead",
         params: {"term": term, "limit": limit},
@@ -35,6 +44,15 @@ abstract class Bluesky extends Atproto {
       {int? limit, String? cursor}) async {
     http.Response res = await api.get("app.bsky.feed.getAuthorFeed",
         params: {"actor": actor, "limit": limit, "cursor": cursor},
+        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  // uris should be uris[]=at..&uris[]=at..uris[]=at.. ...
+  Future<Tuple2> getPosts(String uris) async {
+    http.Response res = await api.get("app.bsky.feed.getPosts",
+        params: {"uris\\[\\]": uris},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));

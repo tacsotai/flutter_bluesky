@@ -1,5 +1,6 @@
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
+import 'package:flutter_bluesky/api/model/notification.dart';
 
 class HomeDataHolder extends FeedDataHolder {}
 
@@ -51,5 +52,58 @@ class FeedDataHolder {
       }
     }
     return list;
+  }
+}
+
+// ProfileViewDetailed List
+// app.bsky.actor.searchActors
+// app.bsky.actor.getSuggestions
+class SearchDataHolder {
+  String? cursor;
+  List<ProfileView> actors = [];
+
+  void make(ProfileViews res) async {
+    actors.clear();
+    actors = res.actors;
+    cursor = res.cursor;
+  }
+}
+
+class NotificationsDataHolder {
+  // unreadCount
+  String? seenAt;
+  int unreadCount = 25; // must under 25
+  // listNotifications
+  String? cursor;
+  List<Notification> notifications = [];
+  late String uris;
+  Map<String, Post> reasonPosts = {};
+
+  void makeNotifications(ListNotifications res) async {
+    notifications = res.notifications;
+    cursor = res.cursor;
+    _makeUris();
+  }
+
+  void _makeUris() {
+    StringBuffer sb = StringBuffer();
+    for (Notification notification in notifications) {
+      if (notification.reasonSubject != null) {
+        sb.write("uris[]=${notification.reasonSubject}&");
+      }
+    }
+    uris = sb.toString().substring(0, sb.toString().length - 1);
+  }
+
+  void makePosts(List postList) async {
+    for (Map map in postList) {
+      Post post = Post(map);
+      reasonPosts[post.uri] = post;
+    }
+  }
+
+  void makeCount(int count) async {
+    seenAt = DateTime.now().toIso8601String();
+    unreadCount = count;
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
+import 'package:flutter_bluesky/screen/data/manager.dart';
+import 'package:flutter_bluesky/screen/notifications/notifications_view.dart';
 
 // ignore: must_be_immutable
 class Notifications extends PluggableWidget {
@@ -22,17 +24,33 @@ class Notifications extends PluggableWidget {
 }
 
 class NotificationsScreen extends State<Notifications> with Frame {
+  final NotificationsDataManager _manager = NotificationsDataManager();
   @override
   Widget build(BuildContext context) {
     return scaffold(
       context,
       bottom: widget.base.screen.bottom,
       isPost: false,
+      drawer: const Drawer(), // TODO
     );
   }
 
   @override
   Widget body() {
-    return Center(child: Text("screen: ${Notifications.screen.name}"));
+    return FutureBuilder(
+        future: _manager.getData(false),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Text("Error: ${snapshot.error}");
+          } else {
+            return NotificationsView(
+              manager: _manager,
+              baseScreen: widget.base.screen,
+            );
+          }
+        });
   }
 }

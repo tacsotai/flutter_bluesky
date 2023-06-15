@@ -32,11 +32,13 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // https://zenn.dev/kafumi/scraps/d7aeed260985cc
       // title: tr('title'),
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: ThemeData(
+          useMaterial3: true,
           primarySwatch: ThemeColors.material,
           canvasColor: ThemeColors.secondary),
       navigatorObservers: [TransitionRouteObserver()],
