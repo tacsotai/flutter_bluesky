@@ -38,3 +38,9 @@
 
 ## 0.3.5
 * Search and Notifications Screen.
+
+## 0.4.0
+* Changed type miss and so on.
+
+## 0.4.1
+* Add index date to Notifications.

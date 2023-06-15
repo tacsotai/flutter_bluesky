@@ -26,7 +26,7 @@ class ProviderScreen extends State<Provider> {
   }
 
   final _controller = TextEditingController();
-  String message = "No connected to any provider yet.";
+  String message = "Not connected to any provider yet.";
 
   AppBar? appBar(BuildContext context) {
     return AppBar(
