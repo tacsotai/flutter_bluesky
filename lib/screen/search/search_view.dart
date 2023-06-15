@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/screen/base.dart';
-import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
@@ -67,7 +66,9 @@ class _SearchViewState extends State<SearchView> with FeedScroll {
     return SliverAppBar(
       pinned: true,
       backgroundColor: Colors.white,
-      flexibleSpace: FlexibleSpaceBar(background: searchBox()),
+      flexibleSpace: FlexibleSpaceBar(
+          title: searchBox(),
+          titlePadding: const EdgeInsetsDirectional.only(start: 70)),
     );
   }
 
@@ -79,9 +80,9 @@ class _SearchViewState extends State<SearchView> with FeedScroll {
   }
 
   Widget searchBox({FormFieldValidator<String>? validator}) {
-    return padding(TextFormField(
-      scrollPadding: const EdgeInsets.all(0),
+    return TextFormField(
       decoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(vertical: 10),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(18.0)),
           labelText: tr('Search'),
           prefixIcon: const Icon(Icons.search)),
@@ -92,6 +93,6 @@ class _SearchViewState extends State<SearchView> with FeedScroll {
         });
       },
       validator: validator,
-    ));
+    );
   }
 }
