@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/notfifications.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
 import 'package:flutter_bluesky/api/model/notification.dart' as notice;
+import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 
 class NotificationsView extends StatefulWidget {
   final NotificationsDataManager manager;
@@ -62,10 +62,9 @@ class _NotificationsViewState extends State<NotificationsView> with FeedScroll {
 
   Widget get appBar {
     return SliverAppBar(
-      pinned: true,
+      floating: true,
       flexibleSpace: FlexibleSpaceBar(
-        title: Text(tr(Notifications.screen.name)),
-      ),
+          title: text(Notifications.screen.name, context), centerTitle: true),
     );
   }
 

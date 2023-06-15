@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
@@ -9,6 +10,16 @@ import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 import 'package:tuple/tuple.dart';
+
+Widget text(String prop, BuildContext context) {
+  return Text(
+    tr(prop),
+    style: TextStyle(
+        color: Theme.of(context).useMaterial3
+            ? Colors.black
+            : Theme.of(context).secondaryHeaderColor),
+  );
+}
 
 Widget lr(Widget left, Widget right, Tuple2<int, int> ratio) {
   return Row(

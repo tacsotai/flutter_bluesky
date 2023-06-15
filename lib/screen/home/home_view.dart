@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen/base.dart';
-import 'package:flutter_bluesky/screen/home.dart';
 import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 
 class HomeView extends StatefulWidget {
   final HomeDataManager manager;
@@ -60,9 +60,8 @@ class _HomeViewState extends State<HomeView> with FeedScroll {
   Widget get appBar {
     return SliverAppBar(
       floating: true,
-      flexibleSpace: FlexibleSpaceBar(
-        title: Text(Home.screen.name), // TODO
-      ),
+      flexibleSpace:
+          FlexibleSpaceBar(title: text('title', context), centerTitle: true),
     );
   }
 
