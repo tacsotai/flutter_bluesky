@@ -11,7 +11,6 @@ import 'package:flutter_bluesky/screen/parts/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/banner.dart' as prof;
 import 'package:flutter_bluesky/screen/me.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
-import 'package:path/path.dart' as path;
 import 'package:tuple/tuple.dart';
 
 class EditProfile extends StatefulWidget {
@@ -28,25 +27,27 @@ class EditProfileScreen extends State<EditProfile> {
   String? displayName;
   String? description;
   // avatar
-  PlatformFile? avatarFile;
+  bool isAvatarChanged = false;
+  ImageFile? avatarFile;
   late Widget avatarWidget;
   // banner
-  PlatformFile? bannerFile;
+  bool isBannerChanged = false;
+  ImageFile? bannerFile;
   late Widget bannerWidget;
 
   void init() {
     actor = plugin.api.session.actor!;
     displayName = actor.displayName;
     description = actor.description;
-    if (avatarFile == null) {
-      avatarWidget = avatarLink(Avatar(context).net(actor));
-    } else {
+    if (isAvatarChanged) {
       avatarWidget = avatarLink(Avatar(context).file(avatarFile!.bytes));
-    }
-    if (bannerFile == null) {
-      bannerWidget = bannerLink(prof.Banner(context).net(actor));
     } else {
+      avatarWidget = avatarLink(Avatar(context).net(actor));
+    }
+    if (isBannerChanged) {
       bannerWidget = bannerLink(prof.Banner(context).file(bannerFile!.bytes));
+    } else {
+      bannerWidget = bannerLink(prof.Banner(context).net(actor));
     }
   }
 
@@ -55,9 +56,11 @@ class EditProfileScreen extends State<EditProfile> {
     return InkWell(
       child: holder.circleAvatar,
       onTap: () async {
-        final result = await FilePicker.platform.pickFiles();
+        final result =
+            await FilePicker.platform.pickFiles(type: FileType.media);
         if (result != null) {
-          avatarFile = result.files[0];
+          avatarFile = ImageFile(result.files[0]);
+          isAvatarChanged = true;
           setState(() {});
         }
       },
@@ -68,9 +71,11 @@ class EditProfileScreen extends State<EditProfile> {
     return InkWell(
       child: holder.banner,
       onTap: () async {
-        final result = await FilePicker.platform.pickFiles();
+        final result =
+            await FilePicker.platform.pickFiles(type: FileType.media);
         if (result != null) {
-          bannerFile = result.files[0];
+          bannerFile = ImageFile(result.files[0]);
+          isBannerChanged = true;
           setState(() {});
         }
       },
@@ -201,14 +206,8 @@ class EditProfileScreen extends State<EditProfile> {
     setState(() {});
   }
 
-  Future<Map> _upload(PlatformFile file) async {
-    Tuple2 res = await plugin.uploadBlob(file.bytes!, _contentType(file)!);
+  Future<Map> _upload(ImageFile file) async {
+    Tuple2 res = await plugin.uploadBlob(file.bytes, file.mineType!);
     return res.item2["blob"];
-  }
-
-  String? _contentType(PlatformFile file) {
-    String fileName = path.basename(file.name);
-    String extension = path.extension(fileName);
-    return ImageUtil.exts[extension.substring(1)];
   }
 }
