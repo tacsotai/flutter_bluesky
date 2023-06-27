@@ -85,7 +85,15 @@ class FlutterBluesky extends Bluesky {
     if (res.item1 == 200) {
       api.session.set(res.item2);
       await _profile();
-      // TODO keep session
+    }
+    return res;
+  }
+
+  Future<Tuple2> refresh() async {
+    Tuple2 res = await refreshSession();
+    if (res.item1 == 200) {
+      api.session.set(res.item2);
+      await _profile();
     }
     return res;
   }
