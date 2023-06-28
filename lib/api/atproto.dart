@@ -79,21 +79,12 @@ abstract class Atproto {
         res.statusCode, json.decode(res.body));
   }
 
-  Future<Tuple2> refreshSession(
-      String accessJwt, String refreshJwt, String handle, String did) async {
-    Map<String, dynamic> params = {
-      "accessJwt": accessJwt,
-      "refreshJwt": refreshJwt,
-      "handle": handle,
-      "did": did
-    };
-    http.Response res = await api.post("com.atproto.server.refreshSession",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer ${api.session.refreshJwt}"
-        },
-        body: json.encode(params));
-
+  Future<Tuple2> refreshSession() async {
+    http.Response res =
+        await api.post("com.atproto.server.refreshSession", headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${api.session.refreshJwt}"
+    });
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }

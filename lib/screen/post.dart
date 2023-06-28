@@ -1,4 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -9,8 +8,6 @@ import 'package:flutter_bluesky/screen/parts/avatar.dart';
 import 'package:flutter_bluesky/api/model/feed.dart' as feed;
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
-import 'package:path/path.dart' as path;
-import 'package:tuple/tuple.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 
@@ -129,9 +126,10 @@ class PostScreen extends State<Post> {
   // up to 4 files to select
   Future<void> _pickFile() async {
     final result = await FilePicker.platform.pickFiles(
-        allowMultiple: true,
-        type: FileType.custom,
-        allowedExtensions: ImageUtil.exts.keys.toList());
+      allowMultiple: true,
+      type: FileType.media,
+      // allowedExtensions: ImageUtil.exts.keys.toList()
+    );
     if (result != null) {
       if (result.files.length > 4) {
         files = result.files.sublist(0, 4);
@@ -146,7 +144,7 @@ class PostScreen extends State<Post> {
     selects.clear();
     for (PlatformFile file in files) {
       selects.add(Expanded(
-          child: Stack(children: [Image.memory(file.bytes!), _close(file)])));
+          child: Stack(children: [ImageUtil.image(file), _close(file)])));
     }
     files.isEmpty ? _height = 0 : _height = mediaHeight;
     setState(() {});
@@ -188,22 +186,8 @@ class PostScreen extends State<Post> {
 
   void _submit() async {
     _formKey.currentState?.save();
-    List<Map>? images = [];
-    for (var file in files) {
-      Tuple2 res = await plugin.uploadBlob(file.bytes!, _contentType(file)!);
-      images.add({"image": res.item2["blob"], "alt": ""});
-    }
-    if (images.isEmpty) {
-      images = null;
-    }
-    await plugin.post(_text, images: images, record: record);
+    ImageUtil.postFiles(_text, record, files);
     Navigator.pop(context);
-  }
-
-  String? _contentType(PlatformFile file) {
-    String fileName = path.basename(file.name);
-    String extension = path.extension(fileName);
-    return ImageUtil.exts[extension.substring(1)];
   }
 
   // "root": {

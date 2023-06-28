@@ -3,6 +3,7 @@ import 'package:flutter_bluesky/api/bluesky.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/graph.dart';
 import 'package:flutter_bluesky/api/session.dart';
+import 'package:flutter_bluesky/util/image_util.dart';
 import 'package:tuple/tuple.dart';
 
 FlutterBluesky? _plugin;
@@ -84,7 +85,15 @@ class FlutterBluesky extends Bluesky {
     if (res.item1 == 200) {
       api.session.set(res.item2);
       await _profile();
-      // TODO keep session
+    }
+    return res;
+  }
+
+  Future<Tuple2> refresh() async {
+    Tuple2 res = await refreshSession();
+    if (res.item1 == 200) {
+      api.session.set(res.item2);
+      await _profile();
     }
     return res;
   }
@@ -164,6 +173,19 @@ class FlutterBluesky extends Bluesky {
   //     }
   //   }
   // }
+  Future<void> upload(String text, Map<String, dynamic>? record,
+      List<ImageFile> imgFiles) async {
+    List<Map>? images = [];
+    for (var imgFile in imgFiles) {
+      Tuple2 res = await plugin.uploadBlob(imgFile.bytes, imgFile.mineType!);
+      images.add({"image": res.item2["blob"], "alt": ""});
+    }
+    if (images.isEmpty) {
+      images = null;
+    }
+    await post(text, images: images, record: record);
+  }
+
   Future<Tuple2> post(String? text,
       {List<Map>? images, Map<String, dynamic>? record}) async {
     if (text == null && images == null) {

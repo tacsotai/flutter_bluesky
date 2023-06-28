@@ -44,3 +44,7 @@
 
 ## 0.4.1
 * Add index date to Notifications.
+
+## 0.4.2
+* Fix file picker for iOS and Android.
+* Keep Session.

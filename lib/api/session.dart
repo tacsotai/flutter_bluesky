@@ -1,7 +1,9 @@
 import 'package:flutter_bluesky/api/model/actor.dart';
+import 'package:flutter_bluesky/db/accessor.dart';
 
 const defaultProvider = "https://bsky.social";
 const xrpc = "xrpc";
+const session = 'Session'; // hive table name
 
 class Session {
   ProfileViewDetailed? actor;
@@ -23,9 +25,18 @@ class Session {
     }
   }
 
-  void set(Map<String, dynamic> item) {
+  static Map get model {
+    return getModel(session);
+  }
+
+  Map get get {
+    return accessor.get(session, provider);
+  }
+
+  void set(Map item) {
     setTokens(
         item["did"], item["handle"], item["accessJwt"], item["refreshJwt"]);
+    accessor.put(session, provider, item);
   }
 
   void setTokens(

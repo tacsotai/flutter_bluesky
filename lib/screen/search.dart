@@ -11,7 +11,7 @@ class Search extends PluggableWidget {
   late Base base;
 
   @override
-  SearcheScreen createState() => SearcheScreen();
+  SearchScreen createState() => SearchScreen();
 
   @override
   BottomNavigationBarItem get bottomNavigationBarItem => navi(screen);
@@ -22,7 +22,7 @@ class Search extends PluggableWidget {
   }
 }
 
-class SearcheScreen extends State<Search> with Frame {
+class SearchScreen extends State<Search> with Frame {
   final SearchDataManager _manager = SearchDataManager();
   @override
   Widget build(BuildContext context) {
