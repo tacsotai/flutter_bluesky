@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/session.dart';
+import 'package:flutter_bluesky/db/accessor.dart';
+import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/home.dart';
@@ -15,6 +18,7 @@ import 'package:flutter_bluesky/screen/profile.dart';
 import 'package:flutter_bluesky/screen/thread.dart';
 import 'package:flutter_bluesky/transition_route_observer.dart';
 import 'package:flutter_bluesky_example/sample_timeline.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 // ignore: depend_on_referenced_packages
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:easy_localization/easy_localization.dart';
@@ -57,6 +61,37 @@ class MainApp extends StatelessWidget {
 }
 
 Future<void> init() async {
+  // TODO add other languages.
+  timeago.setLocaleMessages('ja', timeago.JaMessages());
+  initScreen();
+  await initHive();
+  await restoreSession();
+}
+
+Future<void> initHive() async {
+  await Hive.initFlutter();
+  await openBox();
+}
+
+Future<void> restoreSession() async {
+  Map item = {};
+  if (isAlive) {
+    item = plugin.api.session.get;
+  } else {
+    for (MapEntry entry in Session.model.entries) {
+      setPlugin(FlutterBluesky(provider: entry.key));
+      await plugin.connect();
+      item = entry.value;
+      break;
+    }
+  }
+  if (item.isNotEmpty) {
+    plugin.api.session.set(item);
+    plugin.refresh();
+  }
+}
+
+void initScreen() {
   PluggableWidget me = Me();
   pluggables.add(Home());
   pluggables.add(Search());
@@ -65,9 +100,6 @@ Future<void> init() async {
   meIndex = pluggables.indexOf(me);
   customPostTL = SamplePostTimeline();
   buttonManager = DefaultButtonManager();
-
-  // TODO add other languages.
-  timeago.setLocaleMessages('ja', timeago.JaMessages());
 }
 
 Future<void> initApp(String name, StatelessWidget appWidget) async {
