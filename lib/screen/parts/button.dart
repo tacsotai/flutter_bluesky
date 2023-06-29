@@ -50,7 +50,7 @@ class FollowButton extends Button {
   }
 
   Future<void> unfollow() async {
-    await plugin.follow(following);
+    await plugin.unfollow(following);
     actor.viewer.following = "";
     add(-1);
   }
