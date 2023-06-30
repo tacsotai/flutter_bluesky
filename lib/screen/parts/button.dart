@@ -16,13 +16,17 @@ abstract class Button {
 
   Widget get widget {
     return ElevatedButton(
-        onPressed: () => action(),
+        onPressed: onPressed,
         style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18.0),
         ))),
         child: Text(text));
+  }
+
+  VoidCallback? get onPressed {
+    return () => action();
   }
 
   Future<void> action();
