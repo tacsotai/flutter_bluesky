@@ -39,6 +39,12 @@ class SearchContent {
     FollowButton button =
         buttonManager!.followButton(state, actor) as FollowButton;
     Widget right = button.isFollowing ? Container() : button.widget;
+    Widget transfer = Profile(user: actor.did);
+    return inkWell(state, actor, left, right, transfer);
+  }
+
+  Widget inkWell(State state, ProfileView actor, Widget left, Widget right,
+      Widget transfer) {
     return InkWell(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +56,7 @@ class SearchContent {
       onTap: () async {
         Navigator.push(
           state.context,
-          MaterialPageRoute(builder: (context) => Profile(user: actor.did)),
+          MaterialPageRoute(builder: (context) => transfer),
         );
       },
     );
