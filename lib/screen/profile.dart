@@ -15,6 +15,12 @@ class Profile extends StatefulWidget {
 
 class ProfileScreen extends State<Profile> {
   final ProfileDataManager _manager = ProfileDataManager();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
