@@ -92,7 +92,9 @@ class NotificationsDataHolder {
         sb.write("uris[]=${notification.reasonSubject}&");
       }
     }
-    uris = sb.toString().substring(7, sb.toString().length - 1);
+    if (sb.length > 8) {
+      uris = sb.toString().substring(7, sb.toString().length - 1);
+    }
   }
 
   void makePosts(List postList) async {
