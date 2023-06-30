@@ -50,10 +50,10 @@ class ImageFile {
   static const maxWidth = 450;
   final PlatformFile file;
   final Uint8List origin;
-  final String? mineType;
+  final String? mimeType;
   ImageFile(this.file)
       : origin = file.bytes ?? File(file.path!).readAsBytesSync(),
-        mineType = ImageUtil.exts[path.extension(file.name).substring(1)];
+        mimeType = ImageUtil.exts[path.extension(file.name).substring(1)];
 
   Uint8List get bytes {
     img.Image? original = img.decodeImage(origin);
@@ -67,7 +67,7 @@ class ImageFile {
   }
 
   Uint8List encode(img.Image image) {
-    switch (mineType) {
+    switch (mimeType) {
       case "image/jpeg":
         return Uint8List.fromList(img.encodeJpg(image));
       case "image/png":

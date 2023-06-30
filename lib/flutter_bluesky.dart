@@ -177,7 +177,7 @@ class FlutterBluesky extends Bluesky {
       List<ImageFile> imgFiles) async {
     List<Map>? images = [];
     for (var imgFile in imgFiles) {
-      Tuple2 res = await plugin.uploadBlob(imgFile.bytes, imgFile.mineType!);
+      Tuple2 res = await plugin.uploadBlob(imgFile.bytes, imgFile.mimeType!);
       images.add({"image": res.item2["blob"], "alt": ""});
     }
     if (images.isEmpty) {
