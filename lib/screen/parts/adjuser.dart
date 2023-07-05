@@ -18,6 +18,16 @@ Widget padding(
       padding: EdgeInsets.fromLTRB(left, top, right, bottom), child: widget);
 }
 
+Widget padding20(
+  Widget widget, {
+  double left = 20,
+  double top = 20,
+  double right = 20,
+  double bottom = 20,
+}) {
+  return padding(widget, left: left, top: top, right: right, bottom: bottom);
+}
+
 Widget listsBody(List<Widget> widgets) {
   return Column(
     mainAxisSize: MainAxisSize.max,
