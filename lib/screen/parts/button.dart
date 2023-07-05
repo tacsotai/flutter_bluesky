@@ -4,26 +4,32 @@ import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen/profile/edit_profile.dart';
 import 'package:flutter_bluesky/util/account_util.dart';
+import 'package:flutter_bluesky/util/common_util.dart';
 import 'package:tuple/tuple.dart';
 
 abstract class Button {
+  MaterialStateProperty<Color?>? backgroundColor;
+  Color? color;
+  double? fontSize = 14;
+  FontWeight? fontWeight = FontWeight.normal;
+
   final State state;
-  final ProfileViewBasic actor;
-
-  Button(this.state, this.actor);
-
-  String get text;
+  Button(this.state);
 
   Widget get widget {
     return ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
+            backgroundColor: backgroundColor,
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18.0),
-        ))),
-        child: Text(text));
+              borderRadius: BorderRadius.circular(18.0),
+            ))),
+        child: textItem(text,
+            color: color, fontSize: fontSize, fontWeight: fontWeight));
   }
+
+  String get text;
 
   VoidCallback? get onPressed {
     return () => action();
@@ -32,7 +38,13 @@ abstract class Button {
   Future<void> action();
 }
 
-class FollowButton extends Button {
+abstract class ProfileButton extends Button {
+  final ProfileViewBasic actor;
+
+  ProfileButton(super.state, this.actor);
+}
+
+class FollowButton extends ProfileButton {
   String following;
   List<ProfileViewBasic> follwers = [];
   FollowButton(super.state, super.actor)
@@ -71,9 +83,9 @@ class FollowButton extends Button {
   String get text => isFollowing ? tr("following") : tr("follow");
 }
 
-class ProfileViewButton extends Button {
-  final Button profileEditButton;
-  final Button followButton;
+class ProfileViewButton extends ProfileButton {
+  final ProfileButton profileEditButton;
+  final ProfileButton followButton;
 
   ProfileViewButton(super.state, super.actor)
       : profileEditButton = ProfileEditButton(state, actor),
@@ -100,7 +112,7 @@ class ProfileViewButton extends Button {
   }
 }
 
-class ProfileEditButton extends Button {
+class ProfileEditButton extends ProfileButton {
   ProfileEditButton(super.actor, super.state);
 
   @override
