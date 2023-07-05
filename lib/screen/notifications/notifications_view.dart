@@ -55,8 +55,9 @@ class _NotificationsViewState extends State<NotificationsView> with FeedScroll {
         appBar,
         MaterialSliverRefreshControl(
           onRefresh: () async {
+            isLoading = true;
             await manager.getData(true);
-            setState(() {});
+            state();
           },
         ),
         sliverList

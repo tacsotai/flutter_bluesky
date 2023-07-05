@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
@@ -8,7 +9,7 @@ import 'package:tuple/tuple.dart';
 ThreadTL? customThreadTL;
 
 class Thread extends StatefulWidget {
-  static Screen screen = Screen(Thread, const Icon(Icons.edit));
+  static Screen screen = Screen(Thread, const Icon(Icons.filter));
   const Thread({Key? key, this.handle, this.uri}) : super(key: key);
   final String? handle;
   final String? uri;
@@ -21,7 +22,7 @@ class ThreadScreen extends State<Thread> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Thread'),
+        title: Text(tr('Thread')),
       ),
       body: _build(),
     );

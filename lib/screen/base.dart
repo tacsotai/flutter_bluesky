@@ -42,10 +42,14 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
   }
 
   void hideBottom(bool flg) {
-    if (flg) {
-      _animationController.forward();
-    } else {
-      _animationController.reverse();
+    try {
+      if (flg) {
+        _animationController.forward();
+      } else {
+        _animationController.reverse();
+      }
+    } catch (e) {
+      // Do nothing for linked profile page #86
     }
   }
 

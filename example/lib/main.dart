@@ -9,7 +9,9 @@ import 'package:flutter_bluesky/screen/me.dart';
 import 'package:flutter_bluesky/screen/notfifications.dart';
 import 'package:flutter_bluesky/screen/parts/button/button_manager.dart';
 import 'package:flutter_bluesky/screen/parts/timeline.dart';
+import 'package:flutter_bluesky/screen/parts/menu.dart';
 import 'package:flutter_bluesky/screen/post.dart';
+import 'package:flutter_bluesky/screen/settings.dart';
 import 'package:flutter_bluesky/screen/profile/edit_profile.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
 import 'package:flutter_bluesky/screen/base.dart';
@@ -42,9 +44,10 @@ class MainApp extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: ThemeData(
-          useMaterial3: true,
-          primarySwatch: ThemeColors.material,
-          canvasColor: ThemeColors.secondary),
+        useMaterial3: true,
+        colorSchemeSeed: Colors.indigoAccent,
+        brightness: Brightness.light,
+      ),
       navigatorObservers: [TransitionRouteObserver()],
       initialRoute: initialRoute,
       routes: {
@@ -63,9 +66,11 @@ class MainApp extends StatelessWidget {
 Future<void> init() async {
   // TODO add other languages.
   timeago.setLocaleMessages('ja', timeago.JaMessages());
-  initScreen();
+
   await initHive();
   await restoreSession();
+  initMenu();
+  initScreen();
 }
 
 Future<void> initHive() async {
@@ -102,9 +107,16 @@ void initScreen() {
   buttonManager = DefaultButtonManager();
 }
 
+void initMenu() {
+  menus.add(Menu(
+      prop: "Settings",
+      icon: Settings.screen.icon.icon!,
+      transfer: const Settings()));
+}
+
 Future<void> initApp(String name, StatelessWidget appWidget) async {
-  await init();
   await EasyLocalization.ensureInitialized();
+  await init();
   runApp(
     EasyLocalization(
         supportedLocales: const [Locale('en', 'US'), Locale('ja', 'JP')],
@@ -112,26 +124,4 @@ Future<void> initApp(String name, StatelessWidget appWidget) async {
         fallbackLocale: const Locale('ja', 'JP'),
         child: appWidget),
   );
-}
-
-class ThemeColors {
-  static const MaterialColor material = MaterialColor(
-    _primaryValue,
-    <int, Color>{
-      50: Color(0xFFE3F2FD),
-      100: Color(0xFFBBDEFB),
-      200: Color(0xFF90CAF9),
-      300: Color(0xFF64B5F6),
-      400: Color(0xFF42A5F5), // login use it as background color.
-      500: Color(_primaryValue),
-      600: Color(0xFF1E88E5),
-      700: Color(0xFF1976D2),
-      800: Color(0xFF1565C0),
-      900: Color(0xFF0D47A1),
-    },
-  );
-  static const int _primaryValue = 0xFF2196F3;
-  static const Color primary = Color(_primaryValue);
-
-  static Color secondary = Colors.white;
 }

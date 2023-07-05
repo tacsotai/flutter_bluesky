@@ -207,7 +207,7 @@ class EditProfileScreen extends State<EditProfile> {
   }
 
   Future<Map> _upload(ImageFile file) async {
-    Tuple2 res = await plugin.uploadBlob(file.bytes, file.mineType!);
+    Tuple2 res = await plugin.uploadBlob(file.bytes, file.mimeType!);
     return res.item2["blob"];
   }
 }

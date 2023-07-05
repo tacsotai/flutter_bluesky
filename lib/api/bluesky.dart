@@ -52,7 +52,7 @@ abstract class Bluesky extends Atproto {
   // uris should be uris[]=at..&uris[]=at..uris[]=at.. ...
   Future<Tuple2> getPosts(String uris) async {
     http.Response res = await api.get("app.bsky.feed.getPosts",
-        params: {"uris\\[\\]": uris},
+        params: {"uris[]": uris},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));

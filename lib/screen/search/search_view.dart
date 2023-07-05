@@ -54,9 +54,10 @@ class _SearchViewState extends State<SearchView> with FeedScroll {
         appBar,
         MaterialSliverRefreshControl(
           onRefresh: () async {
+            isLoading = true;
             // domain, text, and so on
             await manager.getData(true, term: controller.text);
-            setState(() {});
+            state();
           },
         ),
         sliverList

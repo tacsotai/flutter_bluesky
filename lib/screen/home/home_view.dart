@@ -50,8 +50,9 @@ class _HomeViewState extends State<HomeView> with FeedScroll {
         appBar,
         MaterialSliverRefreshControl(
           onRefresh: () async {
+            isLoading = true;
             await manager.getData(true);
-            setState(() {});
+            state();
           },
         ),
         sliverList

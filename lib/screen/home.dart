@@ -3,6 +3,7 @@ import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
 import 'package:flutter_bluesky/screen/home/home_view.dart';
+import 'package:flutter_bluesky/screen/parts/menu.dart';
 
 // https://blog.flutteruniv.com/flutter-infinity-scroll/
 // https://api.flutter.dev/flutter/material/SliverAppBar-class.html
@@ -33,7 +34,7 @@ class HomeScreen extends State<Home> with Frame {
       context,
       bottom: widget.base.screen.bottom,
       isPost: true,
-      drawer: const Drawer(), // TODO
+      drawer: drawer,
     );
   }
 

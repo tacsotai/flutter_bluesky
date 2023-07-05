@@ -86,7 +86,7 @@ class Notice {
     );
   }
 
-  Widget get avatorContent {
+  Widget get avatarContent {
     return paddingLR([
       Avatar(state.context).net(notification.author).profile
     ], [
@@ -97,15 +97,15 @@ class Notice {
   }
 
   Widget get reply {
-    return avatorContent;
+    return avatarContent;
   }
 
   Widget get repost {
-    return avatorContent;
+    return avatarContent;
   }
 
   Widget get quote {
-    return avatorContent;
+    return avatarContent;
   }
 
   Widget get error {
