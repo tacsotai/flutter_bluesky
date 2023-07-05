@@ -101,6 +101,49 @@ abstract class Atproto {
         res.statusCode, json.decode(res.body));
   }
 
+  //com.atproto.server.requestPasswordReset
+  Future<Tuple2> requestPasswordReset(String email) async {
+    Map<String, dynamic> params = {"email": email};
+    http.Response res =
+        await api.post("com.atproto.server.requestPasswordReset",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer ${api.session.refreshJwt}"
+            },
+            body: json.encode(params));
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  // requestAccountDelete
+  Future<Tuple2> requestAccountDelete() async {
+    http.Response res =
+        await api.post("com.atproto.server.requestAccountDelete", headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${api.session.accessJwt}"
+    });
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  //com.atproto.server.deleteAccount
+  Future<Tuple2> deleteAccount(
+      String did, String password, String token) async {
+    Map<String, dynamic> params = {
+      "did": did,
+      "password": password,
+      "token": token
+    };
+    http.Response res = await api.post("com.atproto.server.deleteAccount",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${api.session.accessJwt}"
+        },
+        body: json.encode(params));
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
   // see 'record' table on DB.
   Future<Tuple2> deleteRecord(String repo, String collection, String rkey,
       {String? swapRecord, String? swapCommit}) async {
