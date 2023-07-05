@@ -74,7 +74,7 @@ class FlutterBluesky extends Bluesky {
     Tuple2 res =
         await createAccount(email, handle, password, inviteCode: inviteCode);
     if (res.item1 == 200 || res.item1 == 201) {
-      api.session.set(res.item2);
+      _session(res);
     }
     return res;
   }
@@ -92,10 +92,17 @@ class FlutterBluesky extends Bluesky {
   Future<Tuple2> refresh() async {
     Tuple2 res = await refreshSession();
     if (res.item1 == 200) {
-      api.session.set(res.item2);
+      _session(res);
       await _profile();
     }
     return res;
+  }
+
+  Future<void> _session(Tuple2 res) async {
+    api.session.accessJwt = res.item2["accessJwt"];
+    Tuple2 res2 = await getSession();
+    res.item2["email"] = res2.item2["email"];
+    api.session.set(res.item2);
   }
 
   // actor = null after login
