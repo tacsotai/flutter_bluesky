@@ -9,7 +9,9 @@ import 'package:flutter_bluesky/screen/me.dart';
 import 'package:flutter_bluesky/screen/notfifications.dart';
 import 'package:flutter_bluesky/screen/parts/button/button_manager.dart';
 import 'package:flutter_bluesky/screen/parts/timeline.dart';
+import 'package:flutter_bluesky/screen/parts/menu.dart';
 import 'package:flutter_bluesky/screen/post.dart';
+import 'package:flutter_bluesky/screen/settings.dart';
 import 'package:flutter_bluesky/screen/profile/edit_profile.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
 import 'package:flutter_bluesky/screen/base.dart';
@@ -63,9 +65,11 @@ class MainApp extends StatelessWidget {
 Future<void> init() async {
   // TODO add other languages.
   timeago.setLocaleMessages('ja', timeago.JaMessages());
-  initScreen();
+
   await initHive();
   await restoreSession();
+  initMenu();
+  initScreen();
 }
 
 Future<void> initHive() async {
@@ -102,9 +106,16 @@ void initScreen() {
   buttonManager = DefaultButtonManager();
 }
 
+void initMenu() {
+  menus.add(Menu(
+      prop: "Settings",
+      icon: Settings.screen.icon.icon!,
+      transfer: const Settings()));
+}
+
 Future<void> initApp(String name, StatelessWidget appWidget) async {
-  await init();
   await EasyLocalization.ensureInitialized();
+  await init();
   runApp(
     EasyLocalization(
         supportedLocales: const [Locale('en', 'US'), Locale('ja', 'JP')],
