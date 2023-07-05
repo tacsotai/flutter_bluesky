@@ -260,4 +260,33 @@ abstract class Atproto {
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }
+
+  Future<Tuple2> createAppPassword(String name) async {
+    Map<String, dynamic> params = {
+      "name": name,
+    };
+    http.Response res = await api.post("com.atproto.server.createAppPassword",
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(params));
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> listAppPasswords() async {
+    http.Response res = await api.get("com.atproto.server.listAppPasswords",
+        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> revokeAppPassword(String name) async {
+    Map<String, dynamic> params = {
+      "name": name,
+    };
+    http.Response res = await api.post("com.atproto.server.revokeAppPassword",
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(params));
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
 }
