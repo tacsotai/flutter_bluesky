@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
+import 'package:flutter_bluesky/screen/parts/menu.dart';
 import 'package:flutter_bluesky/screen/search/search_view.dart';
 
 // ignore: must_be_immutable
@@ -30,7 +31,7 @@ class SearchScreen extends State<Search> with Frame {
       context,
       bottom: widget.base.screen.bottom,
       isPost: false,
-      drawer: const Drawer(), // TODO
+      drawer: drawer,
     );
   }
 

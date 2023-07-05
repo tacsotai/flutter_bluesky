@@ -3,6 +3,7 @@ import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
 import 'package:flutter_bluesky/screen/notifications/notifications_view.dart';
+import 'package:flutter_bluesky/screen/parts/menu.dart';
 
 // ignore: must_be_immutable
 class Notifications extends PluggableWidget {
@@ -31,7 +32,7 @@ class NotificationsScreen extends State<Notifications> with Frame {
       context,
       bottom: widget.base.screen.bottom,
       isPost: false,
-      drawer: const Drawer(), // TODO
+      drawer: drawer,
     );
   }
 
