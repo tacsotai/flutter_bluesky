@@ -97,8 +97,9 @@ abstract class Atproto {
           "Authorization": "Bearer ${api.session.refreshJwt}"
         },
         body: json.encode(params));
-    return Tuple2<int, Map<String, dynamic>>(
-        res.statusCode, json.decode(res.body));
+    Map<String, dynamic> body =
+        res.statusCode == 200 ? {} : json.decode(res.body);
+    return Tuple2<int, Map<String, dynamic>>(res.statusCode, body);
   }
 
   //com.atproto.server.requestPasswordReset
@@ -111,8 +112,9 @@ abstract class Atproto {
               "Authorization": "Bearer ${api.session.refreshJwt}"
             },
             body: json.encode(params));
-    return Tuple2<int, Map<String, dynamic>>(
-        res.statusCode, json.decode(res.body));
+    Map<String, dynamic> body =
+        res.statusCode == 200 ? {} : json.decode(res.body);
+    return Tuple2<int, Map<String, dynamic>>(res.statusCode, body);
   }
 
   // requestAccountDelete
@@ -122,8 +124,9 @@ abstract class Atproto {
       "Content-Type": "application/json",
       "Authorization": "Bearer ${api.session.accessJwt}"
     });
-    return Tuple2<int, Map<String, dynamic>>(
-        res.statusCode, json.decode(res.body));
+    Map<String, dynamic> body =
+        res.statusCode == 200 ? {} : json.decode(res.body);
+    return Tuple2<int, Map<String, dynamic>>(res.statusCode, body);
   }
 
   //com.atproto.server.deleteAccount
@@ -140,8 +143,9 @@ abstract class Atproto {
           "Authorization": "Bearer ${api.session.accessJwt}"
         },
         body: json.encode(params));
-    return Tuple2<int, Map<String, dynamic>>(
-        res.statusCode, json.decode(res.body));
+    Map<String, dynamic> body =
+        res.statusCode == 200 ? {} : json.decode(res.body);
+    return Tuple2<int, Map<String, dynamic>>(res.statusCode, body);
   }
 
   // see 'record' table on DB.
@@ -286,7 +290,8 @@ abstract class Atproto {
     http.Response res = await api.post("com.atproto.server.revokeAppPassword",
         headers: {"Content-Type": "application/json"},
         body: json.encode(params));
-    return Tuple2<int, Map<String, dynamic>>(
-        res.statusCode, json.decode(res.body));
+    Map<String, dynamic> body =
+        res.statusCode == 200 ? {} : json.decode(res.body);
+    return Tuple2<int, Map<String, dynamic>>(res.statusCode, body);
   }
 }
