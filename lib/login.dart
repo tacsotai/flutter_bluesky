@@ -106,7 +106,7 @@ class LoginScreen extends StatelessWidget {
       recoverPasswordSuccess: tr('recover.password.success'),
       flushbarTitleError: tr('flushbar.title.error'),
       flushbarTitleSuccess: tr('flushbar.title.success'),
-      signUpSuccess: tr('signUp.success'),
+      signUpSuccess: tr('signup.success'),
       providersTitleFirst: tr('providers.title.first'),
       providersTitleSecond: tr('providers.title.second'),
       additionalSignUpSubmitButton: tr('additional.signup.submit'),
