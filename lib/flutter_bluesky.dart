@@ -89,6 +89,10 @@ class FlutterBluesky extends Bluesky {
     return res;
   }
 
+  Future<Tuple2> logout() async {
+    return await deleteSession();
+  }
+
   Future<Tuple2> refresh() async {
     Tuple2 res = await refreshSession();
     if (res.item1 == 200) {
