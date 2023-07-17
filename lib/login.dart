@@ -143,6 +143,13 @@ class LoginScreen extends StatelessWidget {
         linkUrl: tr('term.linkUrl'),
         initialValue: true,
         validationErrorMessage: tr('required'),
+      ),
+      TermOfService(
+        id: 'age-verification',
+        mandatory: true,
+        text: tr('age.verification'),
+        initialValue: true,
+        validationErrorMessage: tr('required'),
       )
     ];
   }
