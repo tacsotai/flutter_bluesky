@@ -34,6 +34,12 @@ class LoginScreen extends StatelessWidget {
 
   Future<String?> signUp(SignupData data) async {
     return response(await plugin.register("email", "handle", "password"));
+
+  String getHandle(SignupData data) {
+    String account = data.additionalSignupData!["handle"]!;
+    String handle = account + plugin.domain;
+    debugPrint("handle: $handle");
+    return handle;
   }
 
   Future<String?> login(LoginData data) async {
@@ -52,6 +58,7 @@ class LoginScreen extends StatelessWidget {
       loginAfterSignUp: false,
       onLogin: login,
       onSignup: signUp,
+      additionalSignupFields: _additionalSignupFields(),
       onRecoverPassword: recoverPassword,
       onSubmitAnimationCompleted: () {
         _view(context);
@@ -61,6 +68,10 @@ class LoginScreen extends StatelessWidget {
       userValidator: _userValidator,
       passwordValidator: _passwordValidator,
     );
+  }
+
+  static List<UserFormField>? _additionalSignupFields() {
+    return [UserFormField(keyName: "handle", displayName: tr('handle.hint'))];
   }
 
   static String? _userValidator(value) {
