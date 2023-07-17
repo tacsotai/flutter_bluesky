@@ -39,23 +39,6 @@ void inkwell(BuildContext context, {Widget? transfer, String? link}) async {
   }
 }
 
-Widget textFrom(String labelText, Map values, String key, State state,
-    {FormFieldValidator<String>? validator}) {
-  return TextFormField(
-    decoration: InputDecoration(
-      border: const OutlineInputBorder(),
-      labelText: labelText,
-    ),
-    onSaved: (text) {
-      // ignore: invalid_use_of_protected_member
-      state.setState(() {
-        values[key] = text!;
-      });
-    },
-    validator: validator,
-  );
-}
-
 class CancelButton extends Button {
   CancelButton(super.state);
 
