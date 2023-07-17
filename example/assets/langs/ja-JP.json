@@ -76,6 +76,7 @@
     "confirm.signup": "確認",
     "confirm.signup.success": "アカウントが確認されました。",
     "term.of.services": "利用規約とポリシー",
+    "validation.error.token.or.password": "確認コードもしくはパスワードが間違っています。",
     "required": "必須",
     "term.linkUrl": "https://sotai.co/terms"
 }
