@@ -33,7 +33,9 @@ class LoginScreen extends StatelessWidget {
   }
 
   Future<String?> signUp(SignupData data) async {
-    return response(await plugin.register("email", "handle", "password"));
+    return response(
+        await plugin.register(data.name!, getHandle(data), data.password!));
+  }
 
   String getHandle(SignupData data) {
     String account = data.additionalSignupData!["handle"]!;
