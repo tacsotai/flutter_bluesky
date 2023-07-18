@@ -53,3 +53,8 @@
 * Make Drawer for account setting.
 * Fix bug unfollow button does not work.
 * App Password API
+
+## 0.4.4
+* Register account without invite code.
+* Password reset.
+* Delete account.
