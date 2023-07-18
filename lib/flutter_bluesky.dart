@@ -74,7 +74,7 @@ class FlutterBluesky extends Bluesky {
     Tuple2 res =
         await createAccount(email, handle, password, inviteCode: inviteCode);
     if (res.item1 == 200 || res.item1 == 201) {
-      _session(res);
+      await _session(res);
     }
     return res;
   }
