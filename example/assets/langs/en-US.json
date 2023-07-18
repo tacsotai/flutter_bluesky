@@ -59,6 +59,7 @@
     "flushbar.title.success": "Success",
     "flushbar.title.error": "Error",
     "signup.success": "Login Go Ahead",
+    "login.after.signup": "It will be logined automatically.",
     "providers.title.first": "or login with",
     "providers.title.second": "or",
     "additional.signup.submit": "USER SIGNUP",

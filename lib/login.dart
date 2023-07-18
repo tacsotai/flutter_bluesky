@@ -22,6 +22,7 @@ String get initialRoute {
 
 class LoginScreen extends StatelessWidget {
   static const route = '/auth';
+  static bool autoLogin = true;
   const LoginScreen({Key? key}) : super(key: key);
 
   String? response(Tuple2 res) {
@@ -33,8 +34,12 @@ class LoginScreen extends StatelessWidget {
   }
 
   Future<String?> signUp(SignupData data) async {
-    return response(
-        await plugin.register(data.name!, getHandle(data), data.password!));
+    Tuple2 res =
+        await plugin.register(data.name!, getHandle(data), data.password!);
+    if (autoLogin && res.item1 == 200) {
+      return response(await plugin.login(data.name!, data.password!));
+    }
+    return response(res);
   }
 
   String getHandle(SignupData data) {
@@ -59,7 +64,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlutterLogin(
       title: tr('title'),
-      loginAfterSignUp: false,
+      loginAfterSignUp: autoLogin,
       onLogin: login,
       onSignup: signUp,
       additionalSignupFields: _additionalSignupFields(),
@@ -109,7 +114,8 @@ class LoginScreen extends StatelessWidget {
       recoverPasswordSuccess: tr('recover.password.success'),
       flushbarTitleError: tr('flushbar.title.error'),
       flushbarTitleSuccess: tr('flushbar.title.success'),
-      signUpSuccess: tr('signup.success'),
+      signUpSuccess:
+          autoLogin ? tr('login.after.signup') : tr('signup.success'),
       providersTitleFirst: tr('providers.title.first'),
       providersTitleSecond: tr('providers.title.second'),
       additionalSignUpSubmitButton: tr('additional.signup.submit'),
