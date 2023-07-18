@@ -47,9 +47,12 @@ class LoginScreen extends StatelessWidget {
     return response(await plugin.login(data.name, data.password));
   }
 
-  Future<String?> recoverPassword(String name) async {
-    // TOOD
-    return null;
+  Future<String?> recoverPassword(String email) async {
+    return response(await plugin.requestPasswordReset(email));
+  }
+
+  Future<String?> confirmRecover(String token, LoginData data) async {
+    return response(await plugin.resetPassword(token, data.password));
   }
 
   @override
@@ -61,6 +64,7 @@ class LoginScreen extends StatelessWidget {
       onSignup: signUp,
       additionalSignupFields: _additionalSignupFields(),
       onRecoverPassword: recoverPassword,
+      onConfirmRecover: confirmRecover,
       onSubmitAnimationCompleted: () {
         _view(context);
       },
