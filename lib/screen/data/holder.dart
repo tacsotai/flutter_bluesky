@@ -76,7 +76,7 @@ class NotificationsDataHolder {
   // listNotifications
   String? cursor;
   List<Notification> notifications = [];
-  late String uris;
+  String uris = "";
   Map<String, Post> reasonPosts = {};
 
   void makeNotifications(ListNotifications res) async {

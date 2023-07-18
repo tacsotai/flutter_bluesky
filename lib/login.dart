@@ -22,6 +22,7 @@ String get initialRoute {
 
 class LoginScreen extends StatelessWidget {
   static const route = '/auth';
+  static bool autoLogin = true;
   const LoginScreen({Key? key}) : super(key: key);
 
   String? response(Tuple2 res) {
@@ -33,26 +34,42 @@ class LoginScreen extends StatelessWidget {
   }
 
   Future<String?> signUp(SignupData data) async {
-    return response(await plugin.register("email", "handle", "password"));
+    Tuple2 res =
+        await plugin.register(data.name!, getHandle(data), data.password!);
+    if (autoLogin && res.item1 == 200) {
+      return response(await plugin.login(data.name!, data.password!));
+    }
+    return response(res);
+  }
+
+  String getHandle(SignupData data) {
+    String account = data.additionalSignupData!["handle"]!;
+    String handle = account + plugin.domain;
+    return handle;
   }
 
   Future<String?> login(LoginData data) async {
     return response(await plugin.login(data.name, data.password));
   }
 
-  Future<String?> recoverPassword(String name) async {
-    // TOOD
-    return null;
+  Future<String?> recoverPassword(String email) async {
+    return response(await plugin.requestPasswordReset(email));
+  }
+
+  Future<String?> confirmRecover(String token, LoginData data) async {
+    return response(await plugin.resetPassword(token, data.password));
   }
 
   @override
   Widget build(BuildContext context) {
     return FlutterLogin(
       title: tr('title'),
-      loginAfterSignUp: false,
+      loginAfterSignUp: autoLogin,
       onLogin: login,
       onSignup: signUp,
+      additionalSignupFields: _additionalSignupFields(),
       onRecoverPassword: recoverPassword,
+      onConfirmRecover: confirmRecover,
       onSubmitAnimationCompleted: () {
         _view(context);
       },
@@ -63,21 +80,25 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  static String? _userValidator(value) {
+  List<UserFormField>? _additionalSignupFields() {
+    return [UserFormField(keyName: "handle", displayName: tr('handle.hint'))];
+  }
+
+  String? _userValidator(value) {
     if (value!.isEmpty || !Regex.email.hasMatch(value)) {
       return tr('invalid.email');
     }
     return null;
   }
 
-  static String? _passwordValidator(value) {
+  String? _passwordValidator(value) {
     if (value!.isEmpty || value.length <= 2) {
       return tr('password.too.short');
     }
     return null;
   }
 
-  static LoginMessages _messages() {
+  LoginMessages _messages() {
     return LoginMessages(
       userHint: tr('user.hint'),
       passwordHint: tr('password.hint'),
@@ -93,7 +114,8 @@ class LoginScreen extends StatelessWidget {
       recoverPasswordSuccess: tr('recover.password.success'),
       flushbarTitleError: tr('flushbar.title.error'),
       flushbarTitleSuccess: tr('flushbar.title.success'),
-      signUpSuccess: tr('signUp.success'),
+      signUpSuccess:
+          autoLogin ? tr('login.after.signup') : tr('signup.success'),
       providersTitleFirst: tr('providers.title.first'),
       providersTitleSecond: tr('providers.title.second'),
       additionalSignUpSubmitButton: tr('additional.signup.submit'),
@@ -114,14 +136,14 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  static void _view(BuildContext context) {
+  void _view(BuildContext context) {
     // below code store login state at restart.
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (context) => Base(),
     ));
   }
 
-  static List<TermOfService> _terms() {
+  List<TermOfService> _terms() {
     return [
       TermOfService(
         id: 'general-term',
@@ -129,7 +151,14 @@ class LoginScreen extends StatelessWidget {
         text: tr('term.of.services'),
         linkUrl: tr('term.linkUrl'),
         initialValue: true,
-        validationErrorMessage: 'Required',
+        validationErrorMessage: tr('required'),
+      ),
+      TermOfService(
+        id: 'age-verification',
+        mandatory: true,
+        text: tr('age.verification'),
+        initialValue: true,
+        validationErrorMessage: tr('required'),
       )
     ];
   }

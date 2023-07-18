@@ -104,6 +104,9 @@ class NotificationsDataManager extends DataManager {
       Tuple2 res = await plugin.listNotifications(
           cursor: holder.cursor, limit: holder.unreadCount);
       holder.makeNotifications(ListNotifications(res.item2));
+      if (holder.uris.isEmpty) {
+        return;
+      }
       Tuple2 res2 = await plugin.getPosts(holder.uris);
       holder.makePosts(res2.item2["posts"]);
     } catch (e, stacktrace) {

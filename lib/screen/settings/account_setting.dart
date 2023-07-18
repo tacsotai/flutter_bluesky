@@ -84,7 +84,9 @@ class AccountDelete extends StatefulWidget {
 
 class AccountDeleteScreen extends State<AccountDelete> {
   final GlobalKey<FormState> _formKey = GlobalKey();
-  Map form = {"did": plugin.api.session.did, "token": null, "password": null};
+  bool hasApiError = false;
+  String _password = "";
+  String _token = "";
 
   bool isInit = true;
   List<Widget> initItems = [];
@@ -131,18 +133,76 @@ class AccountDeleteScreen extends State<AccountDelete> {
   Widget confirmation() {
     List<Widget> items = [];
     items.addAll(initItems);
-    AccountDeleteButton accountDeleteButton = AccountDeleteButton(this, form);
-    accountDeleteButton.backgroundColor = MaterialStateProperty.all(color);
     items.insertAll(3, [
       textItem(tr("account.delete.code.password")),
       sizeBox,
-      textFrom(tr("confirmation.code.hint"), form, "token", this),
+      textFrom("confirmation.code.hint"),
       sizeBox,
-      textFrom(tr("password.hint"), form, "password", this),
+      textFrom("password.hint"),
       sizeBox,
-      SizedBox(width: double.infinity, child: accountDeleteButton.widget)
+      SizedBox(width: double.infinity, child: submit)
     ]);
     return Form(key: _formKey, child: (padding20(Column(children: items))));
+  }
+
+  Widget textFrom(String labelProp) {
+    bool isPassword = labelProp == "password.hint";
+    return TextFormField(
+      obscureText: isPassword,
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(),
+        labelText: tr(labelProp),
+      ),
+      onSaved: (text) {
+        setState(() {
+          if (isPassword) {
+            _password = text!;
+          } else {
+            _token = text!;
+          }
+        });
+      },
+      validator: (text) {
+        if (text!.isEmpty) {
+          return tr("required");
+        }
+        if (hasApiError) {
+          return tr("validation.error.token.or.password");
+        }
+        return null;
+      },
+    );
+  }
+
+  Widget get submit {
+    return ElevatedButton(
+        onPressed: _submit,
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(color),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+            ))),
+        child: Text(tr("account.delete")));
+  }
+
+  void _submit() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState?.save(); // call onSaved of Field
+      Tuple2 res = await plugin.deleteAccount(
+          plugin.api.session.did!, _password, _token);
+      if (res.item1 == 200) {
+        await plugin.logout();
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
+        ));
+      } else {
+        hasApiError = true;
+        _formKey.currentState!.validate();
+        hasApiError = false;
+      }
+    }
   }
 }
 
@@ -158,19 +218,4 @@ class SendEmailButton extends Button {
 
   @override
   String get text => tr("send.email");
-}
-
-class AccountDeleteButton extends Button {
-  final Map form;
-  AccountDeleteButton(super.state, this.form);
-
-  @override
-  Future<void> action() async {
-    await plugin.deleteAccount(form["did"], form["password"], form["token"]);
-    // ignore: use_build_context_synchronously
-    Navigator.pushNamed(state.context, LoginScreen.route);
-  }
-
-  @override
-  String get text => tr("account.delete");
 }
