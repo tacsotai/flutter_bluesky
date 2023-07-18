@@ -14,9 +14,7 @@ flutter run
 ```
 
 Enjoy!!
-- View Timeline Post, Like, Follow, and so on.
-  NOT IMPLEMENTED: createAccount
-  It mean you should create account with another account.
+- This plugin don't support invite code.
 - Android and iOS: Only I tested. Other, please try and let me know.
 
 ---
