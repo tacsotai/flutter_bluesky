@@ -75,25 +75,25 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  static List<UserFormField>? _additionalSignupFields() {
+  List<UserFormField>? _additionalSignupFields() {
     return [UserFormField(keyName: "handle", displayName: tr('handle.hint'))];
   }
 
-  static String? _userValidator(value) {
+  String? _userValidator(value) {
     if (value!.isEmpty || !Regex.email.hasMatch(value)) {
       return tr('invalid.email');
     }
     return null;
   }
 
-  static String? _passwordValidator(value) {
+  String? _passwordValidator(value) {
     if (value!.isEmpty || value.length <= 2) {
       return tr('password.too.short');
     }
     return null;
   }
 
-  static LoginMessages _messages() {
+  LoginMessages _messages() {
     return LoginMessages(
       userHint: tr('user.hint'),
       passwordHint: tr('password.hint'),
@@ -130,14 +130,14 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  static void _view(BuildContext context) {
+  void _view(BuildContext context) {
     // below code store login state at restart.
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (context) => Base(),
     ));
   }
 
-  static List<TermOfService> _terms() {
+  List<TermOfService> _terms() {
     return [
       TermOfService(
         id: 'general-term',
