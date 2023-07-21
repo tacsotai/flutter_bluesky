@@ -58,3 +58,6 @@
 * Register account without invite code.
 * Password reset.
 * Delete account.
+
+## 0.4.5
+* Fix LoginScreen can override.
