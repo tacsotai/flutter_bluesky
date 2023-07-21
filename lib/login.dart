@@ -67,38 +67,38 @@ class LoginScreen extends StatelessWidget {
       loginAfterSignUp: autoLogin,
       onLogin: login,
       onSignup: signUp,
-      additionalSignupFields: _additionalSignupFields(),
+      additionalSignupFields: additionalSignupFields(),
       onRecoverPassword: recoverPassword,
       onConfirmRecover: confirmRecover,
       onSubmitAnimationCompleted: () {
-        _view(context);
+        view(context);
       },
-      messages: _messages(),
-      termsOfService: _terms(),
-      userValidator: _userValidator,
-      passwordValidator: _passwordValidator,
+      messages: messages(),
+      termsOfService: terms(),
+      userValidator: userValidator,
+      passwordValidator: passwordValidator,
     );
   }
 
-  List<UserFormField>? _additionalSignupFields() {
+  List<UserFormField>? additionalSignupFields() {
     return [UserFormField(keyName: "handle", displayName: tr('handle.hint'))];
   }
 
-  String? _userValidator(value) {
+  String? userValidator(value) {
     if (value!.isEmpty || !Regex.email.hasMatch(value)) {
       return tr('invalid.email');
     }
     return null;
   }
 
-  String? _passwordValidator(value) {
+  String? passwordValidator(value) {
     if (value!.isEmpty || value.length <= 2) {
       return tr('password.too.short');
     }
     return null;
   }
 
-  LoginMessages _messages() {
+  LoginMessages messages() {
     return LoginMessages(
       userHint: tr('user.hint'),
       passwordHint: tr('password.hint'),
@@ -136,14 +136,14 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  void _view(BuildContext context) {
+  void view(BuildContext context) {
     // below code store login state at restart.
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (context) => Base(),
     ));
   }
 
-  List<TermOfService> _terms() {
+  List<TermOfService> terms() {
     return [
       TermOfService(
         id: 'general-term',
