@@ -1,6 +1,6 @@
 name: flutter_bluesky
 description: flutter bluesky plugin project. This plugin provides a client for bluesky or other PDS of atproto. 
-version: 0.4.4
+version: 0.4.5
 homepage: https://sotai.co
 repository: https://github.com/tacsotai/flutter_bluesky
 
