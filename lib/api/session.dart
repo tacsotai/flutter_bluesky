@@ -52,4 +52,8 @@ class Session {
   void setActor(ProfileViewDetailed actor) {
     this.actor = actor;
   }
+
+  void remove() {
+    accessor.remove(session, provider);
+  }
 }

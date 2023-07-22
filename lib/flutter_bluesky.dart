@@ -90,6 +90,7 @@ class FlutterBluesky extends Bluesky {
   }
 
   Future<Tuple2> logout() async {
+    api.session.remove();
     return await deleteSession();
   }
 
