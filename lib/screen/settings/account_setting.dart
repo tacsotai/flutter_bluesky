@@ -38,7 +38,7 @@ class AccountSetting extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            displayNameHandle(author),
+            textItem("${plugin.api.session.handle}"),
             textItem("${plugin.api.session.email}"),
           ],
         ),
