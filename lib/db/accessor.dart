@@ -41,4 +41,10 @@ class Accessor {
     model[key] = value;
     setModel(name, model);
   }
+
+  void remove(String name, String key) {
+    Map model = getModel(name);
+    model.remove(key);
+    setModel(name, model);
+  }
 }

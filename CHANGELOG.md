@@ -61,3 +61,6 @@
 
 ## 0.4.5
 * Fix LoginScreen can override.
+
+## 0.4.6
+* Remove session from local hive at sign out.

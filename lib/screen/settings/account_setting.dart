@@ -38,7 +38,7 @@ class AccountSetting extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            displayNameHandle(author),
+            textItem("${plugin.api.session.handle}"),
             textItem("${plugin.api.session.email}"),
           ],
         ),
@@ -47,7 +47,8 @@ class AccountSetting extends StatelessWidget {
     Widget right = InkWell(
         child: logout,
         onTap: () async {
-          plugin.deleteSession;
+          await plugin.logout();
+          // ignore: use_build_context_synchronously
           inkwell(context, transfer: const LoginScreen());
         });
     return lr(left, right, const Tuple2(10, 4));
