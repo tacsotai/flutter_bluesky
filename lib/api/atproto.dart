@@ -65,7 +65,10 @@ abstract class Atproto {
   Future<Tuple2> deleteSession() async {
     http.Response res = await api.post(
       "com.atproto.server.deleteSession",
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${api.session.accessJwt}"
+      },
     );
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
@@ -270,7 +273,10 @@ abstract class Atproto {
       "name": name,
     };
     http.Response res = await api.post("com.atproto.server.createAppPassword",
-        headers: {"Content-Type": "application/json"},
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${api.session.accessJwt}"
+        },
         body: json.encode(params));
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
@@ -288,7 +294,10 @@ abstract class Atproto {
       "name": name,
     };
     http.Response res = await api.post("com.atproto.server.revokeAppPassword",
-        headers: {"Content-Type": "application/json"},
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${api.session.accessJwt}"
+        },
         body: json.encode(params));
     Map<String, dynamic> body =
         res.statusCode == 200 ? {} : json.decode(res.body);
