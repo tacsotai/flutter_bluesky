@@ -64,3 +64,6 @@
 
 ## 0.4.6
 * Remove session from local hive at sign out.
+
+## 0.4.7
+* Add Authorization to AppPassword API.
