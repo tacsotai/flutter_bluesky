@@ -63,7 +63,7 @@ class ProfileUtil {
   }
 
   Widget get banner {
-    return prof.Banner(state.context).net(actor).banner;
+    return prof.Banner(state.context).net(actor).widget;
   }
 
   Widget get profAvatar {

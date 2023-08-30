@@ -22,7 +22,7 @@ class Banner {
     provider = file!.bytes == null ? null : MemoryImage(file!.bytes);
   }
 
-  Widget get banner {
+  Widget get widget {
     if (provider == null) {
       return plain;
     } else {

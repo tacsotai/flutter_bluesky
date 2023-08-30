@@ -54,7 +54,7 @@ class EditProfileScreen extends State<EditProfile> {
   // get by file only for login account
   Widget avatarLink(Avatar holder) {
     return InkWell(
-      child: holder.circleAvatar,
+      child: holder.widget,
       onTap: () async {
         final result =
             await FilePicker.platform.pickFiles(type: FileType.media);
@@ -69,7 +69,7 @@ class EditProfileScreen extends State<EditProfile> {
 
   Widget bannerLink(prof.Banner holder) {
     return InkWell(
-      child: holder.banner,
+      child: holder.widget,
       onTap: () async {
         final result =
             await FilePicker.platform.pickFiles(type: FileType.media);

@@ -14,7 +14,7 @@ class Avatar {
 
   Widget get profile {
     return InkWell(
-      child: circleAvatar,
+      child: widget,
       onTap: () async {
         Navigator.push(
           context,
@@ -36,7 +36,7 @@ class Avatar {
     provider = file!.bytes == null ? null : MemoryImage(file!.bytes);
   }
 
-  CircleAvatar get circleAvatar {
+  CircleAvatar get widget {
     return CircleAvatar(
       radius: radius,
       foregroundColor: Theme.of(context).colorScheme.primary,
