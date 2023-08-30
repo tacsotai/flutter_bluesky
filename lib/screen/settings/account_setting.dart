@@ -4,7 +4,7 @@ import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
-import 'package:flutter_bluesky/screen/parts/avatar.dart';
+import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/screen/settings/setting_util.dart';
 import 'package:flutter_bluesky/util/common_util.dart';

@@ -1,4 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
+import 'dart:typed_data';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -7,11 +9,13 @@ import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
-import 'package:flutter_bluesky/screen/parts/avatar.dart';
-import 'package:flutter_bluesky/screen/parts/banner.dart' as prof;
+import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
+import 'package:flutter_bluesky/screen/parts/image/banner.dart' as prof;
 import 'package:flutter_bluesky/screen/me.dart';
+import 'package:flutter_bluesky/screen/parts/image/picture.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
 import 'package:tuple/tuple.dart';
+import 'package:http/http.dart' as http;
 
 class EditProfile extends StatefulWidget {
   static Screen screen = Screen(EditProfile, const Icon(Icons.edit));
@@ -22,60 +26,30 @@ class EditProfile extends StatefulWidget {
 
 class EditProfileScreen extends State<EditProfile> {
   final GlobalKey<FormState> _formKey = GlobalKey();
+  bool isInit = true;
   late ProfileViewDetailed actor;
 
   String? displayName;
   String? description;
-  // avatar
-  bool isAvatarChanged = false;
-  ImageFile? avatarFile;
-  late Widget avatarWidget;
-  // banner
-  bool isBannerChanged = false;
-  ImageFile? bannerFile;
-  late Widget bannerWidget;
+  Avatar? avatar;
+  prof.Banner? banner;
 
   void init() {
     actor = plugin.api.session.actor!;
     displayName = actor.displayName;
     description = actor.description;
-    if (isAvatarChanged) {
-      avatarWidget = avatarLink(Avatar(context).file(avatarFile!.bytes));
-    } else {
-      avatarWidget = avatarLink(Avatar(context).net(actor));
-    }
-    if (isBannerChanged) {
-      bannerWidget = bannerLink(prof.Banner(context).file(bannerFile!.bytes));
-    } else {
-      bannerWidget = bannerLink(prof.Banner(context).net(actor));
-    }
+    avatar = Avatar(context).net(actor);
+    banner = prof.Banner(context).net(actor);
   }
 
-  // get by file only for login account
-  Widget avatarLink(Avatar holder) {
+  Widget link(Picture picture) {
     return InkWell(
-      child: holder.circleAvatar,
+      child: picture.widget,
       onTap: () async {
         final result =
             await FilePicker.platform.pickFiles(type: FileType.media);
         if (result != null) {
-          avatarFile = ImageFile(result.files[0]);
-          isAvatarChanged = true;
-          setState(() {});
-        }
-      },
-    );
-  }
-
-  Widget bannerLink(prof.Banner holder) {
-    return InkWell(
-      child: holder.banner,
-      onTap: () async {
-        final result =
-            await FilePicker.platform.pickFiles(type: FileType.media);
-        if (result != null) {
-          bannerFile = ImageFile(result.files[0]);
-          isBannerChanged = true;
+          picture.setImage(ImageFile(result.files[0]));
           setState(() {});
         }
       },
@@ -84,7 +58,10 @@ class EditProfileScreen extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    init();
+    if (isInit) {
+      init();
+      isInit = false;
+    }
     return Scaffold(
       body: padding(
         Form(
@@ -114,7 +91,7 @@ class EditProfileScreen extends State<EditProfile> {
 
   Widget get submit {
     return ElevatedButton(
-        onPressed: _submit,
+        onPressed: submitData,
         style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
@@ -140,8 +117,8 @@ class EditProfileScreen extends State<EditProfile> {
     return Stack(alignment: AlignmentDirectional.bottomStart, children: [
       Column(
           crossAxisAlignment: CrossAxisAlignment.end,
-          children: [bannerWidget, prof.Banner.blank]),
-      avatarWidget
+          children: [link(banner!), prof.Banner.blank]),
+      link(avatar!)
     ]);
   }
 
@@ -184,30 +161,35 @@ class EditProfileScreen extends State<EditProfile> {
     );
   }
 
-  void _submit() async {
+  void submitData() async {
     _formKey.currentState?.save();
-    Map? avatar = avatarFile != null ? await _upload(avatarFile!) : null;
-    Map? banner = bannerFile != null ? await _upload(bannerFile!) : null;
     await plugin.updateProfile(
-        displayName: displayName,
-        description: description,
-        avatar: avatar,
-        banner: banner);
-    reset();
+      displayName: displayName,
+      description: description,
+      avatar: await map(avatar!),
+      banner: await map(banner!),
+    );
+    setState(() {});
     // reload profile page
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (context) => Base(selectedIndex: meIndex),
     ));
   }
 
-  void reset() async {
-    avatarFile = null;
-    bannerFile = null;
-    setState(() {});
+  Future<Map?> map(Picture pic) async {
+    if (pic.file != null) {
+      ImageFile file = pic.file!;
+      return upload(file.bytes, file.mimeType!);
+    } else if (pic.url != null) {
+      final res = await http.get(Uri.parse(pic.url!));
+      // "avatar": "https://sotai.co/ad/image/HHjdDiDF...dxhv6gi@jpeg",
+      return upload(res.bodyBytes, "image/${pic.url!.split("@")[1]}");
+    }
+    return null;
   }
 
-  Future<Map> _upload(ImageFile file) async {
-    Tuple2 res = await plugin.uploadBlob(file.bytes, file.mimeType!);
+  Future<Map> upload(Uint8List bytes, String contentType) async {
+    Tuple2 res = await plugin.uploadBlob(bytes, contentType);
     return res.item2["blob"];
   }
 }

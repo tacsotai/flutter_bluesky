@@ -4,7 +4,7 @@ import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
-import 'package:flutter_bluesky/screen/parts/avatar.dart';
+import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/hyper_link.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
@@ -54,6 +54,18 @@ Widget handle(ProfileViewBasic actor) {
 Widget description(ProfileView actor) {
   String desc = actor.description ?? "";
   return HyperLink(desc).withLink;
+}
+
+Widget count(int count, String postfix) {
+  return Row(children: [
+    bold(count),
+    Text(postfix, style: const TextStyle(color: Colors.grey)),
+  ]);
+}
+
+Widget bold(int count) {
+  return Text(count.toString(),
+      style: const TextStyle(fontWeight: FontWeight.bold));
 }
 
 String withoutDomain(String handle) {

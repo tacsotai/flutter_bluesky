@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
-import 'package:flutter_bluesky/screen/parts/avatar.dart';
+import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:flutter_bluesky/api/model/feed.dart' as feed;
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
