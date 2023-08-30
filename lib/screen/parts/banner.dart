@@ -1,13 +1,13 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
+import 'package:flutter_bluesky/util/image_util.dart';
 
 class Banner {
   final BuildContext context;
   final double height;
   late ProfileViewDetailed actor;
   ImageProvider? provider;
-
+  ImageFile? file;
   Banner(this.context, {this.height = 150});
 
   Banner net(ProfileViewDetailed actor) {
@@ -16,9 +16,10 @@ class Banner {
     return this;
   }
 
-  Banner file(Uint8List? bytes) {
-    provider = bytes == null ? null : MemoryImage(bytes);
-    return this;
+  void setImage(ImageFile imageFile) {
+    file = imageFile;
+    // ignore: unnecessary_null_comparison
+    provider = file!.bytes == null ? null : MemoryImage(file!.bytes);
   }
 
   Widget get banner {
