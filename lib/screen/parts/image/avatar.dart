@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
+import 'package:flutter_bluesky/screen/parts/image/picture.dart';
 import 'package:flutter_bluesky/screen/profile.dart';
-import 'package:flutter_bluesky/util/image_util.dart';
 
-class Avatar {
+class Avatar extends Picture {
   final BuildContext context;
   final double radius;
   late ProfileViewBasic actor;
-  ImageProvider? provider;
-  ImageFile? file;
 
   Avatar(this.context, {this.radius = 35});
 
@@ -26,16 +24,12 @@ class Avatar {
 
   Avatar net(ProfileViewBasic actor) {
     this.actor = actor;
-    provider = actor.avatar == null ? null : NetworkImage(actor.avatar!);
+    url = actor.avatar;
+    provider = url == null ? null : NetworkImage(url!);
     return this;
   }
 
-  void setImage(ImageFile imageFile) {
-    file = imageFile;
-    // ignore: unnecessary_null_comparison
-    provider = file!.bytes == null ? null : MemoryImage(file!.bytes);
-  }
-
+  @override
   CircleAvatar get widget {
     return CircleAvatar(
       radius: radius,
