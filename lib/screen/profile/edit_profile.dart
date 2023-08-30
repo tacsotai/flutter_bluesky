@@ -114,7 +114,7 @@ class EditProfileScreen extends State<EditProfile> {
 
   Widget get submit {
     return ElevatedButton(
-        onPressed: _submit,
+        onPressed: submitData,
         style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
@@ -184,10 +184,10 @@ class EditProfileScreen extends State<EditProfile> {
     );
   }
 
-  void _submit() async {
+  void submitData() async {
     _formKey.currentState?.save();
-    Map? avatar = avatarFile != null ? await _upload(avatarFile!) : null;
-    Map? banner = bannerFile != null ? await _upload(bannerFile!) : null;
+    Map? avatar = avatarFile != null ? await upload(avatarFile!) : null;
+    Map? banner = bannerFile != null ? await upload(bannerFile!) : null;
     await plugin.updateProfile(
         displayName: displayName,
         description: description,
@@ -206,7 +206,7 @@ class EditProfileScreen extends State<EditProfile> {
     setState(() {});
   }
 
-  Future<Map> _upload(ImageFile file) async {
+  Future<Map> upload(ImageFile file) async {
     Tuple2 res = await plugin.uploadBlob(file.bytes, file.mimeType!);
     return res.item2["blob"];
   }
