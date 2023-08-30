@@ -67,3 +67,6 @@
 
 ## 0.4.7
 * Add Authorization to AppPassword API.
+
+## 0.4.8
+* Bug fix for profile saving.
