@@ -35,7 +35,6 @@ class EditProfileScreen extends State<EditProfile> {
   prof.Banner? banner;
 
   void init() {
-    actor = plugin.api.session.actor!;
     displayName = actor.displayName;
     description = actor.description;
     avatar = Avatar(context).net(actor);
@@ -58,6 +57,7 @@ class EditProfileScreen extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
+    actor = plugin.api.session.actor!;
     if (isInit) {
       init();
       isInit = false;
@@ -97,7 +97,11 @@ class EditProfileScreen extends State<EditProfile> {
                 RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18.0),
         ))),
-        child: Text(tr("submit.save")));
+        child: Text(tr(submitProp())));
+  }
+
+  String submitProp() {
+    return "submit.save";
   }
 
   Widget get form {
@@ -161,19 +165,23 @@ class EditProfileScreen extends State<EditProfile> {
     );
   }
 
-  void submitData() async {
+  Future<void> submitData() async {
     _formKey.currentState?.save();
+    await updateProfile();
+    setState(() {});
+    // reload profile page
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) => Base(selectedIndex: meIndex),
+    ));
+  }
+
+  Future<void> updateProfile() async {
     await plugin.updateProfile(
       displayName: displayName,
       description: description,
       avatar: await map(avatar!),
       banner: await map(banner!),
     );
-    setState(() {});
-    // reload profile page
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => Base(selectedIndex: meIndex),
-    ));
   }
 
   Future<Map?> map(Picture pic) async {

@@ -23,11 +23,11 @@ class SearchLineScreen extends State<SearchLine> {
     return padding(paddingLR([
       Avatar(context, radius: 25).net(widget.actor).profile
     ], [
-      contet,
+      content,
     ]));
   }
 
-  Widget get contet {
+  Widget get content {
     SearchContent sc = customSearchContent ?? SearchContent();
     return sc.build(this, widget.actor);
   }
