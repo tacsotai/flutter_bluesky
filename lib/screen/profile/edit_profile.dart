@@ -97,7 +97,11 @@ class EditProfileScreen extends State<EditProfile> {
                 RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18.0),
         ))),
-        child: Text(tr("submit.save")));
+        child: Text(tr(submitProp())));
+  }
+
+  String submitProp() {
+    return "submit.save";
   }
 
   Widget get form {
