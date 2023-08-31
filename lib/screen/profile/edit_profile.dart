@@ -35,7 +35,6 @@ class EditProfileScreen extends State<EditProfile> {
   prof.Banner? banner;
 
   void init() {
-    actor = plugin.api.session.actor!;
     displayName = actor.displayName;
     description = actor.description;
     avatar = Avatar(context).net(actor);
@@ -58,6 +57,7 @@ class EditProfileScreen extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
+    actor = plugin.api.session.actor!;
     if (isInit) {
       init();
       isInit = false;
