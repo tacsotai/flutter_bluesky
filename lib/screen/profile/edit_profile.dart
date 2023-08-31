@@ -165,19 +165,23 @@ class EditProfileScreen extends State<EditProfile> {
     );
   }
 
-  void submitData() async {
+  Future<void> submitData() async {
     _formKey.currentState?.save();
+    await updateProfile();
+    setState(() {});
+    // reload profile page
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) => Base(selectedIndex: meIndex),
+    ));
+  }
+
+  Future<void> updateProfile() async {
     await plugin.updateProfile(
       displayName: displayName,
       description: description,
       avatar: await map(avatar!),
       banner: await map(banner!),
     );
-    setState(() {});
-    // reload profile page
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => Base(selectedIndex: meIndex),
-    ));
   }
 
   Future<Map?> map(Picture pic) async {
