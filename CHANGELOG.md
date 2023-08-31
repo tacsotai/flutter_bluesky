@@ -70,3 +70,7 @@
 
 ## 0.4.8
 * Bug fix for profile saving.
+
+## 0.4.9
+* Change profie edit page to override.
+* Fix type miss of search line.
