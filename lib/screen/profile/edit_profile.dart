@@ -25,7 +25,7 @@ class EditProfile extends StatefulWidget {
 }
 
 class EditProfileScreen extends State<EditProfile> {
-  final GlobalKey<FormState> _formKey = GlobalKey();
+  final GlobalKey<FormState> formKey = GlobalKey();
   bool isInit = true;
   late ProfileViewDetailed actor;
 
@@ -65,7 +65,7 @@ class EditProfileScreen extends State<EditProfile> {
     return Scaffold(
       body: padding(
         Form(
-            key: _formKey,
+            key: formKey,
             child: SingleChildScrollView(child: listsBody(widgets))),
       ),
     );
@@ -166,8 +166,8 @@ class EditProfileScreen extends State<EditProfile> {
   }
 
   Future<void> submitData() async {
-    _formKey.currentState?.save();
-    await updateProfile();
+    formKey.currentState?.save();
+    await updateProfile(plugin);
     setState(() {});
     // reload profile page
     Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -175,7 +175,7 @@ class EditProfileScreen extends State<EditProfile> {
     ));
   }
 
-  Future<void> updateProfile() async {
+  Future<void> updateProfile(FlutterBluesky plugin) async {
     await plugin.updateProfile(
       displayName: displayName,
       description: description,

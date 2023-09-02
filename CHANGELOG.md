@@ -74,3 +74,6 @@
 ## 0.4.9
 * Change profie edit page to override.
 * Fix type miss of search line.
+
+## 0.5.0
+* Fix for "Change profie edit page to override."
