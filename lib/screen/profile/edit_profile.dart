@@ -166,8 +166,8 @@ class EditProfileScreen extends State<EditProfile> {
   }
 
   Future<void> submitData() async {
-    await updateProfile();
     formKey.currentState?.save();
+    await updateProfile(plugin);
     setState(() {});
     // reload profile page
     Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -175,7 +175,7 @@ class EditProfileScreen extends State<EditProfile> {
     ));
   }
 
-  Future<void> updateProfile() async {
+  Future<void> updateProfile(FlutterBluesky plugin) async {
     await plugin.updateProfile(
       displayName: displayName,
       description: description,
