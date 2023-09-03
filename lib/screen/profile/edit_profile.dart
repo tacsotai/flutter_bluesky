@@ -1,5 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +12,8 @@ import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/image/banner.dart' as prof;
 import 'package:flutter_bluesky/screen/me.dart';
 import 'package:flutter_bluesky/screen/parts/image/picture.dart';
+import 'package:flutter_bluesky/screen/profile/profile_updater.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
-import 'package:tuple/tuple.dart';
-import 'package:http/http.dart' as http;
 
 class EditProfile extends StatefulWidget {
   static Screen screen = Screen(EditProfile, const Icon(Icons.edit));
@@ -167,37 +165,12 @@ class EditProfileScreen extends State<EditProfile> {
 
   Future<void> submitData() async {
     formKey.currentState?.save();
-    await updateProfile(plugin);
+    await ProfileUpdater(plugin, displayName, description, avatar, banner)
+        .save();
     setState(() {});
     // reload profile page
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (context) => Base(selectedIndex: meIndex),
     ));
-  }
-
-  Future<void> updateProfile(FlutterBluesky plugin) async {
-    await plugin.updateProfile(
-      displayName: displayName,
-      description: description,
-      avatar: await map(avatar!),
-      banner: await map(banner!),
-    );
-  }
-
-  Future<Map?> map(Picture pic) async {
-    if (pic.file != null) {
-      ImageFile file = pic.file!;
-      return upload(file.bytes, file.mimeType!);
-    } else if (pic.url != null) {
-      final res = await http.get(Uri.parse(pic.url!));
-      // "avatar": "https://sotai.co/ad/image/HHjdDiDF...dxhv6gi@jpeg",
-      return upload(res.bodyBytes, "image/${pic.url!.split("@")[1]}");
-    }
-    return null;
-  }
-
-  Future<Map> upload(Uint8List bytes, String contentType) async {
-    Tuple2 res = await plugin.uploadBlob(bytes, contentType);
-    return res.item2["blob"];
   }
 }
