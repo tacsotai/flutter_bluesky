@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
@@ -23,6 +24,7 @@ class ProfileScreen extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    checkSession(context);
     return Scaffold(
       body: _build(),
     );

@@ -55,6 +55,7 @@ class EditProfileScreen extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
+    checkSession(context);
     actor = plugin.api.session.actor!;
     if (isInit) {
       init();

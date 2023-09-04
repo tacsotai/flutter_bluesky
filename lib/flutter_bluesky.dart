@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api.dart';
 import 'package:flutter_bluesky/api/bluesky.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/graph.dart';
 import 'package:flutter_bluesky/api/session.dart';
 import 'package:flutter_bluesky/api/refresh_api.dart';
+import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
 import 'package:tuple/tuple.dart';
 
@@ -23,6 +25,17 @@ bool get hasSession {
 
 bool get isAlive {
   return _plugin != null;
+}
+
+void checkSession(BuildContext context) {
+  _plugin!.getSession().then((res) => loginExpire(res, context));
+}
+
+void loginExpire(Tuple2 res, BuildContext context) {
+  if (res.item1 != 200) {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const LoginScreen()));
+  }
 }
 
 // This is a service class for atproto pds.
