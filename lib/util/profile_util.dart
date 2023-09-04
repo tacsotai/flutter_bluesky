@@ -6,6 +6,8 @@ import 'package:flutter_bluesky/screen/parts/button/button_manager.dart';
 import 'package:flutter_bluesky/screen/parts/image/banner.dart' as prof;
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 
+ActorWidget? actorWidget;
+
 class ProfileUtil {
   final State state;
   final ProfileViewDetailed actor;
@@ -16,37 +18,13 @@ class ProfileUtil {
     return ProfileUtil(state, actor);
   }
 
-  Widget get actorInfo {
-    return Padding(
-        padding: const EdgeInsets.all(10),
-        child: SizedBox(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              displayName(actor, fontSize: 28),
-              handle(actor),
-              counts,
-              description(actor),
-            ],
-          ),
-        ));
-  }
-
-  Widget get counts {
-    return Row(
-      children: [
-        count(actor.followersCount, 'followers'),
-        sizeBox,
-        count(actor.followsCount, 'following'),
-        sizeBox,
-        count(actor.postsCount, 'posts'),
-      ],
-    );
-  }
-
   Widget get header {
     return Column(
-      children: [bannerAvatar, actorInfo, const Divider(height: 0.5)],
+      children: [
+        bannerAvatar,
+        actorWidget!.info(actor),
+        const Divider(height: 0.5),
+      ],
     );
   }
 
@@ -68,5 +46,42 @@ class ProfileUtil {
 
   Widget get profAvatar {
     return Avatar(state.context, radius: 45).net(actor).profile;
+  }
+}
+
+abstract class ActorWidget {
+  Widget info(ProfileViewDetailed actor);
+  Widget counts(ProfileViewDetailed actor);
+}
+
+class DefaultActorWidget extends ActorWidget {
+  @override
+  Widget info(ProfileViewDetailed actor) {
+    return Padding(
+        padding: const EdgeInsets.all(10),
+        child: SizedBox(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              displayName(actor, fontSize: 28),
+              handle(actor),
+              counts(actor),
+              description(actor),
+            ],
+          ),
+        ));
+  }
+
+  @override
+  Widget counts(ProfileViewDetailed actor) {
+    return Row(
+      children: [
+        count(actor.followersCount, 'followers'),
+        sizeBox,
+        count(actor.followsCount, 'following'),
+        sizeBox,
+        count(actor.postsCount, 'posts'),
+      ],
+    );
   }
 }

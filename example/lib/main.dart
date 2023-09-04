@@ -19,6 +19,7 @@ import 'package:flutter_bluesky/screen/search.dart';
 import 'package:flutter_bluesky/screen/profile.dart';
 import 'package:flutter_bluesky/screen/thread.dart';
 import 'package:flutter_bluesky/transition_route_observer.dart';
+import 'package:flutter_bluesky/util/profile_util.dart';
 import 'package:flutter_bluesky_example/sample_timeline.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 // ignore: depend_on_referenced_packages
@@ -105,6 +106,7 @@ void initScreen() {
   meIndex = pluggables.indexOf(me);
   customPostTL = SamplePostTimeline();
   buttonManager = DefaultButtonManager();
+  actorWidget = DefaultActorWidget();
 }
 
 void initMenu() {
