@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter_bluesky/api.dart';
+import 'package:flutter_bluesky/api/session_api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -8,9 +9,8 @@ import 'package:tuple/tuple.dart';
 
 abstract class Atproto {
   final API api;
-  Atproto({
-    required this.api,
-  });
+  final SessionAPI sessionAPI;
+  Atproto({required this.api}) : sessionAPI = SessionAPI(api: api);
 
   Future<Tuple2> describeServer(
       {bool? inviteCodeRequired,
@@ -76,20 +76,11 @@ abstract class Atproto {
 
   // Get User info
   Future<Tuple2> getSession() async {
-    http.Response res = await api.get("com.atproto.server.getSession",
-        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
-    return Tuple2<int, Map<String, dynamic>>(
-        res.statusCode, json.decode(res.body));
+    return await sessionAPI.getSession();
   }
 
   Future<Tuple2> refreshSession() async {
-    http.Response res =
-        await api.post("com.atproto.server.refreshSession", headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer ${api.session.refreshJwt}"
-    });
-    return Tuple2<int, Map<String, dynamic>>(
-        res.statusCode, json.decode(res.body));
+    return await sessionAPI.refreshSession();
   }
 
   Future<Tuple2> resetPassword(String token, String password) async {
