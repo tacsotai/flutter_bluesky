@@ -93,7 +93,7 @@ Future<void> restoreSession() async {
   }
   if (item.isNotEmpty) {
     plugin.api.session.set(item);
-    plugin.refresh();
+    plugin.sessionAPI.refresh();
   }
 }
 

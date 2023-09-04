@@ -8,11 +8,7 @@ abstract class Bluesky extends Atproto {
   Bluesky({required super.api});
 
   Future<Tuple2> getProfile(String actor) async {
-    http.Response res = await api.get("app.bsky.actor.getProfile",
-        params: {"actor": actor},
-        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
-    return Tuple2<int, Map<String, dynamic>>(
-        res.statusCode, json.decode(res.body));
+    return await sessionAPI.getProfile(actor);
   }
 
   Future<Tuple2> getSuggestions({int? limit, String? cursor}) async {
