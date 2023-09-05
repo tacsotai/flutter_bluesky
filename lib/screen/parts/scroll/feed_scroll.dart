@@ -9,6 +9,7 @@ mixin FeedScroll {
   late ScrollController scrollController;
   bool isHidden = false;
   bool isLoading = false;
+  final int scrollingRetrieveLength = 10; // TODO Config
 
   late DataManager manager;
   late BaseScreen baseScreen;
@@ -30,7 +31,8 @@ mixin FeedScroll {
       }
       if (scrollController.position.pixels >=
               scrollController.position.maxScrollExtent * 0.95 &&
-          !isLoading) {
+          !isLoading &&
+          manager.length > scrollingRetrieveLength) {
         isLoading = true;
 
         await manager.getData(false);
