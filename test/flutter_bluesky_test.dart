@@ -112,6 +112,13 @@ void main() {
     expect(list.length >= 0, true);
   });
 
+  test('followers', () async {
+    await login(email, password);
+    List<ProfileView> list = await plugin.followers(handle);
+    // ignore: prefer_is_empty
+    expect(list.length >= 0, true);
+  });
+
   test('post', () async {
     String text = randomAlphaNumeric(10);
     await login(email, password);

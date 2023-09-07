@@ -11,3 +11,15 @@ class FollowsResponse {
         follows = body["follows"],
         cursor = body["cursor"];
 }
+
+//see lexicons app.bsky.graph.getFollowers
+class FollowersResponse {
+  ProfileView subject;
+  List followers = []; // List<ProfileView>
+  String? cursor;
+
+  FollowersResponse(Map body)
+      : subject = ProfileView(body["subject"]),
+        followers = body["followers"],
+        cursor = body["cursor"];
+}
