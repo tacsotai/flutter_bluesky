@@ -1,4 +1,4 @@
-// see lexicons.app.bsky.graph.getFolows
+// see lexicons app.bsky.graph.getFollows
 import 'package:flutter_bluesky/api/model/actor.dart';
 
 class FollowsResponse {

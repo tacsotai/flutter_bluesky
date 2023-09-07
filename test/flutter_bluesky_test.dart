@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -102,6 +103,13 @@ void main() {
     await login(email, password);
     Tuple2 res = await plugin.timeline();
     expect(res.item1, 200);
+  });
+
+  test('followings', () async {
+    await login(email, password);
+    List<ProfileView> list = await plugin.followings(handle);
+    // ignore: prefer_is_empty
+    expect(list.length >= 0, true);
   });
 
   test('post', () async {
