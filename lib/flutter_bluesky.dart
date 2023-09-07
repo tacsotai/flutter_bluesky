@@ -125,12 +125,12 @@ class FlutterBluesky extends Bluesky {
     await sessionAPI.profile();
   }
 
-  Future<List<ProfileViewBasic>> followings(String actor) async {
-    List<ProfileViewBasic> followings = [];
+  Future<List<ProfileView>> followings(String actor) async {
+    List<ProfileView> followings = [];
     Tuple2 res = await plugin.getFollows(actor);
     FollowsResponse response = FollowsResponse(res.item2);
     for (Map follwer in response.follows) {
-      followings.add(ProfileViewBasic(follwer));
+      followings.add(ProfileView(follwer));
     }
     return followings;
   }
