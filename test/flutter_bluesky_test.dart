@@ -8,8 +8,43 @@ import 'package:random_string/random_string.dart';
 
 // Integrated test code for FlutterBluesky.
 // Run local server with https://zenn.dev/tac519/articles/727fca3783010c
+
+// XXX CHANGE consts with YOUR ENVIRONMENT.
+const testProvider = "http://localhost:2583";
+const email = "foo@bar.com";
+const handle = "hoge.test";
+const password = "password";
+const Map serverDescription = {
+  "availableUserDomains": [".test,.dev.bsky.dev"],
+  "inviteCodeRequired": false,
+  "links": {}
+};
+
 void main() {
-  FlutterBluesky plugin = FlutterBluesky(provider: "http://localhost:2583");
+  FlutterBluesky plugin = FlutterBluesky(provider: testProvider);
+
+  Future<Tuple2> login(String emailORhandle, String password) async {
+    Tuple2 res = await plugin.createSession(email, password);
+    if (res.item1 == 200) {
+      plugin.api.session.setTokens(res.item2["did"], res.item2["handle"],
+          res.item2["email"], res.item2["accessJwt"], res.item2["refreshJwt"]);
+      await plugin.sessionAPI.profile();
+    }
+    return res;
+  }
+
+  Future<Tuple2> register(String email, String handle, String password) async {
+    Tuple2 res = await plugin.createAccount(email, handle, password);
+    if (res.item1 == 200 || res.item1 == 201) {
+      plugin.api.session.accessJwt = res.item2["accessJwt"];
+      Tuple2 res2 = await plugin.getSession();
+      res.item2["email"] = res2.item2["email"];
+      plugin.api.session.setTokens(res.item2["did"], res.item2["handle"],
+          res.item2["email"], res.item2["accessJwt"], res.item2["refreshJwt"]);
+      await plugin.sessionAPI.profile();
+    }
+    return res;
+  }
 
   test('connect to bsky.social', () async {
     FlutterBluesky defaultPlugin = FlutterBluesky();
@@ -19,8 +54,8 @@ void main() {
       "availableUserDomains": [".bsky.social"],
       "inviteCodeRequired": true,
       "links": {
-        "privacyPolicy": "https://bsky.app/support/privacy",
-        "termsOfService": "https://bsky.app/support/tos"
+        "privacyPolicy": "https://blueskyweb.xyz/support/privacy-policy",
+        "termsOfService": "https://blueskyweb.xyz/support/tos"
       }
     };
     expect(res.item2, expected);
@@ -32,58 +67,46 @@ void main() {
   test('connect', () async {
     Tuple2 res = await plugin.connect();
     expect(res.item1, 200);
-    Map expected = {
-      "availableUserDomains": [".test", ".dev.bsky.dev"],
-      "inviteCodeRequired": false,
-      "links": {}
-    };
-    expect(res.item2, expected);
+    expect(res.item2, serverDescription);
   });
 
   // Make sure to run 'make run-dev-env'
   test('register', () async {
-    Tuple2 res = await plugin.register("foo@bar.com", "hoge.test", "password");
+    Tuple2 res = await register(email, handle, password);
     if (res.item1 == 200) {
       return;
     }
     if (!(res.item1 == 400 &&
-        res.item2["message"] == "Handle already taken: hoge.test")) {
-      Tuple2 res2 =
-          await plugin.register("foo@bar.com", "hoge.test", "password");
+        res.item2["message"] == "Handle already taken: $handle")) {
+      Tuple2 res2 = await register(email, handle, password);
       expect(res2.item1, 200);
     }
   });
 
   test('register NG, handle domain is not available', () async {
-    Tuple2 res = await plugin.register("foo@bar.com", "handle", "password");
+    Tuple2 res = await register(email, handle, password);
     expect(res.item1, 400);
   });
 
   test('login OK', () async {
-    Tuple2 res = await plugin.login("foo@bar.com", "password");
+    Tuple2 res = await login(email, password);
     expect(res.item1, 200);
   });
 
   test('login failure', () async {
-    Tuple2 res = await plugin.login("foo@bar.com", "hoge");
+    Tuple2 res = await login(email, "hoge");
     expect(res.item1, 401);
   });
 
   test('timeline', () async {
-    await plugin.login("foo@bar.com", "password");
+    await login(email, password);
     Tuple2 res = await plugin.timeline();
     expect(res.item1, 200);
   });
 
-  // test('timeline cursor', () async {
-  //   await plugin.login("foo@bar.com", "password");
-  //   Tuple2 res = await plugin.timeline();
-  //   expect(res.item1, 200);
-  // });
-
   test('post', () async {
     String text = randomAlphaNumeric(10);
-    await plugin.login("foo@bar.com", "password");
+    await login(email, password);
     await plugin.post(text);
     Tuple2 res2 = await plugin.timeline();
     List feeds = res2.item2["feed"];
@@ -99,7 +122,7 @@ void main() {
   });
 
   test('post picture', () async {
-    await plugin.login("foo@bar.com", "password");
+    await login(email, password);
     String filename = '2718714879_b56c626a17.jpg';
     String url = 'https://farm4.static.flickr.com/3003/$filename';
     final response = await http.get(Uri.parse(url));
@@ -116,7 +139,7 @@ void main() {
   });
 
   test('profile picture', () async {
-    await plugin.login("foo@bar.com", "password");
+    await login(email, password);
     String filename = '2718714879_b56c626a17.jpg';
     String url = 'https://farm4.static.flickr.com/3003/$filename';
     final response = await http.get(Uri.parse(url));
