@@ -48,13 +48,7 @@ class MoreScreen extends AcceptableStatefulWidgetState<MoreWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return dialog(reaction, context.read<ReactionState>().more);
-  }
-
-  Widget dialog(Reaction reaction, Function() func) {
-    return Row(
-      children: [button(reaction, func)],
-    );
+    return button(reaction, context.read<ReactionState>().more);
   }
 }
 
