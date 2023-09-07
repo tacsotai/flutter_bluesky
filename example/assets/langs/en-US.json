@@ -35,6 +35,7 @@
     "reaction.more": "More",
     "reply.to": "Reply to {}",
     "reposted.by": "Reposted by {}",
+    "menu.copy.text": "Copy post text",
     "title": "Flutter Blusky",
     "send.email": "Send Email",
     "invalid.email": "Invalid email!",
