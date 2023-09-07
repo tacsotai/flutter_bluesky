@@ -8,7 +8,7 @@ import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/parts/reaction.dart';
 import 'package:flutter_bluesky/screen/post.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
+import 'package:flutter_bluesky/util/reaction_util.dart';
 import 'package:tuple/tuple.dart';
 
 class Repost extends StatelessWidget {

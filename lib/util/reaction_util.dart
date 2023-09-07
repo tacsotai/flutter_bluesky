@@ -1,4 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/screen/parts/reaction.dart';
+
+Widget withText(Reaction reaction, Function() func) {
+  return Row(
+    children: [
+      button(reaction, func),
+      Text(reaction.count.toString(), style: TextStyle(color: color(reaction)))
+    ],
+  );
+}
+
+Widget button(Reaction reaction, Function() func) {
+  return IconTheme(
+    data: IconThemeData(color: color(reaction)),
+    child: Row(
+      children: [
+        IconButton(
+          tooltip: reaction.tooltip,
+          icon: reaction.uri != null ? reaction.on : reaction.off,
+          onPressed: func,
+        )
+      ],
+    ),
+  );
+}
+
+Color color(Reaction reaction) {
+  return reaction.uri != null ? reaction.color : Colors.grey;
+}
 
 // flutter/lib/src/material/popup_menu.dart#L1236
 Future<void> popupMenu(BuildContext context, List<PopupMenuItem> items) async {
