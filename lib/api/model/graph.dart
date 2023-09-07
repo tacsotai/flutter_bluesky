@@ -23,3 +23,13 @@ class FollowersResponse {
         followers = body["followers"],
         cursor = body["cursor"];
 }
+
+//see lexicons app.bsky.graph.getBlocks
+class BlocksResponse {
+  List blocks = []; // List<ProfileView>
+  String? cursor;
+
+  BlocksResponse(Map body)
+      : blocks = body["blocks"],
+        cursor = body["cursor"];
+}

@@ -145,6 +145,16 @@ class FlutterBluesky extends Bluesky {
     return followings;
   }
 
+  Future<List<ProfileView>> blocks() async {
+    List<ProfileView> blocks = [];
+    Tuple2 res = await getBlocks();
+    BlocksResponse response = BlocksResponse(res.item2);
+    for (Map block in response.blocks) {
+      blocks.add(ProfileView(block));
+    }
+    return blocks;
+  }
+
   Future<Tuple2> timeline({String? cursor}) async {
     return await getTimeline(cursor: cursor);
   }
@@ -248,6 +258,18 @@ class FlutterBluesky extends Bluesky {
   }
 
   Future<Tuple2> unfollow(String uri) async {
+    return await _unlink(uri);
+  }
+
+  Future<Tuple2> block(String subject) async {
+    return await createRecord(
+      api.session.did!,
+      "app.bsky.graph.block",
+      {"subject": subject, "createdAt": DateTime.now().toIso8601String()},
+    );
+  }
+
+  Future<Tuple2> unblock(String uri) async {
     return await _unlink(uri);
   }
 

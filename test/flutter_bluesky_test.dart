@@ -119,6 +119,13 @@ void main() {
     expect(list.length >= 0, true);
   });
 
+  test('blocks', () async {
+    await login(email, password);
+    List<ProfileView> list = await plugin.blocks();
+    // ignore: prefer_is_empty
+    expect(list.length >= 0, true);
+  });
+
   test('post', () async {
     String text = randomAlphaNumeric(10);
     await login(email, password);
