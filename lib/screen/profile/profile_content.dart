@@ -9,9 +9,9 @@ import 'package:flutter_bluesky/screen/parts/image/banner.dart' as prof;
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/util/account_util.dart';
 
-ProfileUtil? profileUtil;
+ProfileContent? profileContent;
 
-class ProfileUtil {
+class ProfileContent {
   late State state;
   late ProfileViewDetailed actor;
 

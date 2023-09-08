@@ -11,7 +11,7 @@ import 'package:flutter_bluesky/screen/parts/button/button_manager.dart';
 import 'package:flutter_bluesky/screen/parts/timeline.dart';
 import 'package:flutter_bluesky/screen/parts/menu.dart';
 import 'package:flutter_bluesky/screen/post.dart';
-import 'package:flutter_bluesky/screen/profile/profile_util.dart';
+import 'package:flutter_bluesky/screen/profile/profile_content.dart';
 import 'package:flutter_bluesky/screen/settings.dart';
 import 'package:flutter_bluesky/screen/profile/edit_profile.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
@@ -106,7 +106,7 @@ void initScreen() {
   meIndex = pluggables.indexOf(me);
   customPostTL = SamplePostTimeline();
   buttonManager = DefaultButtonManager();
-  profileUtil = ProfileUtil();
+  profileContent = ProfileContent();
 }
 
 void initMenu() {
