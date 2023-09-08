@@ -77,3 +77,12 @@
 
 ## 0.5.0
 * Fix for "Change profie edit page to override."
+
+## 0.5.1
+* Save login status.
+* Make profile util pluggable.
+* Fix scroll error.
+* Make getFollowers API.
+* Make Blocking API.
+* Make copy text function.
+* Make Blocking UI.
