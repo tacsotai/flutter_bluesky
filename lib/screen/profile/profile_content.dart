@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
+import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/button.dart';
 import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
@@ -52,7 +53,7 @@ class ProfileContent {
     return [
       PopupMenuItem(
         child: Text(tr("menu.block.account")),
-        onTap: () => debugPrint("menu.block.account"),
+        onTap: () async => await plugin.block(actor.did),
       ),
     ];
   }
