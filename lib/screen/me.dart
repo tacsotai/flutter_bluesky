@@ -4,6 +4,7 @@ import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
 import 'package:flutter_bluesky/screen/profile/profile_view.dart';
+import 'package:flutter_bluesky/util/button_util.dart';
 
 late int meIndex;
 
@@ -32,7 +33,7 @@ class MyScreen extends State<Me> with Frame {
     return scaffold(
       context,
       bottom: widget.base.screen.bottom,
-      isPost: true,
+      fab: postFAB(context),
     );
   }
 
