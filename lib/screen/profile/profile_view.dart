@@ -22,7 +22,7 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> with FeedScroll {
   late ProfileViewDetailed actor;
-  late ProfileContent util;
+
   @override
   void initState() {
     actor = widget.manager.holder.detail;
@@ -46,16 +46,15 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
 
   @override
   Widget build(BuildContext context) {
-    util = ProfileContent();
-    util.state = this;
-    util.actor = actor;
+    profileContent!.state = this;
+    profileContent!.actor = actor;
     return page(context);
   }
 
   @override
   List<Widget> get slivers => [
         SliverToBoxAdapter(
-          child: util.header,
+          child: profileContent!.header,
         ),
         MaterialSliverRefreshControl(
           onRefresh: () async {

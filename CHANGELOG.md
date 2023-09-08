@@ -86,3 +86,6 @@
 * Make Blocking API.
 * Make copy text function.
 * Make Blocking UI.
+
+## 0.5.2
+* Bug fix for util not pluggable.

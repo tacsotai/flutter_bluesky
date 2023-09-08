@@ -9,7 +9,6 @@
     "Settings": "設定",
     "Thread": "スレッド",
     "account": "アカウント",
-    "account.add": "アカウント追加",
     "account.delete": "アカウント削除",
     "account.delete.confirmation": "セキュリティ対策のため、お客様のメールアドレスに確認コードを送信する必要があります。",
     "account.delete.code.password": "Emailで受信した確認コードとパスワード入力してください。",
