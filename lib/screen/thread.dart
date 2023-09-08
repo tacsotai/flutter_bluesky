@@ -20,6 +20,7 @@ class Thread extends StatefulWidget {
 class ThreadScreen extends State<Thread> {
   @override
   Widget build(BuildContext context) {
+    checkSession(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(tr('Thread')),

@@ -55,9 +55,7 @@ class _NotificationsViewState extends State<NotificationsView> with FeedScroll {
         appBar,
         MaterialSliverRefreshControl(
           onRefresh: () async {
-            isLoading = true;
             await manager.getData(true);
-            state();
           },
         ),
         sliverList
@@ -65,7 +63,7 @@ class _NotificationsViewState extends State<NotificationsView> with FeedScroll {
 
   Widget get appBar {
     return SliverAppBar(
-      floating: true,
+      pinned: true, // #90 Don't use state() and isLoding for onRefresh:
       flexibleSpace: FlexibleSpaceBar(
           title: text(Notifications.screen.name, context), centerTitle: true),
     );

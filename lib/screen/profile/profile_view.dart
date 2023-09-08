@@ -4,7 +4,7 @@ import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
-import 'package:flutter_bluesky/util/profile_util.dart';
+import 'package:flutter_bluesky/screen/profile/profile_content.dart';
 
 class ProfileView extends StatefulWidget {
   final ProfileDataManager manager;
@@ -22,7 +22,7 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> with FeedScroll {
   late ProfileViewDetailed actor;
-  late ProfileUtil util;
+  late ProfileContent util;
   @override
   void initState() {
     actor = widget.manager.holder.detail;
@@ -46,7 +46,9 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
 
   @override
   Widget build(BuildContext context) {
-    util = ProfileUtil.getUtil(this, actor);
+    util = ProfileContent();
+    util.state = this;
+    util.actor = actor;
     return page(context);
   }
 

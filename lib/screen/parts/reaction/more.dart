@@ -3,8 +3,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/reaction.dart';
+import 'package:flutter_bluesky/util/reaction_util.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 
 class More extends StatelessWidget {
   final Post post;
@@ -48,13 +48,7 @@ class MoreScreen extends AcceptableStatefulWidgetState<MoreWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return dialog(reaction, context.read<ReactionState>().more);
-  }
-
-  Widget dialog(Reaction reaction, Function() func) {
-    return Row(
-      children: [button(reaction, func)],
-    );
+    return button(reaction, context.read<ReactionState>().more);
   }
 }
 
@@ -63,6 +57,32 @@ class MoreReaction extends AbstractReaction {
 
   @override
   Future<void> exec() async {
-    // TODO: implement exec
+    await popupMenu(context, [
+      // PopupMenuItem(
+      //   child: Text(tr("menu.translate")),
+      //   onTap: () => debugPrint("menu.translate"),
+      // ),
+      PopupMenuItem(
+        child: Text(tr("menu.copy.text")),
+        onTap: () async => await saveToclipboard(post),
+      ),
+      // PopupMenuItem(
+      //   child: Text(tr("menu.share")),
+      //   onTap: () => debugPrint("menu.share"),
+      // ),
+      // PopupMenuItem(
+      //   child: Text(tr("menu.mute.thread")),
+      //   onTap: () => debugPrint("menu.mute.thread"),
+      // ),
+      // PopupMenuItem(
+      //   child: Text(tr("menu.report.post")),
+      //   onTap: () => debugPrint("menu.report.post"),
+      // ),
+      // if the post user is the login user, delete post
+      // PopupMenuItem(
+      //   child: Text(tr("menu.delete.post")),
+      //   onTap: () => debugPrint("menu.delete.post"),
+      // ),
+    ]);
   }
 }

@@ -1,8 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api.dart';
 import 'package:flutter_bluesky/api/bluesky.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/graph.dart';
 import 'package:flutter_bluesky/api/session.dart';
+import 'package:flutter_bluesky/api/refresh_api.dart';
+import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
 import 'package:tuple/tuple.dart';
 
@@ -24,6 +27,17 @@ bool get isAlive {
   return _plugin != null;
 }
 
+void checkSession(BuildContext context) {
+  _plugin!.getSession().then((res) => loginExpire(res, context));
+}
+
+void loginExpire(Tuple2 res, BuildContext context) {
+  if (res.item1 != 200) {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const LoginScreen()));
+  }
+}
+
 // This is a service class for atproto pds.
 class FlutterBluesky extends Bluesky {
   Map serverDescription = {};
@@ -35,7 +49,7 @@ class FlutterBluesky extends Bluesky {
 
   FlutterBluesky({
     String? provider,
-  }) : super(api: API(session: Session.create(provider: provider)));
+  }) : super(api: RefreshAPI(session: Session.create(provider: provider)));
 
   String getProvider() {
     return api.session.provider;
@@ -74,7 +88,7 @@ class FlutterBluesky extends Bluesky {
     Tuple2 res =
         await createAccount(email, handle, password, inviteCode: inviteCode);
     if (res.item1 == 200 || res.item1 == 201) {
-      await _session(res);
+      await sessionAPI.resessiion(res);
     }
     return res;
   }
@@ -84,7 +98,7 @@ class FlutterBluesky extends Bluesky {
     Tuple2 res = await createSession(emailORhandle, password);
     if (res.item1 == 200) {
       api.session.set(res.item2);
-      await _profile();
+      await sessionAPI.profile();
     }
     return res;
   }
@@ -92,30 +106,6 @@ class FlutterBluesky extends Bluesky {
   Future<Tuple2> logout() async {
     api.session.remove();
     return await deleteSession();
-  }
-
-  Future<Tuple2> refresh() async {
-    Tuple2 res = await refreshSession();
-    if (res.item1 == 200) {
-      _session(res);
-      await _profile();
-    }
-    return res;
-  }
-
-  Future<void> _session(Tuple2 res) async {
-    api.session.accessJwt = res.item2["accessJwt"];
-    Tuple2 res2 = await getSession();
-    res.item2["email"] = res2.item2["email"];
-    api.session.set(res.item2);
-  }
-
-  // actor = null after login
-  Future<void> _profile() async {
-    Tuple2 res = await getProfile(api.session.did!);
-    if (res.item1 == 200) {
-      api.session.actor = ProfileViewDetailed(res.item2);
-    }
   }
 
   Future<void> updateProfile(
@@ -132,17 +122,37 @@ class FlutterBluesky extends Bluesky {
       "banner": banner,
     });
     await putRecord(api.session.did!, "app.bsky.actor.profile", "self", record);
-    await _profile();
+    await sessionAPI.profile();
   }
 
-  Future<List<ProfileViewBasic>> followers(String actor) async {
-    List<ProfileViewBasic> follwers = [];
-    Tuple2 res = await plugin.getFollows(actor);
-    FollowResponse response = FollowResponse(res.item2);
+  Future<List<ProfileView>> followings(String actor) async {
+    List<ProfileView> followings = [];
+    Tuple2 res = await getFollows(actor);
+    FollowsResponse response = FollowsResponse(res.item2);
     for (Map follwer in response.follows) {
-      follwers.add(ProfileViewBasic(follwer));
+      followings.add(ProfileView(follwer));
     }
-    return follwers;
+    return followings;
+  }
+
+  Future<List<ProfileView>> followers(String actor) async {
+    List<ProfileView> followings = [];
+    Tuple2 res = await getFollowers(actor);
+    FollowersResponse response = FollowersResponse(res.item2);
+    for (Map follwer in response.followers) {
+      followings.add(ProfileView(follwer));
+    }
+    return followings;
+  }
+
+  Future<List<ProfileView>> blocks() async {
+    List<ProfileView> blocks = [];
+    Tuple2 res = await getBlocks();
+    BlocksResponse response = BlocksResponse(res.item2);
+    for (Map block in response.blocks) {
+      blocks.add(ProfileView(block));
+    }
+    return blocks;
   }
 
   Future<Tuple2> timeline({String? cursor}) async {
@@ -224,12 +234,8 @@ class FlutterBluesky extends Bluesky {
     return _likeRepost("app.bsky.feed.like", uri, cid);
   }
 
-  Future<Tuple2> follow(String subject) async {
-    return await createRecord(
-      api.session.did!,
-      "app.bsky.graph.follow",
-      {"subject": subject, "createdAt": DateTime.now().toIso8601String()},
-    );
+  Future<Tuple2> unlike(String uri) async {
+    return await _unlink(uri);
   }
 
   Future<Tuple2> _likeRepost(String collection, String uri, String cid) async {
@@ -243,11 +249,27 @@ class FlutterBluesky extends Bluesky {
     );
   }
 
+  Future<Tuple2> follow(String subject) async {
+    return await createRecord(
+      api.session.did!,
+      "app.bsky.graph.follow",
+      {"subject": subject, "createdAt": DateTime.now().toIso8601String()},
+    );
+  }
+
   Future<Tuple2> unfollow(String uri) async {
     return await _unlink(uri);
   }
 
-  Future<Tuple2> unlike(String uri) async {
+  Future<Tuple2> block(String did) async {
+    return await createRecord(
+      api.session.did!,
+      "app.bsky.graph.block",
+      {"subject": did, "createdAt": DateTime.now().toIso8601String()},
+    );
+  }
+
+  Future<Tuple2> unblock(String uri) async {
     return await _unlink(uri);
   }
 

@@ -54,10 +54,8 @@ class _SearchViewState extends State<SearchView> with FeedScroll {
         appBar,
         MaterialSliverRefreshControl(
           onRefresh: () async {
-            isLoading = true;
             // domain, text, and so on
             await manager.getData(true, term: controller.text);
-            state();
           },
         ),
         sliverList
@@ -65,7 +63,7 @@ class _SearchViewState extends State<SearchView> with FeedScroll {
 
   Widget get appBar {
     return SliverAppBar(
-      pinned: true,
+      pinned: true, // #90 Don't use state() and isLoding for onRefresh:
       backgroundColor: Colors.white,
       flexibleSpace: FlexibleSpaceBar(
           title: searchBox(),

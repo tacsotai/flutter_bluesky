@@ -7,7 +7,7 @@ import 'package:flutter_bluesky/screen/parts/reaction/repost.dart';
 import 'package:flutter_bluesky/screen/parts/reaction/thread_reaction.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
-import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
+import 'package:flutter_bluesky/util/reaction_util.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_bluesky/screen/parts/reaction/reply.dart' as act;

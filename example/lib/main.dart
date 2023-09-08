@@ -11,6 +11,7 @@ import 'package:flutter_bluesky/screen/parts/button/button_manager.dart';
 import 'package:flutter_bluesky/screen/parts/timeline.dart';
 import 'package:flutter_bluesky/screen/parts/menu.dart';
 import 'package:flutter_bluesky/screen/post.dart';
+import 'package:flutter_bluesky/screen/profile/profile_content.dart';
 import 'package:flutter_bluesky/screen/settings.dart';
 import 'package:flutter_bluesky/screen/profile/edit_profile.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
@@ -92,7 +93,7 @@ Future<void> restoreSession() async {
   }
   if (item.isNotEmpty) {
     plugin.api.session.set(item);
-    plugin.refresh();
+    plugin.sessionAPI.refresh();
   }
 }
 
@@ -105,6 +106,7 @@ void initScreen() {
   meIndex = pluggables.indexOf(me);
   customPostTL = SamplePostTimeline();
   buttonManager = DefaultButtonManager();
+  profileContent = ProfileContent();
 }
 
 void initMenu() {

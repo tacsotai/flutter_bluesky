@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen/parts/reaction.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
+import 'package:flutter_bluesky/util/reaction_util.dart';
 import 'package:flutter_bluesky/api/model/feed.dart' as feed;
 import 'package:flutter_bluesky/screen/post.dart';
 

@@ -8,11 +8,7 @@ abstract class Bluesky extends Atproto {
   Bluesky({required super.api});
 
   Future<Tuple2> getProfile(String actor) async {
-    http.Response res = await api.get("app.bsky.actor.getProfile",
-        params: {"actor": actor},
-        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
-    return Tuple2<int, Map<String, dynamic>>(
-        res.statusCode, json.decode(res.body));
+    return await sessionAPI.getProfile(actor);
   }
 
   Future<Tuple2> getSuggestions({int? limit, String? cursor}) async {
@@ -80,6 +76,23 @@ abstract class Bluesky extends Atproto {
   Future<Tuple2> getFollows(String actor, {int? limit, String? cursor}) async {
     http.Response res = await api.get("app.bsky.graph.getFollows",
         params: {"actor": actor, "limit": limit, "cursor": cursor},
+        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> getFollowers(String actor,
+      {int? limit, String? cursor}) async {
+    http.Response res = await api.get("app.bsky.graph.getFollowers",
+        params: {"actor": actor, "limit": limit, "cursor": cursor},
+        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> getBlocks({int? limit, String? cursor}) async {
+    http.Response res = await api.get("app.bsky.graph.getBlocks",
+        params: {"limit": limit, "cursor": cursor},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
