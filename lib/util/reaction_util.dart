@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bluesky/api/model/feed.dart' as feed;
 import 'package:flutter_bluesky/screen/parts/reaction.dart';
 
 Widget withText(Reaction reaction, Function() func) {
@@ -49,4 +51,9 @@ Future<void> popupMenu(BuildContext context, List<PopupMenuItem> items) async {
     items: items,
     elevation: 8.0,
   );
+}
+
+Future<void> saveToclipboard(feed.Post post) async {
+  final data = ClipboardData(text: post.record.text);
+  await Clipboard.setData(data);
 }

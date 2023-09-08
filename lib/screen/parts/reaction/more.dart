@@ -57,6 +57,32 @@ class MoreReaction extends AbstractReaction {
 
   @override
   Future<void> exec() async {
-    // TODO: implement exec
+    await popupMenu(context, [
+      // PopupMenuItem(
+      //   child: Text(tr("menu.translate")),
+      //   onTap: () => debugPrint("menu.translate"),
+      // ),
+      PopupMenuItem(
+        child: Text(tr("menu.copy.text")),
+        onTap: () async => await saveToclipboard(post),
+      ),
+      // PopupMenuItem(
+      //   child: Text(tr("menu.share")),
+      //   onTap: () => debugPrint("menu.share"),
+      // ),
+      // PopupMenuItem(
+      //   child: Text(tr("menu.mute.thread")),
+      //   onTap: () => debugPrint("menu.mute.thread"),
+      // ),
+      // PopupMenuItem(
+      //   child: Text(tr("menu.report.post")),
+      //   onTap: () => debugPrint("menu.report.post"),
+      // ),
+      // if the post user is the login user, delete post
+      // PopupMenuItem(
+      //   child: Text(tr("menu.delete.post")),
+      //   onTap: () => debugPrint("menu.delete.post"),
+      // ),
+    ]);
   }
 }
