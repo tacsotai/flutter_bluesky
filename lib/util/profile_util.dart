@@ -1,10 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
+import 'package:flutter_bluesky/screen/parts/button.dart';
 import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/button/button_manager.dart';
 import 'package:flutter_bluesky/screen/parts/image/banner.dart' as prof;
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
+import 'package:flutter_bluesky/util/account_util.dart';
 
 ActorWidget? actorWidget;
 
@@ -29,15 +32,35 @@ class ProfileUtil {
   }
 
   Widget get bannerAvatar {
-    Widget button = buttonManager!.profileViewButton(state, actor).widget;
+    ProfileButton button = buttonManager!.profileViewButton(state, actor);
     return Stack(alignment: AlignmentDirectional.bottomStart, children: [
       Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
         banner,
         const Divider(height: 0.5),
-        padding(button, top: 5, bottom: 5)
+        padding(profileButtons(button), top: 5, bottom: 5)
       ]),
       padding(profAvatar)
     ]);
+  }
+
+  Widget profileButtons(ProfileButton button) {
+    List<Widget> buttons = [button.widget];
+    if (!isLoginUser(button.actor)) {
+      buttons.add(button.menu(profileItems));
+    }
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: buttons,
+    );
+  }
+
+  List<PopupMenuItem> get profileItems {
+    return [
+      PopupMenuItem(
+        child: Text(tr("menu.block.account")),
+        onTap: () => debugPrint("menu.block.account"),
+      ),
+    ];
   }
 
   Widget get banner {

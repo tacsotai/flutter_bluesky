@@ -42,6 +42,14 @@ abstract class ProfileButton extends Button {
   final ProfileViewBasic actor;
 
   ProfileButton(super.state, this.actor);
+
+  Widget menu(List<PopupMenuItem> items) {
+    return PopupMenuButton(
+        icon: const Icon(Icons.more_horiz),
+        itemBuilder: (context) {
+          return items;
+        });
+  }
 }
 
 class FollowButton extends ProfileButton {
