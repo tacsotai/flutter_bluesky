@@ -261,11 +261,11 @@ class FlutterBluesky extends Bluesky {
     return await _unlink(uri);
   }
 
-  Future<Tuple2> block(String subject) async {
+  Future<Tuple2> block(String did) async {
     return await createRecord(
       api.session.did!,
       "app.bsky.graph.block",
-      {"subject": subject, "createdAt": DateTime.now().toIso8601String()},
+      {"subject": did, "createdAt": DateTime.now().toIso8601String()},
     );
   }
 
