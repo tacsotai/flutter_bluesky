@@ -4,7 +4,7 @@ import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
-import 'package:flutter_bluesky/util/profile_util.dart';
+import 'package:flutter_bluesky/screen/profile/profile_util.dart';
 
 class ProfileView extends StatefulWidget {
   final ProfileDataManager manager;

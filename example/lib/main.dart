@@ -11,6 +11,7 @@ import 'package:flutter_bluesky/screen/parts/button/button_manager.dart';
 import 'package:flutter_bluesky/screen/parts/timeline.dart';
 import 'package:flutter_bluesky/screen/parts/menu.dart';
 import 'package:flutter_bluesky/screen/post.dart';
+import 'package:flutter_bluesky/screen/profile/profile_util.dart';
 import 'package:flutter_bluesky/screen/settings.dart';
 import 'package:flutter_bluesky/screen/profile/edit_profile.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
@@ -19,7 +20,6 @@ import 'package:flutter_bluesky/screen/search.dart';
 import 'package:flutter_bluesky/screen/profile.dart';
 import 'package:flutter_bluesky/screen/thread.dart';
 import 'package:flutter_bluesky/transition_route_observer.dart';
-import 'package:flutter_bluesky/util/profile_util.dart';
 import 'package:flutter_bluesky_example/sample_timeline.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 // ignore: depend_on_referenced_packages
