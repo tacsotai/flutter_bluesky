@@ -29,6 +29,7 @@ Color color(Reaction reaction) {
   return reaction.uri != null ? reaction.color : Colors.grey;
 }
 
+// Reaction have to give post obj to function.
 // flutter/lib/src/material/popup_menu.dart#L1236
 Future<void> popupMenu(BuildContext context, List<PopupMenuItem> items) async {
   final RenderBox button = context.findRenderObject()! as RenderBox;
