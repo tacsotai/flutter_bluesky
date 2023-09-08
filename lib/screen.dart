@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/screen/base.dart';
-import 'package:flutter_bluesky/screen/post.dart';
 
 abstract class PluggableWidget extends StatefulWidget {
   const PluggableWidget({super.key});
@@ -21,7 +20,7 @@ abstract class PluggableWidget extends StatefulWidget {
 
 mixin Frame {
   Widget scaffold(BuildContext context,
-      {required Widget? bottom, required bool isPost, drawer}) {
+      {required Widget? bottom, required FloatingActionButton? fab, drawer}) {
     if (bottom == null) {
       return body();
     } else {
@@ -30,35 +29,19 @@ mixin Frame {
           body(),
           bottom,
         ]),
-        floatingActionButton: floatingActionButton(context, isPost),
+        floatingActionButton: adjustPosition(fab),
         drawer: drawer,
       );
     }
   }
 
-  Widget? floatingActionButton(BuildContext context, bool isPost) {
-    if (isPost) {
-      return Container(
-          padding: const EdgeInsets.only(bottom: 50), child: post(context));
-    } else {
-      return null;
-    }
+  Widget? adjustPosition(FloatingActionButton? button) {
+    return button == null
+        ? null
+        : Container(padding: const EdgeInsets.only(bottom: 50), child: button);
   }
 
   Widget body();
-
-  Widget post(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () {
-        Navigator.pushNamed(context, Post.screen.route);
-      },
-      backgroundColor: Theme.of(context).colorScheme.primary,
-      child: const Icon(
-        Icons.edit,
-        size: 30,
-      ),
-    );
-  }
 }
 
 class Screen {

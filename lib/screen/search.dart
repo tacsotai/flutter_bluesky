@@ -30,7 +30,7 @@ class SearchScreen extends State<Search> with Frame {
     return scaffold(
       context,
       bottom: widget.base.screen.bottom,
-      isPost: false,
+      fab: null,
       drawer: drawer,
     );
   }
