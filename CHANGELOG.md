@@ -89,3 +89,6 @@
 
 ## 0.5.2
 * Bug fix for util not pluggable.
+
+## 0.5.3
+* Fix structure the point of using Floating Action Button.
