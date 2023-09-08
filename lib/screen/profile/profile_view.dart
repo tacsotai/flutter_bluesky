@@ -46,7 +46,9 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
 
   @override
   Widget build(BuildContext context) {
-    util = ProfileUtil.getUtil(this, actor);
+    util = ProfileUtil();
+    util.state = this;
+    util.actor = actor;
     return page(context);
   }
 

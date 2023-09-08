@@ -106,7 +106,7 @@ void initScreen() {
   meIndex = pluggables.indexOf(me);
   customPostTL = SamplePostTimeline();
   buttonManager = DefaultButtonManager();
-  actorWidget = DefaultActorWidget();
+  profileUtil = ProfileUtil();
 }
 
 void initMenu() {

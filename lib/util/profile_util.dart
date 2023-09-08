@@ -9,23 +9,17 @@ import 'package:flutter_bluesky/screen/parts/image/banner.dart' as prof;
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/util/account_util.dart';
 
-ActorWidget? actorWidget;
+ProfileUtil? profileUtil;
 
 class ProfileUtil {
-  final State state;
-  final ProfileViewDetailed actor;
-
-  ProfileUtil(this.state, this.actor);
-
-  static ProfileUtil getUtil(State state, ProfileViewDetailed actor) {
-    return ProfileUtil(state, actor);
-  }
+  late State state;
+  late ProfileViewDetailed actor;
 
   Widget get header {
     return Column(
       children: [
         bannerAvatar,
-        actorWidget!.info(actor),
+        info(actor),
         const Divider(height: 0.5),
       ],
     );
@@ -70,15 +64,7 @@ class ProfileUtil {
   Widget get profAvatar {
     return Avatar(state.context, radius: 45).net(actor).profile;
   }
-}
 
-abstract class ActorWidget {
-  Widget info(ProfileViewDetailed actor);
-  Widget counts(ProfileViewDetailed actor);
-}
-
-class DefaultActorWidget extends ActorWidget {
-  @override
   Widget info(ProfileViewDetailed actor) {
     return Padding(
         padding: const EdgeInsets.all(10),
@@ -95,7 +81,6 @@ class DefaultActorWidget extends ActorWidget {
         ));
   }
 
-  @override
   Widget counts(ProfileViewDetailed actor) {
     return Row(
       children: [
