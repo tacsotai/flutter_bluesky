@@ -47,9 +47,10 @@ class FlutterBluesky extends Bluesky {
     return serverDescription["availableUserDomains"][0];
   }
 
-  FlutterBluesky({
-    String? provider,
-  }) : super(api: RefreshAPI(session: Session.create(provider: provider)));
+  FlutterBluesky({String? provider, String? key})
+      : super(
+            api: RefreshAPI(
+                session: Session.create(provider: provider, key: key)));
 
   String getProvider() {
     return api.session.provider;
