@@ -35,8 +35,13 @@ class Session {
   }
 
   void set(Map item) {
-    setTokens(item["did"], item["handle"], item["email"], item["accessJwt"],
-        item["refreshJwt"]);
+    setTokens(
+      item["did"],
+      item["handle"],
+      item["email"],
+      item["accessJwt"],
+      item["refreshJwt"],
+    );
     accessor.put(session, provider, item);
   }
 
