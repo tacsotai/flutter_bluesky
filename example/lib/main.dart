@@ -71,7 +71,7 @@ Future<void> init() async {
   await initHive();
   await restoreSession();
   initMenu();
-  initScreen();
+  await initScreen();
 }
 
 Future<void> initHive() async {
@@ -97,11 +97,13 @@ Future<void> restoreSession() async {
   }
 }
 
-void initScreen() {
+Future<void> initScreen() async {
   PluggableWidget me = Me();
   pluggables.add(Home());
   pluggables.add(Search());
-  pluggables.add(Notifications());
+  Notifications notifications = Notifications();
+  await notifications.init();
+  pluggables.add(notifications);
   pluggables.add(me);
   meIndex = pluggables.indexOf(me);
   customPostTL = SamplePostTimeline();

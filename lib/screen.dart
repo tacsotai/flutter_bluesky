@@ -15,6 +15,10 @@ abstract class PluggableWidget extends StatefulWidget {
     );
   }
 
+  Future<void> init() async {
+    // Do nothing by default.
+  }
+
   void setBase(Base base);
 }
 
