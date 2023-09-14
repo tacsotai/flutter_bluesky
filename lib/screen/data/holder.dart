@@ -72,7 +72,7 @@ class SearchDataHolder {
 class NotificationsDataHolder {
   // unreadCount
   String? seenAt;
-  int unreadCount = 25; // must under 25
+  int unreadCount = 0;
   // listNotifications
   String? cursor;
   List<Notification> notifications = [];
@@ -105,7 +105,7 @@ class NotificationsDataHolder {
   }
 
   void makeCount(int count) async {
-    seenAt = DateTime.now().toIso8601String();
+    seenAt = DateTime.now().toUtc().toIso8601String();
     unreadCount = count;
   }
 }

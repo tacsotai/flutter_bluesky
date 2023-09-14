@@ -125,7 +125,8 @@ abstract class Bluesky extends Atproto {
           "Authorization": "Bearer ${api.session.accessJwt}"
         },
         body: json.encode(params));
-    return Tuple2<int, Map<String, dynamic>>(
-        res.statusCode, json.decode(res.body));
+    Map<String, dynamic> body =
+        res.statusCode == 200 ? {} : json.decode(res.body);
+    return Tuple2<int, Map<String, dynamic>>(res.statusCode, body);
   }
 }

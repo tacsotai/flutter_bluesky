@@ -71,7 +71,7 @@ Widget bold(int count) {
 String withoutDomain(String handle) {
   for (var domain in plugin.serverDescription["availableUserDomains"]) {
     if (handle.endsWith(domain)) {
-      handle.replaceAll(domain, '');
+      handle = handle.replaceAll(domain, '');
     }
   }
   return handle;

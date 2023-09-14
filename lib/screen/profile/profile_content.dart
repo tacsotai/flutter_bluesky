@@ -20,7 +20,7 @@ class ProfileContent {
     return Column(
       children: [
         bannerAvatar,
-        info(actor),
+        info,
         const Divider(height: 0.5),
       ],
     );
@@ -66,7 +66,7 @@ class ProfileContent {
     return Avatar(state.context, radius: 45).net(actor).profile;
   }
 
-  Widget info(ProfileViewDetailed actor) {
+  Widget get info {
     return Padding(
         padding: const EdgeInsets.all(10),
         child: SizedBox(
@@ -75,14 +75,14 @@ class ProfileContent {
             children: [
               displayName(actor, fontSize: 28),
               handle(actor),
-              counts(actor),
+              counts,
               description(actor),
             ],
           ),
         ));
   }
 
-  Widget counts(ProfileViewDetailed actor) {
+  Widget get counts {
     return Row(
       children: [
         count(actor.followersCount, 'followers'),

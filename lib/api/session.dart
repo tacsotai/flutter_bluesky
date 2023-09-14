@@ -2,6 +2,7 @@ import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/db/accessor.dart';
 
 const defaultProvider = "https://bsky.social";
+const defaultKey = "bsky";
 const xrpc = "xrpc";
 const session = 'Session'; // hive table name
 
@@ -13,17 +14,18 @@ class Session {
   String? accessJwt;
   String? refreshJwt;
   String provider;
+  String key;
 
   Session({
     required this.provider,
+    required this.key,
   });
 
-  static Session create({String? provider}) {
-    if (provider == null) {
-      return Session(provider: defaultProvider);
-    } else {
-      return Session(provider: provider);
-    }
+  static Session create({String? provider, String? key}) {
+    return Session(
+      provider: provider ?? defaultProvider,
+      key: key ?? defaultKey,
+    );
   }
 
   static Map get model {
@@ -35,8 +37,13 @@ class Session {
   }
 
   void set(Map item) {
-    setTokens(item["did"], item["handle"], item["email"], item["accessJwt"],
-        item["refreshJwt"]);
+    setTokens(
+      item["did"],
+      item["handle"],
+      item["email"],
+      item["accessJwt"],
+      item["refreshJwt"],
+    );
     accessor.put(session, provider, item);
   }
 
