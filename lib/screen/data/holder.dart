@@ -72,7 +72,7 @@ class SearchDataHolder {
 class NotificationsDataHolder {
   // unreadCount
   String? seenAt;
-  int unreadCount = 25; // must under 25
+  int unreadCount = 0;
   // listNotifications
   String? cursor;
   List<Notification> notifications = [];

@@ -100,14 +100,19 @@ class NotificationsDataManager extends DataManager {
   @override
   Future<void> getData(bool insert, {String? term}) async {
     try {
-      Tuple2 res = await plugin.listNotifications(
-          cursor: holder.cursor, limit: holder.unreadCount);
+      Tuple2 res = await plugin.listNotifications(cursor: holder.cursor);
       holder.makeNotifications(ListNotifications(res.item2));
       if (holder.uris.isEmpty) {
         return;
       }
       Tuple2 res2 = await plugin.getPosts(holder.uris);
       holder.makePosts(res2.item2["posts"]);
+
+      // This getData method called when user push bell widget at bottom.
+      if (!read) {
+        await plugin.updateSeen(holder.seenAt!);
+      }
+      //
     } catch (e, stacktrace) {
       // TODO
       debugPrint("Error: $e");
@@ -118,6 +123,10 @@ class NotificationsDataManager extends DataManager {
   Future<void> get count async {
     Tuple2 res = await plugin.getUnreadCount(seenAt: holder.seenAt);
     holder.makeCount(res.item2["count"]);
+  }
+
+  bool get read {
+    return holder.unreadCount == 0;
   }
 
   @override
