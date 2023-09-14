@@ -100,7 +100,6 @@ class NotificationsDataManager extends DataManager {
   @override
   Future<void> getData(bool insert, {String? term}) async {
     try {
-      await plugin.getUnreadCount(seenAt: holder.seenAt);
       Tuple2 res = await plugin.listNotifications(
           cursor: holder.cursor, limit: holder.unreadCount);
       holder.makeNotifications(ListNotifications(res.item2));
@@ -114,6 +113,11 @@ class NotificationsDataManager extends DataManager {
       debugPrint("Error: $e");
       debugPrint("stacktrace: $stacktrace");
     }
+  }
+
+  Future<void> get count async {
+    Tuple2 res = await plugin.getUnreadCount(seenAt: holder.seenAt);
+    holder.makeCount(res.item2["count"]);
   }
 
   @override

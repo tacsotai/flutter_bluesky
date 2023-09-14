@@ -7,9 +7,9 @@ abstract class PluggableWidget extends StatefulWidget {
 
   BottomNavigationBarItem get bottomNavigationBarItem;
 
-  BottomNavigationBarItem navi(Screen screen) {
+  BottomNavigationBarItem navi(Screen screen, {Widget? icon}) {
     return BottomNavigationBarItem(
-      icon: screen.icon,
+      icon: icon ?? screen.icon,
       label: tr(screen.name),
       tooltip: tr(screen.name),
     );
