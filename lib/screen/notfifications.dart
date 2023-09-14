@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
@@ -40,7 +41,9 @@ class Notifications extends PluggableWidget {
 
   @override
   Future<void> init() async {
-    await manager.count;
+    if (hasSession) {
+      await manager.count;
+    }
   }
 
   @override
