@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 int now() {
-  return DateTime.now().millisecondsSinceEpoch;
+  return DateTime.now().toUtc().millisecondsSinceEpoch;
 }
 
 DateTime yesterday() {
-  DateTime today = DateTime.now();
+  DateTime today = DateTime.now().toUtc();
   return today.subtract(const Duration(days: 1));
 }
 
@@ -55,19 +55,19 @@ String format(String lang, DateTime dt, DateTime ago) {
 
 DateTime delta(DateTime dt) {
   int ago = now() - dt.millisecondsSinceEpoch;
-  return DateTime.now().subtract(Duration(milliseconds: ago));
+  return DateTime.now().toUtc().subtract(Duration(milliseconds: ago));
 }
 
 DateTime get twodayago {
-  return DateTime.now().subtract(const Duration(days: 2));
+  return DateTime.now().toUtc().subtract(const Duration(days: 2));
 }
 
 DateTime get yearago {
-  return DateTime.now().subtract(const Duration(days: 365));
+  return DateTime.now().toUtc().subtract(const Duration(days: 365));
 }
 
 DateTime get fiveminuteago {
-  return DateTime.now().subtract(const Duration(minutes: 5));
+  return DateTime.now().toUtc().subtract(const Duration(minutes: 5));
 }
 
 String monthDay(int millsec) {

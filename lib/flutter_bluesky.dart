@@ -223,7 +223,7 @@ class FlutterBluesky extends Bluesky {
 
   Future<Tuple2> _post(String? text, Map<String, dynamic> record) async {
     record["text"] = text;
-    record["createdAt"] = DateTime.now().toIso8601String();
+    record["createdAt"] = DateTime.now().toUtc().toIso8601String();
     return await createRecord(api.session.did!, "app.bsky.feed.post", record);
   }
 
@@ -245,7 +245,7 @@ class FlutterBluesky extends Bluesky {
       collection,
       {
         "subject": {"uri": uri, "cid": cid},
-        "createdAt": DateTime.now().toIso8601String()
+        "createdAt": DateTime.now().toUtc().toIso8601String()
       },
     );
   }
@@ -254,7 +254,10 @@ class FlutterBluesky extends Bluesky {
     return await createRecord(
       api.session.did!,
       "app.bsky.graph.follow",
-      {"subject": subject, "createdAt": DateTime.now().toIso8601String()},
+      {
+        "subject": subject,
+        "createdAt": DateTime.now().toUtc().toIso8601String()
+      },
     );
   }
 
@@ -266,7 +269,7 @@ class FlutterBluesky extends Bluesky {
     return await createRecord(
       api.session.did!,
       "app.bsky.graph.block",
-      {"subject": did, "createdAt": DateTime.now().toIso8601String()},
+      {"subject": did, "createdAt": DateTime.now().toUtc().toIso8601String()},
     );
   }
 
