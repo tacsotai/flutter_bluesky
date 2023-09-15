@@ -96,3 +96,6 @@
 ## 0.5.4
 * Make Notifications UI with number above the bell.
 * Fix some issues.
+
+## 0.5.5
+* Fix session structure with hive
