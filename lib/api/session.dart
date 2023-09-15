@@ -33,7 +33,7 @@ class Session {
   }
 
   Map get get {
-    return accessor.get(session, provider);
+    return accessor.get(session, key);
   }
 
   void set(Map item) {
@@ -44,7 +44,7 @@ class Session {
       item["accessJwt"],
       item["refreshJwt"],
     );
-    accessor.put(session, provider, item);
+    accessor.put(session, key, item);
   }
 
   void setTokens(String did, String handle, String email, String accessJwt,
@@ -61,6 +61,6 @@ class Session {
   }
 
   void remove() {
-    accessor.remove(session, provider);
+    accessor.remove(session, key);
   }
 }
