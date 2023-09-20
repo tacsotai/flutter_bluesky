@@ -96,6 +96,8 @@ class FlutterBluesky extends Bluesky {
 
   // id = email or handle
   Future<Tuple2> login(String emailORhandle, String password) async {
+    // before login remove session from local storage in case session expired.
+    api.session.remove();
     Tuple2 res = await createSession(emailORhandle, password);
     if (res.item1 == 200) {
       api.session.set(res.item2);
