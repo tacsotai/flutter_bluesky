@@ -61,20 +61,10 @@ abstract class Atproto {
         res.statusCode, json.decode(res.body));
   }
 
-  // TODO test
   Future<Tuple2> deleteSession() async {
-    http.Response res = await api.post(
-      "com.atproto.server.deleteSession",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer ${api.session.accessJwt}"
-      },
-    );
-    return Tuple2<int, Map<String, dynamic>>(
-        res.statusCode, json.decode(res.body));
+    return await sessionAPI.deleteSession();
   }
 
-  // Get User info
   Future<Tuple2> getSession() async {
     return await sessionAPI.getSession();
   }
