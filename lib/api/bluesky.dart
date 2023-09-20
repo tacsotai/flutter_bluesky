@@ -100,7 +100,7 @@ abstract class Bluesky extends Atproto {
 
   Future<Tuple2> getUnreadCount({String? seenAt}) async {
     http.Response res = await api.get("app.bsky.notification.getUnreadCount",
-        params: {"seenAt": seenAt},
+        params: {"seenat": seenAt},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
@@ -109,7 +109,7 @@ abstract class Bluesky extends Atproto {
   Future<Tuple2> listNotifications(
       {int? limit, String? cursor, String? seenAt}) async {
     http.Response res = await api.get("app.bsky.notification.listNotifications",
-        params: {"limit": limit, "cursor": cursor, "seenAt": seenAt},
+        params: {"limit": limit, "cursor": cursor, "seenat": seenAt},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
@@ -117,7 +117,7 @@ abstract class Bluesky extends Atproto {
 
   Future<Tuple2> updateSeen(String seenAt) async {
     Map<String, dynamic> params = {
-      "seenAt": seenAt,
+      "seenat": seenAt,
     };
     http.Response res = await api.post("app.bsky.notification.updateSeen",
         headers: {
