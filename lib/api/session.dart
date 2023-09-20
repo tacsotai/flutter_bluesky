@@ -62,5 +62,11 @@ class Session {
 
   void remove() {
     accessor.remove(session, key);
+    actor = null;
+    did = null;
+    handle = null;
+    email = null;
+    accessJwt = null;
+    refreshJwt = null;
   }
 }
