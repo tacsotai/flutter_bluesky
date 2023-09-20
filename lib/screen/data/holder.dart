@@ -79,7 +79,7 @@ class NotificationsDataHolder {
   String uris = "";
   Map<String, Post> reasonPosts = {};
 
-  void makeNotifications(ListNotifications res) async {
+  void makeNotifications(ListNotifications res) {
     notifications = res.notifications;
     cursor = res.cursor;
     _makeUris();

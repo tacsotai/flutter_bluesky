@@ -100,7 +100,9 @@ class NotificationsDataManager extends DataManager {
   @override
   Future<void> getData(bool insert, {String? term}) async {
     try {
-      Tuple2 res = await plugin.listNotifications(cursor: holder.cursor);
+      // TODO cursor, seenAt
+      // Tuple2 res = await plugin.listNotifications(cursor: holder.cursor);
+      Tuple2 res = await plugin.listNotifications();
       holder.makeNotifications(ListNotifications(res.item2));
       if (holder.uris.isEmpty) {
         return;
