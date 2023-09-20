@@ -104,7 +104,7 @@ class NotificationsDataHolder {
     }
   }
 
-  void makeCount(int count) async {
+  void makeCount(int count) {
     seenAt = DateTime.now().toUtc().toIso8601String();
     unreadCount = count;
   }

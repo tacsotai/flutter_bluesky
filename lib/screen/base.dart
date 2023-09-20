@@ -1,4 +1,5 @@
-// ignore_for_file: no_logic_in_create_state
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
@@ -19,6 +20,7 @@ class Base extends StatefulWidget {
   final BaseScreen screen = BaseScreen();
 
   @override
+  // ignore: no_logic_in_create_state
   BaseScreen createState() => screen;
 }
 
@@ -27,6 +29,18 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
   late Animation<double> _height;
 
   int _selectedIndex = 0;
+
+  BaseScreen() {
+    // for notification badge
+    if (hasSession) {
+      for (var pluggable in pluggables) {
+        pluggable.init();
+      }
+      Timer(const Duration(milliseconds: 1000), () {
+        setState(() {});
+      });
+    }
+  }
 
   @override
   void initState() {

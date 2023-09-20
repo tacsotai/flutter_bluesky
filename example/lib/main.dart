@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/session.dart';
 import 'package:flutter_bluesky/db/accessor.dart';
@@ -101,8 +103,12 @@ Future<void> initScreen() async {
   PluggableWidget me = Me();
   pluggables.add(Home());
   pluggables.add(Search());
+  // for notification badge
   Notifications notifications = Notifications();
   await notifications.init();
+  if (hasSession) {
+    Timer(const Duration(milliseconds: 1000), () {});
+  }
   pluggables.add(notifications);
   pluggables.add(me);
   meIndex = pluggables.indexOf(me);
