@@ -123,7 +123,7 @@ class NotificationsDataManager extends DataManager {
   }
 
   Future<void> get count async {
-    Tuple2 res = await plugin.getUnreadCount(seenAt: holder.seenAt);
+    Tuple2 res = await plugin.getUnreadCount();
     holder.makeCount(res.item2["count"]);
   }
 
