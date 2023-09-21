@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/session.dart';
 import 'package:flutter_bluesky/data/assets.dart';
+import 'package:flutter_bluesky/data/config.dart';
 import 'package:flutter_bluesky/db/accessor.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/login.dart';
@@ -108,7 +109,7 @@ Future<void> initScreen() async {
   Notifications notifications = Notifications();
   await notifications.init();
   if (hasSession) {
-    Timer(const Duration(milliseconds: 1000), () {});
+    Timer(Duration(milliseconds: config.sleep), () {});
   }
   pluggables.add(notifications);
   pluggables.add(me);
