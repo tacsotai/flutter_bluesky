@@ -30,6 +30,7 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
 
   BaseScreen() {
     // for notification badge
+    // See main.dart at started.
     if (hasSession) {
       for (var pluggable in pluggables) {
         pluggable.init();
