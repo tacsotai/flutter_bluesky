@@ -1,4 +1,5 @@
 import 'package:flutter_bluesky/api/session.dart';
+import 'package:flutter_bluesky/data/config.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -14,7 +15,7 @@ class API {
     Uri url = _uri(append(uri, params ?? {}));
     http.Response res = await http
         .get(url, headers: headers)
-        .timeout(const Duration(seconds: 5)); // TODO asset config
+        .timeout(Duration(milliseconds: config.timeout));
     return res;
   }
 
@@ -23,7 +24,7 @@ class API {
     Uri url = _uri(uri);
     http.Response res = await http
         .post(url, headers: headers, body: body)
-        .timeout(const Duration(seconds: 5)); // TODO asset config
+        .timeout(Duration(milliseconds: config.timeout));
     return res;
   }
 

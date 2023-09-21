@@ -12,11 +12,20 @@ class SessionAPI {
   });
 
   Future<Tuple2> refreshSession() async {
-    http.Response res =
-        await api.post("com.atproto.server.refreshSession", headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer ${api.session.refreshJwt}"
-    });
+    http.Response res = await api.post("com.atproto.server.refreshSession",
+        headers: {"Authorization": "Bearer ${api.session.refreshJwt}"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> deleteSession() async {
+    http.Response res = await api.post(
+      "com.atproto.server.deleteSession",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${api.session.accessJwt}"
+      },
+    );
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
   }

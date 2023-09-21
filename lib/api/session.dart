@@ -44,6 +44,7 @@ class Session {
       item["accessJwt"],
       item["refreshJwt"],
     );
+    item["provider"] = provider;
     accessor.put(session, key, item);
   }
 
@@ -62,5 +63,11 @@ class Session {
 
   void remove() {
     accessor.remove(session, key);
+    actor = null;
+    did = null;
+    handle = null;
+    email = null;
+    accessJwt = null;
+    refreshJwt = null;
   }
 }

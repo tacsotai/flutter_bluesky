@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/session.dart';
+import 'package:flutter_bluesky/data/assets.dart';
+import 'package:flutter_bluesky/data/config.dart';
 import 'package:flutter_bluesky/db/accessor.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/login.dart';
@@ -67,7 +71,7 @@ class MainApp extends StatelessWidget {
 Future<void> init() async {
   // TODO add other languages.
   timeago.setLocaleMessages('ja', timeago.JaMessages());
-
+  await Assets.load();
   await initHive();
   await restoreSession();
   initMenu();
@@ -85,7 +89,8 @@ Future<void> restoreSession() async {
     item = plugin.api.session.get;
   } else {
     for (MapEntry entry in Session.model.entries) {
-      setPlugin(FlutterBluesky(provider: entry.key));
+      item = entry.value;
+      setPlugin(FlutterBluesky(provider: item["provider"]));
       await plugin.connect();
       item = entry.value;
       break;
@@ -93,7 +98,7 @@ Future<void> restoreSession() async {
   }
   if (item.isNotEmpty) {
     plugin.api.session.set(item);
-    plugin.sessionAPI.refresh();
+    await plugin.sessionAPI.refresh();
   }
 }
 
@@ -101,8 +106,12 @@ Future<void> initScreen() async {
   PluggableWidget me = Me();
   pluggables.add(Home());
   pluggables.add(Search());
+  // for notification badge
   Notifications notifications = Notifications();
   await notifications.init();
+  if (hasSession) {
+    Timer(Duration(milliseconds: config.sleep), () {});
+  }
   pluggables.add(notifications);
   pluggables.add(me);
   meIndex = pluggables.indexOf(me);

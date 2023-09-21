@@ -1,4 +1,3 @@
-// ignore_for_file: no_logic_in_create_state
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
@@ -19,6 +18,7 @@ class Base extends StatefulWidget {
   final BaseScreen screen = BaseScreen();
 
   @override
+  // ignore: no_logic_in_create_state
   BaseScreen createState() => screen;
 }
 
