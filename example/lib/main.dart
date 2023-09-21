@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/session.dart';
+import 'package:flutter_bluesky/data/assets.dart';
 import 'package:flutter_bluesky/db/accessor.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/login.dart';
@@ -69,7 +70,7 @@ class MainApp extends StatelessWidget {
 Future<void> init() async {
   // TODO add other languages.
   timeago.setLocaleMessages('ja', timeago.JaMessages());
-
+  await Assets.load();
   await initHive();
   await restoreSession();
   initMenu();
