@@ -99,3 +99,8 @@
 
 ## 0.5.5
 * Fix session structure with hive
+
+## 0.5.6
+* Make Configuration
+* Remove session from local storage at expired
+* Bug fix for badge
