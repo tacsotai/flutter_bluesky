@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
@@ -35,6 +37,9 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
       for (var pluggable in pluggables) {
         pluggable.init();
       }
+      Timer(const Duration(milliseconds: 1000), () {
+        setState(() {});
+      });
     }
   }
 
