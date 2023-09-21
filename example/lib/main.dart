@@ -89,7 +89,8 @@ Future<void> restoreSession() async {
     item = plugin.api.session.get;
   } else {
     for (MapEntry entry in Session.model.entries) {
-      setPlugin(FlutterBluesky(provider: entry.key));
+      item = entry.value;
+      setPlugin(FlutterBluesky(provider: item["provider"]));
       await plugin.connect();
       item = entry.value;
       break;
@@ -97,7 +98,7 @@ Future<void> restoreSession() async {
   }
   if (item.isNotEmpty) {
     plugin.api.session.set(item);
-    plugin.sessionAPI.refresh();
+    await plugin.sessionAPI.refresh();
   }
 }
 
