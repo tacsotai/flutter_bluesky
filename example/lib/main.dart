@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/session.dart';
 import 'package:flutter_bluesky/data/assets.dart';
-import 'package:flutter_bluesky/data/config.dart';
+import 'package:tuple/tuple.dart';
 import 'package:flutter_bluesky/db/accessor.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/login.dart';
@@ -90,9 +90,7 @@ Future<void> restoreSession() async {
   } else {
     for (MapEntry entry in Session.model.entries) {
       item = entry.value;
-      setPlugin(FlutterBluesky(provider: item["provider"]));
-      await plugin.connect();
-      item = entry.value;
+      setPlugin(FlutterBluesky(provider: item["provider"], key: item["key"]));
       break;
     }
   }
@@ -108,9 +106,13 @@ Future<void> initScreen() async {
   pluggables.add(Search());
   // for notification badge
   Notifications notifications = Notifications();
-  await notifications.init();
   if (hasSession) {
-    Timer(Duration(milliseconds: config.sleep), () {});
+    Tuple2 res = await plugin.sessionAPI.getSession();
+    if (res.item1 == 200) {
+      await notifications.init();
+    } else {
+      plugin.api.session.remove();
+    }
   }
   pluggables.add(notifications);
   pluggables.add(me);
