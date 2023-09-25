@@ -28,8 +28,7 @@ class Body extends StatelessWidget {
                 Text(post.record.text, style: TextStyle(fontSize: fontSize))),
       ],
     );
-    widgets.add(
-        Detector.instance(context, text).thread(post.author.handle, post.uri));
+    widgets.add(Detector.instance(context, text).thread(post.author, post.uri));
   }
 
   void appendEmbed(BuildContext context, List<Widget> widgets, Embed? embed) {

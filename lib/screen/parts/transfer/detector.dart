@@ -1,6 +1,7 @@
 // This class define the detectors for Thread Screen.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/screen/thread.dart';
 
 class Detector {
@@ -13,14 +14,14 @@ class Detector {
     return Detector(context, widget);
   }
 
-  GestureDetector thread(String handle, String uri) {
+  GestureDetector thread(ProfileViewBasic author, String uri) {
     return GestureDetector(
       onTap: () => {
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => Thread(
-                    handle: handle,
+                    handle: author.handle,
                     uri: uri,
                   )),
         )
