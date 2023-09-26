@@ -47,6 +47,10 @@ class FlutterBluesky extends Bluesky {
     return serverDescription["availableUserDomains"][0];
   }
 
+  String get initActorsSearch {
+    return domain;
+  }
+
   FlutterBluesky({String? provider, String? key})
       : super(
             api: RefreshAPI(
@@ -296,4 +300,12 @@ class FlutterBluesky extends Bluesky {
   // Future<List> notifications() async {
   //   return [];
   // }
+
+  Future<Tuple2> actorsSearch(
+      {String? term, int? limit, String? cursor}) async {
+    if (term == null || term.isEmpty) {
+      term = initActorsSearch;
+    }
+    return await searchActors(term: term, limit: limit, cursor: cursor);
+  }
 }
