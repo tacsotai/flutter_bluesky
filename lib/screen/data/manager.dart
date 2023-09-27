@@ -79,9 +79,8 @@ class SearchDataManager extends DataManager {
   @override
   Future<void> getData(bool insert, {String? term}) async {
     try {
-      String? cursor = holder.cursor;
-      Tuple2 res = await plugin.searchActors(
-          term: term ?? plugin.domain, cursor: cursor);
+      // String? cursor = holder.cursor; // TODO cursor
+      Tuple2 res = await plugin.actorsSearch(term: term);
       holder.make(ProfileViews(res.item2));
     } catch (e, stacktrace) {
       // TODO

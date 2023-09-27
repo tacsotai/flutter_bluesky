@@ -104,3 +104,8 @@
 * Make Configuration
 * Remove session from local storage at expired
 * Bug fix for badge
+
+## 0.5.7
+* Change Thread detector argument 
+* Fix example main for session keep
+* Modify search strucute
