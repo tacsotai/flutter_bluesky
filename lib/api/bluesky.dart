@@ -98,8 +98,79 @@ abstract class Bluesky extends Atproto {
         res.statusCode, json.decode(res.body));
   }
 
-  Future<Tuple2> getList(
-      {required String list, int? limit, String? cursor}) async {
+  Future<Tuple2> getListMutes({int? limit, String? cursor}) async {
+    http.Response res = await api.get("app.bsky.graph.getListMutes",
+        params: {"limit": limit, "cursor": cursor},
+        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> getMutes({int? limit, String? cursor}) async {
+    http.Response res = await api.get("app.bsky.graph.getMutes",
+        params: {"limit": limit, "cursor": cursor},
+        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> muteActor(String actor) async {
+    Map<String, dynamic> params = {"actor": actor};
+    http.Response res = await api.post("app.bsky.graph.muteActor",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${api.session.accessJwt}"
+        },
+        body: json.encode(params));
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> unmuteActor(String actor) async {
+    Map<String, dynamic> params = {"actor": actor};
+    http.Response res = await api.post("app.bsky.graph.unmuteActor",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${api.session.accessJwt}"
+        },
+        body: json.encode(params));
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> muteActorList(String list) async {
+    Map<String, dynamic> params = {"list": list};
+    http.Response res = await api.post("app.bsky.graph.muteActorList",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${api.session.accessJwt}"
+        },
+        body: json.encode(params));
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> unmuteActorList(String list) async {
+    Map<String, dynamic> params = {"list": list};
+    http.Response res = await api.post("app.bsky.graph.unmuteActorList",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${api.session.accessJwt}"
+        },
+        body: json.encode(params));
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> getLists(String actor, {int? limit, String? cursor}) async {
+    http.Response res = await api.get("app.bsky.graph.getLists",
+        params: {"actor": actor, "limit": limit, "cursor": cursor},
+        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  Future<Tuple2> getList(String list, {int? limit, String? cursor}) async {
     http.Response res = await api.get("app.bsky.graph.getList",
         params: {"list": list, "limit": limit, "cursor": cursor},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
