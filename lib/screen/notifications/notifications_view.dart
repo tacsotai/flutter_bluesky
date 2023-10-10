@@ -73,7 +73,7 @@ class _NotificationsViewState extends State<NotificationsView> with FeedScroll {
   Widget line(int index) {
     NotificationsDataHolder holder = widget.manager.holder;
     notice.Notification notification = holder.notifications[index];
-    Post? post = holder.posts[notification.reasonSubject];
+    Post? post = holder.posts[holder.getUri(notification)];
     return Column(children: [
       NotificationsLine(
         notification: notification,

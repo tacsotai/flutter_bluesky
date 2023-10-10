@@ -89,12 +89,19 @@ class NotificationsDataHolder {
     StringBuffer sb = StringBuffer();
     for (Notification notification in notifications) {
       if (notification.reasonSubject != null) {
-        sb.write("uris[]=${notification.reasonSubject}&");
+        sb.write("uris[]=${getUri(notification)}&");
       }
     }
     if (sb.length > 8) {
       uris = sb.toString().substring(7, sb.toString().length - 1);
     }
+  }
+
+  // Use original post when the reason is "quote" for desplaing embed.
+  String? getUri(Notification notification) {
+    return notification.reason == "quote"
+        ? notification.uri
+        : notification.reasonSubject;
   }
 
   void makePosts(List postList) async {
