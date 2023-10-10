@@ -77,7 +77,7 @@ class NotificationsDataHolder {
   String? cursor;
   List<Notification> notifications = [];
   String uris = "";
-  Map<String, Post> reasonPosts = {};
+  Map<String, Post> posts = {};
 
   void makeNotifications(ListNotifications res) {
     notifications = res.notifications;
@@ -100,7 +100,7 @@ class NotificationsDataHolder {
   void makePosts(List postList) async {
     for (Map map in postList) {
       Post post = Post(map);
-      reasonPosts[post.uri] = post;
+      posts[post.uri] = post;
     }
   }
 

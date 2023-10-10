@@ -11,9 +11,9 @@ Notice? customNotice;
 
 class NotificationsLine extends StatefulWidget {
   final notice.Notification notification;
-  final Post? reasonPost;
+  final Post? post;
   const NotificationsLine(
-      {Key? key, required this.notification, required this.reasonPost})
+      {Key? key, required this.notification, required this.post})
       : super(key: key);
   @override
   NotificationsLineScreen createState() => NotificationsLineScreen();
@@ -23,23 +23,23 @@ class NotificationsLineScreen extends State<NotificationsLine> {
   @override
   Widget build(BuildContext context) {
     Notice notice = customNotice ?? Notice();
-    return padding(notice.build(this, widget.notification, widget.reasonPost));
+    return padding(notice.build(this, widget.notification, widget.post));
   }
 }
 
 class Notice {
   late State state;
   late notice.Notification notification;
-  late Post? reasonPost;
+  late Post? post;
 
   Widget build(
     State state,
     notice.Notification notification,
-    Post? reasonPost,
+    Post? post,
   ) {
     this.state = state;
     this.notification = notification;
-    this.reasonPost = reasonPost;
+    this.post = post;
     switch (notification.reason) {
       case "follow":
         return follow;
@@ -62,8 +62,8 @@ class Notice {
       Header(author: notification.author, createdAt: notification.indexedAt)
           .build(state.context)
     ];
-    if (reasonPost != null) {
-      widgets.add(Body(post: reasonPost!));
+    if (post != null) {
+      widgets.add(Body(post: post!));
     }
     return paddingLR([
       SizedBox(width: 70, child: Icon(data, color: iconColor, size: 30))
@@ -92,7 +92,7 @@ class Notice {
     ], [
       Header(author: notification.author, createdAt: notification.indexedAt)
           .build(state.context),
-      Body(post: reasonPost!),
+      Body(post: post!),
     ]);
   }
 
