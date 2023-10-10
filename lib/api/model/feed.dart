@@ -58,11 +58,11 @@ class Post {
   final ProfileViewBasic author;
   final Record record;
   Embed? embed;
-  int replyCount;
-  int repostCount;
-  int likeCount;
+  int? replyCount;
+  int? repostCount;
+  int? likeCount;
   final DateTime indexedAt;
-  Viewer viewer;
+  Viewer? viewer;
   List? labels;
   Post(Map map)
       : uri = map["uri"],

@@ -21,8 +21,8 @@ class Repost extends StatelessWidget {
         tooltip: tr("reaction.repost"),
         on: const Icon(Icons.repeat),
         off: const Icon(Icons.repeat),
-        count: post.repostCount,
-        uri: post.viewer.repost);
+        count: post.repostCount!,
+        uri: post.viewer!.repost);
   }
 
   @override
