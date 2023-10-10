@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.13.5
+  http: ^1.1.0
   plugin_platform_interface: ^2.0.2
   tuple: ^2.0.1
   flutter_login: ^4.1.1
@@ -28,6 +28,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   flutter_secure_storage: ^8.0.0
+  flutter_typeahead: ^4.8.0
 
   
 dev_dependencies:
