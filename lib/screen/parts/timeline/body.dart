@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
+import 'package:flutter_bluesky/screen/parts/link/facet_link.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 import 'package:flutter_bluesky/screen/parts/transfer/detector.dart';
@@ -21,11 +22,10 @@ class Body extends StatelessWidget {
 
   void appendRecord(BuildContext context, List<Widget> widgets, Post post,
       {double? fontSize}) {
+    FacetLink facetLink = FacetLink(post.record, context, fontSize: fontSize);
     Widget text = Row(
       children: [
-        Expanded(
-            child:
-                Text(post.record.text, style: TextStyle(fontSize: fontSize))),
+        Expanded(child: facetLink.withLink),
       ],
     );
     widgets.add(Detector.instance(context, text).thread(post.author, post.uri));
