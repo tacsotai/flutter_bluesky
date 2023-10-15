@@ -278,14 +278,6 @@ class FlutterBluesky extends Bluesky {
     return await deleteRecord(splits[2], splits[3], splits[4]);
   }
 
-  // Future<int> noticeCount() async {
-  //   return 0;
-  // }
-
-  // Future<List> notifications() async {
-  //   return [];
-  // }
-
   Future<Tuple2> actorsSearch(
       {String? term, int? limit, String? cursor}) async {
     if (term == null || term.isEmpty) {
