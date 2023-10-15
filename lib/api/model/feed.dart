@@ -1,4 +1,5 @@
 import 'package:flutter_bluesky/api/model/actor.dart';
+import 'package:flutter_bluesky/api/model/facet.dart';
 
 // lexicons/app/bsky/feed/defs.json
 // feedViewPost
@@ -209,11 +210,13 @@ class Record {
   String text;
   String type;
   DateTime createdAt;
+  List<Facet>? facets;
   RecordReply? reply;
   RecordEmbed? embed;
   Record(Map map)
       : text = map["text"],
         type = map["\$type"],
+        facets = map["facets"] == null ? null : Facet.list(map["facets"]),
         reply = map["reply"] == null ? null : RecordReply(map["reply"]),
         embed = map["embed"] == null ? null : RecordEmbed(map["embed"]),
         createdAt = DateTime.parse((map["createdAt"]));
