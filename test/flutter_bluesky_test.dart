@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
+import 'package:flutter_bluesky/util/post_util.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -129,7 +130,7 @@ void main() {
   test('post', () async {
     String text = randomAlphaNumeric(10);
     await login(email, password);
-    await plugin.post(text);
+    await PostUtil.post(text, files: []);
     Tuple2 res2 = await plugin.timeline();
     List feeds = res2.item2["feed"];
     bool exist = false;
@@ -156,7 +157,10 @@ void main() {
     List<Map>? images = [];
     Map element = {"image": res.item2["blob"], "alt": ""};
     images.add(element);
-    Tuple2 res2 = await plugin.post('post picture and text2', images: images);
+    Map<String, dynamic> record = {};
+    record["text"] = 'post picture and text2';
+    record["embed"] = {"\$type": "app.bsky.embed.images", "images": images};
+    Tuple2 res2 = await plugin.post(record);
     debugPrint("code: ${res2.item1}");
   });
 

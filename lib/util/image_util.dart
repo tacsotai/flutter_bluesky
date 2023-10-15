@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:path/path.dart' as path;
 import 'package:image/image.dart' as img;
 
@@ -28,16 +27,6 @@ class ImageUtil {
     "tiff": "image/tiff",
     "webp": "image/webp",
   };
-
-  // For file_picker
-  static Future<void> postFiles(String text, Map<String, dynamic>? record,
-      List<PlatformFile> files) async {
-    List<ImageFile> imgFiles = [];
-    for (var file in files) {
-      imgFiles.add(ImageFile(file));
-    }
-    await plugin.upload(text, record, imgFiles);
-  }
 
   static Image image(PlatformFile file) {
     return file.bytes != null

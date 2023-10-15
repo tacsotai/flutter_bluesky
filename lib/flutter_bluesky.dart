@@ -202,8 +202,7 @@ class FlutterBluesky extends Bluesky {
   //     }
   //   }
   // }
-  Future<void> upload(String text, Map<String, dynamic>? record,
-      List<ImageFile> imgFiles) async {
+  Future<List<Map>?> upload(List<ImageFile> imgFiles) async {
     List<Map>? images = [];
     for (var imgFile in imgFiles) {
       Tuple2 res = await plugin.uploadBlob(imgFile.bytes, imgFile.mimeType!);
@@ -212,24 +211,10 @@ class FlutterBluesky extends Bluesky {
     if (images.isEmpty) {
       images = null;
     }
-    await post(text, images: images, record: record);
+    return images;
   }
 
-  Future<Tuple2> post(String? text,
-      {List<Map>? images, Map<String, dynamic>? record}) async {
-    if (text == null && images == null) {
-      throw Exception("Did you want to say anything?"); // TODO
-    }
-    record ??= {};
-    if (images != null) {
-      record["embed"] = {"\$type": "app.bsky.embed.images", "images": images};
-    }
-    return await _post(text, record);
-  }
-
-  Future<Tuple2> _post(String? text, Map<String, dynamic> record) async {
-    record["text"] = text;
-    record["createdAt"] = DateTime.now().toUtc().toIso8601String();
+  Future<Tuple2> post(Map<String, dynamic> record) async {
     return await createRecord(api.session.did!, "app.bsky.feed.post", record);
   }
 
@@ -307,5 +292,10 @@ class FlutterBluesky extends Bluesky {
       term = initActorsSearch;
     }
     return await searchActors(term: term, limit: limit, cursor: cursor);
+  }
+
+  Future<String> did(String atHandle) async {
+    Tuple2 res = await getProfile(atHandle.replaceAll("@", ""));
+    return res.item2["did"];
   }
 }
