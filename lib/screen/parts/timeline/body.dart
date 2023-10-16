@@ -52,9 +52,8 @@ class Body extends StatelessWidget {
     if (embed.imagesObj == null) {
       return;
     }
-    List<EmbedImage> embedImages = EmbedImage.widgets(embed.images);
-    if (embedImages.isNotEmpty) {
-      widgets.add(EmbedUtil.arrange(embedImages));
+    if (embed.images.isNotEmpty) {
+      widgets.add(EmbedUtil.arrange(embed.images));
     }
   }
 

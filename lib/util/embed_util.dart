@@ -1,27 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 
 class EmbedUtil {
-  static Widget arrange(List<EmbedImage> imgs) {
+  static Widget arrange(List<Images> imgs) {
     if (imgs.length == 1) {
-      return Row(children: [Expanded(child: imgs[0])]);
+      return one(imgs[0], double.infinity, 300);
     } else if (imgs.length == 2) {
-      return Row(
-          children: [Expanded(child: imgs[0]), Expanded(child: imgs[1])]);
+      return rowPair(imgs);
     } else if (imgs.length == 3) {
       return Row(children: [
-        Flexible(flex: 2, child: Column(children: [imgs[0]])),
-        Flexible(flex: 1, child: Column(children: [imgs[1], imgs[2]])),
+        Flexible(flex: 5, child: one(imgs[0], 400, 300)),
+        Flexible(
+          flex: 2,
+          child: columnPair([imgs[1], imgs[2]]),
+        )
       ]);
     } else if (imgs.length == 4) {
-      return Row(children: [
-        Expanded(child: Column(children: [imgs[0], imgs[1]])),
-        Expanded(child: Column(children: [imgs[2], imgs[3]])),
+      return Column(children: [
+        rowPair([imgs[0], imgs[1]]),
+        rowPair([imgs[2], imgs[3]]),
       ]);
     } else {
       // TODO over 5
       throw Exception("embed.type images length: ${imgs.length}");
     }
+  }
+
+  static Widget one(Images imgs, double width, double height) {
+    return SizedBox(
+        width: width,
+        height: height,
+        child: imageDecoration(EmbedImage(images: imgs)));
+  }
+
+  //https://vector-ium.com/flutter-image-widget/
+  static Widget rowPair(List<Images> imgs) {
+    return SizedBox(
+        height: 140,
+        width: double.infinity,
+        child: Row(children: [
+          Expanded(child: imageDecoration(EmbedImage(images: imgs[0]))),
+          Expanded(child: imageDecoration(EmbedImage(images: imgs[1])))
+        ]));
+  }
+
+  static Widget columnPair(List<Images> imgs) {
+    return SizedBox(
+        height: 300,
+        width: 500,
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          Expanded(child: imageDecoration(EmbedImage(images: imgs[0]))),
+          Expanded(child: imageDecoration(EmbedImage(images: imgs[1])))
+        ]));
   }
 }
 
@@ -32,7 +64,7 @@ class EmbedImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      child: Image.network(images.thumb),
+      child: Image.network(images.thumb, fit: BoxFit.cover),
       onTap: () async {
         show(context, Image.network(images.fullsize));
       },
@@ -85,13 +117,5 @@ class EmbedImage extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  static List<EmbedImage> widgets(List<Images> imagesList) {
-    List<EmbedImage> embedImages = [];
-    for (Images images in imagesList) {
-      embedImages.add(EmbedImage(images: images));
-    }
-    return embedImages;
   }
 }
