@@ -5,6 +5,7 @@ import 'package:flutter_bluesky/screen/parts/link/facet_link.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 import 'package:flutter_bluesky/screen/parts/transfer/detector.dart';
+import 'package:flutter_bluesky/util/embed_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Body extends StatelessWidget {
@@ -51,25 +52,9 @@ class Body extends StatelessWidget {
     if (embed.imagesObj == null) {
       return;
     }
-    List<Widget> imgs = _images(embed.images);
-    if (imgs.length == 1) {
-      widgets.add(Row(children: [Expanded(child: imgs[0])]));
-    } else if (imgs.length == 2) {
-      widgets.add(
-          Row(children: [Expanded(child: imgs[0]), Expanded(child: imgs[1])]));
-    } else if (imgs.length == 3) {
-      widgets.add(Row(children: [
-        Flexible(flex: 2, child: Column(children: [imgs[0]])),
-        Flexible(flex: 1, child: Column(children: [imgs[1], imgs[2]])),
-      ]));
-    } else if (imgs.length == 4) {
-      widgets.add(Row(children: [
-        Expanded(child: Column(children: [imgs[0], imgs[1]])),
-        Expanded(child: Column(children: [imgs[2], imgs[3]])),
-      ]));
-    } else {
-      // TODO over 5
-      debugPrint("embed.type internal length: ${imgs.length}");
+    List<EmbedImage> embedImages = EmbedImage.widgets(embed.images);
+    if (embedImages.isNotEmpty) {
+      widgets.add(EmbedUtil.arrange(embedImages));
     }
   }
 
