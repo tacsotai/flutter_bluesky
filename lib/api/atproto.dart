@@ -176,6 +176,20 @@ abstract class Atproto {
         res.statusCode, json.decode(res.body));
   }
 
+  Future<Tuple2> getRecord(String repo, String collection, String rkey,
+      {String? cid}) async {
+    http.Response res = await api.get("com.atproto.repo.getRecord", params: {
+      "repo": repo,
+      "collection": collection,
+      "rkey": rkey,
+      "cid": cid,
+    }, headers: {
+      "Authorization": "Bearer ${api.session.accessJwt}"
+    });
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
   Future<Tuple2> putRecord(
       String repo, String collection, String rkey, Map<String, dynamic> record,
       {bool? validate, String? swapRecord, String? swapCommit}) async {
