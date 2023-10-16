@@ -124,6 +124,13 @@ Widget embedBox(Widget widget) {
       child: widget);
 }
 
+Widget imageDecoration(Widget widget) {
+  return padding2(ClipRRect(
+    borderRadius: BorderRadius.circular(8),
+    child: widget,
+  ));
+}
+
 mixin Common {
   List<Widget> content(Post post) {
     return [
