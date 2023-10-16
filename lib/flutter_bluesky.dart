@@ -120,6 +120,9 @@ class FlutterBluesky extends Bluesky {
       String? description,
       Map? avatar,
       Map? banner}) async {
+    Tuple2 res =
+        await getRecord(api.session.did!, "app.bsky.actor.profile", "self");
+    String? cid = res.item1 == 400 ? null : res.item2["cid"];
     Map<String, dynamic> record = {};
     API.add(record, {
       "\$type": "app.bsky.actor.profile",
@@ -128,7 +131,8 @@ class FlutterBluesky extends Bluesky {
       "avatar": avatar,
       "banner": banner,
     });
-    await putRecord(api.session.did!, "app.bsky.actor.profile", "self", record);
+    await putRecord(api.session.did!, "app.bsky.actor.profile", "self", record,
+        swapRecord: cid);
     await sessionAPI.profile();
   }
 
