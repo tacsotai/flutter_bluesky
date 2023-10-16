@@ -31,7 +31,60 @@ class EmbedImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(images.thumb);
+    return InkWell(
+      child: Image.network(images.thumb),
+      onTap: () async {
+        show(context, Image.network(images.fullsize));
+      },
+    );
+  }
+
+  void show(BuildContext context, Widget image) {
+    showDialog(
+      barrierColor: Colors.black,
+      context: context,
+      builder: (context) {
+        return Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            fullImage(image),
+            closeButton(context),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget fullImage(Widget image) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+          child: InteractiveViewer(
+            minScale: 0.1,
+            maxScale: 5,
+            child: image,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget closeButton(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Material(
+          color: Colors.transparent,
+          child: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(Icons.close, color: Colors.white, size: 30),
+          ),
+        ),
+      ],
+    );
   }
 
   static List<EmbedImage> widgets(List<Images> imagesList) {
