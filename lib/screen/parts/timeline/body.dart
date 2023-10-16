@@ -37,7 +37,7 @@ class Body extends StatelessWidget {
     }
     // debugPrint("embed.type: ${embed.type}");
     if (embed.type == 'app.bsky.embed.images#view') {
-      internals(widgets, embed);
+      images(widgets, embed);
     } else if (embed.type == 'app.bsky.embed.external#view') {
       // external(widgets, embed);
     } else if (embed.type == 'app.bsky.embed.record#view') {
@@ -47,11 +47,11 @@ class Body extends StatelessWidget {
     }
   }
 
-  void internals(List<Widget> widgets, Embed embed) {
+  void images(List<Widget> widgets, Embed embed) {
     if (embed.imagesObj == null) {
       return;
     }
-    List<Widget> imgs = _images(embed.internals);
+    List<Widget> imgs = _images(embed.images);
     if (imgs.length == 1) {
       widgets.add(Row(children: [Expanded(child: imgs[0])]));
     } else if (imgs.length == 2) {
@@ -73,9 +73,9 @@ class Body extends StatelessWidget {
     }
   }
 
-  List<Widget> _images(List<Internal> internals) {
+  List<Widget> _images(List<Images> internals) {
     List<Widget> images = [];
-    for (Internal internal in internals) {
+    for (Images internal in internals) {
       images.add(Image.network(internal.thumb));
     }
     return images;

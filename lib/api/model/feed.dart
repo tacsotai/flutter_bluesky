@@ -103,10 +103,10 @@ class Embed {
         recordObj = map["record"],
         mediaObj = map["media"];
 
-  List<Internal> get internals {
-    List<Internal> list = [];
+  List<Images> get images {
+    List<Images> list = [];
     for (var map in imagesObj as List) {
-      list.add(Internal(map));
+      list.add(Images(map));
     }
     return list;
   }
@@ -125,11 +125,11 @@ class Embed {
 }
 
 // "$type": "app.bsky.embed.images#view",
-class Internal {
+class Images {
   String thumb;
   String fullsize;
   String alt;
-  Internal(Map map)
+  Images(Map map)
       : thumb = map["thumb"],
         fullsize = map["fullsize"],
         alt = map["alt"];
@@ -179,7 +179,7 @@ class Value {
 
 // "$type": "app.bsky.embed.recordWithMedia#view",
 class Media {
-  List<Internal>? images;
+  List<Images>? images;
   External? external;
 
   Media(Map map)
