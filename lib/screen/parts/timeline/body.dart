@@ -109,7 +109,8 @@ class Body extends StatelessWidget {
         ],
       ),
     );
-    widgets.add(container);
+    widgets.add(Detector.instance(context, container)
+        .thread(embed.record.author, embed.record.uri));
   }
 
   Widget recordHeader(BuildContext context, RecordView record) {
