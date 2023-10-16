@@ -17,8 +17,6 @@ class HyperLink extends LinkWidget {
       return Text(text);
     }
 
-    List<TextSpan> textSpans = [];
-
     int start = 0;
     for (RegExpMatch match in matches) {
       if (match.start > start) {
@@ -29,9 +27,7 @@ class HyperLink extends LinkWidget {
     }
 
     if (start < text.length) {
-      textSpans.add(TextSpan(
-        text: text.substring(start),
-      ));
+      addText(text.substring(start, text.length));
     }
 
     return richText;
