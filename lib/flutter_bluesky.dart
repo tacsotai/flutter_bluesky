@@ -47,6 +47,10 @@ class FlutterBluesky extends Bluesky {
     return serverDescription["availableUserDomains"][0];
   }
 
+  String get userDomain {
+    return domain;
+  }
+
   String get initActorsSearch {
     return domain;
   }
