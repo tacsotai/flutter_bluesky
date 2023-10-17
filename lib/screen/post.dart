@@ -188,7 +188,7 @@ class PostScreen extends State<Post> {
 
   void _submit() async {
     _formKey.currentState?.save();
-    PostUtil.post(_text, record: record, files: files);
+    PostUtil.post(_text, context, record: record, files: files);
     Navigator.pop(context);
   }
 

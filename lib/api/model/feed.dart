@@ -210,12 +210,14 @@ class Record {
   String text;
   String type;
   DateTime createdAt;
+  List<String>? langs;
   List<Facet>? facets;
   RecordReply? reply;
   RecordEmbed? embed;
   Record(Map map)
       : text = map["text"],
         type = map["\$type"],
+        langs = map["langs"],
         facets = map["facets"] == null ? null : Facet.list(map["facets"]),
         reply = map["reply"] == null ? null : RecordReply(map["reply"]),
         embed = map["embed"] == null ? null : RecordEmbed(map["embed"]),

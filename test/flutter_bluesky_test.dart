@@ -7,9 +7,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:tuple/tuple.dart';
 import 'package:random_string/random_string.dart';
+import 'package:mockito/mockito.dart';
 
 // Integrated test code for FlutterBluesky.
 // Run local server with https://zenn.dev/tac519/articles/727fca3783010c
+
+// Mock Context
+// https://stackoverflow.com/questions/56277477/unit-testing-in-flutter-passing-buildcontext
 
 // XXX CHANGE consts with YOUR ENVIRONMENT.
 const testProvider = "http://localhost:2583";
@@ -130,7 +134,7 @@ void main() {
   test('post', () async {
     String text = randomAlphaNumeric(10);
     await login(email, password);
-    await PostUtil.post(text, files: []);
+    await PostUtil.post(text, MockBuildContext(), files: []);
     Tuple2 res2 = await plugin.timeline();
     List feeds = res2.item2["feed"];
     bool exist = false;
@@ -180,3 +184,5 @@ void main() {
         avatar: res.item2["blob"]);
   });
 }
+
+class MockBuildContext extends Mock implements BuildContext {}

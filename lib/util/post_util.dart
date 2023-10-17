@@ -1,4 +1,5 @@
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/util/facet_util.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
@@ -6,10 +7,10 @@ import 'package:tuple/tuple.dart';
 
 class PostUtil {
   // text or image can be empty, record may reply or quote.
-  static Future<Tuple2> post(String? text,
+  static Future<Tuple2> post(String? text, BuildContext context,
       {Map<String, dynamic>? record, required List<PlatformFile> files}) async {
     _validate(text, files);
-    Poster poster = Poster(text!, record ??= {}, files);
+    Poster poster = Poster(text!, context, record ??= {}, files);
     return await plugin.post(await poster.createRecord());
   }
 
@@ -22,9 +23,10 @@ class PostUtil {
 
 class Poster {
   final String text;
+  final BuildContext context;
   final Map<String, dynamic> record;
   final List<PlatformFile> files;
-  Poster(this.text, this.record, this.files);
+  Poster(this.text, this.context, this.record, this.files);
 
   Future<Map<String, dynamic>> createRecord() async {
     await uploadImage();
