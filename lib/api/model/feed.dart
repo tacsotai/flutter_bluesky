@@ -210,7 +210,7 @@ class Record {
   String text;
   String type;
   DateTime createdAt;
-  List<String>? langs;
+  List? langs;
   List<Facet>? facets;
   RecordReply? reply;
   RecordEmbed? embed;

@@ -32,6 +32,7 @@ class Poster {
     await uploadImage();
     await FacetUtil.modify(text, record);
     setCreatedAt();
+    setLangs();
     return record;
   }
 
@@ -48,5 +49,15 @@ class Poster {
 
   void setCreatedAt() {
     record["createdAt"] = DateTime.now().toUtc().toIso8601String();
+  }
+
+  void setLangs() {
+    try {
+      Locale locale = Localizations.localeOf(context);
+      record["langs"] = [locale.languageCode];
+    } catch (e) {
+      // Do nothing.
+      // Set locale when the locale is set on context.
+    }
   }
 }

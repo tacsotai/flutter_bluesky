@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
+import 'package:flutter_bluesky/data/config.dart';
 import 'package:flutter_bluesky/util/post_util.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_bluesky/api/model/feed.dart';
@@ -27,6 +28,7 @@ const Map serverDescription = {
 };
 
 void main() {
+  config = Config({"timeout": 5000, "sleep": 500});
   FlutterBluesky plugin = FlutterBluesky(provider: testProvider);
 
   Future<Tuple2> login(String emailORhandle, String password) async {
@@ -35,7 +37,9 @@ void main() {
       plugin.api.session.setTokens(res.item2["did"], res.item2["handle"],
           res.item2["email"], res.item2["accessJwt"], res.item2["refreshJwt"]);
       await plugin.sessionAPI.profile();
+      setPlugin(plugin);
     }
+
     return res;
   }
 
@@ -133,6 +137,7 @@ void main() {
 
   test('post', () async {
     String text = randomAlphaNumeric(10);
+    await plugin.connect();
     await login(email, password);
     await PostUtil.post(text, MockBuildContext(), files: []);
     Tuple2 res2 = await plugin.timeline();
