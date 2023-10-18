@@ -298,4 +298,23 @@ abstract class Atproto {
         res.statusCode == 200 ? {} : json.decode(res.body);
     return Tuple2<int, Map<String, dynamic>>(res.statusCode, body);
   }
+
+  Future<Tuple2> createReport(String reasonType, Map<String, dynamic> subject,
+      {String? reason}) async {
+    Map<String, dynamic> params = {
+      "reasonType": reasonType,
+      "subject": subject,
+    };
+    API.add(params, {
+      "reason": reason,
+    });
+    http.Response res = await api.post("com.atproto.moderation.createReport",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${api.session.accessJwt}"
+        },
+        body: json.encode(params));
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
 }
