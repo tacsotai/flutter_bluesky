@@ -51,7 +51,7 @@
     "logout": "LOGOUT",
     "signup": "SIGNUP",
     "retire": "RETIRE",
-    "retire.confirm": "You will be retired all diary servcies, are you sure?",
+    "retire.confirm": "You will be retired from this servcie, are you sure?",
     "recover.password": "RECOVER",
     "recover.password.intro": "Reset your password here",
     "recover.password.description": "We will send your plain-text password to this email account.",

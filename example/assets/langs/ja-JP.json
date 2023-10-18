@@ -51,7 +51,7 @@
     "logout": "ログアウト",
     "signup": "登録",
     "retire": "退会",
-    "retire.confirm": "全ての日記サービスから退会します。よろしいですか?",
+    "retire.confirm": "サービスから退会します。よろしいですか?",
     "recover.password": "確認コード送信",
     "recover.password.intro": "パスワード再設定",
     "recover.password.description": "あなたのパスワードをメールに送信します。",
