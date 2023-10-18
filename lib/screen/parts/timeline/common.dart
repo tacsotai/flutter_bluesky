@@ -118,8 +118,8 @@ Widget embedBox(Widget widget) {
       margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(5),
+        border: Border.all(color: Colors.black12),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: widget);
 }
