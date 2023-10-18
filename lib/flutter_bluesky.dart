@@ -140,6 +140,7 @@ class FlutterBluesky extends Bluesky {
     await sessionAPI.profile();
   }
 
+  // app.bsky.graph.getFollows wrapper
   Future<List<ProfileView>> followings(String actor) async {
     List<ProfileView> followings = [];
     Tuple2 res = await getFollows(actor);
@@ -150,6 +151,7 @@ class FlutterBluesky extends Bluesky {
     return followings;
   }
 
+  // app.bsky.graph.getFollowers wrapper
   Future<List<ProfileView>> followers(String actor) async {
     List<ProfileView> followings = [];
     Tuple2 res = await getFollowers(actor);
@@ -160,6 +162,18 @@ class FlutterBluesky extends Bluesky {
     return followings;
   }
 
+  // app.bsky.graph.getLists wrapper
+  Future<List<ProfileView>> lists(String actor) async {
+    List<ProfileView> lists = [];
+    Tuple2 res = await getLists(actor);
+    ListsResponse response = ListsResponse(res.item2);
+    for (Map list in response.lists) {
+      lists.add(ProfileView(list));
+    }
+    return lists;
+  }
+
+  // app.bsky.graph.getBlocks wrapper
   Future<List<ProfileView>> blocks() async {
     List<ProfileView> blocks = [];
     Tuple2 res = await getBlocks();
@@ -168,6 +182,28 @@ class FlutterBluesky extends Bluesky {
       blocks.add(ProfileView(block));
     }
     return blocks;
+  }
+
+  // app.bsky.graph.getMutes wrapper
+  Future<List<ProfileView>> mutes() async {
+    List<ProfileView> mutes = [];
+    Tuple2 res = await getMutes();
+    MutesResponse response = MutesResponse(res.item2);
+    for (Map mute in response.mutes) {
+      mutes.add(ProfileView(mute));
+    }
+    return mutes;
+  }
+
+  // app.bsky.graph.getListMutes wrapper
+  Future<List<ProfileView>> listMutes() async {
+    List<ProfileView> listMutes = [];
+    Tuple2 res = await getListMutes();
+    ListsResponse response = ListsResponse(res.item2);
+    for (Map list in response.lists) {
+      listMutes.add(ProfileView(list));
+    }
+    return listMutes;
   }
 
   Future<Tuple2> timeline({String? cursor}) async {
