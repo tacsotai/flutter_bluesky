@@ -109,3 +109,16 @@
 * Change Thread detector argument 
 * Fix example main for session keep
 * Modify search strucute
+
+## 0.5.8
+* Change message at register for handle.
+* Add html link and mention to post.
+* Add createReport API.
+* Fix Repost view at Notifications screen.
+* Add language code at post.
+* Add link to embed image for posts.
+* Add link to embed record.
+* Bug fix profile update impossible.
+* Add UserDomain.
+* Make it possible to be pluggable for Header.
+* Make border of embed record to be soft.

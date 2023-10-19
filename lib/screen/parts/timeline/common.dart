@@ -5,7 +5,7 @@ import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
-import 'package:flutter_bluesky/screen/parts/hyper_link.dart';
+import 'package:flutter_bluesky/screen/parts/link/hyper_link.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
@@ -118,10 +118,17 @@ Widget embedBox(Widget widget) {
       margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(5),
+        border: Border.all(color: Colors.black12),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: widget);
+}
+
+Widget imageDecoration(Widget widget) {
+  return padding2(ClipRRect(
+    borderRadius: BorderRadius.circular(8),
+    child: widget,
+  ));
 }
 
 mixin Common {

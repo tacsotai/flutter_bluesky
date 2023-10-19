@@ -1,4 +1,5 @@
 import 'package:flutter_bluesky/api/model/actor.dart';
+import 'package:flutter_bluesky/api/model/facet.dart';
 
 // lexicons/app/bsky/feed/defs.json
 // feedViewPost
@@ -58,11 +59,11 @@ class Post {
   final ProfileViewBasic author;
   final Record record;
   Embed? embed;
-  int replyCount;
-  int repostCount;
-  int likeCount;
+  int? replyCount;
+  int? repostCount;
+  int? likeCount;
   final DateTime indexedAt;
-  Viewer viewer;
+  Viewer? viewer;
   List? labels;
   Post(Map map)
       : uri = map["uri"],
@@ -102,10 +103,10 @@ class Embed {
         recordObj = map["record"],
         mediaObj = map["media"];
 
-  List<Internal> get internals {
-    List<Internal> list = [];
+  List<Images> get images {
+    List<Images> list = [];
     for (var map in imagesObj as List) {
-      list.add(Internal(map));
+      list.add(Images(map));
     }
     return list;
   }
@@ -124,11 +125,11 @@ class Embed {
 }
 
 // "$type": "app.bsky.embed.images#view",
-class Internal {
+class Images {
   String thumb;
   String fullsize;
   String alt;
-  Internal(Map map)
+  Images(Map map)
       : thumb = map["thumb"],
         fullsize = map["fullsize"],
         alt = map["alt"];
@@ -178,7 +179,7 @@ class Value {
 
 // "$type": "app.bsky.embed.recordWithMedia#view",
 class Media {
-  List<Internal>? images;
+  List<Images>? images;
   External? external;
 
   Media(Map map)
@@ -209,11 +210,15 @@ class Record {
   String text;
   String type;
   DateTime createdAt;
+  List? langs;
+  List<Facet>? facets;
   RecordReply? reply;
   RecordEmbed? embed;
   Record(Map map)
       : text = map["text"],
         type = map["\$type"],
+        langs = map["langs"],
+        facets = map["facets"] == null ? null : Facet.list(map["facets"]),
         reply = map["reply"] == null ? null : RecordReply(map["reply"]),
         embed = map["embed"] == null ? null : RecordEmbed(map["embed"]),
         createdAt = DateTime.parse((map["createdAt"]));

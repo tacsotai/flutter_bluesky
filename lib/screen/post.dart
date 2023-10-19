@@ -10,6 +10,7 @@ import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
+import 'package:flutter_bluesky/util/post_util.dart';
 
 const double mediaHeight = 350;
 
@@ -187,7 +188,7 @@ class PostScreen extends State<Post> {
 
   void _submit() async {
     _formKey.currentState?.save();
-    ImageUtil.postFiles(_text, record, files);
+    PostUtil.post(_text, context, record: record, files: files);
     Navigator.pop(context);
   }
 

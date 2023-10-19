@@ -47,6 +47,10 @@ class FlutterBluesky extends Bluesky {
     return serverDescription["availableUserDomains"][0];
   }
 
+  String get userDomain {
+    return domain;
+  }
+
   String get initActorsSearch {
     return domain;
   }
@@ -120,6 +124,9 @@ class FlutterBluesky extends Bluesky {
       String? description,
       Map? avatar,
       Map? banner}) async {
+    Tuple2 res =
+        await getRecord(api.session.did!, "app.bsky.actor.profile", "self");
+    String? cid = res.item1 == 400 ? null : res.item2["cid"];
     Map<String, dynamic> record = {};
     API.add(record, {
       "\$type": "app.bsky.actor.profile",
@@ -128,10 +135,12 @@ class FlutterBluesky extends Bluesky {
       "avatar": avatar,
       "banner": banner,
     });
-    await putRecord(api.session.did!, "app.bsky.actor.profile", "self", record);
+    await putRecord(api.session.did!, "app.bsky.actor.profile", "self", record,
+        swapRecord: cid);
     await sessionAPI.profile();
   }
 
+  // app.bsky.graph.getFollows wrapper
   Future<List<ProfileView>> followings(String actor) async {
     List<ProfileView> followings = [];
     Tuple2 res = await getFollows(actor);
@@ -142,6 +151,7 @@ class FlutterBluesky extends Bluesky {
     return followings;
   }
 
+  // app.bsky.graph.getFollowers wrapper
   Future<List<ProfileView>> followers(String actor) async {
     List<ProfileView> followings = [];
     Tuple2 res = await getFollowers(actor);
@@ -152,6 +162,18 @@ class FlutterBluesky extends Bluesky {
     return followings;
   }
 
+  // app.bsky.graph.getLists wrapper
+  Future<List<ProfileView>> lists(String actor) async {
+    List<ProfileView> lists = [];
+    Tuple2 res = await getLists(actor);
+    ListsResponse response = ListsResponse(res.item2);
+    for (Map list in response.lists) {
+      lists.add(ProfileView(list));
+    }
+    return lists;
+  }
+
+  // app.bsky.graph.getBlocks wrapper
   Future<List<ProfileView>> blocks() async {
     List<ProfileView> blocks = [];
     Tuple2 res = await getBlocks();
@@ -160,6 +182,28 @@ class FlutterBluesky extends Bluesky {
       blocks.add(ProfileView(block));
     }
     return blocks;
+  }
+
+  // app.bsky.graph.getMutes wrapper
+  Future<List<ProfileView>> mutes() async {
+    List<ProfileView> mutes = [];
+    Tuple2 res = await getMutes();
+    MutesResponse response = MutesResponse(res.item2);
+    for (Map mute in response.mutes) {
+      mutes.add(ProfileView(mute));
+    }
+    return mutes;
+  }
+
+  // app.bsky.graph.getListMutes wrapper
+  Future<List<ProfileView>> listMutes() async {
+    List<ProfileView> listMutes = [];
+    Tuple2 res = await getListMutes();
+    ListsResponse response = ListsResponse(res.item2);
+    for (Map list in response.lists) {
+      listMutes.add(ProfileView(list));
+    }
+    return listMutes;
   }
 
   Future<Tuple2> timeline({String? cursor}) async {
@@ -202,8 +246,7 @@ class FlutterBluesky extends Bluesky {
   //     }
   //   }
   // }
-  Future<void> upload(String text, Map<String, dynamic>? record,
-      List<ImageFile> imgFiles) async {
+  Future<List<Map>?> upload(List<ImageFile> imgFiles) async {
     List<Map>? images = [];
     for (var imgFile in imgFiles) {
       Tuple2 res = await plugin.uploadBlob(imgFile.bytes, imgFile.mimeType!);
@@ -212,24 +255,10 @@ class FlutterBluesky extends Bluesky {
     if (images.isEmpty) {
       images = null;
     }
-    await post(text, images: images, record: record);
+    return images;
   }
 
-  Future<Tuple2> post(String? text,
-      {List<Map>? images, Map<String, dynamic>? record}) async {
-    if (text == null && images == null) {
-      throw Exception("Did you want to say anything?"); // TODO
-    }
-    record ??= {};
-    if (images != null) {
-      record["embed"] = {"\$type": "app.bsky.embed.images", "images": images};
-    }
-    return await _post(text, record);
-  }
-
-  Future<Tuple2> _post(String? text, Map<String, dynamic> record) async {
-    record["text"] = text;
-    record["createdAt"] = DateTime.now().toUtc().toIso8601String();
+  Future<Tuple2> post(Map<String, dynamic> record) async {
     return await createRecord(api.session.did!, "app.bsky.feed.post", record);
   }
 
@@ -293,19 +322,16 @@ class FlutterBluesky extends Bluesky {
     return await deleteRecord(splits[2], splits[3], splits[4]);
   }
 
-  // Future<int> noticeCount() async {
-  //   return 0;
-  // }
-
-  // Future<List> notifications() async {
-  //   return [];
-  // }
-
   Future<Tuple2> actorsSearch(
       {String? term, int? limit, String? cursor}) async {
     if (term == null || term.isEmpty) {
       term = initActorsSearch;
     }
     return await searchActors(term: term, limit: limit, cursor: cursor);
+  }
+
+  Future<String> did(String atHandle) async {
+    Tuple2 res = await getProfile(atHandle.replaceAll("@", ""));
+    return res.item2["did"];
   }
 }

@@ -18,8 +18,8 @@ class Like extends StatelessWidget {
         tooltip: tr("reaction.like"),
         on: const Icon(Icons.favorite),
         off: const Icon(Icons.favorite_outline),
-        count: post.likeCount,
-        uri: post.viewer.like);
+        count: post.likeCount!,
+        uri: post.viewer!.like);
   }
 
   @override

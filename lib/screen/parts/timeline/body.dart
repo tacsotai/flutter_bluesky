@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
+import 'package:flutter_bluesky/screen/parts/link/facet_link.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
 import 'package:flutter_bluesky/screen/parts/transfer/detector.dart';
+import 'package:flutter_bluesky/util/embed_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Body extends StatelessWidget {
@@ -21,11 +23,10 @@ class Body extends StatelessWidget {
 
   void appendRecord(BuildContext context, List<Widget> widgets, Post post,
       {double? fontSize}) {
+    FacetLink facetLink = FacetLink(post.record, context, fontSize: fontSize);
     Widget text = Row(
       children: [
-        Expanded(
-            child:
-                Text(post.record.text, style: TextStyle(fontSize: fontSize))),
+        Expanded(child: facetLink.withLink),
       ],
     );
     widgets.add(Detector.instance(context, text).thread(post.author, post.uri));
@@ -37,7 +38,7 @@ class Body extends StatelessWidget {
     }
     // debugPrint("embed.type: ${embed.type}");
     if (embed.type == 'app.bsky.embed.images#view') {
-      internals(widgets, embed);
+      images(widgets, embed);
     } else if (embed.type == 'app.bsky.embed.external#view') {
       // external(widgets, embed);
     } else if (embed.type == 'app.bsky.embed.record#view') {
@@ -47,35 +48,18 @@ class Body extends StatelessWidget {
     }
   }
 
-  void internals(List<Widget> widgets, Embed embed) {
+  void images(List<Widget> widgets, Embed embed) {
     if (embed.imagesObj == null) {
       return;
     }
-    List<Widget> imgs = _images(embed.internals);
-    if (imgs.length == 1) {
-      widgets.add(Row(children: [Expanded(child: imgs[0])]));
-    } else if (imgs.length == 2) {
-      widgets.add(
-          Row(children: [Expanded(child: imgs[0]), Expanded(child: imgs[1])]));
-    } else if (imgs.length == 3) {
-      widgets.add(Row(children: [
-        Flexible(flex: 2, child: Column(children: [imgs[0]])),
-        Flexible(flex: 1, child: Column(children: [imgs[1], imgs[2]])),
-      ]));
-    } else if (imgs.length == 4) {
-      widgets.add(Row(children: [
-        Expanded(child: Column(children: [imgs[0], imgs[1]])),
-        Expanded(child: Column(children: [imgs[2], imgs[3]])),
-      ]));
-    } else {
-      // TODO over 5
-      debugPrint("embed.type internal length: ${imgs.length}");
+    if (embed.images.isNotEmpty) {
+      widgets.add(EmbedUtil.arrange(embed.images));
     }
   }
 
-  List<Widget> _images(List<Internal> internals) {
+  List<Widget> _images(List<Images> internals) {
     List<Widget> images = [];
-    for (Internal internal in internals) {
+    for (Images internal in internals) {
       images.add(Image.network(internal.thumb));
     }
     return images;
@@ -109,7 +93,8 @@ class Body extends StatelessWidget {
         ],
       ),
     );
-    widgets.add(container);
+    widgets.add(Detector.instance(context, container)
+        .thread(embed.record.author, embed.record.uri));
   }
 
   Widget recordHeader(BuildContext context, RecordView record) {

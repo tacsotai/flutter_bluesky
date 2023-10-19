@@ -17,7 +17,7 @@ class More extends StatelessWidget {
         on: const Icon(Icons.more_horiz),
         off: const Icon(Icons.more_horiz),
         count: 0,
-        uri: post.viewer.like);
+        uri: post.viewer!.like);
   }
 
   @override

@@ -18,6 +18,13 @@ Widget padding(
       padding: EdgeInsets.fromLTRB(left, top, right, bottom), child: widget);
 }
 
+Widget padding2(
+  Widget widget, {
+  double ltrb = 2,
+}) {
+  return Padding(padding: EdgeInsets.all(ltrb), child: widget);
+}
+
 Widget padding20(
   Widget widget, {
   double left = 20,

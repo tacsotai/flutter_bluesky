@@ -44,7 +44,7 @@ class LoginScreen extends StatelessWidget {
 
   String getHandle(SignupData data) {
     String account = data.additionalSignupData!["handle"]!;
-    String handle = account + plugin.domain;
+    String handle = account + plugin.userDomain;
     return handle;
   }
 

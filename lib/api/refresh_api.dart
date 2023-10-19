@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api.dart';
 import 'package:flutter_bluesky/api/session_api.dart';
@@ -10,7 +12,8 @@ class RefreshAPI extends API {
 
   bool isRefresh(String uri, Map<String, String>? headers, http.Response res) {
     return (uri != refreshURI &&
-        res.statusCode != 200 && // TODO res.body check
+        res.statusCode != 200 &&
+        json.decode(res.body)["error"] == "ExpiredToken" &&
         headers != null &&
         headers["Authorization"] != null);
   }

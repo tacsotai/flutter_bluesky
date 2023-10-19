@@ -77,7 +77,7 @@ class NotificationsDataHolder {
   String? cursor;
   List<Notification> notifications = [];
   String uris = "";
-  Map<String, Post> reasonPosts = {};
+  Map<String, Post> posts = {};
 
   void makeNotifications(ListNotifications res) {
     notifications = res.notifications;
@@ -89,7 +89,7 @@ class NotificationsDataHolder {
     StringBuffer sb = StringBuffer();
     for (Notification notification in notifications) {
       if (notification.reasonSubject != null) {
-        sb.write("uris[]=${notification.reasonSubject}&");
+        sb.write("uris[]=${getUri(notification)}&");
       }
     }
     if (sb.length > 8) {
@@ -97,10 +97,17 @@ class NotificationsDataHolder {
     }
   }
 
+  // Use original post when the reason is "quote" for desplaing embed.
+  String? getUri(Notification notification) {
+    return notification.reason == "quote"
+        ? notification.uri
+        : notification.reasonSubject;
+  }
+
   void makePosts(List postList) async {
     for (Map map in postList) {
       Post post = Post(map);
-      reasonPosts[post.uri] = post;
+      posts[post.uri] = post;
     }
   }
 
