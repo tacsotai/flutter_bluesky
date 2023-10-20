@@ -6,6 +6,7 @@ import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/footer.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
+import 'package:flutter_bluesky/util/account_util.dart';
 
 abstract class ReplyTL {
   late Post post;
@@ -56,8 +57,9 @@ class ReplyTimeline extends ReplyTL with Common {
       const Icon(Icons.reply, color: Colors.grey),
       Expanded(
           child: Text(
-              tr('reply.to',
-                  args: [post.author.displayName ?? post.author.handle]),
+              tr('reply.to', args: [
+                post.author.displayName ?? getAccount(post.author.handle)
+              ]),
               style: const TextStyle(color: Colors.grey)))
     ]);
   }

@@ -7,6 +7,7 @@ import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/screen/settings/setting_util.dart';
+import 'package:flutter_bluesky/util/account_util.dart';
 import 'package:flutter_bluesky/util/common_util.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter_bluesky/screen/parts/button.dart';
@@ -31,6 +32,7 @@ class AccountSetting extends StatelessWidget {
     if (author.did == plugin.api.session.did) {
       logout = textItem(tr("logout"));
     }
+
     Widget left = Row(
       children: [
         Avatar(context, radius: 20).net(author).profile,
@@ -38,8 +40,8 @@ class AccountSetting extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            textItem("${plugin.api.session.handle}"),
-            textItem("${plugin.api.session.email}"),
+            textItem(getAccount(plugin.api.session.handle!)),
+            textItem(plugin.api.session.email!),
           ],
         ),
       ],
