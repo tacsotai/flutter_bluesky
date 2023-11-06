@@ -51,6 +51,8 @@ class Notice {
         return repost;
       case "quote":
         return quote;
+      case "mention":
+        return mention;
       default:
         return error;
     }
@@ -105,6 +107,10 @@ class Notice {
   }
 
   Widget get quote {
+    return avatarContent;
+  }
+
+  Widget get mention {
     return avatarContent;
   }
 
