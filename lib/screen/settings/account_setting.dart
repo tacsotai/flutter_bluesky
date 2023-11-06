@@ -111,7 +111,7 @@ class AccountDeleteScreen extends State<AccountDelete> {
     initItems.add(textItem(tr("account.delete"),
         fontSize: 24, fontWeight: FontWeight.bold));
     initItems.add(sizeBox);
-    initItems.add(textItem('"${plugin.api.session.handle}"',
+    initItems.add(textItem('"${getAccount(plugin.api.session.handle!)}"',
         fontSize: 24, fontWeight: FontWeight.bold));
     initItems.add(sizeBox);
     initItems.add(sizeBox);
