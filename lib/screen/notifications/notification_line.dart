@@ -46,13 +46,13 @@ class Notice {
       case "like":
         return like;
       case "reply":
-        return reply;
+        return avatarContent;
       case "repost":
-        return repost;
+        return avatarContent;
       case "quote":
-        return quote;
+        return avatarContent;
       case "mention":
-        return mention;
+        return avatarContent;
       default:
         return error;
     }
@@ -96,22 +96,6 @@ class Notice {
           .build(state.context),
       Body(post: post!),
     ]);
-  }
-
-  Widget get reply {
-    return avatarContent;
-  }
-
-  Widget get repost {
-    return avatarContent;
-  }
-
-  Widget get quote {
-    return avatarContent;
-  }
-
-  Widget get mention {
-    return avatarContent;
   }
 
   Widget get error {
