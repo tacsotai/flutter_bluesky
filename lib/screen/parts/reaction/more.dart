@@ -63,7 +63,7 @@ class MoreReaction extends AbstractReaction {
       //   onTap: () => debugPrint("menu.translate"),
       // ),
       PopupMenuItem(
-        child: Text(tr("menu.copy.text")),
+        child: Text(tr("copy.text")),
         onTap: () async => await saveToclipboard(post),
       ),
       // PopupMenuItem(
