@@ -35,16 +35,6 @@ Widget padding20(
   return padding10(widget, left: left, top: top, right: right, bottom: bottom);
 }
 
-Widget padding40(
-  Widget widget, {
-  double left = 40,
-  double top = 40,
-  double right = 40,
-  double bottom = 40,
-}) {
-  return padding(widget, left: left, top: top, right: right, bottom: bottom);
-}
-
 Widget listsBody(List<Widget> widgets) {
   return Column(
     mainAxisSize: MainAxisSize.max,
