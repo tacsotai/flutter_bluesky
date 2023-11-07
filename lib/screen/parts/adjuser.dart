@@ -7,7 +7,7 @@ Widget get sizeBox {
   );
 }
 
-Widget padding(
+Widget padding10(
   Widget widget, {
   double left = 10,
   double top = 10,
@@ -32,7 +32,7 @@ Widget padding20(
   double right = 20,
   double bottom = 20,
 }) {
-  return padding(widget, left: left, top: top, right: right, bottom: bottom);
+  return padding10(widget, left: left, top: top, right: right, bottom: bottom);
 }
 
 Widget padding40(

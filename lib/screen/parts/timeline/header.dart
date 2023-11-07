@@ -26,7 +26,7 @@ class Header extends StatelessWidget {
 class HeaderContent {
   Widget build(
       BuildContext context, ProfileViewBasic author, DateTime createdAt) {
-    return padding(
+    return padding10(
         lr(
           left(author),
           right(context, createdAt),

@@ -43,7 +43,7 @@ class PostScreen extends State<Post> {
   Widget build(BuildContext context) {
     checkSession(context);
     return Scaffold(
-      body: padding(
+      body: padding10(
         Form(
             key: _formKey,
             child: SingleChildScrollView(child: listsBody(widgets))),
@@ -54,7 +54,7 @@ class PostScreen extends State<Post> {
 
   List<Widget> get widgets {
     List<Widget> list = [
-      padding(Row(children: [cancel, const Spacer(), submit])),
+      padding10(Row(children: [cancel, const Spacer(), submit])),
       const Divider(height: 0.5),
       form(context),
       SizedBox(height: _height, child: Row(children: selects))
@@ -94,7 +94,7 @@ class PostScreen extends State<Post> {
   }
 
   Widget form(BuildContext context) {
-    return padding(
+    return padding10(
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -233,7 +233,7 @@ class PostScreen extends State<Post> {
 
 List<Widget> replyPost(BuildContext context, feed.Post post) {
   return [
-    padding(
+    padding10(
         paddingLR([
           Avatar(context).net(post.author).profile
         ], [

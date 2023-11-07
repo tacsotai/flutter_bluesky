@@ -20,7 +20,7 @@ class SearchLine extends StatefulWidget {
 class SearchLineScreen extends State<SearchLine> {
   @override
   Widget build(BuildContext context) {
-    return padding(paddingLR([
+    return padding10(paddingLR([
       Avatar(context, radius: 25).net(widget.actor).profile
     ], [
       content,

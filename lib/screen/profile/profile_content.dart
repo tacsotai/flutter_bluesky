@@ -32,9 +32,9 @@ class ProfileContent {
       Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
         banner,
         const Divider(height: 0.5),
-        padding(profileButtons(button), top: 5, bottom: 5)
+        padding10(profileButtons(button), top: 5, bottom: 5)
       ]),
-      padding(profAvatar)
+      padding10(profAvatar)
     ]);
   }
 

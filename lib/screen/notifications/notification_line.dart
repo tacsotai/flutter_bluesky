@@ -23,7 +23,7 @@ class NotificationsLineScreen extends State<NotificationsLine> {
   @override
   Widget build(BuildContext context) {
     Notice notice = customNotice ?? Notice();
-    return padding(notice.build(this, widget.notification, widget.post));
+    return padding10(notice.build(this, widget.notification, widget.post));
   }
 }
 
