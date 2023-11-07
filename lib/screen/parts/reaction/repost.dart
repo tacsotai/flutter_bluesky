@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart' as feed;
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/parts/reaction.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/screen/post.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_bluesky/util/reaction_util.dart';
@@ -65,16 +66,7 @@ class RepostReaction extends AbstractReaction {
     List<Widget> list = [];
     reaction.uri != null ? list.add(undo(context)) : list.add(repost(context));
     list.add(quote(context));
-    await showModal(list);
-  }
-
-  Future<void> showModal(List<Widget> widgets) async {
-    await showModalBottomSheet<Widget>(
-      context: context,
-      builder: (BuildContext context) {
-        return Column(mainAxisSize: MainAxisSize.min, children: widgets);
-      },
-    );
+    await showModal(context, list);
   }
 
   ListTile undo(BuildContext context) {

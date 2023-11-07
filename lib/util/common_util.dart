@@ -49,4 +49,11 @@ class CancelButton extends Button {
 
   @override
   String get text => tr("submit.cancel");
+Future<void> showModal(BuildContext context, List<Widget> widgets) async {
+  await showModalBottomSheet<Widget>(
+    context: context,
+    builder: (BuildContext context) {
+      return Column(mainAxisSize: MainAxisSize.min, children: widgets);
+    },
+  );
 }

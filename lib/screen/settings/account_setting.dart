@@ -63,15 +63,7 @@ class AccountSetting extends StatelessWidget {
       InkWell(
         child: textItem('${tr("account.delete")}...', color: color),
         onTap: () async {
-          await showModalBottomSheet<Widget>(
-            context: context,
-            builder: (BuildContext context) {
-              return const Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [AccountDelete()],
-              );
-            },
-          );
+          await showModal(context, [const AccountDelete()]);
         },
       ),
     ]);
