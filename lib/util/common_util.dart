@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bluesky/screen/parts/button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Widget textItem(
@@ -39,21 +38,12 @@ void inkwell(BuildContext context, {Widget? transfer, String? link}) async {
   }
 }
 
-class CancelButton extends Button {
-  CancelButton(super.state);
 
-  @override
-  Future<void> action() async {
-    Navigator.pop(state.context);
-  }
-
-  @override
-  String get text => tr("submit.cancel");
-Future<void> showModal(BuildContext context, List<Widget> widgets) async {
+Future<void> showModal(BuildContext context, Widget widget) async {
   await showModalBottomSheet<Widget>(
     context: context,
     builder: (BuildContext context) {
-      return Column(mainAxisSize: MainAxisSize.min, children: widgets);
+      return widget;
     },
   );
 }

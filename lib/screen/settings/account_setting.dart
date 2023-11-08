@@ -63,7 +63,7 @@ class AccountSetting extends StatelessWidget {
       InkWell(
         child: textItem('${tr("account.delete")}...', color: color),
         onTap: () async {
-          await showModal(context, [const AccountDelete()]);
+          await showModal(context, const AccountDelete());
         },
       ),
     ]);
@@ -107,8 +107,13 @@ class AccountDeleteScreen extends State<AccountDelete> {
         fontSize: 24, fontWeight: FontWeight.bold));
     initItems.add(sizeBox);
     initItems.add(sizeBox);
-    initItems.add(
-        SizedBox(width: double.infinity, child: CancelButton(this).widget));
+    CancelButton cancelButton = CancelButton(this);
+    cancelButton.height = 60;
+    cancelButton.left = 20;
+    cancelButton.top = 0;
+    cancelButton.right = 20;
+    cancelButton.bottom = 10;
+    initItems.add(SizedBox(width: double.infinity, child: cancelButton.widget));
   }
 
   Widget sendMail() {
@@ -116,7 +121,13 @@ class AccountDeleteScreen extends State<AccountDelete> {
     items.addAll(initItems);
     SendEmailButton sendEmailButton = SendEmailButton(this);
     sendEmailButton.backgroundColor =
-        MaterialStateProperty.all(Colors.blue.shade100);
+        MaterialStateProperty.all(Theme.of(context).primaryColor);
+    sendEmailButton.color = Colors.white;
+    sendEmailButton.height = 60;
+    sendEmailButton.left = 20;
+    sendEmailButton.top = 10;
+    sendEmailButton.right = 20;
+    sendEmailButton.bottom = 0;
     items.insertAll(3, [
       textItem(tr("account.delete.confirmation")),
       sizeBox,
@@ -201,7 +212,7 @@ class AccountDeleteScreen extends State<AccountDelete> {
   }
 }
 
-class SendEmailButton extends Button {
+class SendEmailButton extends SizedButton {
   SendEmailButton(super.state);
 
   @override

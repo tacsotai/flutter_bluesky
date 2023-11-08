@@ -7,6 +7,23 @@ Widget get sizeBox {
   );
 }
 
+Widget padding(
+  Widget widget, {
+  double? all,
+  double? left = 0,
+  double? top = 0,
+  double? right = 0,
+  double? bottom = 0,
+}) {
+  if (all != null) {
+    return Padding(padding: EdgeInsets.all(all), child: widget);
+  } else {
+    return Padding(
+        padding: EdgeInsets.fromLTRB(left!, top!, right!, bottom!),
+        child: widget);
+  }
+}
+
 Widget padding10(
   Widget widget, {
   double left = 10,

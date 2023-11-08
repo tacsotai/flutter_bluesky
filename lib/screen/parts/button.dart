@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/profile/edit_profile.dart';
 import 'package:flutter_bluesky/util/account_util.dart';
 import 'package:flutter_bluesky/util/common_util.dart';
@@ -10,7 +11,7 @@ import 'package:tuple/tuple.dart';
 abstract class Button {
   MaterialStateProperty<Color?>? backgroundColor;
   Color? color;
-  double? fontSize = 14;
+  double? fontSize;
   FontWeight? fontWeight = FontWeight.normal;
 
   final State state;
@@ -36,6 +37,88 @@ abstract class Button {
   }
 
   Future<void> action();
+}
+
+mixin Sized {
+  double? width = double.infinity;
+  double? height = 120;
+  double? all;
+  double? left = 40;
+  double? top = 40;
+  double? right = 40;
+  double? bottom = 30;
+
+  Widget sizedBox(Widget widget) {
+    return SizedBox(
+        height: height,
+        width: width,
+        child: padding(
+          widget,
+          all: all,
+          left: left,
+          top: top,
+          right: right,
+          bottom: bottom,
+        ));
+  }
+}
+
+abstract class SizedButton extends Button with Sized {
+  SizedButton(super.state);
+
+  @override
+  Widget get widget {
+    return sizedBox(super.widget);
+  }
+}
+
+abstract class ModalButton extends SizedButton {
+  ModalButton(super.state);
+
+  @override
+  Widget get widget {
+    backgroundColor =
+        MaterialStateProperty.all(Theme.of(state.context).primaryColor);
+    color = Colors.white;
+    fontWeight = FontWeight.bold;
+    return super.widget;
+  }
+}
+
+abstract class ConfirmButton extends ModalButton {
+  ConfirmButton(super.state);
+
+  @override
+  String get text => tr("confirm");
+}
+
+class ReportButton extends ModalButton {
+  final Map<String, dynamic> subject;
+  final String reasonType;
+  final String? reason;
+  ReportButton(super.state, this.subject, this.reasonType, this.reason);
+
+  @override
+  Future<void> action() async {
+    await plugin.createReport(reasonType, subject, reason: reason);
+    // ignore: use_build_context_synchronously
+    Navigator.pop(state.context);
+  }
+
+  @override
+  String get text => tr("send.report");
+}
+
+class CancelButton extends SizedButton {
+  CancelButton(super.state);
+
+  @override
+  Future<void> action() async {
+    Navigator.pop(state.context);
+  }
+
+  @override
+  String get text => tr("submit.cancel");
 }
 
 abstract class ProfileButton extends Button {
