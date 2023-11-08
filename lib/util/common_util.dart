@@ -38,6 +38,12 @@ void inkwell(BuildContext context, {Widget? transfer, String? link}) async {
   }
 }
 
+InputDecoration decoration(String prop) {
+  return InputDecoration(
+    border: const OutlineInputBorder(),
+    labelText: tr(prop),
+  );
+}
 
 Future<void> showModal(BuildContext context, Widget widget) async {
   await showModalBottomSheet<Widget>(

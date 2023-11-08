@@ -7,6 +7,7 @@ import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:flutter_bluesky/api/model/feed.dart' as feed;
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
+import 'package:flutter_bluesky/util/common_util.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
@@ -170,10 +171,7 @@ class PostScreen extends State<Post> {
 
   Widget text({FormFieldValidator<String>? validator}) {
     return TextFormField(
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        labelText: tr('post.placeholder.${widget.postType.name}'),
-      ),
+      decoration: decoration('post.placeholder.${widget.postType.name}'),
       onSaved: (text) {
         setState(() {
           _text = text!;

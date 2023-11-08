@@ -13,6 +13,7 @@ import 'package:flutter_bluesky/screen/parts/image/banner.dart' as prof;
 import 'package:flutter_bluesky/screen/me.dart';
 import 'package:flutter_bluesky/screen/parts/image/picture.dart';
 import 'package:flutter_bluesky/screen/profile/profile_updater.dart';
+import 'package:flutter_bluesky/util/common_util.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
 
 class EditProfile extends StatefulWidget {
@@ -154,13 +155,6 @@ class EditProfileScreen extends State<EditProfile> {
           description = value!;
         });
       },
-    );
-  }
-
-  InputDecoration decoration(String prop) {
-    return InputDecoration(
-      border: const OutlineInputBorder(),
-      labelText: tr(prop),
     );
   }
 

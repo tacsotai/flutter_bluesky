@@ -155,10 +155,7 @@ class AccountDeleteScreen extends State<AccountDelete> {
     bool isPassword = labelProp == "password.hint";
     return TextFormField(
       obscureText: isPassword,
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        labelText: tr(labelProp),
-      ),
+      decoration: decoration(labelProp),
       onSaved: (text) {
         setState(() {
           if (isPassword) {
