@@ -316,6 +316,10 @@ class FlutterBluesky extends Bluesky {
     return await _unlink(uri);
   }
 
+  Future<Tuple2> delete(String uri) async {
+    return await _unlink(uri);
+  }
+
   // 'at://did:plc:72i5sqnrlvphcxjllqzzslft/app.bsky.feed.repost/3jw2xxfd7fs24'
   Future<Tuple2> _unlink(String uri) async {
     List<String> splits = uri.split("/");
