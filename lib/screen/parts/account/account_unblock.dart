@@ -34,7 +34,8 @@ class BlockConfirmButton extends ConfirmButton {
 
   @override
   Future<void> action() async {
-    await plugin.unblock(actor.did);
+    await plugin.unblock(actor.viewer.blocking!);
+    actor.viewer.blocking = null;
     // ignore: use_build_context_synchronously
     Navigator.pop(state.context);
   }

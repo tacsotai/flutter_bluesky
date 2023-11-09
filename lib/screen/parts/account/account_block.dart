@@ -4,6 +4,7 @@ import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/button.dart';
+import 'package:tuple/tuple.dart';
 
 class AccountBlock extends StatefulWidget {
   final ProfileViewDetailed actor;
@@ -34,7 +35,8 @@ class BlockConfirmButton extends ConfirmButton {
 
   @override
   Future<void> action() async {
-    await plugin.block(actor.did);
+    Tuple2 res = await plugin.block(actor.did);
+    actor.viewer.blocking = res.item2["uri"];
     // ignore: use_build_context_synchronously
     Navigator.pop(state.context);
   }
