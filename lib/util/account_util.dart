@@ -4,6 +4,7 @@ import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/parts/account/account_block.dart';
 import 'package:flutter_bluesky/screen/parts/account/account_report.dart';
 import 'package:flutter_bluesky/screen/parts/account/account_unblock.dart';
+import 'package:flutter_bluesky/screen/parts/button.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/util/common_util.dart';
 
@@ -88,24 +89,35 @@ class AccountUtil {
   }
 
   static Future<void> block(State state, ProfileViewDetailed actor) async {
-    await showModal(state.context, AccountBlock(actor: actor));
-    // ignore: invalid_use_of_protected_member
-    state.setState(() {});
-    await timerDialog(state, dialog("block.account"));
+    AccountBlock modal = AccountBlock(actor: actor);
+    await showModal(state.context, modal);
+    if (modal.button.actionStatus == ActionStatus.completed) {
+      // ignore: invalid_use_of_protected_member
+      state.setState(() {});
+      await timerDialog(state, dialog("block.account"));
+    }
+    // TODO error case
   }
 
   static Future<void> unblock(State state, ProfileViewDetailed actor) async {
-    await showModal(state.context, AccountUnblock(actor: actor));
-    // ignore: invalid_use_of_protected_member
-    state.setState(() {});
-    await timerDialog(state, dialog("unblock.account"));
+    AccountUnblock modal = AccountUnblock(actor: actor);
+    await showModal(state.context, modal);
+    if (modal.button.actionStatus == ActionStatus.completed) {
+      // ignore: invalid_use_of_protected_member
+      state.setState(() {});
+      await timerDialog(state, dialog("unblock.account"));
+    }
+    // TODO error case
   }
 
   static Future<void> report(State state, ProfileViewDetailed actor) async {
-    AccountReport report = AccountReport(actor: actor);
-    await showModal(state.context, report);
-    // ignore: invalid_use_of_protected_member
-    state.setState(() {});
-    await timerDialog(state, messageDialog("report.thank"));
+    AccountReport modal = AccountReport(actor: actor);
+    await showModal(state.context, modal);
+    if (modal.button.actionStatus == ActionStatus.completed) {
+      // ignore: invalid_use_of_protected_member
+      state.setState(() {});
+      await timerDialog(state, messageDialog("report.thank"));
+    }
+    // TODO error case
   }
 }

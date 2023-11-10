@@ -83,6 +83,13 @@ abstract class ModalButton extends SizedButton {
     fontWeight = FontWeight.bold;
     return super.widget;
   }
+
+  ActionStatus actionStatus = ActionStatus.init;
+
+  void setActionStatus(int httpStatusCode) {
+    actionStatus =
+        httpStatusCode == 200 ? ActionStatus.completed : ActionStatus.error;
+  }
 }
 
 abstract class ConfirmButton extends ModalButton {
@@ -100,7 +107,8 @@ class ReportButton extends ModalButton {
 
   @override
   Future<void> action() async {
-    await plugin.createReport(reasonType, subject, reason: reason);
+    Tuple2 res = await plugin.createReport(reasonType, subject, reason: reason);
+    setActionStatus(res.item1);
     // ignore: use_build_context_synchronously
     Navigator.pop(state.context);
   }
@@ -214,3 +222,5 @@ class ProfileEditButton extends ProfileButton {
     Navigator.pushNamed(state.context, EditProfile.screen.route);
   }
 }
+
+enum ActionStatus { init, completed, error }

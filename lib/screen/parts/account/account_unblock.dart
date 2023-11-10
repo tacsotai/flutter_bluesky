@@ -4,10 +4,13 @@ import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/button.dart';
+import 'package:tuple/tuple.dart';
 
+// ignore: must_be_immutable
 class AccountUnblock extends StatefulWidget {
   final ProfileViewDetailed actor;
-  const AccountUnblock({super.key, required this.actor});
+  late ModalButton button;
+  AccountUnblock({super.key, required this.actor});
 
   @override
   AccountUnblockScreen createState() => AccountUnblockScreen();
@@ -21,9 +24,15 @@ class AccountUnblockScreen extends State<AccountUnblock> {
 
   @override
   Widget build(BuildContext context) {
-    ModalButton button = BlockConfirmButton(this, widget.actor);
-    return Column(
-        children: [header, content, sizeBox, sizeBox, sizeBox, button.widget]);
+    widget.button = BlockConfirmButton(this, widget.actor);
+    return Column(children: [
+      header,
+      content,
+      sizeBox,
+      sizeBox,
+      sizeBox,
+      widget.button.widget
+    ]);
   }
 }
 
@@ -34,8 +43,11 @@ class BlockConfirmButton extends ConfirmButton {
 
   @override
   Future<void> action() async {
-    await plugin.unblock(actor.viewer.blocking!);
-    actor.viewer.blocking = null;
+    Tuple2 res = await plugin.unblock(actor.viewer.blocking!);
+    setActionStatus(res.item1);
+    if (actionStatus == ActionStatus.completed) {
+      actor.viewer.blocking = null;
+    }
     // ignore: use_build_context_synchronously
     Navigator.pop(state.context);
   }

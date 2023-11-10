@@ -6,9 +6,11 @@ import 'package:flutter_bluesky/screen/parts/button.dart';
 import 'package:flutter_bluesky/util/common_util.dart';
 import 'package:flutter_bluesky/util/report_util.dart';
 
+// ignore: must_be_immutable
 class AccountReport extends StatefulWidget {
   final ProfileViewDetailed actor;
-  const AccountReport({super.key, required this.actor});
+  late ModalButton button;
+  AccountReport({super.key, required this.actor});
 
   @override
   AccountReportScreen createState() => AccountReportScreen();
@@ -16,7 +18,6 @@ class AccountReport extends StatefulWidget {
 
 class AccountReportScreen extends State<AccountReport> {
   final GlobalKey<FormState> formKey = GlobalKey();
-  ModalButton? button;
   ReasonType? selected;
   String? reason;
 
@@ -42,8 +43,9 @@ class AccountReportScreen extends State<AccountReport> {
       reasonForm(),
     ];
     if (selected != null) {
-      button = accountReportButton(this, widget.actor, selected!, reason);
-      list.add(button!.widget);
+      widget.button =
+          accountReportButton(this, widget.actor, selected!, reason);
+      list.add(widget.button.widget);
     }
     return list;
   }
