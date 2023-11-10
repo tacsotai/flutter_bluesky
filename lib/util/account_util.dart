@@ -28,16 +28,31 @@ bool blockedBy(ProfileViewBasic actor) {
   return actor.viewer.blockedBy!;
 }
 
+// Assumption that a login user get profile of actor
+// "blocking" is appert in the json if bloced by the login user.
+// {
+//     "did": "did:plc:ugqaiaq4fw5uzyo75f3icmrx",
+//     "handle": "rmbcnl95j9bk443vg.grp.sotai.co",
+//     ;
+//     "viewer": {
+//         "muted": false,
+//         "blockedBy": false,
+//         "blocking": "at://did:plc:d3tdnbwjkoq6rpaa2vli2adi/app.bsky.graph.block/3kds5x6ogdc2l"
+//     },
+//     "labels": []
+// }
 bool blocking(ProfileViewBasic actor) {
-  return actor.viewer.blocking != null && actor.viewer.blocking!.isNotEmpty;
+  return actor.viewer.blocking != null;
 }
 
+// same as blocking
 bool following(ProfileViewBasic actor) {
-  return actor.viewer.following != null && actor.viewer.following!.isNotEmpty;
+  return actor.viewer.following != null;
 }
 
+// same as blocking
 bool followedBy(ProfileViewBasic actor) {
-  return actor.viewer.followedBy != null && actor.viewer.followedBy!.isNotEmpty;
+  return actor.viewer.followedBy != null;
 }
 
 String muteProp(ProfileViewBasic actor) {
