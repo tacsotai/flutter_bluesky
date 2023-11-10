@@ -55,11 +55,11 @@ Future<void> showModal(BuildContext context, Widget widget) async {
   );
 }
 
-Future<void> timerDialog(State state, AlertDialog dialog) async {
+Future<void> timerDialog(BuildContext context, AlertDialog dialog) async {
   const displayTime = Duration(seconds: 2);
   try {
     await showDialog(
-      context: state.context,
+      context: context,
       barrierColor: Colors.white10,
       builder: (context) {
         return dialog;
@@ -67,7 +67,7 @@ Future<void> timerDialog(State state, AlertDialog dialog) async {
     ).timeout(displayTime);
   } on TimeoutException {
     // ignore: use_build_context_synchronously
-    Navigator.of(state.context).pop();
+    Navigator.of(context).pop();
   }
 }
 

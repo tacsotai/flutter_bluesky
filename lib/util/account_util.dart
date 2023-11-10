@@ -76,7 +76,8 @@ class AccountUtil {
     state.setState(() {
       actor.viewer.muted = true;
     });
-    await timerDialog(state, dialog("mute.account"));
+    // ignore: use_build_context_synchronously
+    await timerDialog(state.context, dialog("mute.account"));
   }
 
   static Future<void> unmute(State state, ProfileViewDetailed actor) async {
@@ -85,7 +86,8 @@ class AccountUtil {
     state.setState(() {
       actor.viewer.muted = false;
     });
-    await timerDialog(state, dialog("unmute.account"));
+    // ignore: use_build_context_synchronously
+    await timerDialog(state.context, dialog("unmute.account"));
   }
 
   static Future<void> block(State state, ProfileViewDetailed actor) async {
@@ -94,7 +96,8 @@ class AccountUtil {
     if (modal.button.actionStatus == ActionStatus.completed) {
       // ignore: invalid_use_of_protected_member
       state.setState(() {});
-      await timerDialog(state, dialog("block.account"));
+      // ignore: use_build_context_synchronously
+      await timerDialog(state.context, dialog("block.account"));
     }
     // TODO error case
   }
@@ -105,7 +108,8 @@ class AccountUtil {
     if (modal.button.actionStatus == ActionStatus.completed) {
       // ignore: invalid_use_of_protected_member
       state.setState(() {});
-      await timerDialog(state, dialog("unblock.account"));
+      // ignore: use_build_context_synchronously
+      await timerDialog(state.context, dialog("unblock.account"));
     }
     // TODO error case
   }
@@ -116,7 +120,8 @@ class AccountUtil {
     if (modal.button.actionStatus == ActionStatus.completed) {
       // ignore: invalid_use_of_protected_member
       state.setState(() {});
-      await timerDialog(state, messageDialog("report.thank"));
+      // ignore: use_build_context_synchronously
+      await timerDialog(state.context, messageDialog("report.thank"));
     }
     // TODO error case
   }
