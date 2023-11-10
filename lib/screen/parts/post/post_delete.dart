@@ -5,10 +5,13 @@ import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/button.dart';
+import 'package:tuple/tuple.dart';
 
+// ignore: must_be_immutable
 class PostDelete extends StatefulWidget {
   final Post post;
-  const PostDelete({super.key, required this.post});
+  late ModalButton button;
+  PostDelete({super.key, required this.post});
 
   @override
   PostDeleteScreen createState() => PostDeleteScreen();
@@ -22,9 +25,15 @@ class PostDeleteScreen extends State<PostDelete> {
 
   @override
   Widget build(BuildContext context) {
-    ModalButton button = PostDeleteConfirmButton(this, widget.post);
-    return Column(
-        children: [header, content, sizeBox, sizeBox, sizeBox, button.widget]);
+    widget.button = PostDeleteConfirmButton(this, widget.post);
+    return Column(children: [
+      header,
+      content,
+      sizeBox,
+      sizeBox,
+      sizeBox,
+      widget.button.widget
+    ]);
   }
 }
 
@@ -35,7 +44,8 @@ class PostDeleteConfirmButton extends ConfirmButton {
 
   @override
   Future<void> action() async {
-    await plugin.delete(post.uri);
+    Tuple2 res = await plugin.delete(post.uri);
+    setActionStatus(res.item1);
     // ignore: use_build_context_synchronously
     Navigator.of(state.context).pushReplacement(MaterialPageRoute(
       builder: (context) => Base(),

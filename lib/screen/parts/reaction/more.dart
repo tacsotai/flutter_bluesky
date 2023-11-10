@@ -2,10 +2,8 @@ import 'package:acceptable/acceptable.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
-import 'package:flutter_bluesky/screen/parts/post/post_delete.dart';
-import 'package:flutter_bluesky/screen/parts/post/post_report.dart';
 import 'package:flutter_bluesky/screen/parts/reaction.dart';
-import 'package:flutter_bluesky/util/common_util.dart';
+import 'package:flutter_bluesky/util/post_util.dart';
 import 'package:flutter_bluesky/util/reaction_util.dart';
 import 'package:provider/provider.dart';
 
@@ -80,12 +78,12 @@ class MoreReaction extends AbstractReaction {
       // ),
       PopupMenuItem(
         child: Text(tr("report.post")),
-        onTap: () async => await showModal(context, PostReport(post: post)),
+        onTap: () async => await PostUtil.report(context, post),
       ),
       // if the post user is the login user, delete post
       PopupMenuItem(
         child: Text(tr("delete.post")),
-        onTap: () async => await showModal(context, PostDelete(post: post)),
+        onTap: () async => await PostUtil.delete(context, post),
       ),
     ]);
   }

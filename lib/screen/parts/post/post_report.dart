@@ -6,9 +6,11 @@ import 'package:flutter_bluesky/screen/parts/button.dart';
 import 'package:flutter_bluesky/util/common_util.dart';
 import 'package:flutter_bluesky/util/report_util.dart';
 
+// ignore: must_be_immutable
 class PostReport extends StatefulWidget {
   final Post post;
-  const PostReport({super.key, required this.post});
+  late ModalButton button;
+  PostReport({super.key, required this.post});
 
   @override
   PostReportScreen createState() => PostReportScreen();
@@ -16,7 +18,6 @@ class PostReport extends StatefulWidget {
 
 class PostReportScreen extends State<PostReport> {
   final GlobalKey<FormState> formKey = GlobalKey();
-  ModalButton? button;
   ReasonType? selected;
   String? reason;
 
@@ -44,8 +45,8 @@ class PostReportScreen extends State<PostReport> {
       reasonForm(),
     ];
     if (selected != null) {
-      button = postReportButton(this, widget.post, selected!, reason);
-      list.add(button!.widget);
+      widget.button = postReportButton(this, widget.post, selected!, reason);
+      list.add(widget.button.widget);
     }
     return list;
   }
