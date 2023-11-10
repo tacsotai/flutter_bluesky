@@ -1,6 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
+import 'package:flutter_bluesky/screen/parts/account/account_block.dart';
+import 'package:flutter_bluesky/screen/parts/account/account_report.dart';
+import 'package:flutter_bluesky/screen/parts/account/account_unblock.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
+import 'package:flutter_bluesky/util/common_util.dart';
 
 bool isLoginUser(ProfileViewBasic actor) {
   return actor.did == plugin.api.session.actor!.did;
@@ -61,4 +66,46 @@ String muteProp(ProfileViewBasic actor) {
 
 String blockProp(ProfileViewBasic actor) {
   return blocking(actor) ? "unblock.account" : "block.account";
+}
+
+class AccountUtil {
+  static Future<void> mute(State state, ProfileViewDetailed actor) async {
+    await plugin.muteActor(actor.did);
+    // ignore: invalid_use_of_protected_member
+    state.setState(() {
+      actor.viewer.muted = true;
+    });
+    await timerDialog(state, dialog("mute.account"));
+  }
+
+  static Future<void> unmute(State state, ProfileViewDetailed actor) async {
+    await plugin.unmuteActor(actor.did);
+    // ignore: invalid_use_of_protected_member
+    state.setState(() {
+      actor.viewer.muted = false;
+    });
+    await timerDialog(state, dialog("unmute.account"));
+  }
+
+  static Future<void> block(State state, ProfileViewDetailed actor) async {
+    await showModal(state.context, AccountBlock(actor: actor));
+    // ignore: invalid_use_of_protected_member
+    state.setState(() {});
+    await timerDialog(state, dialog("block.account"));
+  }
+
+  static Future<void> unblock(State state, ProfileViewDetailed actor) async {
+    await showModal(state.context, AccountUnblock(actor: actor));
+    // ignore: invalid_use_of_protected_member
+    state.setState(() {});
+    await timerDialog(state, dialog("unblock.account"));
+  }
+
+  static Future<void> report(State state, ProfileViewDetailed actor) async {
+    AccountReport report = AccountReport(actor: actor);
+    await showModal(state.context, report);
+    // ignore: invalid_use_of_protected_member
+    state.setState(() {});
+    await timerDialog(state, messageDialog("report.thank"));
+  }
 }
