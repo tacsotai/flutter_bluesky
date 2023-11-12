@@ -59,7 +59,7 @@ class FeedDataHolder {
 // ProfileViewDetailed List
 // app.bsky.actor.searchActors
 // app.bsky.actor.getSuggestions
-class SearchDataHolder {
+class ActorsDataHolder {
   String? cursor;
   List<ProfileView> actors = [];
 

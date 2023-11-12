@@ -74,7 +74,7 @@ class ProfileDataManager extends FeedDataManager {
 }
 
 class SearchDataManager extends DataManager {
-  final SearchDataHolder holder = SearchDataHolder();
+  final ActorsDataHolder holder = ActorsDataHolder();
 
   @override
   Future<void> getData(bool insert, {String? term}) async {
