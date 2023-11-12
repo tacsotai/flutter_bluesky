@@ -25,8 +25,12 @@ class ProfileScreen extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     checkSession(context);
+    base!.screen.byOutside = true;
     return Scaffold(
-      body: _build(),
+      body: Stack(children: [
+        _build(),
+        base!.screen.bottom,
+      ]),
     );
   }
 
@@ -43,7 +47,7 @@ class ProfileScreen extends State<Profile> {
           } else {
             return ProfileView(
               manager: _manager,
-              baseScreen: Base().screen,
+              baseScreen: base!.screen,
             );
           }
         });

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
+import 'package:flutter_bluesky/util/base_util.dart';
 
 List<PluggableWidget> pluggables = [];
 
-void initPluggables(Base base) {
+/// It will be access [BaseScreen.byOutside]
+Base? base;
+
+void initPluggables(Base baseWidget) {
+  base = baseWidget;
   for (var pluggable in pluggables) {
-    pluggable.setBase(base);
+    pluggable.setBase(baseWidget);
   }
 }
 
@@ -27,6 +32,10 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
   late Animation<double> _height;
 
   int selectedIndex = 0;
+
+  /// Base widget is used by [PluggableWidget]; in this case false.
+  /// If Other use this class, it will be true.
+  bool byOutside = false;
 
   @override
   void initState() {
@@ -84,6 +93,11 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
                 onTap: (index) {
                   setState(() {
                     selectedIndex = index;
+                    // debugPrint("fromOutside: $byOutside");
+                    // debugPrint("index: $index");
+                    if (byOutside) {
+                      pushBase(context, selectedIndex: selectedIndex);
+                    }
                   });
                 },
                 type: BottomNavigationBarType.fixed,
