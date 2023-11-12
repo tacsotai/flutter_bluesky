@@ -26,13 +26,13 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _height;
 
-  int _selectedIndex = 0;
+  int selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
     initPluggables(widget);
-    _selectedIndex = widget.selectedIndex;
+    selectedIndex = widget.selectedIndex;
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 100),
@@ -63,7 +63,7 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     if (hasSession) {
       checkSession(context);
-      return pluggables[_selectedIndex];
+      return pluggables[selectedIndex];
     } else {
       return const Text("Provider is not settled");
     }
@@ -80,10 +80,10 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
             return Transform.translate(
               offset: Offset(0, _height.value),
               child: BottomNavigationBar(
-                currentIndex: _selectedIndex,
+                currentIndex: selectedIndex,
                 onTap: (index) {
                   setState(() {
-                    _selectedIndex = index;
+                    selectedIndex = index;
                   });
                 },
                 type: BottomNavigationBarType.fixed,
