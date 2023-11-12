@@ -16,7 +16,7 @@ class Avatar extends Picture {
       onTap: () async {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Profile(user: actor.did)),
+          MaterialPageRoute(builder: (context) => Profile(actor: actor.did)),
         );
       },
     );

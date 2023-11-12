@@ -58,7 +58,8 @@ abstract class LinkWidget {
         ..onTap = () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Profile(user: mention.did)),
+            MaterialPageRoute(
+                builder: (context) => Profile(actor: mention.did)),
           );
         },
     ));

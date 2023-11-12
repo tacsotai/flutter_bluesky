@@ -39,7 +39,7 @@ class MyScreen extends State<Me> with Frame {
 
   @override
   Widget body() {
-    _manager.holder.user = plugin.api.session.handle!;
+    _manager.holder.actor = plugin.api.session.handle!;
     return FutureBuilder(
         future: _manager.getData(false),
         builder: (BuildContext context, AsyncSnapshot snapshot) {

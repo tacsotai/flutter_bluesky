@@ -39,7 +39,7 @@ class SearchContent {
     FollowButton button =
         buttonManager!.followButton(state, actor) as FollowButton;
     Widget right = button.isFollowing ? Container() : button.widget;
-    Widget transfer = Profile(user: actor.did);
+    Widget transfer = Profile(actor: actor.did);
     return inkWell(state, actor, left, right, transfer);
   }
 

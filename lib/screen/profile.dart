@@ -7,8 +7,8 @@ import 'package:flutter_bluesky/screen/profile/profile_view.dart';
 
 class Profile extends StatefulWidget {
   static Screen screen = Screen(Profile, const Icon(Icons.person));
-  const Profile({Key? key, this.user}) : super(key: key);
-  final String? user;
+  const Profile({Key? key, this.actor}) : super(key: key);
+  final String? actor;
 
   @override
   ProfileScreen createState() => ProfileScreen();
@@ -35,7 +35,7 @@ class ProfileScreen extends State<Profile> {
   }
 
   Widget _build() {
-    _manager.holder.user = widget.user!;
+    _manager.holder.actor = widget.actor!;
     return FutureBuilder(
         future: _manager.getData(false),
         builder: (BuildContext context, AsyncSnapshot snapshot) {

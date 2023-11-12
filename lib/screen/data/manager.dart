@@ -61,14 +61,14 @@ class ProfileDataManager extends FeedDataManager {
   }
 
   Future<void> makeProfile() async {
-    Tuple2 res = await plugin.getProfile(holder.user);
+    Tuple2 res = await plugin.getProfile(holder.actor);
     holder.makeProfile(res.item2);
   }
 
   Future<void> makeFeed(bool insert) async {
     String? cursor = insert ? null : holder.cursor;
     Tuple2 res =
-        await plugin.getAuthorFeed(holder.user, limit: 30, cursor: cursor);
+        await plugin.getAuthorFeed(holder.actor, limit: 30, cursor: cursor);
     holder.makeFeeds(insert, FeedResponse(res.item2));
   }
 }
