@@ -111,4 +111,11 @@ class ProfileContent {
       ],
     );
   }
+
+  Widget count(int count, String postfix) {
+    return Row(children: [
+      bold(count),
+      Text(postfix, style: const TextStyle(color: Colors.grey)),
+    ]);
+  }
 }
