@@ -52,6 +52,9 @@ class MainApp extends StatelessWidget {
         useMaterial3: true,
         colorSchemeSeed: Colors.indigoAccent,
         brightness: Brightness.light,
+        textTheme: const TextTheme(
+            bodyMedium: TextStyle(fontSize: 16),
+            titleSmall: TextStyle(fontSize: 16)),
       ),
       navigatorObservers: [TransitionRouteObserver()],
       initialRoute: initialRoute,
