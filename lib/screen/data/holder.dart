@@ -1,6 +1,7 @@
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/api/model/notification.dart';
+import 'package:flutter_bluesky/flutter_bluesky.dart';
 
 class HomeDataHolder extends FeedDataHolder {}
 
@@ -65,7 +66,17 @@ class SearchDataHolder {
   void make(ProfileViews res) async {
     actors.clear();
     actors = res.actors;
+    excludeLoginUser();
     cursor = res.cursor;
+  }
+
+  void excludeLoginUser() {
+    for (ProfileView actor in actors) {
+      if (actor.did == plugin.api.session.did) {
+        actors.remove(actor);
+        break;
+      }
+    }
   }
 }
 
