@@ -5,6 +5,7 @@ import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/button.dart';
+import 'package:flutter_bluesky/util/base_util.dart';
 import 'package:tuple/tuple.dart';
 
 // ignore: must_be_immutable
@@ -47,8 +48,6 @@ class PostDeleteConfirmButton extends ConfirmButton {
     Tuple2 res = await plugin.delete(post.uri);
     setActionStatus(res.item1);
     // ignore: use_build_context_synchronously
-    Navigator.of(state.context).pushReplacement(MaterialPageRoute(
-      builder: (context) => Base(),
-    ));
+    pushBase(state.context, selectedIndex: base!.screen.selectedIndex);
   }
 }
