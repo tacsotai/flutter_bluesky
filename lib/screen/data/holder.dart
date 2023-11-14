@@ -57,11 +57,9 @@ class FeedDataHolder {
   }
 }
 
-// ProfileView List
+// ProfileViewDetailed List
 // app.bsky.actor.searchActors
 // app.bsky.actor.getSuggestions
-// app.bsky.graph.getFollowers
-// app.bsky.graph.getFollows
 class ActorsDataHolder {
   String? cursor;
   List<ProfileView> actors = [];
