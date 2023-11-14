@@ -133,3 +133,42 @@ class NotificationsDataManager extends DataManager {
   @override
   int get length => holder.notifications.length;
 }
+
+abstract class ActorsDataManager extends DataManager {
+  final ActorsDataHolder holder = ActorsDataHolder();
+
+  @override
+  int get length => holder.actors.length;
+}
+
+class FollowsDataManager extends ActorsDataManager {
+  @override
+  Future<void> getData(bool insert, {String? term}) async {
+    String actor = term!;
+    try {
+      // String? cursor = holder.cursor; // TODO cursor, limit
+      Tuple2 res = await plugin.getFollows(actor);
+      holder.make(ProfileViews(res.item2));
+    } catch (e, stacktrace) {
+      // TODO
+      debugPrint("Error: $e");
+      debugPrint("stacktrace: $stacktrace");
+    }
+  }
+}
+
+class FollowersDataManager extends ActorsDataManager {
+  @override
+  Future<void> getData(bool insert, {String? term}) async {
+    String actor = term!;
+    try {
+      // String? cursor = holder.cursor; // TODO cursor, limit
+      Tuple2 res = await plugin.getFollowers(actor);
+      holder.make(ProfileViews(res.item2));
+    } catch (e, stacktrace) {
+      // TODO
+      debugPrint("Error: $e");
+      debugPrint("stacktrace: $stacktrace");
+    }
+  }
+}
