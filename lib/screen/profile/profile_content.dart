@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
+import 'package:flutter_bluesky/screen/actors.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/button.dart';
 import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
@@ -104,9 +105,9 @@ class ProfileContent {
   Widget get counts {
     return Row(
       children: [
-        count(actor.followersCount, 'followers'),
+        link(actor.followersCount, 'followers'),
         sizeBox,
-        count(actor.followsCount, 'following'),
+        link(actor.followsCount, 'following'),
         sizeBox,
         count(actor.postsCount, 'posts'),
       ],
@@ -116,7 +117,23 @@ class ProfileContent {
   Widget count(int count, String postfix) {
     return Row(children: [
       bold(count),
-      Text(postfix, style: const TextStyle(color: Colors.grey)),
+      Text(tr(postfix), style: const TextStyle(color: Colors.grey)),
+    ]);
+  }
+
+  Widget link(int count, String postfix) {
+    return Row(children: [
+      bold(count),
+      InkWell(
+        child: Text(tr(postfix), style: const TextStyle(color: Colors.grey)),
+        onTap: () {
+          Navigator.push(
+            state.context,
+            MaterialPageRoute(
+                builder: (context) => Actors(actor: actor.did, prop: postfix)),
+          );
+        },
+      )
     ]);
   }
 }
