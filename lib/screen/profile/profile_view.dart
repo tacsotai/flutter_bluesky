@@ -48,6 +48,7 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
   Widget build(BuildContext context) {
     profileContent!.state = this;
     profileContent!.actor = actor;
+    profileContent!.specialActors = widget.manager.holder.specialActors;
     return page(context);
   }
 

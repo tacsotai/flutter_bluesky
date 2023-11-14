@@ -8,6 +8,7 @@ class HomeDataHolder extends FeedDataHolder {}
 class ProfileDataHolder extends FeedDataHolder {
   late String actor;
   late ProfileViewDetailed detail;
+  List<String> specialActors = [];
 
   void makeProfile(Map map) async {
     detail = ProfileViewDetailed(map);

@@ -14,6 +14,7 @@ ProfileContent? profileContent;
 class ProfileContent {
   late State state;
   late ProfileViewDetailed actor;
+  List<String> specialActors = [];
 
   Widget get header {
     return Column(
