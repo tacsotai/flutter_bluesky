@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/session.dart';
 import 'package:flutter_bluesky/data/assets.dart';
+import 'package:flutter_bluesky/screen/data/factory.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter_bluesky/db/accessor.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
@@ -23,6 +24,7 @@ import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/search.dart';
 import 'package:flutter_bluesky/screen/profile.dart';
 import 'package:flutter_bluesky/screen/thread.dart';
+import 'package:flutter_bluesky/screen/actors.dart';
 import 'package:flutter_bluesky/transition_route_observer.dart';
 import 'package:flutter_bluesky_example/sample_timeline.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -66,6 +68,7 @@ class MainApp extends StatelessWidget {
         Thread.screen.route: (context) => const Thread(),
         Profile.screen.route: (context) => const Profile(),
         EditProfile.screen.route: (context) => const EditProfile(),
+        Actors.screen.route: (context) => const Actors(),
       },
     );
   }
@@ -123,6 +126,7 @@ Future<void> initScreen() async {
   customPostTL = SamplePostTimeline();
   buttonManager = DefaultButtonManager();
   profileContent = ProfileContent();
+  managerFactory = ManagerFactory();
 }
 
 void initMenu() {
