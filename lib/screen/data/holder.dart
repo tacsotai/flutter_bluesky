@@ -65,17 +65,22 @@ class FeedDataHolder {
 class ActorsDataHolder {
   String? cursor;
   List<ProfileView> actors = [];
+  final bool excludeLoginUser;
+
+  ActorsDataHolder({this.excludeLoginUser = true});
 
   void make(ProfileViews res) async {
     actors.clear();
     actors = res.actors;
-    excludeLoginUser();
+    if (excludeLoginUser) {
+      exclude(plugin.api.session.did!);
+    }
     cursor = res.cursor;
   }
 
-  void excludeLoginUser() {
+  void exclude(String did) {
     for (ProfileView actor in actors) {
-      if (actor.did == plugin.api.session.did) {
+      if (actor.did == did) {
         actors.remove(actor);
         break;
       }
