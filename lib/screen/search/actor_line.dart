@@ -8,16 +8,16 @@ import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/screen/profile.dart';
 import 'package:tuple/tuple.dart';
 
-SearchContent? customSearchContent;
+ActorContent? customSearchContent;
 
-class SearchLine extends StatefulWidget {
+class ActorLine extends StatefulWidget {
   final ProfileView actor;
-  const SearchLine({Key? key, required this.actor}) : super(key: key);
+  const ActorLine({Key? key, required this.actor}) : super(key: key);
   @override
-  SearchLineScreen createState() => SearchLineScreen();
+  ActorLineScreen createState() => ActorLineScreen();
 }
 
-class SearchLineScreen extends State<SearchLine> {
+class ActorLineScreen extends State<ActorLine> {
   @override
   Widget build(BuildContext context) {
     return padding10(paddingLR([
@@ -28,12 +28,12 @@ class SearchLineScreen extends State<SearchLine> {
   }
 
   Widget get content {
-    SearchContent sc = customSearchContent ?? SearchContent();
+    ActorContent sc = customSearchContent ?? ActorContent();
     return sc.build(this, widget.actor);
   }
 }
 
-class SearchContent {
+class ActorContent {
   Widget build(State state, ProfileView actor) {
     Widget left = displayNameHandle(actor);
     FollowButton button =

@@ -5,7 +5,7 @@ import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/refresh/material.dart';
 import 'package:flutter_bluesky/screen/parts/scroll/feed_scroll.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
-import 'package:flutter_bluesky/screen/search/search_line.dart';
+import 'package:flutter_bluesky/screen/search/actor_line.dart';
 
 class SearchView extends StatefulWidget {
   final SearchDataManager manager;
@@ -75,7 +75,7 @@ class _SearchViewState extends State<SearchView> with FeedScroll {
   Widget line(int index) {
     ProfileView actor = widget.manager.holder.actors[index];
     return Column(
-        children: [SearchLine(actor: actor), const Divider(height: 0.5)]);
+        children: [ActorLine(actor: actor), const Divider(height: 0.5)]);
   }
 
   Widget searchBox({FormFieldValidator<String>? validator}) {
