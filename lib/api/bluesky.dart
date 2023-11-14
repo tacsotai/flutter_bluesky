@@ -15,6 +15,15 @@ abstract class Bluesky extends Atproto {
         res.statusCode, json.decode(res.body));
   }
 
+  /// c.f [getPosts]
+  Future<Tuple2> getProfiles(String actors) async {
+    http.Response res = await api.get("app.bsky.actor.getProfiles",
+        params: {"actor[]": actors},
+        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
   Future<Tuple2> getSuggestions({int? limit, String? cursor}) async {
     http.Response res = await api.get("app.bsky.actor.getSuggestions",
         params: {"limit": limit, "cursor": cursor},
