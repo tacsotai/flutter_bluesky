@@ -74,7 +74,7 @@ class ProfileDataManager extends FeedDataManager {
 }
 
 class SearchDataManager extends DataManager {
-  final ActorsDataHolder holder = ActorsDataHolder();
+  final SearchDataHolder holder = SearchDataHolder();
 
   @override
   Future<void> getData(bool insert, {String? term}) async {
@@ -135,7 +135,7 @@ class NotificationsDataManager extends DataManager {
 }
 
 abstract class ActorsDataManager extends DataManager {
-  final ActorsDataHolder holder = ActorsDataHolder();
+  final SearchDataHolder holder = SearchDataHolder();
 
   @override
   int get length => holder.actors.length;
