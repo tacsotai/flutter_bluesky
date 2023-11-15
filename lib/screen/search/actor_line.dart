@@ -8,7 +8,7 @@ import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/screen/profile.dart';
 import 'package:tuple/tuple.dart';
 
-ActorContent? customSearchContent;
+ActorContent? customActorContent;
 
 class ActorLine extends StatefulWidget {
   final ProfileView actor;
@@ -28,7 +28,7 @@ class ActorLineScreen extends State<ActorLine> {
   }
 
   Widget get content {
-    ActorContent sc = customSearchContent ?? ActorContent();
+    ActorContent sc = customActorContent ?? ActorContent();
     return sc.build(this, widget.actor);
   }
 }
