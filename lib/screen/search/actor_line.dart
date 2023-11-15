@@ -28,8 +28,8 @@ class ActorLineScreen extends State<ActorLine> {
   }
 
   Widget get content {
-    ActorContent sc = customActorContent ?? ActorContent();
-    return sc.build(this, widget.actor);
+    ActorContent ac = customActorContent ?? ActorContent();
+    return ac.build(this, widget.actor);
   }
 }
 
