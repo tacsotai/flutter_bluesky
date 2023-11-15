@@ -68,8 +68,11 @@ class _ActorsViewState extends State<ActorsView> with FeedScroll {
       pinned: true, // #90 Don't use state() and isLoding for onRefresh:
       backgroundColor: Colors.white,
       flexibleSpace: FlexibleSpaceBar(
-          title: Text(tr(widget.prop)),
-          titlePadding: const EdgeInsetsDirectional.only(start: 70)),
+        title: Text(
+          tr(widget.prop),
+          style: const TextStyle(color: Colors.black),
+        ),
+      ),
     );
   }
 
