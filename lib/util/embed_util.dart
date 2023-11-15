@@ -37,7 +37,7 @@ class EmbedUtil {
   //https://vector-ium.com/flutter-image-widget/
   static Widget rowPair(List<Images> imgs) {
     return SizedBox(
-        height: 140,
+        height: 100,
         width: double.infinity,
         child: Row(children: [
           Expanded(child: imageDecoration(EmbedImage(images: imgs[0]))),
