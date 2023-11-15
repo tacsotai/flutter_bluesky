@@ -1,7 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bluesky/screen/parts/button.dart';
+import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:async';
 
 Widget textItem(
   String content, {
@@ -21,7 +22,7 @@ Widget circleItem(BuildContext context, double radius, IconData data,
       radius: radius,
       // backgroundColor: ColorScheme.,
       foregroundColor: color ?? Theme.of(context).colorScheme.primary,
-      child: Icon(data, size: 50 * (radius / 35)));
+      child: Icon(data, size: 50 * (radius / defaultRadius)));
 }
 
 void inkwell(BuildContext context, {Widget? transfer, String? link}) async {
@@ -39,14 +40,63 @@ void inkwell(BuildContext context, {Widget? transfer, String? link}) async {
   }
 }
 
-class CancelButton extends Button {
-  CancelButton(super.state);
+InputDecoration decoration(String prop) {
+  return InputDecoration(
+    border: const OutlineInputBorder(),
+    labelText: tr(prop),
+  );
+}
 
-  @override
-  Future<void> action() async {
-    Navigator.pop(state.context);
+Future<void> showModal(BuildContext context, Widget widget) async {
+  await showModalBottomSheet<Widget>(
+    context: context,
+    builder: (BuildContext context) {
+      return widget;
+    },
+  );
+}
+
+Future<void> timerDialog(BuildContext context, AlertDialog dialog) async {
+  const displayTime = Duration(seconds: 2);
+  try {
+    await showDialog(
+      context: context,
+      barrierColor: Colors.white10,
+      builder: (context) {
+        return dialog;
+      },
+    ).timeout(displayTime);
+  } on TimeoutException {
+    // ignore: use_build_context_synchronously
+    Navigator.of(context).pop();
   }
+}
 
-  @override
-  String get text => tr("submit.cancel");
+AlertDialog dialog(String prop) {
+  return alertDialog(prop);
+}
+
+AlertDialog messageDialog(String prop) {
+  return alertDialog(
+    prop,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+    titlePadding: const EdgeInsets.fromLTRB(20, 15, 20, 20),
+    textAlign: TextAlign.left,
+  );
+}
+
+AlertDialog alertDialog(String prop,
+    {ShapeBorder? shape,
+    EdgeInsets? titlePadding = const EdgeInsets.all(10),
+    textAlign = TextAlign.center}) {
+  return AlertDialog(
+    shape: shape,
+    titlePadding: titlePadding,
+    alignment: Alignment.topCenter,
+    title: Text(
+      tr(prop),
+      textAlign: textAlign,
+      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+    ),
+  );
 }

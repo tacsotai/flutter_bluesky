@@ -1,12 +1,15 @@
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
+import 'package:flutter_bluesky/api/model/graph.dart';
 import 'package:flutter_bluesky/api/model/notification.dart';
+import 'package:flutter_bluesky/flutter_bluesky.dart';
 
 class HomeDataHolder extends FeedDataHolder {}
 
 class ProfileDataHolder extends FeedDataHolder {
-  late String user;
+  late String actor;
   late ProfileViewDetailed detail;
+  List<String> specialActors = [];
 
   void makeProfile(Map map) async {
     detail = ProfileViewDetailed(map);
@@ -65,7 +68,38 @@ class SearchDataHolder {
   void make(ProfileViews res) async {
     actors.clear();
     actors = res.actors;
+    excludeLoginUser();
     cursor = res.cursor;
+  }
+
+  void excludeLoginUser() {
+    for (ProfileView actor in actors) {
+      if (actor.did == plugin.api.session.did) {
+        actors.remove(actor);
+        break;
+      }
+    }
+  }
+}
+
+class ActorsDataHolder {
+  String? cursor;
+  List<ProfileView> actors = [];
+
+  void make(Graph graph, {excludeLoginUser = true}) async {
+    actors = graph.actors;
+    if (excludeLoginUser) {
+      exclude(plugin.api.session.did!);
+    }
+  }
+
+  void exclude(String did) {
+    for (ProfileView actor in actors) {
+      if (actor.did == did) {
+        actors.remove(actor);
+        break;
+      }
+    }
   }
 }
 
@@ -88,7 +122,7 @@ class NotificationsDataHolder {
   void _makeUris() {
     StringBuffer sb = StringBuffer();
     for (Notification notification in notifications) {
-      if (notification.reasonSubject != null) {
+      if (needUri(notification)) {
         sb.write("uris[]=${getUri(notification)}&");
       }
     }
@@ -99,9 +133,18 @@ class NotificationsDataHolder {
 
   // Use original post when the reason is "quote" for desplaing embed.
   String? getUri(Notification notification) {
-    return notification.reason == "quote"
+    return usingNotificationUri(notification)
         ? notification.uri
         : notification.reasonSubject;
+  }
+
+  bool needUri(Notification notification) {
+    return notification.reasonSubject != null ||
+        notification.reason == "mention";
+  }
+
+  bool usingNotificationUri(Notification notification) {
+    return notification.reason == "quote" || notification.reason == "mention";
   }
 
   void makePosts(List postList) async {

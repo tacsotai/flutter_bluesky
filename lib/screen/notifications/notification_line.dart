@@ -23,7 +23,7 @@ class NotificationsLineScreen extends State<NotificationsLine> {
   @override
   Widget build(BuildContext context) {
     Notice notice = customNotice ?? Notice();
-    return padding(notice.build(this, widget.notification, widget.post));
+    return padding10(notice.build(this, widget.notification, widget.post));
   }
 }
 
@@ -46,11 +46,13 @@ class Notice {
       case "like":
         return like;
       case "reply":
-        return reply;
+        return avatarContent;
       case "repost":
-        return repost;
+        return avatarContent;
       case "quote":
-        return quote;
+        return avatarContent;
+      case "mention":
+        return avatarContent;
       default:
         return error;
     }
@@ -58,7 +60,9 @@ class Notice {
 
   Widget iconContent(IconData data, Color iconColor) {
     List<Widget> widgets = [
-      Avatar(state.context, radius: 20).net(notification.author).profile,
+      Avatar(state.context, radius: smallRadius)
+          .net(notification.author)
+          .profile,
       Header(author: notification.author, createdAt: notification.indexedAt)
           .build(state.context)
     ];
@@ -94,18 +98,6 @@ class Notice {
           .build(state.context),
       Body(post: post!),
     ]);
-  }
-
-  Widget get reply {
-    return avatarContent;
-  }
-
-  Widget get repost {
-    return avatarContent;
-  }
-
-  Widget get quote {
-    return avatarContent;
   }
 
   Widget get error {

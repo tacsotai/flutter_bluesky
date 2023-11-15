@@ -9,6 +9,23 @@ Widget get sizeBox {
 
 Widget padding(
   Widget widget, {
+  double? all,
+  double? left = 0,
+  double? top = 0,
+  double? right = 0,
+  double? bottom = 0,
+}) {
+  if (all != null) {
+    return Padding(padding: EdgeInsets.all(all), child: widget);
+  } else {
+    return Padding(
+        padding: EdgeInsets.fromLTRB(left!, top!, right!, bottom!),
+        child: widget);
+  }
+}
+
+Widget padding10(
+  Widget widget, {
   double left = 10,
   double top = 10,
   double right = 10,
@@ -32,7 +49,7 @@ Widget padding20(
   double right = 20,
   double bottom = 20,
 }) {
-  return padding(widget, left: left, top: top, right: right, bottom: bottom);
+  return padding10(widget, left: left, top: top, right: right, bottom: bottom);
 }
 
 Widget listsBody(List<Widget> widgets) {

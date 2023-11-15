@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
-import 'package:flutter_bluesky/flutter_bluesky.dart';
+import 'package:flutter_bluesky/screen/actors.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/button.dart';
 import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
@@ -15,6 +15,7 @@ ProfileContent? profileContent;
 class ProfileContent {
   late State state;
   late ProfileViewDetailed actor;
+  List<String> specialActors = [];
 
   Widget get header {
     return Column(
@@ -32,9 +33,9 @@ class ProfileContent {
       Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
         banner,
         const Divider(height: 0.5),
-        padding(profileButtons(button), top: 5, bottom: 5)
+        padding10(profileButtons(button), top: 5, bottom: 5)
       ]),
-      padding(profAvatar)
+      padding10(profAvatar)
     ]);
   }
 
@@ -50,12 +51,31 @@ class ProfileContent {
   }
 
   List<PopupMenuItem> get profileItems {
-    return [
-      PopupMenuItem(
-        child: Text(tr("menu.block.account")),
-        onTap: () async => await plugin.block(actor.did),
-      ),
-    ];
+    if (!isLoginUser(actor)) {
+      return [
+        PopupMenuItem(
+          child: Text(tr(muteProp(actor))),
+          onTap: () async => {
+            muted(actor)
+                ? await AccountUtil.unmute(state, actor)
+                : await AccountUtil.mute(state, actor)
+          },
+        ),
+        PopupMenuItem(
+          child: Text(tr(blockProp(actor))),
+          onTap: () async => {
+            blocking(actor)
+                ? await AccountUtil.unblock(state, actor)
+                : await AccountUtil.block(state, actor)
+          },
+        ),
+        PopupMenuItem(
+          child: Text(tr("report.account")),
+          onTap: () async => await AccountUtil.report(state, actor),
+        ),
+      ];
+    }
+    return []; // The case of actor is Login user.
   }
 
   Widget get banner {
@@ -63,7 +83,7 @@ class ProfileContent {
   }
 
   Widget get profAvatar {
-    return Avatar(state.context, radius: 45).net(actor).profile;
+    return Avatar(state.context, radius: largeRadius).net(actor).profile;
   }
 
   Widget get info {
@@ -85,12 +105,35 @@ class ProfileContent {
   Widget get counts {
     return Row(
       children: [
-        count(actor.followersCount, 'followers'),
+        link(actor.followersCount, 'followers'),
         sizeBox,
-        count(actor.followsCount, 'following'),
+        link(actor.followsCount, 'following'),
         sizeBox,
         count(actor.postsCount, 'posts'),
       ],
     );
+  }
+
+  Widget count(int count, String postfix) {
+    return Row(children: [
+      bold(count),
+      Text(tr(postfix), style: const TextStyle(color: Colors.grey)),
+    ]);
+  }
+
+  Widget link(int count, String postfix) {
+    return Row(children: [
+      bold(count),
+      InkWell(
+        child: Text(tr(postfix), style: const TextStyle(color: Colors.grey)),
+        onTap: () {
+          Navigator.push(
+            state.context,
+            MaterialPageRoute(
+                builder: (context) => Actors(actor: actor.did, prop: postfix)),
+          );
+        },
+      )
+    ]);
   }
 }

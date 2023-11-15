@@ -37,14 +37,6 @@ class SessionAPI {
         res.statusCode, json.decode(res.body));
   }
 
-  Future<Tuple2> getProfile(String actor) async {
-    http.Response res = await api.get("app.bsky.actor.getProfile",
-        params: {"actor": actor},
-        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
-    return Tuple2<int, Map<String, dynamic>>(
-        res.statusCode, json.decode(res.body));
-  }
-
   Future<void> refresh() async {
     Tuple2 res = await refreshSession();
     if (res.item1 == 200) {
@@ -62,9 +54,11 @@ class SessionAPI {
 
   // actor = null after login
   Future<void> profile() async {
-    Tuple2 res = await getProfile(api.session.did!);
-    if (res.item1 == 200) {
-      api.session.actor = ProfileViewDetailed(res.item2);
+    http.Response res = await api.get("app.bsky.actor.getProfile",
+        params: {"actor": api.session.did},
+        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+    if (res.statusCode == 200) {
+      api.session.actor = ProfileViewDetailed(json.decode(res.body));
     }
   }
 }

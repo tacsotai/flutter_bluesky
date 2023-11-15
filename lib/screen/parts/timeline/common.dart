@@ -56,13 +56,6 @@ Widget description(ProfileView actor) {
   return HyperLink(desc).withLink;
 }
 
-Widget count(int count, String postfix) {
-  return Row(children: [
-    bold(count),
-    Text(postfix, style: const TextStyle(color: Colors.grey)),
-  ]);
-}
-
 Widget bold(int count) {
   return Text(count.toString(),
       style: const TextStyle(fontWeight: FontWeight.bold));

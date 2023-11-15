@@ -7,6 +7,7 @@ import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/screen/settings/setting_util.dart';
+import 'package:flutter_bluesky/util/account_util.dart';
 import 'package:flutter_bluesky/util/common_util.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter_bluesky/screen/parts/button.dart';
@@ -31,6 +32,7 @@ class AccountSetting extends StatelessWidget {
     if (author.did == plugin.api.session.did) {
       logout = textItem(tr("logout"));
     }
+
     Widget left = Row(
       children: [
         Avatar(context, radius: 20).net(author).profile,
@@ -38,8 +40,8 @@ class AccountSetting extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            textItem("${plugin.api.session.handle}"),
-            textItem("${plugin.api.session.email}"),
+            textItem(getAccount(plugin.api.session.handle!)),
+            textItem(plugin.api.session.email!),
           ],
         ),
       ],
@@ -61,15 +63,7 @@ class AccountSetting extends StatelessWidget {
       InkWell(
         child: textItem('${tr("account.delete")}...', color: color),
         onTap: () async {
-          await showModalBottomSheet<Widget>(
-            context: context,
-            builder: (BuildContext context) {
-              return const Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [AccountDelete()],
-              );
-            },
-          );
+          await showModal(context, const AccountDelete());
         },
       ),
     ]);
@@ -109,12 +103,17 @@ class AccountDeleteScreen extends State<AccountDelete> {
     initItems.add(textItem(tr("account.delete"),
         fontSize: 24, fontWeight: FontWeight.bold));
     initItems.add(sizeBox);
-    initItems.add(textItem('"${plugin.api.session.handle}"',
+    initItems.add(textItem('"${getAccount(plugin.api.session.handle!)}"',
         fontSize: 24, fontWeight: FontWeight.bold));
     initItems.add(sizeBox);
     initItems.add(sizeBox);
-    initItems.add(
-        SizedBox(width: double.infinity, child: CancelButton(this).widget));
+    CancelButton cancelButton = CancelButton(this);
+    cancelButton.height = 60;
+    cancelButton.left = 20;
+    cancelButton.top = 0;
+    cancelButton.right = 20;
+    cancelButton.bottom = 10;
+    initItems.add(SizedBox(width: double.infinity, child: cancelButton.widget));
   }
 
   Widget sendMail() {
@@ -122,7 +121,13 @@ class AccountDeleteScreen extends State<AccountDelete> {
     items.addAll(initItems);
     SendEmailButton sendEmailButton = SendEmailButton(this);
     sendEmailButton.backgroundColor =
-        MaterialStateProperty.all(Colors.blue.shade100);
+        MaterialStateProperty.all(Theme.of(context).primaryColor);
+    sendEmailButton.color = Colors.white;
+    sendEmailButton.height = 60;
+    sendEmailButton.left = 20;
+    sendEmailButton.top = 10;
+    sendEmailButton.right = 20;
+    sendEmailButton.bottom = 0;
     items.insertAll(3, [
       textItem(tr("account.delete.confirmation")),
       sizeBox,
@@ -150,10 +155,7 @@ class AccountDeleteScreen extends State<AccountDelete> {
     bool isPassword = labelProp == "password.hint";
     return TextFormField(
       obscureText: isPassword,
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        labelText: tr(labelProp),
-      ),
+      decoration: decoration(labelProp),
       onSaved: (text) {
         setState(() {
           if (isPassword) {
@@ -207,7 +209,7 @@ class AccountDeleteScreen extends State<AccountDelete> {
   }
 }
 
-class SendEmailButton extends Button {
+class SendEmailButton extends SizedButton {
   SendEmailButton(super.state);
 
   @override

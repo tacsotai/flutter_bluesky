@@ -7,6 +7,7 @@ import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:flutter_bluesky/api/model/feed.dart' as feed;
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
+import 'package:flutter_bluesky/util/common_util.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
@@ -43,7 +44,7 @@ class PostScreen extends State<Post> {
   Widget build(BuildContext context) {
     checkSession(context);
     return Scaffold(
-      body: padding(
+      body: padding10(
         Form(
             key: _formKey,
             child: SingleChildScrollView(child: listsBody(widgets))),
@@ -54,7 +55,7 @@ class PostScreen extends State<Post> {
 
   List<Widget> get widgets {
     List<Widget> list = [
-      padding(Row(children: [cancel, const Spacer(), submit])),
+      padding10(Row(children: [cancel, const Spacer(), submit])),
       const Divider(height: 0.5),
       form(context),
       SizedBox(height: _height, child: Row(children: selects))
@@ -94,7 +95,7 @@ class PostScreen extends State<Post> {
   }
 
   Widget form(BuildContext context) {
-    return padding(
+    return padding10(
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -170,10 +171,7 @@ class PostScreen extends State<Post> {
 
   Widget text({FormFieldValidator<String>? validator}) {
     return TextFormField(
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        labelText: tr('post.placeholder.${widget.postType.name}'),
-      ),
+      decoration: decoration('post.placeholder.${widget.postType.name}'),
       onSaved: (text) {
         setState(() {
           _text = text!;
@@ -233,7 +231,7 @@ class PostScreen extends State<Post> {
 
 List<Widget> replyPost(BuildContext context, feed.Post post) {
   return [
-    padding(
+    padding10(
         paddingLR([
           Avatar(context).net(post.author).profile
         ], [

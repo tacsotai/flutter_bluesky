@@ -122,3 +122,13 @@
 * Add UserDomain.
 * Make it possible to be pluggable for Header.
 * Make border of embed record to be soft.
+
+## 0.5.9
+* Make followers and following list.
+* Make Moderation UI.
+* Show unfollow button on the actors list.
+* Don't show login user in the actors list.
+* Implement mention to NotificationsLineScreen.
+* Show Bottom menu at link page.
+* Fix internal structure.
+* Fix looks and feels, font size etc.

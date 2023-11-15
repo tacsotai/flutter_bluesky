@@ -3,12 +3,17 @@ import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/screen/parts/image/picture.dart';
 import 'package:flutter_bluesky/screen/profile.dart';
 
+const double tinyRadius = 10;
+const double smallRadius = 20;
+const double defaultRadius = 35;
+const double largeRadius = 45;
+
 class Avatar extends Picture {
   final BuildContext context;
   final double radius;
   late ProfileViewBasic actor;
 
-  Avatar(this.context, {this.radius = 35});
+  Avatar(this.context, {this.radius = defaultRadius});
 
   Widget get profile {
     return InkWell(
@@ -16,7 +21,7 @@ class Avatar extends Picture {
       onTap: () async {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Profile(user: actor.did)),
+          MaterialPageRoute(builder: (context) => Profile(actor: actor.did)),
         );
       },
     );
@@ -36,7 +41,7 @@ class Avatar extends Picture {
       foregroundColor: Theme.of(context).colorScheme.primary,
       backgroundImage: provider,
       child: provider == null
-          ? Icon(Icons.person, size: 50 * (radius / 35))
+          ? Icon(Icons.person, size: 50 * (radius / defaultRadius))
           : null,
     );
   }

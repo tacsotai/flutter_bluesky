@@ -16,7 +16,7 @@ Widget header(BuildContext context, String headline,
   return Container(
       width: double.infinity,
       color: Colors.black12,
-      child: padding(Text(
+      child: padding10(Text(
         headline,
         style: TextStyle(fontSize: 18, color: color),
       )));
@@ -25,7 +25,7 @@ Widget header(BuildContext context, String headline,
 List<Widget> paddings(BuildContext context, List<Widget> items) {
   List<Widget> widgets = [];
   for (var item in items) {
-    widgets.add(padding(item, left: 20));
+    widgets.add(padding10(item, left: 20));
     widgets.add(const Divider(height: 0.5));
   }
   return widgets;

@@ -8,7 +8,20 @@ abstract class Bluesky extends Atproto {
   Bluesky({required super.api});
 
   Future<Tuple2> getProfile(String actor) async {
-    return await sessionAPI.getProfile(actor);
+    http.Response res = await api.get("app.bsky.actor.getProfile",
+        params: {"actor": actor},
+        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
+  }
+
+  /// c.f [getPosts]
+  Future<Tuple2> getProfiles(String actors) async {
+    http.Response res = await api.get("app.bsky.actor.getProfiles",
+        params: {"actor[]": actors},
+        headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
+    return Tuple2<int, Map<String, dynamic>>(
+        res.statusCode, json.decode(res.body));
   }
 
   Future<Tuple2> getSuggestions({int? limit, String? cursor}) async {
@@ -122,8 +135,9 @@ abstract class Bluesky extends Atproto {
           "Authorization": "Bearer ${api.session.accessJwt}"
         },
         body: json.encode(params));
-    return Tuple2<int, Map<String, dynamic>>(
-        res.statusCode, json.decode(res.body));
+    Map<String, dynamic> body =
+        res.statusCode == 200 ? {} : json.decode(res.body);
+    return Tuple2<int, Map<String, dynamic>>(res.statusCode, body);
   }
 
   Future<Tuple2> unmuteActor(String actor) async {
@@ -134,8 +148,9 @@ abstract class Bluesky extends Atproto {
           "Authorization": "Bearer ${api.session.accessJwt}"
         },
         body: json.encode(params));
-    return Tuple2<int, Map<String, dynamic>>(
-        res.statusCode, json.decode(res.body));
+    Map<String, dynamic> body =
+        res.statusCode == 200 ? {} : json.decode(res.body);
+    return Tuple2<int, Map<String, dynamic>>(res.statusCode, body);
   }
 
   Future<Tuple2> muteActorList(String list) async {

@@ -5,33 +5,43 @@ import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/util/datetime_util.dart';
 import 'package:tuple/tuple.dart';
 
-Header? customHeder;
+HeaderContent? customHeaderContent;
 
 class Header extends StatelessWidget {
   final ProfileViewBasic author;
   final DateTime createdAt;
-  const Header({super.key, required this.author, required this.createdAt});
+  final HeaderContent content = HeaderContent();
+  Header({super.key, required this.author, required this.createdAt});
 
   @override
   Widget build(BuildContext context) {
-    if (customHeder != null) {
-      return customHeder!.content(context, author, createdAt);
+    if (customHeaderContent != null) {
+      return customHeaderContent!.build(context, author, createdAt);
     }
-    return content(context, author, createdAt);
+    return content.build(context, author, createdAt);
   }
+}
 
-  // TO BE OVER WRITE
-  Widget content(
+// Never define fileds.
+class HeaderContent {
+  Widget build(
       BuildContext context, ProfileViewBasic author, DateTime createdAt) {
-    return padding(
-      lr(displayNameHandle(author), when(context), const Tuple2(5, 2)),
-      left: 0,
-      top: 0,
-      right: 0,
-    );
+    return padding10(
+        lr(
+          left(author),
+          right(context, createdAt),
+          const Tuple2(5, 2),
+        ),
+        left: 0,
+        top: 0,
+        right: 0);
   }
 
-  Widget when(BuildContext context) {
+  Widget left(ProfileViewBasic author) {
+    return displayNameHandle(author);
+  }
+
+  Widget right(BuildContext context, DateTime createdAt) {
     return Text(datetime(context, createdAt),
         style: const TextStyle(fontSize: 12));
   }

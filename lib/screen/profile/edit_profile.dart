@@ -13,6 +13,7 @@ import 'package:flutter_bluesky/screen/parts/image/banner.dart' as prof;
 import 'package:flutter_bluesky/screen/me.dart';
 import 'package:flutter_bluesky/screen/parts/image/picture.dart';
 import 'package:flutter_bluesky/screen/profile/profile_updater.dart';
+import 'package:flutter_bluesky/util/common_util.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
 
 class EditProfile extends StatefulWidget {
@@ -62,7 +63,7 @@ class EditProfileScreen extends State<EditProfile> {
       isInit = false;
     }
     return Scaffold(
-      body: padding(
+      body: padding10(
         Form(
             key: formKey,
             child: SingleChildScrollView(child: listsBody(widgets))),
@@ -72,9 +73,9 @@ class EditProfileScreen extends State<EditProfile> {
 
   List<Widget> get widgets {
     List<Widget> list = [
-      padding(Row(children: [cancel, const Spacer(), submit])),
+      padding10(Row(children: [cancel, const Spacer(), submit])),
       const Divider(height: 0.5),
-      padding(form, left: 0, top: 10, right: 0, bottom: 10)
+      padding10(form, left: 0, top: 10, right: 0, bottom: 10)
     ];
     return list;
   }
@@ -154,13 +155,6 @@ class EditProfileScreen extends State<EditProfile> {
           description = value!;
         });
       },
-    );
-  }
-
-  InputDecoration decoration(String prop) {
-    return InputDecoration(
-      border: const OutlineInputBorder(),
-      labelText: tr(prop),
     );
   }
 

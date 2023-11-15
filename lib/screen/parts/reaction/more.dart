@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/reaction.dart';
+import 'package:flutter_bluesky/util/post_util.dart';
 import 'package:flutter_bluesky/util/reaction_util.dart';
 import 'package:provider/provider.dart';
 
@@ -63,26 +64,27 @@ class MoreReaction extends AbstractReaction {
       //   onTap: () => debugPrint("menu.translate"),
       // ),
       PopupMenuItem(
-        child: Text(tr("menu.copy.text")),
+        child: Text(tr("copy.text")),
         onTap: () async => await saveToclipboard(post),
       ),
       // PopupMenuItem(
       //   child: Text(tr("menu.share")),
       //   onTap: () => debugPrint("menu.share"),
       // ),
+      // TODO #165
       // PopupMenuItem(
       //   child: Text(tr("menu.mute.thread")),
       //   onTap: () => debugPrint("menu.mute.thread"),
       // ),
-      // PopupMenuItem(
-      //   child: Text(tr("menu.report.post")),
-      //   onTap: () => debugPrint("menu.report.post"),
-      // ),
+      PopupMenuItem(
+        child: Text(tr("report.post")),
+        onTap: () async => await PostUtil.report(context, post),
+      ),
       // if the post user is the login user, delete post
-      // PopupMenuItem(
-      //   child: Text(tr("menu.delete.post")),
-      //   onTap: () => debugPrint("menu.delete.post"),
-      // ),
+      PopupMenuItem(
+        child: Text(tr("delete.post")),
+        onTap: () async => await PostUtil.delete(context, post),
+      ),
     ]);
   }
 }

@@ -31,7 +31,7 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     Color color =
         absorbing ? Colors.grey : Theme.of(context).colorScheme.primary;
-    Widget text = padding(
+    Widget text = padding10(
       Text(
         tr(prop),
         style: TextStyle(fontSize: 18, color: color),

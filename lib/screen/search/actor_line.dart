@@ -8,38 +8,38 @@ import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/screen/profile.dart';
 import 'package:tuple/tuple.dart';
 
-SearchContent? customSearchContent;
+ActorContent? customActorContent;
 
-class SearchLine extends StatefulWidget {
+class ActorLine extends StatefulWidget {
   final ProfileView actor;
-  const SearchLine({Key? key, required this.actor}) : super(key: key);
+  const ActorLine({Key? key, required this.actor}) : super(key: key);
   @override
-  SearchLineScreen createState() => SearchLineScreen();
+  ActorLineScreen createState() => ActorLineScreen();
 }
 
-class SearchLineScreen extends State<SearchLine> {
+class ActorLineScreen extends State<ActorLine> {
   @override
   Widget build(BuildContext context) {
-    return padding(paddingLR([
-      Avatar(context, radius: 25).net(widget.actor).profile
+    return padding10(paddingLR([
+      Avatar(context).net(widget.actor).profile
     ], [
       content,
     ]));
   }
 
   Widget get content {
-    SearchContent sc = customSearchContent ?? SearchContent();
-    return sc.build(this, widget.actor);
+    ActorContent ac = customActorContent ?? ActorContent();
+    return ac.build(this, widget.actor);
   }
 }
 
-class SearchContent {
+class ActorContent {
   Widget build(State state, ProfileView actor) {
     Widget left = displayNameHandle(actor);
     FollowButton button =
         buttonManager!.followButton(state, actor) as FollowButton;
-    Widget right = button.isFollowing ? Container() : button.widget;
-    Widget transfer = Profile(user: actor.did);
+    Widget right = button.widget;
+    Widget transfer = Profile(actor: actor.did);
     return inkWell(state, actor, left, right, transfer);
   }
 

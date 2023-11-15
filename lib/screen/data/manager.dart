@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
+import 'package:flutter_bluesky/api/model/graph.dart';
 import 'package:flutter_bluesky/api/model/notification.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/data/holder.dart';
@@ -61,14 +62,14 @@ class ProfileDataManager extends FeedDataManager {
   }
 
   Future<void> makeProfile() async {
-    Tuple2 res = await plugin.getProfile(holder.user);
+    Tuple2 res = await plugin.getProfile(holder.actor);
     holder.makeProfile(res.item2);
   }
 
   Future<void> makeFeed(bool insert) async {
     String? cursor = insert ? null : holder.cursor;
     Tuple2 res =
-        await plugin.getAuthorFeed(holder.user, limit: 30, cursor: cursor);
+        await plugin.getAuthorFeed(holder.actor, limit: 30, cursor: cursor);
     holder.makeFeeds(insert, FeedResponse(res.item2));
   }
 }
@@ -132,4 +133,43 @@ class NotificationsDataManager extends DataManager {
 
   @override
   int get length => holder.notifications.length;
+}
+
+abstract class ActorsDataManager extends DataManager {
+  final ActorsDataHolder holder = ActorsDataHolder();
+
+  @override
+  int get length => holder.actors.length;
+}
+
+class FollowsDataManager extends ActorsDataManager {
+  @override
+  Future<void> getData(bool insert, {String? term}) async {
+    String actor = term!;
+    try {
+      // String? cursor = holder.cursor; // TODO cursor, limit
+      FollowsResponse res = await plugin.followings(actor);
+      holder.make(res.graph);
+    } catch (e, stacktrace) {
+      // TODO
+      debugPrint("Error: $e");
+      debugPrint("stacktrace: $stacktrace");
+    }
+  }
+}
+
+class FollowersDataManager extends ActorsDataManager {
+  @override
+  Future<void> getData(bool insert, {String? term}) async {
+    String actor = term!;
+    try {
+      // String? cursor = holder.cursor; // TODO cursor, limit
+      FollowersResponse res = await plugin.followers(actor);
+      holder.make(res.graph);
+    } catch (e, stacktrace) {
+      // TODO
+      debugPrint("Error: $e");
+      debugPrint("stacktrace: $stacktrace");
+    }
+  }
 }
