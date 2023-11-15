@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
+import 'package:flutter_bluesky/api/model/graph.dart';
 import 'package:flutter_bluesky/data/config.dart';
 import 'package:flutter_bluesky/util/post_util.dart';
 import 'package:http/http.dart' as http;
@@ -116,21 +117,24 @@ void main() {
 
   test('followings', () async {
     await login(email, password);
-    List<ProfileView> list = await plugin.followings(handle);
+    FollowsResponse res = await plugin.followings(handle);
+    List<ProfileView> list = res.graph.actors;
     // ignore: prefer_is_empty
     expect(list.length >= 0, true);
   });
 
   test('followers', () async {
     await login(email, password);
-    List<ProfileView> list = await plugin.followers(handle);
+    FollowersResponse res = await plugin.followers(handle);
+    List<ProfileView> list = res.graph.actors;
     // ignore: prefer_is_empty
     expect(list.length >= 0, true);
   });
 
   test('blocks', () async {
     await login(email, password);
-    List<ProfileView> list = await plugin.blocks();
+    BlocksResponse res = await plugin.blocks();
+    List<ProfileView> list = res.graph.actors;
     // ignore: prefer_is_empty
     expect(list.length >= 0, true);
   });

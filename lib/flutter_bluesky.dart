@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api.dart';
 import 'package:flutter_bluesky/api/bluesky.dart';
-import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/graph.dart';
 import 'package:flutter_bluesky/api/session.dart';
 import 'package:flutter_bluesky/api/refresh_api.dart';
@@ -141,69 +140,39 @@ class FlutterBluesky extends Bluesky {
   }
 
   // app.bsky.graph.getFollows wrapper
-  Future<List<ProfileView>> followings(String actor) async {
-    List<ProfileView> followings = [];
+  Future<FollowsResponse> followings(String actor) async {
     Tuple2 res = await getFollows(actor);
-    FollowsResponse response = FollowsResponse(res.item2);
-    for (Map follwer in response.follows) {
-      followings.add(ProfileView(follwer));
-    }
-    return followings;
+    return FollowsResponse(res.item2);
   }
 
   // app.bsky.graph.getFollowers wrapper
-  Future<List<ProfileView>> followers(String actor) async {
-    List<ProfileView> followings = [];
+  Future<FollowersResponse> followers(String actor) async {
     Tuple2 res = await getFollowers(actor);
-    FollowersResponse response = FollowersResponse(res.item2);
-    for (Map follwer in response.followers) {
-      followings.add(ProfileView(follwer));
-    }
-    return followings;
+    return FollowersResponse(res.item2);
   }
 
   // app.bsky.graph.getLists wrapper
-  Future<List<ProfileView>> lists(String actor) async {
-    List<ProfileView> lists = [];
+  Future<ListsResponse> lists(String actor) async {
     Tuple2 res = await getLists(actor);
-    ListsResponse response = ListsResponse(res.item2);
-    for (Map list in response.lists) {
-      lists.add(ProfileView(list));
-    }
-    return lists;
+    return ListsResponse(res.item2);
   }
 
   // app.bsky.graph.getBlocks wrapper
-  Future<List<ProfileView>> blocks() async {
-    List<ProfileView> blocks = [];
+  Future<BlocksResponse> blocks() async {
     Tuple2 res = await getBlocks();
-    BlocksResponse response = BlocksResponse(res.item2);
-    for (Map block in response.blocks) {
-      blocks.add(ProfileView(block));
-    }
-    return blocks;
+    return BlocksResponse(res.item2);
   }
 
   // app.bsky.graph.getMutes wrapper
-  Future<List<ProfileView>> mutes() async {
-    List<ProfileView> mutes = [];
+  Future<MutesResponse> mutes() async {
     Tuple2 res = await getMutes();
-    MutesResponse response = MutesResponse(res.item2);
-    for (Map mute in response.mutes) {
-      mutes.add(ProfileView(mute));
-    }
-    return mutes;
+    return MutesResponse(res.item2);
   }
 
   // app.bsky.graph.getListMutes wrapper
-  Future<List<ProfileView>> listMutes() async {
-    List<ProfileView> listMutes = [];
+  Future<ListsResponse> listMutes() async {
     Tuple2 res = await getListMutes();
-    ListsResponse response = ListsResponse(res.item2);
-    for (Map list in response.lists) {
-      listMutes.add(ProfileView(list));
-    }
-    return listMutes;
+    return ListsResponse(res.item2);
   }
 
   Future<Tuple2> timeline({String? cursor}) async {
