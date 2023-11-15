@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 
@@ -21,7 +22,7 @@ Widget circleItem(BuildContext context, double radius, IconData data,
       radius: radius,
       // backgroundColor: ColorScheme.,
       foregroundColor: color ?? Theme.of(context).colorScheme.primary,
-      child: Icon(data, size: 50 * (radius / 35)));
+      child: Icon(data, size: 50 * (radius / defaultRadius)));
 }
 
 void inkwell(BuildContext context, {Widget? transfer, String? link}) async {

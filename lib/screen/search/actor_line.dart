@@ -21,7 +21,7 @@ class ActorLineScreen extends State<ActorLine> {
   @override
   Widget build(BuildContext context) {
     return padding10(paddingLR([
-      Avatar(context, radius: 25).net(widget.actor).profile
+      Avatar(context).net(widget.actor).profile
     ], [
       content,
     ]));

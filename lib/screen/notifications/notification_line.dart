@@ -60,7 +60,9 @@ class Notice {
 
   Widget iconContent(IconData data, Color iconColor) {
     List<Widget> widgets = [
-      Avatar(state.context, radius: 20).net(notification.author).profile,
+      Avatar(state.context, radius: smallRadius)
+          .net(notification.author)
+          .profile,
       Header(author: notification.author, createdAt: notification.indexedAt)
           .build(state.context)
     ];

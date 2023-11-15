@@ -83,7 +83,7 @@ class ProfileContent {
   }
 
   Widget get profAvatar {
-    return Avatar(state.context, radius: 45).net(actor).profile;
+    return Avatar(state.context, radius: largeRadius).net(actor).profile;
   }
 
   Widget get info {
