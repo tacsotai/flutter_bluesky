@@ -34,7 +34,7 @@ class ActorsScreen extends State<Actors> {
     ActorsDataManager manager =
         managerFactory!.getActorsDataManager(widget.prop!);
     return FutureBuilder(
-        future: manager.getData(false),
+        future: manager.getData(false, term: widget.actor),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

@@ -1,5 +1,6 @@
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
+import 'package:flutter_bluesky/api/model/graph.dart';
 import 'package:flutter_bluesky/api/model/notification.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 
@@ -74,6 +75,27 @@ class SearchDataHolder {
   void excludeLoginUser() {
     for (ProfileView actor in actors) {
       if (actor.did == plugin.api.session.did) {
+        actors.remove(actor);
+        break;
+      }
+    }
+  }
+}
+
+class ActorsDataHolder {
+  String? cursor;
+  List<ProfileView> actors = [];
+
+  void make(Graph graph, {excludeLoginUser = true}) async {
+    actors = graph.actors;
+    if (excludeLoginUser) {
+      exclude(plugin.api.session.did!);
+    }
+  }
+
+  void exclude(String did) {
+    for (ProfileView actor in actors) {
+      if (actor.did == did) {
         actors.remove(actor);
         break;
       }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
+import 'package:flutter_bluesky/api/model/graph.dart';
 import 'package:flutter_bluesky/api/model/notification.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/data/holder.dart';
@@ -135,7 +136,7 @@ class NotificationsDataManager extends DataManager {
 }
 
 abstract class ActorsDataManager extends DataManager {
-  final SearchDataHolder holder = SearchDataHolder();
+  final ActorsDataHolder holder = ActorsDataHolder();
 
   @override
   int get length => holder.actors.length;
@@ -147,8 +148,8 @@ class FollowsDataManager extends ActorsDataManager {
     String actor = term!;
     try {
       // String? cursor = holder.cursor; // TODO cursor, limit
-      Tuple2 res = await plugin.getFollows(actor);
-      holder.make(ProfileViews(res.item2));
+      FollowsResponse res = await plugin.followings(actor);
+      holder.make(res.graph);
     } catch (e, stacktrace) {
       // TODO
       debugPrint("Error: $e");
@@ -163,8 +164,8 @@ class FollowersDataManager extends ActorsDataManager {
     String actor = term!;
     try {
       // String? cursor = holder.cursor; // TODO cursor, limit
-      Tuple2 res = await plugin.getFollowers(actor);
-      holder.make(ProfileViews(res.item2));
+      FollowersResponse res = await plugin.followers(actor);
+      holder.make(res.graph);
     } catch (e, stacktrace) {
       // TODO
       debugPrint("Error: $e");
