@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
+import 'package:flutter_bluesky/screen/data/factory.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
 import 'package:flutter_bluesky/screen/profile/profile_view.dart';
 
@@ -15,7 +16,7 @@ class Profile extends StatefulWidget {
 }
 
 class ProfileScreen extends State<Profile> {
-  final ProfileDataManager _manager = ProfileDataManager();
+  final ProfileDataManager _manager = managerFactory!.getProfileDataManager();
 
   @override
   void initState() {
