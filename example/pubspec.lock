@@ -180,7 +180,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.5.7"
+    version: "0.5.9"
   flutter_keyboard_visibility:
     dependency: transitive
     description:
