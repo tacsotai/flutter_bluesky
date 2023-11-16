@@ -45,7 +45,7 @@ class ActorsScreen extends State<Actors> {
             return ActorsView(
               prop: widget.prop!,
               manager: manager,
-              baseScreen: base!.screen,
+              baseScreen: Base().screen,
             );
           }
         });
