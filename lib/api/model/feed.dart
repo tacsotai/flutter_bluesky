@@ -189,6 +189,17 @@ class Value {
         createdAt = DateTime.parse((map["createdAt"]));
 }
 
+// "id": "app.bsky.embed.recordWithMedia"
+class RecordWithMedia {
+  String type;
+  RecordView record;
+  Media media;
+  RecordWithMedia(Map map)
+      : type = map["\$type"],
+        record = RecordView(map["record"]),
+        media = Media(map["media"]);
+}
+
 // "$type": "app.bsky.embed.recordWithMedia#view",
 class Media {
   List<Images>? images;
