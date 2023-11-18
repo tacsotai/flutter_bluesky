@@ -2,7 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/facet.dart';
-import 'package:flutter_bluesky/api/model/feed.dart';
+import 'package:flutter_bluesky/api/model/embed.dart';
 import 'package:flutter_bluesky/screen/parts/link/link_widget.dart';
 import 'dart:convert';
 

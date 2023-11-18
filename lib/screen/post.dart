@@ -6,6 +6,7 @@ import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:flutter_bluesky/api/model/feed.dart' as feed;
+import 'package:flutter_bluesky/api/model/embed.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/util/common_util.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
@@ -203,7 +204,7 @@ class PostScreen extends State<Post> {
     String cid = widget.post!.cid;
     Map<String, dynamic>? root = {"uri": uri, "cid": cid};
     Map<String, dynamic>? parent = {"uri": uri, "cid": cid};
-    feed.RecordReply? recordReply = widget.post!.record.reply;
+    RecordReply? recordReply = widget.post!.record.reply;
     if (recordReply != null) {
       root = recordReply.root;
     }
