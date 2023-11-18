@@ -76,13 +76,20 @@ class Body extends StatelessWidget {
     if (embed.recordObj == null) {
       return;
     }
+    List<Widget> embedwidgets = [
+      recordHeader(context, embed.record),
+      Text(embed.record.value.text),
+    ];
+    for (Embed embed in embed.record.embeds) {
+      if (embed.type == "app.bsky.embed.images#view") {
+        images(embedwidgets, embed);
+      }
+    }
+
     Widget container = embedBox(
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          recordHeader(context, embed.record),
-          Text(embed.record.value.text),
-        ],
+        children: embedwidgets,
       ),
     );
     widgets.add(Detector.instance(context, container)

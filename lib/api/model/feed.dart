@@ -155,7 +155,7 @@ class RecordView {
   final Value value;
   List? labels;
   final DateTime indexedAt;
-  List? embeds;
+  List? embedList;
   RecordView(Map map)
       : type = map["\$type"],
         uri = map["uri"],
@@ -164,16 +164,28 @@ class RecordView {
         value = Value(map["value"]),
         labels = map["labels"],
         indexedAt = DateTime.parse((map["indexedAt"])),
-        embeds = map["embeds"];
+        embedList = map["embeds"];
+
+  List<Embed> get embeds {
+    List<Embed> list = [];
+    for (var map in embedList as List) {
+      list.add(Embed(map));
+    }
+    return list;
+  }
 }
 
 class Value {
   String text;
   String type;
+  RecordEmbed? embed;
+  List? langs;
   DateTime createdAt;
   Value(Map map)
       : text = map["text"],
         type = map["\$type"],
+        embed = map["embed"] == null ? null : RecordEmbed(map["embed"]),
+        langs = map["langs"],
         createdAt = DateTime.parse((map["createdAt"]));
 }
 
