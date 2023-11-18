@@ -57,14 +57,6 @@ class Body extends StatelessWidget {
     }
   }
 
-  List<Widget> _images(List<Images> internals) {
-    List<Widget> images = [];
-    for (Images internal in internals) {
-      images.add(Image.network(internal.thumb));
-    }
-    return images;
-  }
-
   void external(List<Widget> widgets, Embed embed) {
     if (embed.externalObj == null) {
       return;
