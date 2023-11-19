@@ -50,14 +50,9 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
 
   @override
   List<Widget> get slivers => [
-        appBar,
-        // SliverToBoxAdapter(
-        //   child: profileContent!.header,
-        // ),
-        const SliverToBoxAdapter(
-          child: Divider(height: 0.5),
+        SliverToBoxAdapter(
+          child: profileContent!.header,
         ),
-
         MaterialSliverRefreshControl(
           onRefresh: () async {
             await manager.getData(true);
@@ -66,18 +61,6 @@ class _ProfileViewState extends State<ProfileView> with FeedScroll {
         ),
         sliverList
       ];
-
-  // https://stackoverflow.com/questions/62446686/add-safearea-into-sliverappbar#62447962
-  Widget get appBar {
-    return SliverAppBar(
-      floating: true,
-      automaticallyImplyLeading: false,
-      toolbarHeight: 310, // TODO config
-      flexibleSpace: FlexibleSpaceBar(
-        background: SingleChildScrollView(child: profileContent!.header),
-      ),
-    );
-  }
 
   @override
   Widget line(int index) {
