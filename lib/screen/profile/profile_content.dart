@@ -22,7 +22,6 @@ class ProfileContent {
       children: [
         bannerAvatar,
         info,
-        const Divider(height: 0.5),
       ],
     );
   }
