@@ -1,4 +1,4 @@
-import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
@@ -6,6 +6,7 @@ import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:flutter_bluesky/api/model/feed.dart' as feed;
+import 'package:flutter_bluesky/api/model/embed.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/util/common_util.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
@@ -37,7 +38,7 @@ class PostScreen extends State<Post> {
   Map<String, dynamic>? record;
   double _height = 0;
   String _text = "";
-  List<PlatformFile> files = [];
+  List<XFile> files = [];
   List<Widget> selects = [];
 
   @override
@@ -128,24 +129,18 @@ class PostScreen extends State<Post> {
 
   // up to 4 files to select
   Future<void> _pickFile() async {
-    final result = await FilePicker.platform.pickFiles(
-      allowMultiple: true,
-      type: FileType.media,
-      // allowedExtensions: ImageUtil.exts.keys.toList()
-    );
-    if (result != null) {
-      if (result.files.length > 4) {
-        files = result.files.sublist(0, 4);
-      } else {
-        files = result.files;
-      }
-      _selects();
+    final result = await ImageUtil.pickMultiImage();
+    if (result.length > 4) {
+      files = result.sublist(0, 4);
+    } else {
+      files = result;
     }
+    _selects();
   }
 
   void _selects() {
     selects.clear();
-    for (PlatformFile file in files) {
+    for (XFile file in files) {
       selects.add(Expanded(
           child: Stack(children: [ImageUtil.image(file), _close(file)])));
     }
@@ -153,7 +148,7 @@ class PostScreen extends State<Post> {
     setState(() {});
   }
 
-  Widget _close(PlatformFile file) {
+  Widget _close(XFile file) {
     return RawMaterialButton(
       constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
       fillColor: Colors.white10,
@@ -203,7 +198,7 @@ class PostScreen extends State<Post> {
     String cid = widget.post!.cid;
     Map<String, dynamic>? root = {"uri": uri, "cid": cid};
     Map<String, dynamic>? parent = {"uri": uri, "cid": cid};
-    feed.RecordReply? recordReply = widget.post!.record.reply;
+    RecordReply? recordReply = widget.post!.record.reply;
     if (recordReply != null) {
       root = recordReply.root;
     }

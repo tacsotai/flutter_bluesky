@@ -36,7 +36,7 @@ class ProfileUpdater {
   Future<Map?> map(Picture pic) async {
     if (pic.file != null) {
       ImageFile file = pic.file!;
-      return upload(file.bytes, file.mimeType!);
+      return upload(await file.bytes, file.mimeType!);
     } else if (pic.url != null) {
       final res = await http.get(Uri.parse(pic.url!));
       // "avatar": "https://sotai.co/ad/image/HHjdDiDF...dxhv6gi@jpeg",

@@ -10,4 +10,8 @@ class ManagerFactory {
       return FollowsDataManager();
     }
   }
+
+  ProfileDataManager getProfileDataManager() {
+    return ProfileDataManager();
+  }
 }

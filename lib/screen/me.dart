@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
+import 'package:flutter_bluesky/screen/data/factory.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
 import 'package:flutter_bluesky/screen/profile/profile_view.dart';
 import 'package:flutter_bluesky/util/button_util.dart';
@@ -27,7 +28,7 @@ class Me extends PluggableWidget {
 }
 
 class MyScreen extends State<Me> with Frame {
-  final ProfileDataManager _manager = ProfileDataManager();
+  final ProfileDataManager _manager = managerFactory!.getProfileDataManager();
   @override
   Widget build(BuildContext context) {
     return scaffold(

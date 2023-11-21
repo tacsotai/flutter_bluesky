@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
+import 'package:flutter_bluesky/api/model/embed.dart';
 import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/link/facet_link.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
@@ -57,14 +58,6 @@ class Body extends StatelessWidget {
     }
   }
 
-  List<Widget> _images(List<Images> internals) {
-    List<Widget> images = [];
-    for (Images internal in internals) {
-      images.add(Image.network(internal.thumb));
-    }
-    return images;
-  }
-
   void external(List<Widget> widgets, Embed embed) {
     if (embed.externalObj == null) {
       return;
@@ -84,13 +77,20 @@ class Body extends StatelessWidget {
     if (embed.recordObj == null) {
       return;
     }
+    List<Widget> embedwidgets = [
+      recordHeader(context, embed.record),
+      Text(embed.record.value.text),
+    ];
+    for (Embed embed in embed.record.embeds) {
+      if (embed.type == "app.bsky.embed.images#view") {
+        images(embedwidgets, embed);
+      }
+    }
+
     Widget container = embedBox(
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          recordHeader(context, embed.record),
-          Text(embed.record.value.text),
-        ],
+        children: embedwidgets,
       ),
     );
     widgets.add(Detector.instance(context, container)

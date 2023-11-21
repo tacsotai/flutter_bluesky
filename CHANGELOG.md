@@ -132,3 +132,10 @@
 * Show Bottom menu at link page.
 * Fix internal structure.
 * Fix looks and feels, font size etc.
+
+## 0.6.0
+* Bug fix for internal structure.
+* Hide delete post menu when the owner is the author of the post.
+* Hide report post menu when the owner is not the author of the post.
+* Improve picture quality.
+* Not show max length for display name and discription at profile edit page.

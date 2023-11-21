@@ -6,10 +6,10 @@ abstract class Picture {
   ImageFile? file;
   String? url;
 
-  void setImage(ImageFile imageFile) {
+  Future<void> setImage(ImageFile imageFile) async {
     file = imageFile;
     // ignore: unnecessary_null_comparison
-    provider = file!.bytes == null ? null : MemoryImage(file!.bytes);
+    provider = file!.bytes == null ? null : MemoryImage(await file!.bytes);
   }
 
   Widget get widget;

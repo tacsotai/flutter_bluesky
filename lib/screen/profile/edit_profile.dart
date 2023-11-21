@@ -1,6 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
@@ -44,10 +41,9 @@ class EditProfileScreen extends State<EditProfile> {
     return InkWell(
       child: picture.widget,
       onTap: () async {
-        final result =
-            await FilePicker.platform.pickFiles(type: FileType.media);
+        final result = await ImageUtil.pickImage();
         if (result != null) {
-          picture.setImage(ImageFile(result.files[0]));
+          await picture.setImage(ImageFile(result));
           setState(() {});
         }
       },
@@ -131,8 +127,7 @@ class EditProfileScreen extends State<EditProfile> {
       decoration: decoration("profile.placeholder.displayName"),
       validator: validator,
       minLines: 1,
-      maxLines: 2,
-      maxLength: 640,
+      maxLines: 1,
       initialValue: displayName,
       onSaved: (value) {
         setState(() {
@@ -146,9 +141,8 @@ class EditProfileScreen extends State<EditProfile> {
     return TextFormField(
       decoration: decoration("profile.placeholder.description"),
       validator: validator,
-      minLines: 10,
-      maxLines: 20,
-      maxLength: 2560,
+      minLines: 3,
+      maxLines: 3,
       initialValue: description,
       onSaved: (value) {
         setState(() {
@@ -164,6 +158,7 @@ class EditProfileScreen extends State<EditProfile> {
         .save();
     setState(() {});
     // reload profile page
+    // ignore: use_build_context_synchronously
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (context) => Base(selectedIndex: meIndex),
     ));

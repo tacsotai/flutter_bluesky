@@ -1,4 +1,4 @@
-import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
@@ -13,13 +13,13 @@ import 'package:tuple/tuple.dart';
 class PostUtil {
   // text or image can be empty, record may reply or quote.
   static Future<Tuple2> post(String? text, BuildContext context,
-      {Map<String, dynamic>? record, required List<PlatformFile> files}) async {
+      {Map<String, dynamic>? record, required List<XFile> files}) async {
     _validate(text, files);
     Poster poster = Poster(text!, context, record ??= {}, files);
     return await plugin.post(await poster.createRecord());
   }
 
-  static void _validate(String? text, List<PlatformFile> files) {
+  static void _validate(String? text, List<XFile> files) {
     if (text == null && files.isEmpty) {
       throw Exception("Did you want to say anything?"); // TODO
     }
@@ -50,7 +50,7 @@ class Poster {
   final String text;
   final BuildContext context;
   final Map<String, dynamic> record;
-  final List<PlatformFile> files;
+  final List<XFile> files;
   Poster(this.text, this.context, this.record, this.files);
 
   Future<Map<String, dynamic>> createRecord() async {
