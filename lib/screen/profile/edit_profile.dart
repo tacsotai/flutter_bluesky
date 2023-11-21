@@ -43,7 +43,7 @@ class EditProfileScreen extends State<EditProfile> {
       onTap: () async {
         final result = await ImageUtil.pickImage();
         if (result != null) {
-          picture.setImage(ImageFile(result));
+          await picture.setImage(ImageFile(result));
           setState(() {});
         }
       },
