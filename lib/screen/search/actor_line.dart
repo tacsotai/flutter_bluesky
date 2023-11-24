@@ -6,6 +6,7 @@ import 'package:flutter_bluesky/screen/parts/button.dart';
 import 'package:flutter_bluesky/screen/parts/button/button_manager.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/screen/profile.dart';
+import 'package:flutter_bluesky/util/account_util.dart';
 import 'package:tuple/tuple.dart';
 
 ActorContent? customActorContent;
@@ -36,11 +37,21 @@ class ActorLineScreen extends State<ActorLine> {
 class ActorContent {
   Widget build(State state, ProfileView actor) {
     Widget left = displayNameHandle(actor);
-    FollowButton button =
-        buttonManager!.followButton(state, actor) as FollowButton;
-    Widget right = button.widget;
+    Widget right = button(state, actor);
     Widget transfer = Profile(actor: actor.did);
     return inkWell(state, actor, left, right, transfer);
+  }
+
+  Widget button(State state, ProfileView actor) {
+    Widget widget;
+    if (isLoginUser(actor)) {
+      widget = const Center();
+    } else {
+      FollowButton button =
+          buttonManager!.followButton(state, actor) as FollowButton;
+      widget = button.widget;
+    }
+    return widget;
   }
 
   Widget inkWell(State state, ProfileView actor, Widget left, Widget right,
