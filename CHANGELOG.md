@@ -144,3 +144,7 @@
 * Make alternative option to hide login user in search result.
 * Show self in following list and followers list.
 * Fix not to disappear the notification badge.
+
+## 0.6.2
+* Fix parameter name to 'actors' not 'actor' for getProfiles.
+* Fix internal structure.

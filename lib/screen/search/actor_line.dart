@@ -36,22 +36,23 @@ class ActorLineScreen extends State<ActorLine> {
 
 class ActorContent {
   Widget build(State state, ProfileView actor) {
+    FollowButton button = FollowButton(state, actor);
     Widget left = displayNameHandle(actor);
-    Widget right = button(state, actor);
+    Widget right = widget(button, actor);
     Widget transfer = Profile(actor: actor.did);
     return inkWell(state, actor, left, right, transfer);
   }
 
-  Widget button(State state, ProfileView actor) {
-    Widget widget;
+  FollowButton followButton(State state, ProfileView actor) {
+    return buttonManager!.followButton(state, actor) as FollowButton;
+  }
+
+  Widget widget(FollowButton button, ProfileView actor) {
     if (isLoginUser(actor)) {
-      widget = const Center();
+      return const Center();
     } else {
-      FollowButton button =
-          buttonManager!.followButton(state, actor) as FollowButton;
-      widget = button.widget;
+      return button.widget;
     }
-    return widget;
   }
 
   Widget inkWell(State state, ProfileView actor, Widget left, Widget right,
