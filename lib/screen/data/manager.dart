@@ -77,12 +77,13 @@ class ProfileDataManager extends FeedDataManager {
 class SearchDataManager extends DataManager {
   final SearchDataHolder holder = SearchDataHolder();
 
+  // insert :excludeSelf(login user)
   @override
   Future<void> getData(bool insert, {String? term}) async {
     try {
       // String? cursor = holder.cursor; // TODO cursor
       Tuple2 res = await plugin.actorsSearch(term: term);
-      holder.make(ProfileViews(res.item2));
+      holder.make(ProfileViews(res.item2), excludeSelf: insert);
     } catch (e, stacktrace) {
       // TODO
       debugPrint("Error: $e");
@@ -100,6 +101,10 @@ class NotificationsDataManager extends DataManager {
   @override
   Future<void> getData(bool insert, {String? term}) async {
     try {
+      // This getData method called when user push bell widget at bottom.
+      if (!read) {
+        await plugin.updateSeen(holder.seenAt!);
+      }
       // TODO cursor, seenAt
       // Tuple2 res = await plugin.listNotifications(cursor: holder.cursor);
       Tuple2 res = await plugin.listNotifications();
@@ -109,12 +114,6 @@ class NotificationsDataManager extends DataManager {
       }
       Tuple2 res2 = await plugin.getPosts(holder.uris);
       holder.makePosts(res2.item2["posts"]);
-
-      // This getData method called when user push bell widget at bottom.
-      if (!read) {
-        await plugin.updateSeen(holder.seenAt!);
-      }
-      //
     } catch (e, stacktrace) {
       // TODO
       debugPrint("Error: $e");
@@ -143,13 +142,14 @@ abstract class ActorsDataManager extends DataManager {
 }
 
 class FollowsDataManager extends ActorsDataManager {
+  // insert :excludeSelf(login user)
   @override
   Future<void> getData(bool insert, {String? term}) async {
     String actor = term!;
     try {
       // String? cursor = holder.cursor; // TODO cursor, limit
       FollowsResponse res = await plugin.followings(actor);
-      holder.make(res.graph);
+      holder.make(res.graph, excludeSelf: insert);
     } catch (e, stacktrace) {
       // TODO
       debugPrint("Error: $e");
@@ -159,13 +159,14 @@ class FollowsDataManager extends ActorsDataManager {
 }
 
 class FollowersDataManager extends ActorsDataManager {
+  // insert :excludeSelf(login user)
   @override
   Future<void> getData(bool insert, {String? term}) async {
     String actor = term!;
     try {
       // String? cursor = holder.cursor; // TODO cursor, limit
       FollowersResponse res = await plugin.followers(actor);
-      holder.make(res.graph);
+      holder.make(res.graph, excludeSelf: insert);
     } catch (e, stacktrace) {
       // TODO
       debugPrint("Error: $e");

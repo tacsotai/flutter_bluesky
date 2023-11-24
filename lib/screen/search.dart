@@ -38,7 +38,7 @@ class SearchScreen extends State<Search> with Frame {
   @override
   Widget body() {
     return FutureBuilder(
-        future: _manager.getData(false),
+        future: _manager.getData(excludeSelf),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -52,5 +52,9 @@ class SearchScreen extends State<Search> with Frame {
             );
           }
         });
+  }
+
+  bool get excludeSelf {
+    return false;
   }
 }
