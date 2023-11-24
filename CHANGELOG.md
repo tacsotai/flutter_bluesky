@@ -139,3 +139,8 @@
 * Hide report post menu when the owner is not the author of the post.
 * Improve picture quality.
 * Not show max length for display name and discription at profile edit page.
+
+## 0.6.1
+* Make alternative option to hide login user in search result.
+* Show self in following list and followers list.
+* Fix not to disappear the notification badge.
