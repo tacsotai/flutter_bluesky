@@ -144,13 +144,14 @@ abstract class ActorsDataManager extends DataManager {
 }
 
 class FollowsDataManager extends ActorsDataManager {
+  // insert :excludeSelf(login user)
   @override
   Future<void> getData(bool insert, {String? term}) async {
     String actor = term!;
     try {
       // String? cursor = holder.cursor; // TODO cursor, limit
       FollowsResponse res = await plugin.followings(actor);
-      holder.make(res.graph);
+      holder.make(res.graph, excludeSelf: insert);
     } catch (e, stacktrace) {
       // TODO
       debugPrint("Error: $e");
@@ -160,13 +161,14 @@ class FollowsDataManager extends ActorsDataManager {
 }
 
 class FollowersDataManager extends ActorsDataManager {
+  // insert :excludeSelf(login user)
   @override
   Future<void> getData(bool insert, {String? term}) async {
     String actor = term!;
     try {
       // String? cursor = holder.cursor; // TODO cursor, limit
       FollowersResponse res = await plugin.followers(actor);
-      holder.make(res.graph);
+      holder.make(res.graph, excludeSelf: insert);
     } catch (e, stacktrace) {
       // TODO
       debugPrint("Error: $e");

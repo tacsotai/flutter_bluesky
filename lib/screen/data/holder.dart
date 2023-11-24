@@ -88,9 +88,9 @@ class ActorsDataHolder {
   String? cursor;
   List<ProfileView> actors = [];
 
-  void make(Graph graph, {excludeLoginUser = true}) async {
+  void make(Graph graph, {excludeSelf = false}) async {
     actors = graph.actors;
-    if (excludeLoginUser) {
+    if (excludeSelf) {
       exclude(plugin.api.session.did!);
     }
   }
