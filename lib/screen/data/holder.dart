@@ -65,16 +65,18 @@ class SearchDataHolder {
   String? cursor;
   List<ProfileView> actors = [];
 
-  void make(ProfileViews res) async {
+  void make(ProfileViews res, {bool excludeSelf = false}) async {
     actors.clear();
     actors = res.actors;
-    excludeLoginUser();
+    if (excludeSelf) {
+      exclude(plugin.api.session.did!);
+    }
     cursor = res.cursor;
   }
 
-  void excludeLoginUser() {
+  void exclude(String did) {
     for (ProfileView actor in actors) {
-      if (actor.did == plugin.api.session.did) {
+      if (actor.did == did) {
         actors.remove(actor);
         break;
       }

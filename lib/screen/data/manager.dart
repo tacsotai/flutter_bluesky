@@ -77,12 +77,13 @@ class ProfileDataManager extends FeedDataManager {
 class SearchDataManager extends DataManager {
   final SearchDataHolder holder = SearchDataHolder();
 
+  // insert :excludeSelf(login user)
   @override
   Future<void> getData(bool insert, {String? term}) async {
     try {
       // String? cursor = holder.cursor; // TODO cursor
       Tuple2 res = await plugin.actorsSearch(term: term);
-      holder.make(ProfileViews(res.item2));
+      holder.make(ProfileViews(res.item2), excludeSelf: insert);
     } catch (e, stacktrace) {
       // TODO
       debugPrint("Error: $e");
