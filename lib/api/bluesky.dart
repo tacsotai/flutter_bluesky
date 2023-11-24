@@ -18,7 +18,7 @@ abstract class Bluesky extends Atproto {
   /// c.f [getPosts]
   Future<Tuple2> getProfiles(String actors) async {
     http.Response res = await api.get("app.bsky.actor.getProfiles",
-        params: {"actor[]": actors},
+        params: {"actors[]": actors},
         headers: {"Authorization": "Bearer ${api.session.accessJwt}"});
     return Tuple2<int, Map<String, dynamic>>(
         res.statusCode, json.decode(res.body));
