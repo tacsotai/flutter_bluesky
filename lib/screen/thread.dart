@@ -6,8 +6,6 @@ import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/thread_tl.dart';
 import 'package:tuple/tuple.dart';
 
-ThreadTL? customThreadTL;
-
 class Thread extends StatefulWidget {
   static Screen screen = Screen(Thread, const Icon(Icons.filter));
   const Thread({Key? key, this.handle, this.uri}) : super(key: key);
@@ -33,7 +31,7 @@ class ThreadScreen extends State<Thread> {
   // post
   // replis?
   Widget body(ThreadResponse res) {
-    ThreadTL tl = customThreadTL ?? ThreadTimeline();
+    ThreadTL tl = ThreadTimeline();
     if (res.thread.parentMap != null) {
       tl.setParent(res.thread.parent.post);
     }
