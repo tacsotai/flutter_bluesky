@@ -23,7 +23,6 @@ class Notifications extends PluggableWidget {
       navi(screen, icon: icon(screen));
 
   Widget icon(Screen screen) {
-    manager.count;
     return manager.read ? screen.icon : badge(screen);
   }
 

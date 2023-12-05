@@ -111,6 +111,7 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
   List<BottomNavigationBarItem> get _bottomNavigationBarItems {
     List<BottomNavigationBarItem> list = [];
     for (var pluggable in pluggables) {
+      pluggable.init();
       list.add(pluggable.bottomNavigationBarItem);
     }
     return list;
