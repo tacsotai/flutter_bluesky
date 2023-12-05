@@ -23,7 +23,6 @@ class Notifications extends PluggableWidget {
       navi(screen, icon: icon(screen));
 
   Widget icon(Screen screen) {
-    manager.count;
     return manager.read ? screen.icon : badge(screen);
   }
 
@@ -77,7 +76,8 @@ class NotificationsScreen extends State<Notifications> with Frame {
           } else {
             return NotificationsView(
               manager: widget.manager,
-              baseScreen: widget.base.screen,
+              // baseScreen: widget.base.screen,
+              baseScreen: Base().screen,
             );
           }
         });

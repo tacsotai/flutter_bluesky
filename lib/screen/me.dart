@@ -52,7 +52,8 @@ class MyScreen extends State<Me> with Frame {
           } else {
             return ProfileView(
               manager: _manager,
-              baseScreen: widget.base.screen,
+              // baseScreen: widget.base.screen,
+              baseScreen: Base().screen,
             );
           }
         });
