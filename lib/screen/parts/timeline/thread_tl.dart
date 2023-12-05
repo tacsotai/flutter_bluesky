@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/reaction/like.dart';
+import 'package:flutter_bluesky/screen/parts/reaction/more.dart';
 import 'package:flutter_bluesky/screen/parts/reaction/repost.dart';
 import 'package:flutter_bluesky/screen/parts/reaction/thread_reaction.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
@@ -97,6 +98,7 @@ class ThreadMain extends StatelessWidget {
       reply: act.Reply(post).reaction,
       repost: Repost(post).reaction,
       like: Like(post).reaction,
+      more: More(post).reaction,
     );
     return ChangeNotifierProvider(
       child: const ThreadFooter(),
@@ -160,6 +162,7 @@ class ThreadFooterScreen extends AcceptableStatefulWidgetState<ThreadFooter> {
       button(reaction.reply, context.read<ThreadReactionState>().reply),
       button(reaction.repost, context.read<ThreadReactionState>().repost),
       button(reaction.like, context.read<ThreadReactionState>().like),
+      button(reaction.more, context.read<ThreadReactionState>().more),
     ]);
   }
 }
