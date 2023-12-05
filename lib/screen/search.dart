@@ -48,7 +48,8 @@ class SearchScreen extends State<Search> with Frame {
           } else {
             return SearchView(
               manager: _manager,
-              baseScreen: widget.base.screen,
+              // baseScreen: widget.base.screen,
+              baseScreen: Base().screen,
             );
           }
         });

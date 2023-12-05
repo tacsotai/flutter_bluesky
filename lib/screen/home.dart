@@ -52,7 +52,8 @@ class HomeScreen extends State<Home> with Frame {
           } else {
             return HomeView(
               manager: _manager,
-              baseScreen: widget.base.screen,
+              // baseScreen: widget.base.screen,
+              baseScreen: Base().screen,
             );
           }
         });

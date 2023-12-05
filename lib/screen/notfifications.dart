@@ -77,7 +77,8 @@ class NotificationsScreen extends State<Notifications> with Frame {
           } else {
             return NotificationsView(
               manager: widget.manager,
-              baseScreen: widget.base.screen,
+              // baseScreen: widget.base.screen,
+              baseScreen: Base().screen,
             );
           }
         });
