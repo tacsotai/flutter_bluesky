@@ -148,3 +148,7 @@
 ## 0.6.2
 * Fix parameter name to 'actors' not 'actor' for getProfiles.
 * Fix internal structure.
+
+## 0.6.3 
+* Fix Notifications delete timing.
+* Fix Thread view.
