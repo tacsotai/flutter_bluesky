@@ -36,7 +36,7 @@ class ActorLineScreen extends State<ActorLine> {
 
 class ActorContent {
   Widget build(State state, ProfileView actor) {
-    FollowButton button = FollowButton(state, actor);
+    FollowButton button = followButton(state, actor);
     Widget left = displayNameHandle(actor);
     Widget right = widget(button, actor);
     Widget transfer = Profile(actor: actor.did);
