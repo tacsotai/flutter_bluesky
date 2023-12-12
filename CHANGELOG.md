@@ -152,3 +152,6 @@
 ## 0.6.3 
 * Fix Notifications delete timing.
 * Fix Thread view.
+
+## 0.6.4
+* Bug fix for notifications.
