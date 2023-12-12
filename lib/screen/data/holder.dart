@@ -115,15 +115,32 @@ class NotificationsDataHolder {
   String uris = "";
   Map<String, Post> posts = {};
 
-  void makeNotifications(ListNotifications res) {
-    notifications = res.notifications;
+  void makeNotifications(bool insert, ListNotifications res) {
+    List<Notification> list = res.notifications;
+    if (cursor == null) {
+      notifications.addAll(list);
+    }
+    // insert or append.
+    else {
+      if (insert) {
+        notifications.insertAll(0, list);
+      } else {
+        if (cursor != res.cursor) {
+          notifications.addAll(list);
+        } else {
+          // cursor == resCursor case, Do nothing. Noting change.
+        }
+      }
+    }
+    // Finally, set the cursor for next load.
     cursor = res.cursor;
-    _makeUris();
+    _makeUris(list);
   }
 
-  void _makeUris() {
+  void _makeUris(List<Notification> list) {
+    uris = "";
     StringBuffer sb = StringBuffer();
-    for (Notification notification in notifications) {
+    for (Notification notification in list) {
       if (needUri(notification)) {
         sb.write("uris[]=${getUri(notification)}&");
       }
