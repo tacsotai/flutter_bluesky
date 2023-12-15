@@ -20,12 +20,14 @@ abstract class LinkWidget {
     );
   }
 
+  TextStyle get textStyle {
+    return Theme.of(context).textTheme.bodyMedium!;
+  }
+
   void addText(String text) {
     textSpans.add(TextSpan(
       text: text,
-      style: const TextStyle(
-        color: Colors.black,
-      ),
+      style: textStyle,
     ));
   }
 
@@ -39,7 +41,8 @@ abstract class LinkWidget {
   void addLink(String text, Link link) {
     textSpans.add(TextSpan(
       text: text,
-      style: const TextStyle(
+      style: TextStyle(
+        fontSize: textStyle.fontSize,
         color: Colors.blue,
       ),
       recognizer: TapGestureRecognizer()
@@ -52,7 +55,8 @@ abstract class LinkWidget {
   void addMention(String text, BuildContext context, Mention mention) {
     textSpans.add(TextSpan(
       text: text,
-      style: const TextStyle(
+      style: TextStyle(
+        fontSize: textStyle.fontSize,
         color: Colors.blue,
       ),
       recognizer: TapGestureRecognizer()
