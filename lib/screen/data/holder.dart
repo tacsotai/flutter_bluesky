@@ -112,21 +112,23 @@ class NotificationsDataHolder {
   // listNotifications
   String? cursor;
   List<Notification> notifications = [];
+  Map<String, Notification> dedupeMap = {};
   String uris = "";
   Map<String, Post> posts = {};
 
   void makeNotifications(bool insert, ListNotifications res) {
     List<Notification> list = res.notifications;
+    list.map((notification) => dedupeMap[notification.uri] = notification);
     if (cursor == null) {
-      notifications.addAll(list);
+      addNotification(false, list);
     }
     // insert or append.
     else {
       if (insert) {
-        notifications.insertAll(0, list);
+        addNotification(true, list);
       } else {
         if (cursor != res.cursor) {
-          notifications.addAll(list);
+          addNotification(false, list);
         } else {
           // cursor == resCursor case, Do nothing. Noting change.
         }
@@ -135,6 +137,20 @@ class NotificationsDataHolder {
     // Finally, set the cursor for next load.
     cursor = res.cursor;
     _makeUris(list);
+  }
+
+  void addNotification(bool insert, List<Notification> list) {
+    List<Notification> dedupeList = [];
+    for (var notification in list) {
+      if (dedupeMap[notification.uri] == null) {
+        dedupeList.add(notification);
+      }
+    }
+    if (insert) {
+      notifications.insertAll(0, dedupeList);
+    } else {
+      notifications.addAll(dedupeList);
+    }
   }
 
   void _makeUris(List<Notification> list) {
