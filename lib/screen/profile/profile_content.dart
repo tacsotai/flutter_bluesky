@@ -96,7 +96,7 @@ class ProfileContent {
               displayName(actor, fontSize: 28),
               handle(actor),
               counts,
-              description(actor),
+              description(actor, state.context),
             ],
           ),
         ));

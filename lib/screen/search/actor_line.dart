@@ -62,7 +62,7 @@ class ActorContent {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           lr(left, right, const Tuple2(5, 4)),
-          description(actor),
+          description(actor, state.context),
         ],
       ),
       onTap: () async {

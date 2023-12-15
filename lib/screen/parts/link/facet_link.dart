@@ -9,11 +9,10 @@ import 'dart:convert';
 // This class return content with hyperlink
 // if the content contains 'https://' or 'http://'.
 class FacetLink extends LinkWidget {
-  final BuildContext context;
   final Record record;
 
-  FacetLink(this.record, this.context, {double? fontSize})
-      : super(fontSize: fontSize);
+  FacetLink(this.record, BuildContext context, {double? fontSize})
+      : super(context, fontSize: fontSize);
 
   @override
   Widget get withLink {

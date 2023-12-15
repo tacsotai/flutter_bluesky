@@ -5,10 +5,11 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/gestures.dart';
 
 abstract class LinkWidget {
+  final BuildContext context;
   final List<TextSpan> textSpans = [];
   final double? fontSize;
 
-  LinkWidget({this.fontSize});
+  LinkWidget(this.context, {this.fontSize});
 
   Widget get withLink;
 
