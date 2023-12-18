@@ -105,6 +105,8 @@
     "flushbar.title.success": "Success",
     "flushbar.title.error": "Error",
     "signup.success": "Login Go Ahead",
+    "signup.email.taken": "Email already taken: {}",
+    "signup.handle.taken": "Handle already taken: {}",
     "login.after.signup": "It will be logined automatically.",
     "providers.title.first": "or login with",
     "providers.title.second": "or",

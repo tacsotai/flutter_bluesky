@@ -106,8 +106,6 @@ class NotificationsDataManager extends DataManager {
         await plugin.updateSeen(holder.seenAt!);
       }
       await count;
-      // TODO cursor, seenAt
-      // Tuple2 res = await plugin.listNotifications(cursor: holder.cursor);
       Tuple2 res = await plugin.listNotifications(
           limit: 25, seenAt: holder.seenAt, cursor: holder.cursor);
       holder.makeNotifications(insert, ListNotifications(res.item2));

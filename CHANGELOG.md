@@ -155,3 +155,8 @@
 
 ## 0.6.4
 * Bug fix for notifications.
+
+## 0.6.5
+* Bug fix the loop to show latest one after last.
+* Same font size for link.
+* Remove user domain from handle at login error.

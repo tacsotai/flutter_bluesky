@@ -51,9 +51,9 @@ Widget handle(ProfileViewBasic actor) {
   );
 }
 
-Widget description(ProfileView actor) {
+Widget description(ProfileView actor, BuildContext context) {
   String desc = actor.description ?? "";
-  return HyperLink(desc).withLink;
+  return HyperLink(context, desc).withLink;
 }
 
 Widget bold(int count) {
