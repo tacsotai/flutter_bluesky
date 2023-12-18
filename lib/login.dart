@@ -4,6 +4,7 @@ import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
 import 'package:flutter_bluesky/util/base_util.dart';
+import 'package:flutter_bluesky/util/login_util.dart';
 import 'package:flutter_login/flutter_login.dart';
 // ignore: implementation_imports
 import 'package:flutter_login/src/regex.dart';
@@ -30,7 +31,7 @@ class LoginScreen extends StatelessWidget {
     if (res.item1 == 200) {
       return null;
     } else {
-      return res.item2["message"] as String;
+      return LoginUtil.instance.rename(res.item2["message"]);
     }
   }
 

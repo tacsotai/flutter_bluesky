@@ -105,6 +105,8 @@
     "flushbar.title.success": "成功",
     "flushbar.title.error": "エラー",
     "signup.success": "ログインしてください。",
+    "signup.email.taken": "メールアドレスは既に使われています: {}",
+    "signup.handle.taken": "ハンドル名は既に使われています: {}",
     "login.after.signup": "自動的にログインします。",
     "providers.title.first": "or login with",
     "providers.title.second": "or",
