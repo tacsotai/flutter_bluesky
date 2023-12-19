@@ -36,13 +36,22 @@ class Avatar extends Picture {
 
   @override
   CircleAvatar get widget {
+    AvatarManager? manager = avatarManager ?? AvatarManager();
     return CircleAvatar(
       radius: radius,
       foregroundColor: Theme.of(context).colorScheme.primary,
       backgroundImage: provider,
       child: provider == null
-          ? Icon(Icons.person, size: 50 * (radius / defaultRadius))
+          ? Icon(manager.iconData(actor), size: 50 * (radius / defaultRadius))
           : null,
     );
+  }
+}
+
+AvatarManager? avatarManager;
+
+class AvatarManager {
+  IconData iconData(ProfileViewBasic actor) {
+    return Icons.person;
   }
 }
