@@ -160,3 +160,7 @@
 * Bug fix the loop to show latest one after last.
 * Same font size for link.
 * Remove user domain from handle at login error.
+
+## 0.6.6
+* Localization to validate a signup handle.
+* Make it pluggable avator icon.
