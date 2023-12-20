@@ -164,3 +164,6 @@
 ## 0.6.6
 * Localization to validate a signup handle.
 * Make it pluggable avator icon.
+
+## 0.6.7
+* Bug fix the loop to show latest one after last again.
