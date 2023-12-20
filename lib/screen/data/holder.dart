@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/api/model/graph.dart';
@@ -111,46 +113,22 @@ class NotificationsDataHolder {
   int unreadCount = 0;
   // listNotifications
   String? cursor;
+  Map<DateTime, Notification> dedupeMap = {};
   List<Notification> notifications = [];
-  Map<String, Notification> dedupeMap = {};
   String uris = "";
   Map<String, Post> posts = {};
 
   void makeNotifications(bool insert, ListNotifications res) {
     List<Notification> list = res.notifications;
-    list.map((notification) => dedupeMap[notification.uri] = notification);
-    if (cursor == null) {
-      addNotification(false, list);
+    for (var notification in list) {
+      dedupeMap[notification.indexedAt] = notification;
     }
-    // insert or append.
-    else {
-      if (insert) {
-        addNotification(true, list);
-      } else {
-        if (cursor != res.cursor) {
-          addNotification(false, list);
-        } else {
-          // cursor == resCursor case, Do nothing. Noting change.
-        }
-      }
-    }
+    notifications =
+        SplayTreeMap.of(dedupeMap, (a, b) => b.compareTo(a)).values.toList();
+
     // Finally, set the cursor for next load.
     cursor = res.cursor;
     _makeUris(list);
-  }
-
-  void addNotification(bool insert, List<Notification> list) {
-    List<Notification> dedupeList = [];
-    for (var notification in list) {
-      if (dedupeMap[notification.uri] == null) {
-        dedupeList.add(notification);
-      }
-    }
-    if (insert) {
-      notifications.insertAll(0, dedupeList);
-    } else {
-      notifications.addAll(dedupeList);
-    }
   }
 
   void _makeUris(List<Notification> list) {
