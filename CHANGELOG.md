@@ -167,3 +167,7 @@
 
 ## 0.6.7
 * Bug fix the loop to show latest one after last again.
+
+## 0.6.8
+Change path after login.
+Don't show modal after quote post submit.
