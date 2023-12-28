@@ -182,6 +182,9 @@ class PostScreen extends State<Post> {
   void _submit() async {
     _formKey.currentState?.save();
     PostUtil.post(_text, context, record: record, files: files);
+    if (widget.postType == PostType.quote) {
+      Navigator.pop(context);
+    }
     Navigator.pop(context);
   }
 
