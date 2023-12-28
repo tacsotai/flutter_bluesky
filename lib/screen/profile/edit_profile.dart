@@ -3,13 +3,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
-import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/image/banner.dart' as prof;
-import 'package:flutter_bluesky/screen/me.dart';
 import 'package:flutter_bluesky/screen/parts/image/picture.dart';
 import 'package:flutter_bluesky/screen/profile/profile_updater.dart';
+import 'package:flutter_bluesky/util/base_util.dart';
 import 'package:flutter_bluesky/util/common_util.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
 
@@ -159,8 +158,6 @@ class EditProfileScreen extends State<EditProfile> {
     setState(() {});
     // reload profile page
     // ignore: use_build_context_synchronously
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => Base(selectedIndex: meIndex),
-    ));
+    pushBase(context);
   }
 }
