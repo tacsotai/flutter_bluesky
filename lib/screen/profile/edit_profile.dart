@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
+import 'package:flutter_bluesky/screen/me.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/image/banner.dart' as prof;
@@ -158,6 +159,6 @@ class EditProfileScreen extends State<EditProfile> {
     setState(() {});
     // reload profile page
     // ignore: use_build_context_synchronously
-    pushBase(context);
+    pushBase(context, selectedIndex: meIndex);
   }
 }
