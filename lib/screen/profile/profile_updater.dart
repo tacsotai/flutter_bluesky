@@ -1,13 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/image/banner.dart' as prof;
 import 'package:flutter_bluesky/screen/parts/image/picture.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
 import 'package:tuple/tuple.dart';
-import 'package:http/http.dart' as http;
 
 class ProfileUpdater {
   final FlutterBluesky plugin;
@@ -38,9 +38,8 @@ class ProfileUpdater {
       ImageFile file = pic.file!;
       return upload(await file.bytes, file.mimeType!);
     } else if (pic.url != null) {
-      final res = await http.get(Uri.parse(pic.url!));
-      // "avatar": "https://sotai.co/ad/image/HHjdDiDF...dxhv6gi@jpeg",
-      return upload(res.bodyBytes, "image/${pic.url!.split("@")[1]}");
+      // empty is the signal of unchaned in this project.
+      return {};
     }
     return null;
   }

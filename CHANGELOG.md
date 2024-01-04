@@ -171,3 +171,6 @@
 ## 0.6.8
 Change path after login.
 Don't show modal after quote post submit.
+
+## 0.6.9
+Fix it can not change the profile at no change picture.

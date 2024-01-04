@@ -123,9 +123,14 @@ class FlutterBluesky extends Bluesky {
       String? description,
       Map? avatar,
       Map? banner}) async {
+    String? cid;
     Tuple2 res =
         await getRecord(api.session.did!, "app.bsky.actor.profile", "self");
-    String? cid = res.item1 == 400 ? null : res.item2["cid"];
+    if (res.item1 == 200) {
+      cid = res.item2["cid"];
+      avatar = blobMap(res.item2["value"]["avatar"], avatar);
+      banner = blobMap(res.item2["value"]["banner"], banner);
+    }
     Map<String, dynamic> record = {};
     API.add(record, {
       "\$type": "app.bsky.actor.profile",
@@ -137,6 +142,27 @@ class FlutterBluesky extends Bluesky {
     await putRecord(api.session.did!, "app.bsky.actor.profile", "self", record,
         swapRecord: cid);
     await sessionAPI.profile();
+  }
+
+  // {
+  //     "uri": "at://did:plc:svpjvfqfu2t5csxb3rp5emx7/app.bsky.actor.profile/self",
+  //     "cid": "bafyreib6n7nqnw5zmciymy5klgeoywdpkejtu24a2osa2rgregipv2ccka",
+  //     "value": {
+  //         "$type": "app.bsky.actor.profile",
+  //         "description": "",
+  //         "displayName": ""
+  //     }
+  // }
+  // blobMap have to be nullable because avatar or banner is null.
+  Map? blobMap(Map? blobMap, Map? map) {
+    if (map != null) {
+      if (map.isEmpty) {
+        return blobMap;
+      } else {
+        return map;
+      }
+    }
+    return null;
   }
 
   // app.bsky.graph.getFollows wrapper
