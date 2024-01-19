@@ -10,7 +10,7 @@ class Record {
   List? langs;
   List<Facet>? facets;
   SelfLabels? labels;
-  List<String>? tags;
+  List? tags;
   RecordReply? reply;
   RecordEmbed? embed;
   Record(Map map)
@@ -30,7 +30,7 @@ class SelfLabels {
   final List<SelfLabel> values;
 
   SelfLabels(Map map)
-      : type = map["type"],
+      : type = map["\$type"],
         values = SelfLabel.list(map["values"]);
 }
 
