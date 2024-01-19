@@ -110,6 +110,7 @@
     "signup.handle.long": "ハンドル名が長すぎます。",
     "signup.handle.short": "ハンドル名が短かすぎます。",
     "signup.handle.invalid": "ハンドル名不正です。",
+    "signup.handle.unmatch": "先頭は英字で残りは英数字でなければなりません。",
     "login.after.signup": "自動的にログインします。",
     "providers.title.first": "or login with",
     "providers.title.second": "or",

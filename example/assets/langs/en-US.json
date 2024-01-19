@@ -110,6 +110,7 @@
     "signup.handle.long": "Handle too long",
     "signup.handle.short": "Handle too short",
     "signup.handle.invalid": "Invalid characters in handle",
+    "signup.handle.unmatch": "It must start with an alphabetic and the rest must be alphanumeric.",
     "login.after.signup": "It will be logined automatically.",
     "providers.title.first": "or login with",
     "providers.title.second": "or",
