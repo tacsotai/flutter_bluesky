@@ -1,6 +1,6 @@
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/embed.dart';
-
+import 'package:flutter_bluesky/api/model/record.dart';
 // lexicons/app/bsky/feed/defs.json
 // feedViewPost
 
