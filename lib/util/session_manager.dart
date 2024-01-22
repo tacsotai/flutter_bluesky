@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/api/session.dart';
 import 'package:flutter_bluesky/login.dart';
+import 'package:flutter_bluesky/util/datetime_util.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:tuple/tuple.dart';
 
 SessionManager? sessionManager;
@@ -10,20 +12,38 @@ bool get hasAccessToken {
   return isAlive && plugin.api.session.accessJwt != null;
 }
 
-void checkSession(BuildContext context) {
-  plugin.getSession().then((res) => loginExpire(res, context));
+bool get expire {
+  Map<String, dynamic> decodedToken =
+      JwtDecoder.decode(plugin.api.session.accessJwt!);
+  return dt(decodedToken["exp"]).isAfter(DateTime.now());
 }
 
-void loginExpire(Tuple2 res, BuildContext context) {
-  if (res.item1 != 200) {
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const LoginScreen()));
-  }
+void loginExpire(BuildContext context) {
+  Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => const LoginScreen()));
+  // return const Text("Provider is not settled");
 }
 
 class SessionManager {
   static SessionManager get get {
     return sessionManager ?? SessionManager();
+  }
+
+  Future<void> checkSession(BuildContext context) async {
+    try {
+      if (hasAccessToken && expire) {
+        await plugin.sessionAPI.refresh();
+        Tuple2 res = await plugin.getSession();
+        if (res.item1 != 200) {
+          // ignore: use_build_context_synchronously
+          loginExpire(context);
+        }
+      }
+    } catch (e) {
+      // #213
+      // client exception
+      // navigate to maintenace screen
+    }
   }
 
   Future<void> get restoreSession async {

@@ -44,7 +44,7 @@ class PostScreen extends State<Post> {
 
   @override
   Widget build(BuildContext context) {
-    checkSession(context);
+    SessionManager.get.checkSession(context);
     return Scaffold(
       body: padding10(
         Form(

@@ -71,7 +71,7 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     if (hasAccessToken) {
-      checkSession(context);
+      SessionManager.get.checkSession(context);
       return pluggables[selectedIndex];
     } else {
       return const Text("Provider is not settled");
