@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/api/session.dart';
-import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/util/datetime_util.dart';
+import 'package:flutter_bluesky/util/screen_util.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:tuple/tuple.dart';
 
@@ -16,12 +16,6 @@ bool get expire {
   Map<String, dynamic> decodedToken =
       JwtDecoder.decode(plugin.api.session.accessJwt!);
   return dt(decodedToken["exp"]).isAfter(DateTime.now());
-}
-
-void loginExpire(BuildContext context) {
-  Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const LoginScreen()));
-  // return const Text("Provider is not settled");
 }
 
 class SessionManager {

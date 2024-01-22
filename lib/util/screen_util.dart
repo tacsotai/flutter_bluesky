@@ -19,6 +19,12 @@ String initialRoute(BuildContext context) {
   }
 }
 
+void loginExpire(BuildContext context) {
+  Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => const LoginScreen()));
+  // return const Text("Provider is not settled");
+}
+
 ScreenUtil? screenUtil;
 
 class ScreenUtil {
