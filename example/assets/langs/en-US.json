@@ -131,6 +131,7 @@
     "term.of.services": "Term of services",
     "age.verification": "I am at least 13 years old.",
     "validation.error.token.or.password": "Code or Password is wrong.",
+    "validation.error.user.or.password": "Email or Password is wrong.",
     "required": "Required",
     "term.linkUrl": "https://www.example.com/terms"
 }

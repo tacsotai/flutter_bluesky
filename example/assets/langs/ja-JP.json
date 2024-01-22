@@ -131,6 +131,7 @@
     "term.of.services": "利用規約とポリシー",
     "age.verification": "13歳以上です。",
     "validation.error.token.or.password": "確認コードもしくはパスワードが間違っています。",
+    "validation.error.user.or.password": "Emailもしくはパスワードが間違っています。",
     "required": "必須",
     "term.linkUrl": "https://www.example.com/terms"
 }
