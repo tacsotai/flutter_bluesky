@@ -5,7 +5,7 @@ import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
 import 'package:flutter_bluesky/screen/parts/button.dart';
-import 'package:flutter_bluesky/util/base_util.dart';
+import 'package:flutter_bluesky/util/screen_util.dart';
 import 'package:tuple/tuple.dart';
 
 // ignore: must_be_immutable

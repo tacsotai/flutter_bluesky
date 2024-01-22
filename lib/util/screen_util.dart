@@ -19,6 +19,13 @@ String initialRoute(BuildContext context) {
   }
 }
 
+void pushBase(BuildContext context, {int selectedIndex = 0}) {
+  Navigator.of(context).pushReplacement(MaterialPageRoute(
+    settings: RouteSettings(name: Base.route),
+    builder: (context) => Base(selectedIndex: selectedIndex),
+  ));
+}
+
 void loginExpire(BuildContext context) {
   Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (context) => const LoginScreen()));
