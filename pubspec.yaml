@@ -30,6 +30,7 @@ dependencies:
   flutter_secure_storage: ^8.0.0
   flutter_typeahead: ^4.8.0
   image_picker: ^1.0.4
+  jwt_decoder: ^2.0.1
 
   
 dev_dependencies:
