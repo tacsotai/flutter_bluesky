@@ -30,7 +30,7 @@ class SessionManager {
         Tuple2 res = await plugin.getSession();
         if (res.item1 != 200) {
           // ignore: use_build_context_synchronously
-          loginExpire(context);
+          pushLogin(context);
         }
       }
     } catch (e) {

@@ -26,7 +26,7 @@ void pushBase(BuildContext context, {int selectedIndex = 0}) {
   ));
 }
 
-void loginExpire(BuildContext context) {
+void pushLogin(BuildContext context) {
   Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (context) => const LoginScreen()));
   // return const Text("Provider is not settled");
