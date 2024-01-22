@@ -4,6 +4,7 @@ import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/thread_tl.dart';
+import 'package:flutter_bluesky/util/session_manager.dart';
 import 'package:tuple/tuple.dart';
 
 class Thread extends StatefulWidget {

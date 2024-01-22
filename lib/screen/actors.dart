@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/actors/actors_view.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/data/factory.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
+import 'package:flutter_bluesky/util/session_manager.dart';
 
 // followings, followers, and so on.
 class Actors extends StatefulWidget {

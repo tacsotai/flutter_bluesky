@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/data/factory.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
 import 'package:flutter_bluesky/screen/profile/profile_view.dart';
+import 'package:flutter_bluesky/util/session_manager.dart';
 
 class Profile extends StatefulWidget {
   static Screen screen = Screen(Profile, const Icon(Icons.person));

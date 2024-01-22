@@ -12,6 +12,7 @@ import 'package:flutter_bluesky/screen/profile/profile_updater.dart';
 import 'package:flutter_bluesky/util/base_util.dart';
 import 'package:flutter_bluesky/util/common_util.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
+import 'package:flutter_bluesky/util/session_manager.dart';
 
 class EditProfile extends StatefulWidget {
   static Screen screen = Screen(EditProfile, const Icon(Icons.edit));

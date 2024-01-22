@@ -1,10 +1,24 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/api/session.dart';
+import 'package:flutter_bluesky/login.dart';
+import 'package:tuple/tuple.dart';
 
 SessionManager? sessionManager;
 
 bool get hasAccessToken {
   return isAlive && plugin.api.session.accessJwt != null;
+}
+
+void checkSession(BuildContext context) {
+  plugin.getSession().then((res) => loginExpire(res, context));
+}
+
+void loginExpire(Tuple2 res, BuildContext context) {
+  if (res.item1 != 200) {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const LoginScreen()));
+  }
 }
 
 class SessionManager {
