@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
 import 'package:flutter_bluesky/screen/notifications/notifications_view.dart';
 import 'package:flutter_bluesky/screen/parts/menu.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:flutter_bluesky/util/session_manager.dart';
 
 // ignore: must_be_immutable
 class Notifications extends PluggableWidget {

@@ -18,10 +18,6 @@ void setPlugin(FlutterBluesky plugin) {
   _plugin = plugin;
 }
 
-bool get hasSession {
-  return isAlive && _plugin!.api.session.accessJwt != null;
-}
-
 bool get isAlive {
   return _plugin != null;
 }

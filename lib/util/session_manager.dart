@@ -3,6 +3,10 @@ import 'package:flutter_bluesky/api/session.dart';
 
 SessionManager? sessionManager;
 
+bool get hasSession {
+  return isAlive && plugin.api.session.accessJwt != null;
+}
+
 class SessionManager {
   static SessionManager get get {
     return sessionManager ?? SessionManager();
