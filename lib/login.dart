@@ -6,7 +6,6 @@ import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
 import 'package:flutter_bluesky/util/base_util.dart';
 import 'package:flutter_bluesky/util/login_util.dart';
-import 'package:flutter_bluesky/util/session_manager.dart';
 import 'package:flutter_login/flutter_login.dart';
 // ignore: implementation_imports
 import 'package:flutter_login/src/regex.dart';
@@ -14,7 +13,7 @@ import 'package:tuple/tuple.dart';
 
 String initialRoute(BuildContext context) {
   if (isAlive) {
-    if (hasAccessToken) {
+    if (plugin.api.session.accessJwt != null) {
       return Base.route;
     } else {
       return LoginScreen.route;
