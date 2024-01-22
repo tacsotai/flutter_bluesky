@@ -83,7 +83,12 @@ class LoginScreen extends StatelessWidget {
   }
 
   List<UserFormField>? additionalSignupFields() {
-    return [UserFormField(keyName: "handle", displayName: tr('handle.hint'))];
+    return [
+      UserFormField(
+          keyName: "handle",
+          displayName: tr('handle.hint'),
+          fieldValidator: handleValidator)
+    ];
   }
 
   String? userValidator(value) {
@@ -96,6 +101,14 @@ class LoginScreen extends StatelessWidget {
   String? passwordValidator(value) {
     if (value!.isEmpty || value.length <= 2) {
       return tr('password.too.short');
+    }
+    return null;
+  }
+
+  String? handleValidator(value) {
+    var matcher = RegExp(r"^[a-zA-Z][a-zA-Z0-9]*$");
+    if (!matcher.hasMatch(value)) {
+      return tr("signup.handle.unmatch");
     }
     return null;
   }

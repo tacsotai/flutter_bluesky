@@ -6,7 +6,6 @@ const emailTaken = "Email already taken: ";
 const handleTaken = "Handle already taken: ";
 const handleTooLong = "Handle too long";
 const handleTooShort = "Handle too short";
-final matcher = RegExp(r"^[a-zA-Z][a-zA-Z0-9]*$");
 const loginErr = "Invalid identifier or password";
 // other; same message for this project.
 // const handleInvalid = "Invalid characters in handle";
@@ -29,8 +28,6 @@ class LoginUtil {
       return longMsg;
     } else if (message.contains(handleTooShort)) {
       return shortMsg;
-    } else if (!matcher.hasMatch(message)) {
-      return unmatch;
     } else if (message.contains(loginErr)) {
       return loginErrMsg;
     } else {
@@ -55,8 +52,6 @@ class LoginUtil {
     return tr("signup.handle.short");
   }
 
-  String get unmatch {
-    return tr("signup.handle.unmatch");
   String get loginErrMsg {
     return tr("validation.error.user.or.password");
   }
