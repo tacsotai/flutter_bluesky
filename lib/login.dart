@@ -14,7 +14,7 @@ import 'package:tuple/tuple.dart';
 
 String get initialRoute {
   if (isAlive) {
-    if (hasSession) {
+    if (hasAccessToken) {
       return Base.route;
     } else {
       return LoginScreen.route;

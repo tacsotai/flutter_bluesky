@@ -3,7 +3,7 @@ import 'package:flutter_bluesky/api/session.dart';
 
 SessionManager? sessionManager;
 
-bool get hasSession {
+bool get hasAccessToken {
   return isAlive && plugin.api.session.accessJwt != null;
 }
 

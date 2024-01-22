@@ -41,7 +41,7 @@ class Notifications extends PluggableWidget {
 
   @override
   Future<void> init() async {
-    if (hasSession) {
+    if (hasAccessToken) {
       await manager.count;
     }
   }

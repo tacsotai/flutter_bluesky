@@ -13,7 +13,7 @@ class ScreenUtil {
   Future<Notifications> notifications() async {
     // for notification badge
     Notifications notifications = Notifications();
-    if (hasSession) {
+    if (hasAccessToken) {
       Tuple2 res = await plugin.getSession();
       if (res.item1 == 200) {
         await notifications.init();
