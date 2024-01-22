@@ -12,7 +12,7 @@ import 'package:flutter_login/flutter_login.dart';
 import 'package:flutter_login/src/regex.dart';
 import 'package:tuple/tuple.dart';
 
-String get initialRoute {
+String initialRoute(BuildContext context) {
   if (isAlive) {
     if (hasAccessToken) {
       return Base.route;

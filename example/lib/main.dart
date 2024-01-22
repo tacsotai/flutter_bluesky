@@ -57,7 +57,7 @@ class MainApp extends StatelessWidget {
             titleSmall: TextStyle(fontSize: 16)),
       ),
       navigatorObservers: [TransitionRouteObserver()],
-      initialRoute: initialRoute,
+      initialRoute: initialRoute(context),
       routes: {
         Provider.screen.route: (context) => const Provider(),
         LoginScreen.route: (context) => const LoginScreen(),
