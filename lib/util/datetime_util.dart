@@ -6,6 +6,10 @@ int now() {
   return DateTime.now().toUtc().millisecondsSinceEpoch;
 }
 
+DateTime dt(int unixtime) {
+  return DateTime.fromMillisecondsSinceEpoch(unixtime * 1000);
+}
+
 DateTime yesterday() {
   DateTime today = DateTime.now().toUtc();
   return today.subtract(const Duration(days: 1));
