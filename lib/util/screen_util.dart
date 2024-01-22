@@ -1,7 +1,23 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
+import 'package:flutter_bluesky/login.dart';
+import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/notfifications.dart';
+import 'package:flutter_bluesky/screen/provider.dart';
 import 'package:flutter_bluesky/util/session_manager.dart';
 import 'package:tuple/tuple.dart';
+
+String initialRoute(BuildContext context) {
+  if (isAlive) {
+    if (plugin.api.session.accessJwt != null) {
+      return Base.route;
+    } else {
+      return LoginScreen.route;
+    }
+  } else {
+    return Provider.screen.route;
+  }
+}
 
 ScreenUtil? screenUtil;
 

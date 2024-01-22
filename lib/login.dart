@@ -2,26 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/data/const.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
-import 'package:flutter_bluesky/screen/base.dart';
-import 'package:flutter_bluesky/screen/provider.dart';
 import 'package:flutter_bluesky/util/base_util.dart';
 import 'package:flutter_bluesky/util/login_util.dart';
 import 'package:flutter_login/flutter_login.dart';
 // ignore: implementation_imports
 import 'package:flutter_login/src/regex.dart';
 import 'package:tuple/tuple.dart';
-
-String initialRoute(BuildContext context) {
-  if (isAlive) {
-    if (plugin.api.session.accessJwt != null) {
-      return Base.route;
-    } else {
-      return LoginScreen.route;
-    }
-  } else {
-    return Provider.screen.route;
-  }
-}
 
 class LoginScreen extends StatelessWidget {
   static const route = '/auth';
