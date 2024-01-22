@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/data/const.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
@@ -106,9 +107,8 @@ class LoginScreen extends StatelessWidget {
   }
 
   String? handleValidator(value) {
-    var matcher = RegExp(r"^[a-zA-Z][a-zA-Z0-9]*$");
-    if (!matcher.hasMatch(value)) {
-      return tr("signup.handle.unmatch");
+    if (value!.isEmpty || !Const.handle.hasMatch(value)) {
+      return tr('signup.handle.unmatch');
     }
     return null;
   }
