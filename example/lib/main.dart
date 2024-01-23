@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/data/assets.dart';
 import 'package:flutter_bluesky/screen/data/factory.dart';
+import 'package:flutter_bluesky/screen/error.dart';
 import 'package:flutter_bluesky/util/screen_util.dart';
 import 'package:flutter_bluesky/util/session_manager.dart';
 import 'package:flutter_bluesky/db/accessor.dart';
@@ -61,6 +62,7 @@ class MainApp extends StatelessWidget {
       routes: {
         Provider.screen.route: (context) => const Provider(),
         LoginScreen.route: (context) => const LoginScreen(),
+        ErrorScreen.route: (context) => const ErrorScreen(),
         Base.route: (context) => Base(),
         Post.screen.route: (context) => const Post(),
         Thread.screen.route: (context) => const Thread(),

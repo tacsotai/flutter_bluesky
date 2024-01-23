@@ -104,6 +104,8 @@
     "recover.password.success": "An email has been sent",
     "flushbar.title.success": "Success",
     "flushbar.title.error": "Error",
+    "error": "Error",
+    "error.network": "Under Maintenance",
     "signup.success": "Login Go Ahead",
     "signup.email.taken": "Email already taken: {}",
     "signup.handle.taken": "Handle already taken: {}",

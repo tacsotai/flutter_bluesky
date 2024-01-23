@@ -104,6 +104,8 @@
     "recover.password.success": "パスワードがリセットされました。",
     "flushbar.title.success": "成功",
     "flushbar.title.error": "エラー",
+    "error": "エラー",
+    "error.network": "メンテナンス中です。",
     "signup.success": "ログインしてください。",
     "signup.email.taken": "メールアドレスは既に使われています: {}",
     "signup.handle.taken": "ハンドル名は既に使われています: {}",

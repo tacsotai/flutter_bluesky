@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/screen/base.dart';
+import 'package:flutter_bluesky/screen/error.dart';
 import 'package:flutter_bluesky/screen/notfifications.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
 import 'package:flutter_bluesky/util/session_manager.dart';
@@ -29,6 +30,12 @@ void pushBase(BuildContext context, {int selectedIndex = 0}) {
 void pushLogin(BuildContext context) {
   Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (context) => const LoginScreen()));
+  // return const Text("Provider is not settled");
+}
+
+void pushError(BuildContext context) {
+  Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => const ErrorScreen()));
   // return const Text("Provider is not settled");
 }
 

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/api/session.dart';
@@ -23,20 +25,18 @@ class SessionManager {
     return sessionManager ?? SessionManager();
   }
 
+  // Login and Reaction, too
   Future<void> checkSession(BuildContext context) async {
     try {
       if (hasAccessToken && expire) {
         await plugin.sessionAPI.refresh();
         Tuple2 res = await plugin.getSession();
         if (res.item1 != 200) {
-          // ignore: use_build_context_synchronously
           pushLogin(context);
         }
       }
     } catch (e) {
-      // #213
-      // client exception
-      // navigate to maintenace screen
+      pushError(context);
     }
   }
 
