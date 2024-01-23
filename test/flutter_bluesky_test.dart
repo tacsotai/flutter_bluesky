@@ -60,7 +60,7 @@ Map<String, dynamic> testRecord = {
 
 void main() {
   config = Config({"timeout": 5000, "sleep": 500});
-  FlutterBluesky plugin = FlutterBluesky(provider: testProvider);
+  FlutterBluesky plugin = FlutterBluesky(testProvider, "testKey");
 
   Future<Tuple2> login(String emailORhandle, String password) async {
     Tuple2 res = await plugin.createSession(email, password);
@@ -88,7 +88,7 @@ void main() {
   }
 
   test('connect to bsky.social', () async {
-    FlutterBluesky defaultPlugin = FlutterBluesky();
+    FlutterBluesky defaultPlugin = FlutterBluesky(testProvider, "testKey");
     Tuple2 res = await defaultPlugin.connect();
     expect(res.item1, 200);
     Map expected = {

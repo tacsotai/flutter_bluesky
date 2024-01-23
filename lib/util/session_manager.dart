@@ -59,6 +59,6 @@ class SessionManager {
 
   // TO BE OVER WRITE
   void setItem(String provider, String key) {
-    setPlugin(FlutterBluesky(provider: provider, key: key));
+    setPlugin(FlutterBluesky(provider, key));
   }
 }

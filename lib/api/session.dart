@@ -45,6 +45,7 @@ class Session {
       item["refreshJwt"],
     );
     item["provider"] = provider;
+    item["key"] = key;
     accessor.put(session, key, item);
   }
 

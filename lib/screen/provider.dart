@@ -58,7 +58,9 @@ class ProviderScreen extends State<Provider> {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
               onPressed: () async {
-                setPlugin(FlutterBluesky(provider: _controller.text));
+                // It is domain like: bsky.social
+                String key = _controller.text.split(".")[0];
+                setPlugin(FlutterBluesky(_controller.text, key));
                 Tuple2 res = await plugin.connect();
                 setState(() {
                   _process(res);
