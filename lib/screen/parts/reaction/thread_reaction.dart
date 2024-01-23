@@ -5,6 +5,7 @@ import 'package:flutter_bluesky/screen/parts/reaction/more.dart';
 import 'package:flutter_bluesky/screen/parts/reaction/reply.dart';
 import 'package:flutter_bluesky/screen/parts/reaction/repost.dart';
 import 'package:flutter_bluesky/api/model/feed.dart' as feed;
+import 'package:flutter_bluesky/util/session_manager.dart';
 
 class ThreadReaction {
   final Reaction reply;
@@ -46,6 +47,7 @@ class ThreadReactionState extends ValueNotifier<ThreadReaction> {
   }
 
   Future<void> _action(AbstractReaction reaction) async {
+    await SessionManager.get.checkSession(context);
     await reaction.exec();
     value = value.renew;
   }

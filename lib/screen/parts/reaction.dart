@@ -4,6 +4,7 @@ import 'package:flutter_bluesky/screen/parts/reaction/like.dart';
 import 'package:flutter_bluesky/screen/parts/reaction/more.dart';
 import 'package:flutter_bluesky/screen/parts/reaction/reply.dart';
 import 'package:flutter_bluesky/screen/parts/reaction/repost.dart';
+import 'package:flutter_bluesky/util/session_manager.dart';
 
 class Reaction {
   final Color color;
@@ -62,6 +63,7 @@ class ReactionState extends ValueNotifier<Reaction> {
   }
 
   Future<void> _action(AbstractReaction reaction) async {
+    await SessionManager.get.checkSession(context);
     await reaction.exec();
     value = reaction.renew;
   }
