@@ -53,6 +53,7 @@ class SessionManager {
     }
     if (item.isNotEmpty) {
       plugin.api.session.set(item);
+      await plugin.connect();
       await plugin.sessionAPI.refresh();
     }
   }
