@@ -10,6 +10,7 @@ import 'package:tuple/tuple.dart';
 
 String initialRoute(BuildContext context) {
   if (isAlive) {
+    SessionManager.get.checkSession(context);
     if (plugin.api.session.accessJwt != null) {
       return Base.route;
     } else {
