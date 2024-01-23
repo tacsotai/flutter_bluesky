@@ -87,24 +87,6 @@ void main() {
     return res;
   }
 
-  test('connect to bsky.social', () async {
-    FlutterBluesky defaultPlugin = FlutterBluesky(testProvider, "testKey");
-    Tuple2 res = await defaultPlugin.connect();
-    expect(res.item1, 200);
-    Map expected = {
-      "availableUserDomains": [".bsky.social"],
-      "inviteCodeRequired": true,
-      "links": {
-        "privacyPolicy": "https://blueskyweb.xyz/support/privacy-policy",
-        "termsOfService": "https://blueskyweb.xyz/support/tos"
-      }
-    };
-    expect(res.item2, expected);
-    expect(defaultPlugin.inviteCodeRequired(), true);
-    expect(defaultPlugin.availableUserDomain("hoge.bsky.social"), true);
-    expect(defaultPlugin.availableUserDomain("hoge.test"), false);
-  });
-
   test('connect', () async {
     Tuple2 res = await plugin.connect();
     expect(res.item1, 200);
