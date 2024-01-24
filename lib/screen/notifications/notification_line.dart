@@ -47,13 +47,13 @@ class Notice {
       case "like":
         return like;
       case "reply":
-        return reply;
+        return avatarContent(Post(replyPost));
       case "repost":
         return repost;
       case "quote":
-        return avatarContent;
+        return avatarContent(post!);
       case "mention":
-        return avatarContent;
+        return avatarContent(post!);
       default:
         return error;
     }
@@ -61,12 +61,8 @@ class Notice {
 
   Widget iconContent(IconData data, Color iconColor) {
     List<Widget> widgets = [
-      Avatar(state.context, radius: smallRadius)
-          .net(ProfileViewBasic(notification.author))
-          .profile,
-      Header(
-              author: ProfileViewBasic(notification.author),
-              createdAt: notification.indexedAt)
+      Avatar(state.context, radius: smallRadius).net(_author).profile,
+      Header(author: _author, createdAt: notification.indexedAt)
           .build(state.context)
     ];
     if (post != null) {
@@ -77,6 +73,10 @@ class Notice {
     ], [
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: widgets)
     ]);
+  }
+
+  ProfileViewBasic get _author {
+    return ProfileViewBasic(notification.author);
   }
 
   Widget get follow {
@@ -93,27 +93,13 @@ class Notice {
     );
   }
 
-  Widget get avatarContent {
+  Widget avatarContent(Post post) {
     return paddingLR([
-      Avatar(state.context).net(ProfileViewBasic(notification.author)).profile
+      Avatar(state.context).net(_author).profile
     ], [
-      Header(
-              author: ProfileViewBasic(notification.author),
-              createdAt: notification.indexedAt)
+      Header(author: _author, createdAt: notification.indexedAt)
           .build(state.context),
-      Body(post: post!),
-    ]);
-  }
-
-  Widget get reply {
-    return paddingLR([
-      Avatar(state.context).net(ProfileViewBasic(notification.author)).profile
-    ], [
-      Header(
-              author: ProfileViewBasic(notification.author),
-              createdAt: notification.indexedAt)
-          .build(state.context),
-      Body(post: Post(replyPost)),
+      Body(post: post),
     ]);
   }
 
