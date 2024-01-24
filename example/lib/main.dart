@@ -8,9 +8,6 @@ import 'package:flutter_bluesky/util/screen_util.dart';
 import 'package:flutter_bluesky/util/session_manager.dart';
 import 'package:flutter_bluesky/db/accessor.dart';
 import 'package:flutter_bluesky/login.dart';
-import 'package:flutter_bluesky/screen.dart';
-import 'package:flutter_bluesky/screen/home.dart';
-import 'package:flutter_bluesky/screen/me.dart';
 import 'package:flutter_bluesky/screen/parts/button/button_manager.dart';
 import 'package:flutter_bluesky/screen/parts/timeline.dart';
 import 'package:flutter_bluesky/screen/parts/menu.dart';
@@ -20,7 +17,6 @@ import 'package:flutter_bluesky/screen/settings.dart';
 import 'package:flutter_bluesky/screen/profile/edit_profile.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
 import 'package:flutter_bluesky/screen/base.dart';
-import 'package:flutter_bluesky/screen/search.dart';
 import 'package:flutter_bluesky/screen/profile.dart';
 import 'package:flutter_bluesky/screen/thread.dart';
 import 'package:flutter_bluesky/screen/actors.dart';
@@ -91,12 +87,8 @@ Future<void> initHive() async {
 }
 
 Future<void> initScreen() async {
-  PluggableWidget me = Me();
-  pluggables.add(Home());
-  pluggables.add(Search());
-  pluggables.add(await ScreenUtil.get.notifications());
-  pluggables.add(me);
-  meIndex = pluggables.indexOf(me);
+  screenUtil = ScreenUtil();
+  await screenUtil!.init();
   customPostTL = SamplePostTimeline();
   buttonManager = DefaultButtonManager();
   profileContent = ProfileContent();

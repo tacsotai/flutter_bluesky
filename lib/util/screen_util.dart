@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/login.dart';
+import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/error.dart';
+import 'package:flutter_bluesky/screen/home.dart';
+import 'package:flutter_bluesky/screen/me.dart';
 import 'package:flutter_bluesky/screen/notfifications.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
+import 'package:flutter_bluesky/screen/search.dart';
 import 'package:flutter_bluesky/util/session_manager.dart';
-import 'package:tuple/tuple.dart';
 
 String initialRoute(BuildContext context) {
   if (isAlive) {
@@ -43,21 +46,25 @@ void pushError(BuildContext context) {
 ScreenUtil? screenUtil;
 
 class ScreenUtil {
-  static ScreenUtil get get {
-    return screenUtil ?? ScreenUtil();
+  final PluggableWidget home = Home();
+  final PluggableWidget search = Search();
+  final PluggableWidget notifications = Notifications();
+  final PluggableWidget me = Me();
+
+  Future<void> init() async {
+    pluggables.add(home);
+    pluggables.add(search);
+    pluggables.add(notifications);
+    pluggables.add(me);
+    searchIndex = pluggables.indexOf(search);
+    meIndex = pluggables.indexOf(me);
+    await prepare();
   }
 
-  Future<Notifications> notifications() async {
+  Future<void> prepare() async {
     // for notification badge
-    Notifications notifications = Notifications();
-    if (hasAccessToken) {
-      Tuple2 res = await plugin.getSession();
-      if (res.item1 == 200) {
-        await notifications.init();
-      } else {
-        plugin.api.session.remove();
-      }
+    if (hasAccessToken && !expire) {
+      await notifications.init();
     }
-    return notifications;
   }
 }
