@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/api/model/notification.dart' as notice;
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
@@ -46,9 +47,9 @@ class Notice {
       case "like":
         return like;
       case "reply":
-        return avatarContent;
+        return reply;
       case "repost":
-        return avatarContent;
+        return repost;
       case "quote":
         return avatarContent;
       case "mention":
@@ -61,9 +62,11 @@ class Notice {
   Widget iconContent(IconData data, Color iconColor) {
     List<Widget> widgets = [
       Avatar(state.context, radius: smallRadius)
-          .net(notification.author)
+          .net(ProfileViewBasic(notification.author))
           .profile,
-      Header(author: notification.author, createdAt: notification.indexedAt)
+      Header(
+              author: ProfileViewBasic(notification.author),
+              createdAt: notification.indexedAt)
           .build(state.context)
     ];
     if (post != null) {
@@ -92,12 +95,43 @@ class Notice {
 
   Widget get avatarContent {
     return paddingLR([
-      Avatar(state.context).net(notification.author).profile
+      Avatar(state.context).net(ProfileViewBasic(notification.author)).profile
     ], [
-      Header(author: notification.author, createdAt: notification.indexedAt)
+      Header(
+              author: ProfileViewBasic(notification.author),
+              createdAt: notification.indexedAt)
           .build(state.context),
       Body(post: post!),
     ]);
+  }
+
+  Widget get reply {
+    return paddingLR([
+      Avatar(state.context).net(ProfileViewBasic(notification.author)).profile
+    ], [
+      Header(
+              author: ProfileViewBasic(notification.author),
+              createdAt: notification.indexedAt)
+          .build(state.context),
+      Body(post: Post(replyPost)),
+    ]);
+  }
+
+  Map get replyPost {
+    return {
+      "uri": notification.uri,
+      "cid": notification.cid,
+      "author": notification.author,
+      "record": notification.record,
+      "indexedAt": notification.indexedAt.toIso8601String(),
+    };
+  }
+
+  Widget get repost {
+    return iconContent(
+      Icons.repeat,
+      Colors.green,
+    );
   }
 
   Widget get error {
