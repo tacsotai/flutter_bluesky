@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/data/const.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
+import 'package:flutter_bluesky/screen/search.dart';
 import 'package:flutter_bluesky/util/login_util.dart';
 import 'package:flutter_bluesky/util/screen_util.dart';
 import 'package:flutter_login/flutter_login.dart';
@@ -137,9 +138,13 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  void view(BuildContext context) {
+  Future<void> view(BuildContext context) async {
     // below code store login state at restart.
-    pushBase(context);
+    if (plugin.api.session.actor!.followsCount == 0) {
+      pushBase(context, selectedIndex: searchIndex);
+    } else {
+      pushBase(context);
+    }
   }
 
   List<TermOfService> terms() {
