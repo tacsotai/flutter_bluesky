@@ -5,6 +5,8 @@ import 'package:flutter_bluesky/screen/data/manager.dart';
 import 'package:flutter_bluesky/screen/parts/menu.dart';
 import 'package:flutter_bluesky/screen/search/search_view.dart';
 
+late int searchIndex;
+
 // ignore: must_be_immutable
 class Search extends PluggableWidget {
   static Screen screen = Screen(Search, const Icon(Icons.search));
