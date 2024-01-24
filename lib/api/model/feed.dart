@@ -75,7 +75,7 @@ class Post {
         repostCount = map["repostCount"],
         likeCount = map["likeCount"],
         indexedAt = DateTime.parse((map["indexedAt"])),
-        viewer = Viewer(map["viewer"]),
+        viewer = map["viewer"] == null ? null : Viewer(map["viewer"]),
         labels = map["labels"];
 }
 
