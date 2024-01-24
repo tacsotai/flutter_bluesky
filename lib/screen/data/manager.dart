@@ -101,11 +101,11 @@ class NotificationsDataManager extends DataManager {
   @override
   Future<void> getData(bool insert, {String? term}) async {
     try {
+      await count;
       // This getData method called when user push bell widget at bottom.
       if (!read) {
         await plugin.updateSeen(holder.seenAt!);
       }
-      await count;
       Tuple2 res = await plugin.listNotifications(
           limit: 25, seenAt: holder.seenAt, cursor: holder.cursor);
       holder.makeNotifications(insert, ListNotifications(res.item2));
