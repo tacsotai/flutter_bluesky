@@ -8,11 +8,13 @@ class ErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(tr("error"))),
+      appBar: AppBar(title: Text(tr("error.network"))),
       body: Center(
-          child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [Text((tr("error.network")))])),
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Text(tr("error.network.message1")),
+        Text(tr("error.network.message2")),
+        Text(tr("error.network.message3")),
+      ])),
     );
   }
 }
