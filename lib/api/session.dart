@@ -58,10 +58,6 @@ class Session {
     this.refreshJwt = refreshJwt;
   }
 
-  void setActor(ProfileViewDetailed actor) {
-    this.actor = actor;
-  }
-
   void remove() {
     accessor.remove(session, key);
     actor = null;
