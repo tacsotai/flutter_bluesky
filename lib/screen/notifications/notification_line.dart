@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/api/model/notification.dart' as notice;
 import 'package:flutter_bluesky/screen/parts/adjuser.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/reply_tl.dart';
 
 Notice? customNotice;
 
@@ -46,13 +48,13 @@ class Notice {
       case "like":
         return like;
       case "reply":
-        return avatarContent;
+        return reply;
       case "repost":
-        return avatarContent;
+        return repost;
       case "quote":
-        return avatarContent;
+        return avatarContent(body(post!));
       case "mention":
-        return avatarContent;
+        return avatarContent(body(post!));
       default:
         return error;
     }
@@ -60,20 +62,32 @@ class Notice {
 
   Widget iconContent(IconData data, Color iconColor) {
     List<Widget> widgets = [
-      Avatar(state.context, radius: smallRadius)
-          .net(notification.author)
-          .profile,
-      Header(author: notification.author, createdAt: notification.indexedAt)
+      Avatar(state.context, radius: smallRadius).net(author).profile,
+      Header(author: author, createdAt: notification.indexedAt)
           .build(state.context)
     ];
     if (post != null) {
-      widgets.add(Body(post: post!));
+      widgets.add(body(post!));
     }
     return paddingLR([
       SizedBox(width: 70, child: Icon(data, color: iconColor, size: 30))
     ], [
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: widgets)
     ]);
+  }
+
+  Widget avatarContent(Widget body) {
+    return paddingLR([
+      Avatar(state.context).net(author).profile
+    ], [
+      Header(author: author, createdAt: notification.indexedAt)
+          .build(state.context),
+      body,
+    ]);
+  }
+
+  ProfileViewBasic get author {
+    return ProfileViewBasic(notification.author);
   }
 
   Widget get follow {
@@ -90,14 +104,32 @@ class Notice {
     );
   }
 
-  Widget get avatarContent {
-    return paddingLR([
-      Avatar(state.context).net(notification.author).profile
-    ], [
-      Header(author: notification.author, createdAt: notification.indexedAt)
-          .build(state.context),
-      Body(post: post!),
-    ]);
+  Widget get reply {
+    Widget widget = Column(
+      children: [replyHeader(actorName(post!.author)), body(Post(replyPost))],
+    );
+    return avatarContent(widget);
+  }
+
+  Widget get repost {
+    return iconContent(
+      Icons.repeat,
+      Colors.green,
+    );
+  }
+
+  Widget body(Post post) {
+    return Body(post: post);
+  }
+
+  Map get replyPost {
+    return {
+      "uri": notification.uri,
+      "cid": notification.cid,
+      "author": notification.author,
+      "record": notification.record,
+      "indexedAt": notification.indexedAt.toIso8601String(),
+    };
   }
 
   Widget get error {
