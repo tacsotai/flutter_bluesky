@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/session.dart';
 import 'package:flutter_bluesky/data/assets.dart';
+import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/data/factory.dart';
 import 'package:flutter_bluesky/screen/error.dart';
 import 'package:flutter_bluesky/util/screen_util.dart';
@@ -76,9 +78,28 @@ Future<void> init() async {
   await Assets.load();
   await initHive();
   // SessionManager.set(some instance of the manager)
-  await SessionManager.get.restoreSession;
+  await restoreSession;
   initMenu();
   await initScreen();
+}
+
+Future<void> get restoreSession async {
+  Map item = {};
+  if (isAlive) {
+    item = plugin.api.session.get;
+  } else {
+    for (MapEntry entry in Session.model.entries) {
+      item = entry.value;
+      setPlugin(FlutterBluesky(item["provider"], item["key"]));
+      break;
+    }
+  }
+  if (item.isNotEmpty) {
+    plugin.api.session.set(item);
+    if (expire) {
+      await plugin.sessionAPI.refresh();
+    }
+  }
 }
 
 Future<void> initHive() async {
