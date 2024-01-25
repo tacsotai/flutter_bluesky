@@ -13,7 +13,7 @@ import 'package:flutter_bluesky/util/session_manager.dart';
 
 String initialRoute(BuildContext context) {
   if (isAlive) {
-    SessionManager.get.checkSession(context);
+    checkSession(context);
     if (plugin.api.session.accessJwt != null) {
       return Base.route;
     } else {

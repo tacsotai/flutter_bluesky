@@ -20,7 +20,7 @@ class Actors extends StatefulWidget {
 class ActorsScreen extends State<Actors> {
   @override
   Widget build(BuildContext context) {
-    SessionManager.get.checkSession(context);
+    checkSession(context);
     base!.screen.byOutside = true;
     return Scaffold(
       body: Stack(children: [

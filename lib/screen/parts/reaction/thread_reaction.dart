@@ -47,7 +47,7 @@ class ThreadReactionState extends ValueNotifier<ThreadReaction> {
   }
 
   Future<void> _action(AbstractReaction reaction) async {
-    await SessionManager.get.checkSession(context);
+    await checkSession(context);
     await reaction.exec();
     value = value.renew;
   }
