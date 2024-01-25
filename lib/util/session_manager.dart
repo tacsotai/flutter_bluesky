@@ -12,9 +12,12 @@ bool get hasAccessToken {
 }
 
 bool get expire {
-  Map<String, dynamic> decodedToken =
-      JwtDecoder.decode(plugin.api.session.accessJwt!);
-  return DateTime.now().isAfter(dt(decodedToken["exp"]));
+  if (hasAccessToken) {
+    Map<String, dynamic> decodedToken =
+        JwtDecoder.decode(plugin.api.session.accessJwt!);
+    return DateTime.now().isAfter(dt(decodedToken["exp"]));
+  }
+  return true;
 }
 
 Future<void> checkSession(BuildContext context) async {
