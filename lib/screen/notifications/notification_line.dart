@@ -7,6 +7,7 @@ import 'package:flutter_bluesky/screen/parts/image/avatar.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/body.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/common.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/header.dart';
+import 'package:flutter_bluesky/screen/parts/timeline/reply_tl.dart';
 
 Notice? customNotice;
 
@@ -51,9 +52,9 @@ class Notice {
       case "repost":
         return repost;
       case "quote":
-        return avatarContent(post!);
+        return avatarContent(body(post!));
       case "mention":
-        return avatarContent(post!);
+        return avatarContent(body(post!));
       default:
         return error;
     }
@@ -75,13 +76,13 @@ class Notice {
     ]);
   }
 
-  Widget avatarContent(Post post) {
+  Widget avatarContent(Widget body) {
     return paddingLR([
       Avatar(state.context).net(auther).profile
     ], [
       Header(author: auther, createdAt: notification.indexedAt)
           .build(state.context),
-      body(post),
+      body,
     ]);
   }
 
@@ -104,7 +105,10 @@ class Notice {
   }
 
   Widget get reply {
-    return avatarContent(Post(replyPost));
+    Widget widget = Column(
+      children: [replyHeader(actorName(post!.author)), body(Post(replyPost))],
+    );
+    return avatarContent(widget);
   }
 
   Widget get repost {
