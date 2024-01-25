@@ -62,8 +62,8 @@ class Notice {
 
   Widget iconContent(IconData data, Color iconColor) {
     List<Widget> widgets = [
-      Avatar(state.context, radius: smallRadius).net(auther).profile,
-      Header(author: auther, createdAt: notification.indexedAt)
+      Avatar(state.context, radius: smallRadius).net(author).profile,
+      Header(author: author, createdAt: notification.indexedAt)
           .build(state.context)
     ];
     if (post != null) {
@@ -78,15 +78,15 @@ class Notice {
 
   Widget avatarContent(Widget body) {
     return paddingLR([
-      Avatar(state.context).net(auther).profile
+      Avatar(state.context).net(author).profile
     ], [
-      Header(author: auther, createdAt: notification.indexedAt)
+      Header(author: author, createdAt: notification.indexedAt)
           .build(state.context),
       body,
     ]);
   }
 
-  ProfileViewBasic get auther {
+  ProfileViewBasic get author {
     return ProfileViewBasic(notification.author);
   }
 
