@@ -17,7 +17,7 @@ bool get hasAccessToken {
 bool get expire {
   Map<String, dynamic> decodedToken =
       JwtDecoder.decode(plugin.api.session.accessJwt!);
-  return dt(decodedToken["exp"]).isAfter(DateTime.now());
+  return DateTime.now().isAfter(dt(decodedToken["exp"]));
 }
 
 class SessionManager {
