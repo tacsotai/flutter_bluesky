@@ -66,7 +66,7 @@ class Notice {
           .build(state.context)
     ];
     if (post != null) {
-      widgets.add(Body(post: post!));
+      widgets.add(body(post!));
     }
     return paddingLR([
       SizedBox(width: 70, child: Icon(data, color: iconColor, size: 30))
@@ -103,8 +103,12 @@ class Notice {
     ], [
       Header(author: auther, createdAt: notification.indexedAt)
           .build(state.context),
-      Body(post: post),
+      body(post),
     ]);
+  }
+
+  Widget body(Post post) {
+    return Body(post: post);
   }
 
   Map get replyPost {
