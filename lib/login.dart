@@ -5,6 +5,7 @@ import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/provider.dart';
 import 'package:flutter_bluesky/util/base_util.dart';
+import 'package:flutter_bluesky/screen/search.dart';
 import 'package:flutter_bluesky/util/login_util.dart';
 import 'package:flutter_login/flutter_login.dart';
 // ignore: implementation_imports
@@ -153,7 +154,11 @@ class LoginScreen extends StatelessWidget {
 
   void view(BuildContext context) {
     // below code store login state at restart.
-    pushBase(context);
+    if (plugin.api.session.actor!.followsCount == 0) {
+      pushBase(context, selectedIndex: searchIndex);
+    } else {
+      pushBase(context);
+    }
   }
 
   List<TermOfService> terms() {
