@@ -1,15 +1,17 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/api/session.dart';
 import 'package:flutter_bluesky/data/assets.dart';
 import 'package:flutter_bluesky/screen/data/factory.dart';
-import 'package:flutter_bluesky/util/screen_util.dart';
-import 'package:flutter_bluesky/util/session_manager.dart';
+import 'package:tuple/tuple.dart';
 import 'package:flutter_bluesky/db/accessor.dart';
+import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/home.dart';
 import 'package:flutter_bluesky/screen/me.dart';
+import 'package:flutter_bluesky/screen/notfifications.dart';
 import 'package:flutter_bluesky/screen/parts/button/button_manager.dart';
 import 'package:flutter_bluesky/screen/parts/timeline.dart';
 import 'package:flutter_bluesky/screen/parts/menu.dart';
@@ -77,8 +79,7 @@ Future<void> init() async {
   timeago.setLocaleMessages('ja', timeago.JaMessages());
   await Assets.load();
   await initHive();
-  // SessionManager.set(some instance of the manager)
-  await SessionManager.get.restoreSession;
+  await restoreSession();
   initMenu();
   await initScreen();
 }
@@ -88,11 +89,38 @@ Future<void> initHive() async {
   await openBox();
 }
 
+Future<void> restoreSession() async {
+  Map item = {};
+  if (isAlive) {
+    item = plugin.api.session.get;
+  } else {
+    for (MapEntry entry in Session.model.entries) {
+      item = entry.value;
+      setPlugin(FlutterBluesky(provider: item["provider"], key: item["key"]));
+      break;
+    }
+  }
+  if (item.isNotEmpty) {
+    plugin.api.session.set(item);
+    await plugin.sessionAPI.refresh();
+  }
+}
+
 Future<void> initScreen() async {
   PluggableWidget me = Me();
   pluggables.add(Home());
   pluggables.add(Search());
-  pluggables.add(await ScreenUtil.get.notifications());
+  // for notification badge
+  Notifications notifications = Notifications();
+  if (hasSession) {
+    Tuple2 res = await plugin.sessionAPI.getSession();
+    if (res.item1 == 200) {
+      await notifications.init();
+    } else {
+      plugin.api.session.remove();
+    }
+  }
+  pluggables.add(notifications);
   pluggables.add(me);
   meIndex = pluggables.indexOf(me);
   customPostTL = SamplePostTimeline();
