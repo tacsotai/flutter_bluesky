@@ -47,7 +47,7 @@ class Notice {
       case "like":
         return like;
       case "reply":
-        return avatarContent(Post(replyPost));
+        return reply;
       case "repost":
         return repost;
       case "quote":
@@ -91,6 +91,10 @@ class Notice {
       Icons.favorite_sharp,
       Colors.pink,
     );
+  }
+
+  Widget get reply {
+    return avatarContent(Post(replyPost));
   }
 
   Widget avatarContent(Post post) {
