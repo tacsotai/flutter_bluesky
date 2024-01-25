@@ -46,21 +46,18 @@ class ReplyTimeline extends ReplyTL with Common {
   List<Widget> content(Post post) {
     return [
       Header(author: post.author, createdAt: post.record.createdAt),
-      replyHeader,
+      replyHeader(post.author.displayName ?? getAccount(post.author.handle)),
       Body(post: post),
       Footer(post: post),
     ];
   }
+}
 
-  Widget get replyHeader {
-    return Row(children: [
-      const Icon(Icons.reply, color: Colors.grey),
-      Expanded(
-          child: Text(
-              tr('reply.to', args: [
-                post.author.displayName ?? getAccount(post.author.handle)
-              ]),
-              style: const TextStyle(color: Colors.grey)))
-    ]);
-  }
+Widget replyHeader(String name) {
+  return Row(children: [
+    const Icon(Icons.reply, color: Colors.grey),
+    Expanded(
+        child: Text(tr('reply.to', args: [name]),
+            style: const TextStyle(color: Colors.grey)))
+  ]);
 }
