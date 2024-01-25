@@ -107,9 +107,10 @@
     "signup.success": "Login Go Ahead",
     "signup.email.taken": "Email already taken: {}",
     "signup.handle.taken": "Handle already taken: {}",
-    "signup.handle.long": "Handle too long",
-    "signup.handle.short": "Handle too short",
-    "signup.handle.invalid": "Invalid characters in handle",
+    "signup.handle.long": "Too long.",
+    "signup.handle.short": "Too short.",
+    "signup.handle.unmatch": "It must start with an alphabetic and the rest must be alphanumeric.",
+    "signup.handle.invalid": "Invalid characters.",
     "login.after.signup": "It will be logined automatically.",
     "providers.title.first": "or login with",
     "providers.title.second": "or",
@@ -130,6 +131,7 @@
     "term.of.services": "Term of services",
     "age.verification": "I am at least 13 years old.",
     "validation.error.token.or.password": "Code or Password is wrong.",
+    "validation.error.user.or.password": "Email or Password is wrong.",
     "required": "Required",
-    "term.linkUrl": "https://sotai.co/terms/en"
+    "term.linkUrl": "https://www.example.com/terms"
 }

@@ -109,7 +109,8 @@
     "signup.handle.taken": "ハンドル名は既に使われています: {}",
     "signup.handle.long": "ハンドル名が長すぎます。",
     "signup.handle.short": "ハンドル名が短かすぎます。",
-    "signup.handle.invalid": "ハンドル名不正です。",
+    "signup.handle.unmatch": "先頭は英字で残りは英数字でなければなりません。",
+    "signup.handle.invalid": "ハンドル名が不正です。",
     "login.after.signup": "自動的にログインします。",
     "providers.title.first": "or login with",
     "providers.title.second": "or",
@@ -130,6 +131,7 @@
     "term.of.services": "利用規約とポリシー",
     "age.verification": "13歳以上です。",
     "validation.error.token.or.password": "確認コードもしくはパスワードが間違っています。",
+    "validation.error.user.or.password": "Emailもしくはパスワードが間違っています。",
     "required": "必須",
-    "term.linkUrl": "https://sotai.co/terms"
+    "term.linkUrl": "https://www.example.com/terms"
 }

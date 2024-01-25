@@ -1,5 +1,4 @@
 import 'package:flutter_bluesky/api/model/actor.dart';
-import 'package:flutter_bluesky/api/model/facet.dart';
 
 class Embed {
   // other program use this for judge.
@@ -121,34 +120,6 @@ class Media {
   Media(Map map)
       : images = map["images"],
         external = map["external"];
-}
-
-// the part of Post and
-// "$type": "app.bsky.embed.record",
-class Record {
-  String text;
-  String type;
-  DateTime createdAt;
-  List? langs;
-  List<Facet>? facets;
-  RecordReply? reply;
-  RecordEmbed? embed;
-  Record(Map map)
-      : text = map["text"],
-        type = map["\$type"],
-        langs = map["langs"],
-        facets = map["facets"] == null ? null : Facet.list(map["facets"]),
-        reply = map["reply"] == null ? null : RecordReply(map["reply"]),
-        embed = map["embed"] == null ? null : RecordEmbed(map["embed"]),
-        createdAt = DateTime.parse((map["createdAt"]));
-}
-
-class RecordReply {
-  Map<String, dynamic>? root;
-  Map<String, dynamic>? parent;
-  RecordReply(Map map)
-      : root = map["root"],
-        parent = map["parent"];
 }
 
 class RecordEmbed {

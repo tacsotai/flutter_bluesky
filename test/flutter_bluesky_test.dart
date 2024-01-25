@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/actor.dart';
 import 'package:flutter_bluesky/api/model/graph.dart';
+import 'package:flutter_bluesky/api/model/record.dart';
 import 'package:flutter_bluesky/data/config.dart';
 import 'package:flutter_bluesky/util/post_util.dart';
 import 'package:http/http.dart' as http;
@@ -26,6 +27,35 @@ const Map serverDescription = {
   "availableUserDomains": [".test,.dev.bsky.dev"],
   "inviteCodeRequired": false,
   "links": {}
+};
+
+Map<String, dynamic> testRecord = {
+  "tags": ["abc"],
+  "labels": {
+    "\$type": "com.atproto.label.defs#selfLabels",
+    "values": [
+      {
+        "val": "profileView",
+        "type": {
+          "did": "did:plc:ugqaiaq4fw5uzyo75f3icmrx",
+          "handle": "hoge.test",
+          "displayName": "Foo",
+          "description": "Bar",
+          "followsCount": 0,
+          "followersCount": 0,
+          "postsCount": 1,
+          "indexedAt": "2023-11-04T02:25:35.528Z",
+          "viewer": {
+            "muted": false,
+            "blockedBy": false,
+            "blocking":
+                "at://did:plc:d3tdnbwjkoq6rpaa2vli2adi/app.bsky.graph.block/3kdshvaey2k2l"
+          },
+          "labels": []
+        }
+      }
+    ]
+  }
 };
 
 void main() {
@@ -191,6 +221,26 @@ void main() {
         displayName: "test displayName",
         description: "test description",
         avatar: res.item2["blob"]);
+  });
+
+  test('post labels and tags', () async {
+    String text = randomAlphaNumeric(10);
+    await plugin.connect();
+    await login(email, password);
+    await PostUtil.post(text, MockBuildContext(),
+        files: [], record: testRecord);
+    Tuple2 res2 = await plugin.timeline();
+    List feeds = res2.item2["feed"];
+    bool exist = false;
+    for (Map map in feeds) {
+      Feed feed = Feed(map);
+      Record record = feed.post.record;
+      if (text == record.text &&
+          record.labels!.values[0].val == "profileView") {
+        exist = true;
+      }
+    }
+    expect(exist, true);
   });
 }
 
