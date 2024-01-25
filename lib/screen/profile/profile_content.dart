@@ -125,7 +125,7 @@ class ProfileContent {
     return Row(children: [
       bold(count),
       InkWell(
-        child: Text(tr(postfix), style: const TextStyle(color: Colors.grey)),
+        child: Text(tr(postfix), style: const TextStyle(color: Colors.blue)),
         onTap: () {
           Navigator.push(
             state.context,
