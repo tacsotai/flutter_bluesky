@@ -75,6 +75,16 @@ class Notice {
     ]);
   }
 
+  Widget avatarContent(Post post) {
+    return paddingLR([
+      Avatar(state.context).net(auther).profile
+    ], [
+      Header(author: auther, createdAt: notification.indexedAt)
+          .build(state.context),
+      body(post),
+    ]);
+  }
+
   ProfileViewBasic get auther {
     return ProfileViewBasic(notification.author);
   }
@@ -102,16 +112,6 @@ class Notice {
       Icons.repeat,
       Colors.green,
     );
-  }
-
-  Widget avatarContent(Post post) {
-    return paddingLR([
-      Avatar(state.context).net(auther).profile
-    ], [
-      Header(author: auther, createdAt: notification.indexedAt)
-          .build(state.context),
-      body(post),
-    ]);
   }
 
   Widget body(Post post) {
