@@ -97,6 +97,13 @@ class Notice {
     return avatarContent(Post(replyPost));
   }
 
+  Widget get repost {
+    return iconContent(
+      Icons.repeat,
+      Colors.green,
+    );
+  }
+
   Widget avatarContent(Post post) {
     return paddingLR([
       Avatar(state.context).net(auther).profile
@@ -119,13 +126,6 @@ class Notice {
       "record": notification.record,
       "indexedAt": notification.indexedAt.toIso8601String(),
     };
-  }
-
-  Widget get repost {
-    return iconContent(
-      Icons.repeat,
-      Colors.green,
-    );
   }
 
   Widget get error {
