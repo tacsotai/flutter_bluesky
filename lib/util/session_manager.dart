@@ -22,7 +22,7 @@ bool get expire {
 
 Future<void> checkSession(BuildContext context) async {
   try {
-    if (hasAccessToken && expire) {
+    if (expire) {
       await plugin.sessionAPI.refresh();
       Tuple2 res = await plugin.getSession();
       if (res.item1 != 200) {
