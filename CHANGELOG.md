@@ -184,3 +184,6 @@ Navigate to search at no follows.
 Care about network error.
 Fix badge null.
 Change color counter link.
+
+## 0.7.1
+Some fix for previous release.
