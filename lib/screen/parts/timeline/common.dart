@@ -36,12 +36,16 @@ Widget displayNameHandle(ProfileViewBasic actor) {
 }
 
 Widget displayName(ProfileViewBasic actor, {double? fontSize = 16}) {
-  String? name = actor.displayName;
-  name ??= withoutDomain(actor.handle);
   return Text(
-    name,
+    actorName(actor),
     style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
   );
+}
+
+String actorName(ProfileViewBasic actor) {
+  String? name = actor.displayName;
+  name ??= withoutDomain(actor.handle);
+  return name;
 }
 
 Widget handle(ProfileViewBasic actor) {
