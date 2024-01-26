@@ -109,8 +109,9 @@ Future<void> restoreSession() async {
 
 Future<void> initScreen() async {
   PluggableWidget me = Me();
+  PluggableWidget search = Search();
   pluggables.add(Home());
-  pluggables.add(Search());
+  pluggables.add(search);
   // for notification badge
   Notifications notifications = Notifications();
   if (hasSession) {
@@ -124,6 +125,7 @@ Future<void> initScreen() async {
   pluggables.add(notifications);
   pluggables.add(me);
   meIndex = pluggables.indexOf(me);
+  searchIndex = pluggables.indexOf(search);
   customPostTL = SamplePostTimeline();
   buttonManager = DefaultButtonManager();
   profileContent = ProfileContent();
