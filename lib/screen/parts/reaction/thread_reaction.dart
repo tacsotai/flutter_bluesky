@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/parts/reaction.dart';
 import 'package:flutter_bluesky/screen/parts/reaction/like.dart';
 import 'package:flutter_bluesky/screen/parts/reaction/more.dart';
@@ -46,6 +47,7 @@ class ThreadReactionState extends ValueNotifier<ThreadReaction> {
   }
 
   Future<void> _action(AbstractReaction reaction) async {
+    checkSession(context);
     await reaction.exec();
     value = value.renew;
   }

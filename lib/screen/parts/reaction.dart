@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart' as feed;
+import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/parts/reaction/like.dart';
 import 'package:flutter_bluesky/screen/parts/reaction/more.dart';
 import 'package:flutter_bluesky/screen/parts/reaction/reply.dart';
@@ -62,6 +63,7 @@ class ReactionState extends ValueNotifier<Reaction> {
   }
 
   Future<void> _action(AbstractReaction reaction) async {
+    checkSession(context);
     await reaction.exec();
     value = reaction.renew;
   }
