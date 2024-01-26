@@ -187,3 +187,6 @@ Change color counter link.
 
 ## 0.7.1
 Some fix for previous release.
+
+## 0.7.2
+Fix for "Keep session by bottom menu".
