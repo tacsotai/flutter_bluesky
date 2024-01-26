@@ -45,6 +45,7 @@ class Session {
       item["refreshJwt"],
     );
     item["provider"] = provider;
+    item["key"] = key;
     accessor.put(session, key, item);
   }
 
@@ -55,10 +56,6 @@ class Session {
     this.email = email;
     this.accessJwt = accessJwt;
     this.refreshJwt = refreshJwt;
-  }
-
-  void setActor(ProfileViewDetailed actor) {
-    this.actor = actor;
   }
 
   void remove() {
