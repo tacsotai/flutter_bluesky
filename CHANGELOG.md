@@ -174,3 +174,19 @@ Don't show modal after quote post submit.
 
 ## 0.6.9
 Fix it can not change the profile at no change picture.
+
+## 0.7.0
+Add labels and tags to model.
+Fix notification line for reply.
+Validate handle not in English at register.
+Keep session by bottom menu.
+Navigate to search at no follows.
+Care about network error.
+Fix badge null.
+Change color counter link.
+
+## 0.7.1
+Some fix for previous release.
+
+## 0.7.2
+Fix for "Keep session by bottom menu".

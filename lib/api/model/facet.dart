@@ -2,6 +2,7 @@
 const String facet = "app.bsky.richtext.facet";
 const String mention = "$facet#mention";
 const String link = "$facet#link";
+const String tag = "$facet#tag";
 
 class Facet {
   final String? type;
@@ -46,8 +47,10 @@ abstract class Feature {
     String type = map["\$type"];
     if (type == mention) {
       return Mention(type, map["did"]);
-    } else {
+    } else if (type == link) {
       return Link(type, map["uri"]);
+    } else {
+      return Tag(type, map["tag"]);
     }
   }
 }
@@ -60,4 +63,9 @@ class Mention extends Feature {
 class Link extends Feature {
   final String uri;
   Link(super.type, this.uri);
+}
+
+class Tag extends Feature {
+  final String tag;
+  Tag(super.type, this.tag);
 }

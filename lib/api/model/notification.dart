@@ -1,5 +1,3 @@
-import 'package:flutter_bluesky/api/model/actor.dart';
-
 class ListNotifications {
   String? cursor;
   List notificationList = [];
@@ -20,7 +18,7 @@ class ListNotifications {
 class Notification {
   final String uri;
   final String cid;
-  final ProfileViewBasic author;
+  final Map author;
   final String reason;
   String? reasonSubject;
   // currently, no need to know detail.
@@ -31,7 +29,7 @@ class Notification {
   Notification(Map map)
       : uri = map["uri"],
         cid = map["cid"],
-        author = ProfileViewBasic(map["author"]),
+        author = map["author"],
         reason = map["reason"],
         reasonSubject = map["reasonSubject"],
         record = map["record"],

@@ -5,7 +5,9 @@ import 'package:flutter_bluesky/api/model/graph.dart';
 import 'package:flutter_bluesky/api/session.dart';
 import 'package:flutter_bluesky/api/refresh_api.dart';
 import 'package:flutter_bluesky/login.dart';
+import 'package:flutter_bluesky/util/datetime_util.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:tuple/tuple.dart';
 
 FlutterBluesky? _plugin;
@@ -22,18 +24,28 @@ bool get hasSession {
   return isAlive && _plugin!.api.session.accessJwt != null;
 }
 
+bool get expire {
+  if (hasSession) {
+    Map<String, dynamic> decodedToken =
+        JwtDecoder.decode(plugin.api.session.accessJwt!);
+    return DateTime.now().isAfter(dt(decodedToken["exp"]));
+  }
+  return true;
+}
+
 bool get isAlive {
   return _plugin != null;
 }
 
-void checkSession(BuildContext context) {
-  _plugin!.getSession().then((res) => loginExpire(res, context));
-}
-
-void loginExpire(Tuple2 res, BuildContext context) {
-  if (res.item1 != 200) {
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const LoginScreen()));
+Future<void> checkSession(BuildContext context) async {
+  if (expire) {
+    await plugin.sessionAPI.refresh();
+    Tuple2 res = await plugin.getSession();
+    if (res.item1 != 200) {
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const LoginScreen()));
+    }
   }
 }
 
