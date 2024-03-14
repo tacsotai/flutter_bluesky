@@ -11,6 +11,26 @@ class SessionAPI {
     required this.api,
   });
 
+  Future<http.Response> get(String uri,
+      {Map<String, String>? headers, Map<String, dynamic>? params}) async {
+    http.Response res = await api.get(uri, headers: headers, params: params);
+    if (res.statusCode != 200) {
+      await refreshSession();
+      res = await api.get(uri, headers: headers, params: params);
+    }
+    return res;
+  }
+
+  Future<http.Response> post(String uri,
+      {required Map<String, String> headers, Object? body}) async {
+    http.Response res = await api.post(uri, headers: headers, body: body);
+    if (res.statusCode != 200) {
+      await refreshSession();
+      res = await api.post(uri, headers: headers, body: body);
+    }
+    return res;
+  }
+
   Future<Tuple2> refreshSession() async {
     http.Response res = await api.post("com.atproto.server.refreshSession",
         headers: {"Authorization": "Bearer ${api.session.refreshJwt}"});
