@@ -5,6 +5,7 @@ import 'package:flutter_bluesky/api/model/graph.dart';
 import 'package:flutter_bluesky/api/session.dart';
 import 'package:flutter_bluesky/api/refresh_api.dart';
 import 'package:flutter_bluesky/login.dart';
+import 'package:flutter_bluesky/screen/provider.dart';
 import 'package:flutter_bluesky/util/datetime_util.dart';
 import 'package:flutter_bluesky/util/image_util.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -38,15 +39,24 @@ bool get isAlive {
 }
 
 Future<void> checkSession(BuildContext context) async {
-  if (expire) {
+  if (!isAlive) {
+    pushReplacement(context, const Provider());
+  } else if (_plugin!.api.session.accessJwt == null) {
+    pushReplacement(context, const LoginScreen());
+  } else if (expire) {
     await plugin.sessionAPI.refresh();
     Tuple2 res = await plugin.getSession();
     if (res.item1 != 200) {
       // ignore: use_build_context_synchronously
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const LoginScreen()));
+      pushReplacement(context, const LoginScreen());
     }
   }
+}
+
+void pushReplacement(BuildContext context, Widget screen) {
+  Navigator.of(context).pushReplacement(MaterialPageRoute(
+    builder: (context) => screen,
+  ));
 }
 
 // This is a service class for atproto pds.
