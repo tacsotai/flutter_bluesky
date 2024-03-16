@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen.dart';
+import 'package:flutter_bluesky/screen/provider.dart';
 import 'package:flutter_bluesky/util/base_util.dart';
 
 List<PluggableWidget> pluggables = [];
@@ -68,13 +69,14 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
+  // This method called at route main.
   @override
   Widget build(BuildContext context) {
     if (hasSession) {
       checkSession(context);
       return pluggables[selectedIndex];
     } else {
-      return const Text("Provider is not settled");
+      return const Provider();
     }
   }
 
