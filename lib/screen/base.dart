@@ -72,8 +72,7 @@ class BaseScreen extends State<Base> with SingleTickerProviderStateMixin {
   // This method called at route main.
   @override
   Widget build(BuildContext context) {
-    if (hasSession) {
-      checkSession(context);
+    if (isAlive) {
       return pluggables[selectedIndex];
     } else {
       return const Provider();
