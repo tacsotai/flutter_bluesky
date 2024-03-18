@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
+import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/data/factory.dart';
@@ -48,7 +49,8 @@ class MyScreen extends State<Me> with Frame {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return Text("Error: ${snapshot.error}");
+            debugPrint("Error: $snapshot.error");
+            return const LoginScreen();
           } else {
             return ProfileView(
               manager: _manager,

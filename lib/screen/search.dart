@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/data/manager.dart';
@@ -46,7 +47,8 @@ class SearchScreen extends State<Search> with Frame {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return Text("Error: ${snapshot.error}");
+            debugPrint("Error: $snapshot.error");
+            return const LoginScreen();
           } else {
             return SearchView(
               manager: _manager,
