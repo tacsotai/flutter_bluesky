@@ -52,7 +52,6 @@ class EditProfileScreen extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    checkSession(context);
     actor = plugin.api.session.actor!;
     if (isInit) {
       init();
@@ -153,6 +152,7 @@ class EditProfileScreen extends State<EditProfile> {
   }
 
   Future<void> submitData() async {
+    await checkSession(context);
     formKey.currentState?.save();
     await ProfileUpdater(plugin, displayName, description, avatar, banner)
         .save();

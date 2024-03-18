@@ -43,7 +43,6 @@ class PostScreen extends State<Post> {
 
   @override
   Widget build(BuildContext context) {
-    checkSession(context);
     return Scaffold(
       body: padding10(
         Form(
@@ -180,6 +179,7 @@ class PostScreen extends State<Post> {
   }
 
   void _submit() async {
+    await checkSession(context);
     _formKey.currentState?.save();
     PostUtil.post(_text, context, record: record, files: files);
     if (widget.postType == PostType.quote) {
