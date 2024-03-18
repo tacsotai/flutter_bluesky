@@ -123,7 +123,10 @@ class NotificationsDataManager extends DataManager {
 
   Future<void> get count async {
     Tuple2 res = await plugin.getUnreadCount();
-    holder.makeCount(res.item2["count"]);
+    // 0 mean session api get is failure.
+    // it means twice failure to access to api.
+    int value = res.item2["count"] ?? 0;
+    holder.makeCount(value);
   }
 
   bool get read {
