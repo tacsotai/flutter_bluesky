@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluesky/api/model/feed.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
+import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/parts/timeline/thread_tl.dart';
 import 'package:tuple/tuple.dart';
@@ -18,7 +19,6 @@ class Thread extends StatefulWidget {
 class ThreadScreen extends State<Thread> {
   @override
   Widget build(BuildContext context) {
-    checkSession(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(tr('Thread')),
@@ -50,7 +50,8 @@ class ThreadScreen extends State<Thread> {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return Text("Error: ${snapshot.error}");
+            debugPrint("Error: $snapshot.error");
+            return const LoginScreen();
           } else {
             return body(snapshot.data);
           }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bluesky/flutter_bluesky.dart';
+import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/actors/actors_view.dart';
 import 'package:flutter_bluesky/screen/base.dart';
@@ -20,7 +20,6 @@ class Actors extends StatefulWidget {
 class ActorsScreen extends State<Actors> {
   @override
   Widget build(BuildContext context) {
-    checkSession(context);
     base!.screen.byOutside = true;
     return Scaffold(
       body: Stack(children: [
@@ -40,7 +39,8 @@ class ActorsScreen extends State<Actors> {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return Text("Error: ${snapshot.error}");
+            debugPrint("Error: $snapshot.error");
+            return const LoginScreen();
           } else {
             return ActorsView(
               prop: widget.prop!,

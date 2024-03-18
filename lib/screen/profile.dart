@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bluesky/flutter_bluesky.dart';
+import 'package:flutter_bluesky/login.dart';
 import 'package:flutter_bluesky/screen.dart';
 import 'package:flutter_bluesky/screen/base.dart';
 import 'package:flutter_bluesky/screen/data/factory.dart';
@@ -25,7 +25,6 @@ class ProfileScreen extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    checkSession(context);
     base!.screen.byOutside = true;
     return Scaffold(
       body: Stack(children: [
@@ -44,7 +43,8 @@ class ProfileScreen extends State<Profile> {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return Text("Error: ${snapshot.error}");
+            debugPrint("Error: $snapshot.error");
+            return const LoginScreen();
           } else {
             return ProfileView(
               manager: _manager,
