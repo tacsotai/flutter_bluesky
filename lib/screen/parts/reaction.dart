@@ -63,7 +63,7 @@ class ReactionState extends ValueNotifier<Reaction> {
   }
 
   Future<void> _action(AbstractReaction reaction) async {
-    checkSession(context);
+    await checkSession(context);
     await reaction.exec();
     value = reaction.renew;
   }
