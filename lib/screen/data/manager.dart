@@ -5,6 +5,7 @@ import 'package:flutter_bluesky/api/model/graph.dart';
 import 'package:flutter_bluesky/api/model/notification.dart';
 import 'package:flutter_bluesky/flutter_bluesky.dart';
 import 'package:flutter_bluesky/screen/data/holder.dart';
+import 'package:flutter_bluesky/screen/notfifications.dart';
 import 'package:tuple/tuple.dart';
 
 abstract class DataManager {
@@ -101,11 +102,10 @@ class NotificationsDataManager extends DataManager {
   @override
   Future<void> getData(bool insert, {String? term}) async {
     try {
-      // This getData method called when user push bell widget at bottom.
+      await count;
       if (!read) {
         await plugin.updateSeen(holder.seenAt!);
       }
-      await count;
       Tuple2 res = await plugin.listNotifications(
           limit: 25, seenAt: holder.seenAt, cursor: holder.cursor);
       holder.makeNotifications(insert, ListNotifications(res.item2));
@@ -121,6 +121,7 @@ class NotificationsDataManager extends DataManager {
     }
   }
 
+  /// This method is invoked from [Notifications.init]
   Future<void> get count async {
     Tuple2 res = await plugin.getUnreadCount();
     // 0 mean session api get is failure.
