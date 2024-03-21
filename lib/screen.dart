@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bluesky/screen/base.dart';
 
 abstract class PluggableWidget extends StatefulWidget {
   const PluggableWidget({super.key});
@@ -19,7 +18,7 @@ abstract class PluggableWidget extends StatefulWidget {
     // Do nothing by default.
   }
 
-  void setBase(Base base);
+  // void setBase(Base base);
 }
 
 mixin Frame {

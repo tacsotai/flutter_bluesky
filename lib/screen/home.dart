@@ -13,18 +13,12 @@ import 'package:flutter_bluesky/util/button_util.dart';
 class Home extends PluggableWidget {
   static Screen screen = Screen(Home, const Icon(Icons.home));
   Home({Key? key}) : super(key: key);
-  late Base base;
 
   @override
   HomeScreen createState() => HomeScreen();
 
   @override
   BottomNavigationBarItem get bottomNavigationBarItem => navi(screen);
-
-  @override
-  void setBase(Base base) {
-    this.base = base;
-  }
 }
 
 class HomeScreen extends State<Home> with Frame {
@@ -34,7 +28,7 @@ class HomeScreen extends State<Home> with Frame {
   Widget build(BuildContext context) {
     return scaffold(
       context,
-      bottom: widget.base.screen.bottom,
+      bottom: base!.screen.bottom,
       fab: postFAB(context),
       drawer: drawer,
     );
@@ -54,7 +48,6 @@ class HomeScreen extends State<Home> with Frame {
           } else {
             return HomeView(
               manager: _manager,
-              // baseScreen: widget.base.screen,
               baseScreen: base!.screen,
             );
           }

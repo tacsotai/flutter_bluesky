@@ -48,7 +48,7 @@ class ProfileScreen extends State<Profile> {
           } else {
             return ProfileView(
               manager: _manager,
-              baseScreen: Base().screen,
+              baseScreen: base!.screen,
             );
           }
         });

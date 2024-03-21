@@ -11,19 +11,13 @@ late int searchIndex;
 // ignore: must_be_immutable
 class Search extends PluggableWidget {
   static Screen screen = Screen(Search, const Icon(Icons.search));
-  Search({Key? key}) : super(key: key);
-  late Base base;
+  const Search({Key? key}) : super(key: key);
 
   @override
   SearchScreen createState() => SearchScreen();
 
   @override
   BottomNavigationBarItem get bottomNavigationBarItem => navi(screen);
-
-  @override
-  void setBase(Base base) {
-    this.base = base;
-  }
 }
 
 class SearchScreen extends State<Search> with Frame {
@@ -32,7 +26,7 @@ class SearchScreen extends State<Search> with Frame {
   Widget build(BuildContext context) {
     return scaffold(
       context,
-      bottom: widget.base.screen.bottom,
+      bottom: base!.screen.bottom,
       fab: null,
       drawer: drawer,
     );
@@ -52,7 +46,6 @@ class SearchScreen extends State<Search> with Frame {
           } else {
             return SearchView(
               manager: _manager,
-              // baseScreen: widget.base.screen,
               baseScreen: base!.screen,
             );
           }

@@ -13,7 +13,6 @@ class Notifications extends PluggableWidget {
   final NotificationsDataManager manager = NotificationsDataManager();
 
   Notifications({Key? key}) : super(key: key);
-  late Base base;
 
   @override
   NotificationsScreen createState() => NotificationsScreen();
@@ -46,11 +45,6 @@ class Notifications extends PluggableWidget {
       await manager.count;
     }
   }
-
-  @override
-  void setBase(Base base) {
-    this.base = base;
-  }
 }
 
 class NotificationsScreen extends State<Notifications> with Frame {
@@ -58,7 +52,7 @@ class NotificationsScreen extends State<Notifications> with Frame {
   Widget build(BuildContext context) {
     return scaffold(
       context,
-      bottom: widget.base.screen.bottom,
+      bottom: base!.screen.bottom,
       fab: null,
       drawer: drawer,
     );
@@ -78,7 +72,6 @@ class NotificationsScreen extends State<Notifications> with Frame {
           } else {
             return NotificationsView(
               manager: widget.manager,
-              // baseScreen: widget.base.screen,
               baseScreen: base!.screen,
             );
           }

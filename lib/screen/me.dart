@@ -14,18 +14,12 @@ late int meIndex;
 class Me extends PluggableWidget {
   static Screen screen = Screen(Me, const Icon(Icons.person));
   Me({Key? key}) : super(key: key);
-  late Base base;
 
   @override
   MyScreen createState() => MyScreen();
 
   @override
   BottomNavigationBarItem get bottomNavigationBarItem => navi(screen);
-
-  @override
-  void setBase(Base base) {
-    this.base = base;
-  }
 }
 
 class MyScreen extends State<Me> with Frame {
@@ -34,7 +28,7 @@ class MyScreen extends State<Me> with Frame {
   Widget build(BuildContext context) {
     return scaffold(
       context,
-      bottom: widget.base.screen.bottom,
+      bottom: base!.screen.bottom,
       fab: postFAB(context),
     );
   }
@@ -54,7 +48,6 @@ class MyScreen extends State<Me> with Frame {
           } else {
             return ProfileView(
               manager: _manager,
-              // baseScreen: widget.base.screen,
               baseScreen: base!.screen,
             );
           }

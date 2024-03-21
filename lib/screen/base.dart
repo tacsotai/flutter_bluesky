@@ -11,9 +11,6 @@ Base? base;
 
 void initPluggables(Base baseWidget) {
   base = baseWidget;
-  for (var pluggable in pluggables) {
-    pluggable.setBase(baseWidget);
-  }
 }
 
 class Base extends StatefulWidget {
