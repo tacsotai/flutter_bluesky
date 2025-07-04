@@ -190,3 +190,6 @@ Some fix for previous release.
 
 ## 0.7.2
 Fix for "Keep session by bottom menu".
+
+## 0.7.3
+Adapt it to Flutter 3.32.4.
