@@ -32,8 +32,12 @@ class FacetLink extends LinkWidget {
       } else {
         if (info.feature!.type == mention) {
           addMention(info.text, context, info.feature as Mention);
-        } else {
+        }
+        if (info.feature!.type == link) {
           addLink(info.text, info.feature as Link);
+        } else {
+          // TODO Care about tag on link_widget.dart
+          // addTag(info.text, info.feature as Tag);
         }
       }
     }
